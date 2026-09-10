@@ -393,7 +393,7 @@ const GAME_TASKS=[
   {id:'g11',group:'none',resetHour:null,label:'Boat - Full Crates/Cargo - Send Boat (watch for Derby Mission)',icon:'https://static.wikia.nocookie.net/hayday/images/2/2c/Riverboat.png/revision/latest?cb=20150712182459'},
   {id:'g12',group:'none',resetHour:null,label:'Fishing Lures + Net - Fishing Spot Cooldown Always',icon:'https://static.wikia.nocookie.net/hayday/images/8/81/Fishing_Boat.png/revision/latest/scale-to-width-down/1000?cb=20150712195437'},
   {id:'g13',group:'none',resetHour:null,label:'Service Customers at Town',icon:'https://static.wikia.nocookie.net/hayday/images/f/f4/Farm_Train_Station.png/revision/latest?cb=20150712184204'},
-  {id:'g14',group:'none',resetHour:null,label:'Nurture Event Missions',icon:'https://static.wikia.nocookie.net/hayday/images/5/54/Sandcastle.png/revision/latest/scale-to-width-down/1000?cb=20150715120116'}
+  {id:'g14',group:'none',resetHour:null,label:'Nurture Event Missions',icon:'https://static.wikia.nocookie.net/hayday/images/5/54/Sandcastle.png/revision/latest/scale-to-width-down/1000?cb=20150715120116',counterMax:27,weeklyReset:true}
 ];
 
 let games={checks:{}, lastResetDates:{}};
@@ -433,6 +433,7 @@ gamesRef.on('value', snapshot=>{
   }
   cacheLocally();
   checkGamesReset();
+  checkWeeklyReset();
   renderGamesTable();
 }, err=>{ setSyncStatus('offline'); });
 
@@ -528,6 +529,27 @@ function checkGamesReset(){
     }
   });
   if(changed){ db.ref().update(updates); } // pushes the reset to every connected device
+}
+
+function checkWeeklyReset(){
+  const d=new Date();
+  const isMonday=d.getDay()===1; // 0=Sun, 1=Mon
+  const hour=d.getHours();
+  if(!(isMonday && hour>=8)) return;
+  const todayStr=gamesTodayStr(d);
+  const weeklyTasks=GAME_TASKS.filter(t=>t.weeklyReset);
+  if(!weeklyTasks.length) return;
+  const updates={};
+  let changed=false;
+  weeklyTasks.forEach(t=>{
+    const resetKey='weekly_'+t.id;
+    if(games.lastResetDates[resetKey]!==todayStr){
+      Object.keys(games.checks).forEach(k=>{ if(k.split('::')[0]===t.id) updates['games/checks/'+k]=null; });
+      updates['games/lastResetDates/'+resetKey]=todayStr;
+      changed=true;
+    }
+  });
+  if(changed){ db.ref().update(updates); }
 }
 
 function toggleGameCheck(taskId, acctId, cellEl){
@@ -800,7 +822,7 @@ const MOBILE_LAYOUT=[
       { key:'r7', cols:1, size:'wide', type:'cooldown', cooldownSec:330, ids:['g11'] },
       { key:'r8', cols:1, size:'wide', type:'fishing', ids:['g12'] },
       { key:'r9', cols:1, size:'wide', ids:['g10'] },
-      { key:'r10', cols:1, size:'wide', ids:['g14'] },
+      { key:'r10', cols:1, size:'wide', type:'counter', counterMax:27, ids:['g14'] },
       { key:'r11', cols:1, size:'wide', ids:['g13'] }
     ]
   }
@@ -1362,9 +1384,10 @@ document.getElementById('undoBtn').onclick=performUndo;
 document.getElementById('syncBadge').onclick=renameSelf;
 
 checkGamesReset();
+checkWeeklyReset();
 renderGamesTable();
 updateUndoButtonState();
-setInterval(()=>{ checkGamesReset(); renderGamesTable(); }, 60000);
+setInterval(()=>{ checkGamesReset(); checkWeeklyReset(); renderGamesTable(); }, 60000);
 
 /* ================= SPLASH SCREEN ================= */
 (function splashInit(){
