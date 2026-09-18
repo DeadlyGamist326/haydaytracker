@@ -1068,6 +1068,7 @@ function renderGamesTable(){
   });
   table.appendChild(tbody);
   wrap.innerHTML=''; wrap.appendChild(table);
+  checkAllAccountsForDoneTransitions();
   renderMobileView();
   if(typeof mvuiActive!=='undefined' && mvuiActive) renderMVUI();
 }
@@ -1389,6 +1390,14 @@ function checkAllDoneTransition(acct, allDone){
   prevAllDoneState[acct.id]=allDone;
   if(allDone && !wasBefore) fireConfetti();
 }
+function checkAllAccountsForDoneTransitions(){
+  // Runs on every data update, regardless of which view (PC table, Phone View, Accounts Grouping)
+  // is currently visible — so confetti fires the moment an account finishes everything, no matter
+  // where you're looking.
+  GAME_ACCOUNTS.forEach(acct=>{
+    checkAllDoneTransition(acct, isEverythingDoneForAccount(acct));
+  });
+}
 
 function applyUniversalToggleButtons(){
   const cfBtn=document.getElementById('countyFairToggleBtn');
@@ -1487,7 +1496,6 @@ function renderMobileView(direction){
   const completedRows=[];
 
   const allDoneNow=isEverythingDoneForAccount(acct);
-  checkAllDoneTransition(acct, allDoneNow);
   if(allDoneNow){
     const doneGroup=document.createElement('div'); doneGroup.className='gc-row-group size-wide';
     doneGroup.setAttribute('data-row-key', 'allDoneRow');
@@ -1678,7 +1686,6 @@ function renderMVUI(){
   const doneAccounts=[];
   accounts.forEach(acct=>{
     const allDone=isEverythingDoneForAccount(acct);
-    checkAllDoneTransition(acct, allDone);
     if(allDone) doneAccounts.push(acct);
   });
   if(doneAccounts.length){
