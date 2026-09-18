@@ -148,6 +148,13 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
   100%{transform:scale(1);opacity:1;}
 }
 
+/* ================= Confetti (falls from top to bottom, once per "all done" moment) ================= */
+.gc-confetti-piece{position:fixed;top:-20px;pointer-events:none;z-index:2000;border-radius:2px;}
+@keyframes gcConfettiFall{
+  0%{transform:translate(0,-10vh) rotate(0deg);opacity:1;}
+  100%{transform:translate(var(--drift,0px),110vh) rotate(720deg);opacity:.85;}
+}
+
 /* ================= MVUI: "Mobile version UI" — grouped account columns, desktop only ================= */
 #mvuiToggleBtn.active{background:var(--teal);color:#fff;border-color:var(--teal);}
 #barnToggleBtn.active{background:#1A73E8;color:#fff;border-color:#1A73E8;}
@@ -218,6 +225,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .mvui-root .gc-counter-num.complete{color:#188038;}
 .mvui-root .gc-row.barn-mobile-row{background-color:var(--paper-raised);background-size:contain;background-repeat:no-repeat;background-position:center;}
 .mvui-root .barn-mobile-label{position:absolute;top:0;left:0;right:0;bottom:auto;background:linear-gradient(to bottom, rgba(0,0,0,.7), rgba(0,0,0,0));padding:2px 3px 6px;color:#fff;}
+.mvui-root .gc-all-done-card{aspect-ratio:1.6/1;background-color:var(--paper-raised);background-size:contain;background-repeat:no-repeat;background-position:center;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.18);}
 .mvui-root .gc-row.urgent{animation:gcBlinkRed 2s ease-in-out infinite;}
 
 @media (max-width:720px){
@@ -287,6 +295,9 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
   .gc-counter-num{position:absolute;left:30%;right:30%;top:6%;bottom:32%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(28px,11vw,58px);font-weight:900;color:#111;line-height:1;z-index:1;background:rgba(255,255,255,.88);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.25);}
   .gc-counter-num.complete{color:#188038;}
 
+  /* All Done celebration (Phone View) */
+  .gc-all-done-card{aspect-ratio:1.6/1;background-color:var(--paper-raised);background-size:contain;background-repeat:no-repeat;background-position:center;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.18);}
+
   /* Max Barn Capacity card (Phone View) */
   .gc-row.barn-mobile-row{background-color:var(--paper-raised);background-size:contain;background-repeat:no-repeat;background-position:center;}
   .barn-mobile-label{position:absolute;top:0;left:0;right:0;bottom:auto;background:linear-gradient(to bottom, rgba(0,0,0,.7), rgba(0,0,0,0));padding:6px 10px 14px;color:#fff;}
@@ -342,6 +353,8 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 </style>
 </head>
 <body>
+
+<div id="confettiLayer" style="position:fixed;inset:0;pointer-events:none;z-index:2000;overflow:hidden;"></div>
 
 <div class="gc-splash" id="gcSplash">
   <img src="https://store.supercell.com/public/logo-RHOJMJ47.png" alt="Hay Day logo">
@@ -1331,6 +1344,52 @@ function isTaskEventComplete(acct){
   return val>=max;
 }
 
+const ALL_DONE_IMAGE='https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/TODAY%27S%20TASK%20IS%20DONE.png';
+function isEverythingDoneForAccount(acct){
+  const anyTaskLeft = MOBILE_LAYOUT.some(section=>section.rows.some(row=>isRowVisible(row) && !isRowComplete(row, acct)));
+  if(anyTaskLeft) return false;
+  if(games.settings.countyFairEnabled && !isCountyFairComplete(acct)) return false;
+  if(games.settings.taskEventEnabled && (games.settings.taskEventMode||1)!==1 && !isTaskEventComplete(acct)) return false;
+  return true;
+}
+function buildAllDoneCard(){
+  const div=document.createElement('div'); div.className='gc-all-done-card';
+  div.style.backgroundImage="url('"+ALL_DONE_IMAGE+"')";
+  return div;
+}
+
+/* ---- Confetti burst, fired once per account the moment it transitions into "all done" ---- */
+let prevAllDoneState={};
+function fireConfetti(){
+  const layer=document.getElementById('confettiLayer');
+  if(!layer) return;
+  const colors=['#F44336','#FFC107','#4CAF50','#2196F3','#9C27B0','#FF9800','#00BCD4','#E91E63'];
+  const count=80;
+  for(let i=0;i<count;i++){
+    const piece=document.createElement('div');
+    piece.className='gc-confetti-piece';
+    const left=Math.random()*100;
+    const duration=2.2+Math.random()*1.8;
+    const delay=Math.random()*0.5;
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    const w=5+Math.random()*5, h=(5+Math.random()*5)*1.6;
+    const drift=(Math.random()*100-50);
+    piece.style.left=left+'vw';
+    piece.style.width=w+'px';
+    piece.style.height=h+'px';
+    piece.style.background=color;
+    piece.style.setProperty('--drift', drift+'px');
+    piece.style.animation='gcConfettiFall '+duration+'s ease-in '+delay+'s forwards';
+    layer.appendChild(piece);
+    setTimeout(()=>{ piece.remove(); }, (duration+delay)*1000+300);
+  }
+}
+function checkAllDoneTransition(acct, allDone){
+  const wasBefore=!!prevAllDoneState[acct.id];
+  prevAllDoneState[acct.id]=allDone;
+  if(allDone && !wasBefore) fireConfetti();
+}
+
 function applyUniversalToggleButtons(){
   const cfBtn=document.getElementById('countyFairToggleBtn');
   if(cfBtn) cfBtn.classList.toggle('active', !!games.settings.countyFairEnabled);
@@ -1426,6 +1485,16 @@ function renderMobileView(direction){
 
   list.innerHTML='';
   const completedRows=[];
+
+  const allDoneNow=isEverythingDoneForAccount(acct);
+  checkAllDoneTransition(acct, allDoneNow);
+  if(allDoneNow){
+    const doneGroup=document.createElement('div'); doneGroup.className='gc-row-group size-wide';
+    doneGroup.setAttribute('data-row-key', 'allDoneRow');
+    doneGroup.style.gridTemplateColumns='repeat(1, 1fr)';
+    doneGroup.appendChild(buildAllDoneCard());
+    list.appendChild(doneGroup);
+  }
 
   if(barnCardViewsEnabled){
     const barnGroup=document.createElement('div'); barnGroup.className='gc-row-group size-wide';
@@ -1605,6 +1674,28 @@ function renderMVUI(){
     root.appendChild(head);
   });
   currentRow++;
+
+  const doneAccounts=[];
+  accounts.forEach(acct=>{
+    const allDone=isEverythingDoneForAccount(acct);
+    checkAllDoneTransition(acct, allDone);
+    if(allDone) doneAccounts.push(acct);
+  });
+  if(doneAccounts.length){
+    const doneRow=currentRow;
+    doneAccounts.forEach(acct=>{
+      const i=accounts.indexOf(acct);
+      const cell=document.createElement('div'); cell.className='mvui-col-cell';
+      cell.setAttribute('data-acct-id', acct.id);
+      cell.style.gridColumn=(i+1); cell.style.gridRow=doneRow;
+      const card=buildAllDoneCard();
+      card.setAttribute('data-row-key', 'allDoneRow');
+      card.setAttribute('data-acct-id', acct.id);
+      cell.appendChild(card);
+      root.appendChild(cell);
+    });
+    currentRow++;
+  }
 
   if(barnCardViewsEnabled){
     const bgh=document.createElement('div'); bgh.className='mvui-group-header';
