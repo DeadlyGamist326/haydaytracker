@@ -24,27 +24,60 @@
   --teal:#1A73E8; --teal-deep:#174EA6;
   --font-display:'SC SecretOrigins BB','Fraunces',Georgia,serif; --font-body:'SC CCBackBeat',-apple-system,BlinkMacSystemFont,'Inter',Segoe UI,Helvetica,Arial,sans-serif;
 }
+:root[data-theme="dark"]{
+  --paper:#1E1E1E; --paper-raised:#141414; --ink:#E8EAED; --ink-soft:#9AA0A6; --line:#3C4043;
+  --teal:#4C9AFF; --teal-deep:#82B8FF;
+}
+:root[data-theme="dark"] .gc-splash{background:rgba(0,0,0,.7);}
+:root[data-theme="dark"] .gc-name-modal{background:rgba(0,0,0,.7);}
+
+/* Dark mode: replace remaining hardcoded light surfaces */
+:root[data-theme="dark"] .games-table tbody tr.task-row.row-alt td.task-cell{background:#262626;}
+:root[data-theme="dark"] .games-table tbody tr.task-row.row-alt .game-cell:not(.checked):not(.urgent){background:#202020;}
+:root[data-theme="dark"] .games-table tbody tr.task-row:hover td.task-cell{background:#1B2C43;}
+:root[data-theme="dark"] .games-table tbody tr.task-row:hover .game-cell:not(.checked):not(.urgent){background:#17263A;}
+:root[data-theme="dark"] .barn-btn:hover{background:#1B2C43;color:var(--teal-deep);}
+:root[data-theme="dark"] .gc-td-counter-btn:hover{background:#1B2C43;color:var(--teal-deep);}
+:root[data-theme="dark"] .game-cell.counter-cell.checked{background:#16321F;}
+:root[data-theme="dark"] .game-cell:hover{background:#262626;}
+:root[data-theme="dark"] .game-cell.checked{background:#16321F;}
+:root[data-theme="dark"] .game-cell.checked:hover{background:#1C3D26;}
+:root[data-theme="dark"] .games-table tbody tr.task-row:hover .game-cell.checked{background:#1C3D26;}
+:root[data-theme="dark"] .gc-name-quick-btn:hover{background:#1B2C43;}
+:root[data-theme="dark"] .te-mode-option.selected{background:rgba(76,154,255,.14);}
+:root[data-theme="dark"] .game-cell.te-uncheckable-cell{background:var(--paper-raised);}
+:root[data-theme="dark"] .game-cell.urgent{animation-name:gcBlinkRedDark;}
+:root[data-theme="dark"] .gc-row.urgent{animation-name:gcBlinkRedRowDark;}
+@keyframes gcBlinkRedDark{
+  0%,100%{background:var(--paper-raised);}
+  50%{background:#7A2E2A;}
+}
+@keyframes gcBlinkRedRowDark{
+  0%,100%{background:var(--paper);}
+  50%{background:#7A2E2A;}
+}
+
 *{box-sizing:border-box;}
-body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--font-body);height:100vh;overflow:hidden;display:flex;flex-direction:column;}
+body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--font-body);height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:background .2s ease,color .2s ease;}
 
 .games-panel{background:var(--paper-raised);width:100vw;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
 .games-panel-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--line);flex-shrink:0;background:var(--paper);}
 .games-title{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--ink);display:flex;align-items:center;gap:8px;}
 .games-title img{height:22px;width:auto;display:block;}
-.icon-btn{border:1px solid var(--line);background:var(--white);color:var(--ink);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:5px;background:#fff;}
+.icon-btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:5px;}
 .icon-btn:hover{border-color:var(--teal);color:var(--teal-deep);}
-.gc-presence-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 7px;margin-right:5px;border-radius:14px;background:#fff;border:1px solid var(--line);cursor:pointer;color:var(--ink);font-size:11px;}
+.gc-presence-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 7px;margin-right:5px;border-radius:14px;background:var(--paper);border:1px solid var(--line);cursor:pointer;color:var(--ink);font-size:11px;}
 .gc-presence-pill:hover{border-color:var(--teal);}
 .gc-presence-dot{width:7px;height:7px;border-radius:50%;background:#34A853;flex-shrink:0;animation:gcPulse 1.6s ease-in-out infinite;}
 @keyframes gcPulse{0%,100%{opacity:1;}50%{opacity:.45;}}
-.games-table-wrap{flex:1;overflow:hidden;padding:4px 8px 8px;}
+.games-table-wrap{flex:1;overflow:auto;padding:4px 8px 8px;}
 table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:fixed;}
 .games-table th,.games-table td{border:1px solid var(--line);padding:2px 3px;overflow:hidden;}
-.games-table thead th{background:var(--paper);padding:4px 3px;font-size:9.5px;line-height:1.15;color:var(--ink-soft);font-weight:600;white-space:normal;word-break:break-word;text-align:center;width:6.15%;}
+.games-table thead th{background:var(--paper);padding:4px 3px;font-size:9.5px;line-height:1.15;color:var(--ink-soft);font-weight:600;white-space:normal;word-break:break-word;text-align:center;width:6.15%;position:sticky;top:0;z-index:3;}
 .games-table thead th:first-child{width:20%;}
 .games-table td.task-cell{background:var(--paper-raised);text-align:left;padding:3px 8px;font-size:10.8px;line-height:1.2;white-space:normal;word-break:break-word;font-weight:500;color:var(--ink);}
 .task-cell-inner{display:flex;align-items:center;gap:6px;}
-.task-icon{width:24px;height:24px;flex-shrink:0;object-fit:contain;border-radius:5px;background:#fff;}
+.task-icon{width:24px;height:24px;flex-shrink:0;object-fit:contain;border-radius:5px;background:var(--paper);}
 .task-cell-text{flex:1;min-width:0;}
 .reset-tag{font-weight:400;color:var(--teal);font-size:9.5px;}
 .games-table tr.group-header td{background:var(--teal);color:#fff;font-weight:600;font-size:10.5px;padding:3px 8px;text-align:left;}
@@ -72,14 +105,22 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .gc-hover-account{position:absolute;top:14px;left:12px;right:12px;text-align:center;font-family:var(--font-display);font-weight:700;font-size:18px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7);}
 .gc-hover-task{position:absolute;bottom:14px;left:12px;right:12px;text-align:center;font-weight:700;font-size:14px;line-height:1.3;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7);}
 .game-cell{cursor:pointer;text-align:center;vertical-align:middle;transition:background .12s;user-select:none;}
+.barn-row td.task-cell{font-weight:700;}
+.barn-cell{cursor:default;padding:6px 3px !important;}
+.barn-cell-img{width:100%;height:110px;background-size:contain;background-position:center;background-repeat:no-repeat;margin:0 auto;}
+.barn-cell-controls{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;}
+.barn-btn{width:22px;height:22px;border-radius:5px;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-soft);user-select:none;}
+.barn-btn:hover{background:#E3ECFB;color:var(--teal-deep);}
+.barn-num{font-size:14px;font-weight:700;color:var(--ink);min-width:36px;text-align:center;}
 .game-cell.counter-cell{position:relative;cursor:default;padding:2px 0;}
+.game-cell.te-uncheckable-cell{cursor:default;color:var(--ink-soft);font-size:11px;background:var(--paper-raised);}
 .gc-td-counter-btn{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;font-size:11px;font-weight:800;color:var(--ink-soft);cursor:pointer;user-select:none;}
 .gc-td-counter-btn:hover{background:#E3ECFB;color:var(--teal-deep);}
 .gc-td-counter-num{display:inline-block;min-width:16px;font-size:10px;font-weight:700;color:var(--ink);vertical-align:middle;}
 .game-cell.counter-cell.checked .gc-td-counter-num{color:#188038;}
 .game-cell.counter-cell.checked{background:#E6F4EA;}
 .game-cell:hover{background:#F1F3F4;}
-.game-cell .gc-box{width:13px;height:13px;border:2px solid #B0B4BA;border-radius:3px;margin:0 auto;background:#fff;}
+.game-cell .gc-box{width:13px;height:13px;border:2px solid #B0B4BA;border-radius:3px;margin:0 auto;background:var(--paper);}
 .game-cell.checked{background:#E6F4EA;position:relative;}
 .game-cell.checked:hover{background:#D7EEDD;}
 .game-cell.checked .gc-box{display:none;}
@@ -109,6 +150,12 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 
 /* ================= MVUI: "Mobile version UI" — grouped account columns, desktop only ================= */
 #mvuiToggleBtn.active{background:var(--teal);color:#fff;border-color:var(--teal);}
+#barnToggleBtn.active{background:#1A73E8;color:#fff;border-color:#1A73E8;}
+#countyFairToggleBtn.active{background:#F9AB00;color:#fff;border-color:#F9AB00;}
+#taskEventToggleBtn.active{background:#9334E6;color:#fff;border-color:#9334E6;}
+#valleyToggleBtn.active{background:#188038;color:#fff;border-color:#188038;}
+#noResetToggleBtn.active{background:#0B8043;color:#fff;border-color:#0B8043;}
+.gc-row.te-uncheckable{cursor:default;}
 .mvui-wrap{display:none;flex:1;flex-direction:column;overflow:hidden;}
 .mvui-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 14px;border-bottom:1px solid var(--line);background:var(--paper);flex-shrink:0;}
 .mvui-nav-label{font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--ink);flex:1;text-align:center;}
@@ -169,6 +216,8 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .mvui-root .gc-counter-plus{right:0;}
 .mvui-root .gc-counter-num{position:absolute;left:30%;right:30%;top:8%;bottom:32%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;font-weight:900;color:#111;line-height:1;z-index:1;background:rgba(255,255,255,.88);border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.3);}
 .mvui-root .gc-counter-num.complete{color:#188038;}
+.mvui-root .gc-row.barn-mobile-row{background-color:var(--paper-raised);background-size:contain;background-repeat:no-repeat;background-position:center;}
+.mvui-root .barn-mobile-label{position:absolute;top:0;left:0;right:0;bottom:auto;background:linear-gradient(to bottom, rgba(0,0,0,.7), rgba(0,0,0,0));padding:2px 3px 6px;color:#fff;}
 .mvui-root .gc-row.urgent{animation:gcBlinkRed 2s ease-in-out infinite;}
 
 @media (max-width:720px){
@@ -238,6 +287,10 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
   .gc-counter-num{position:absolute;left:30%;right:30%;top:6%;bottom:32%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(28px,11vw,58px);font-weight:900;color:#111;line-height:1;z-index:1;background:rgba(255,255,255,.88);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.25);}
   .gc-counter-num.complete{color:#188038;}
 
+  /* Max Barn Capacity card (Phone View) */
+  .gc-row.barn-mobile-row{background-color:var(--paper-raised);background-size:contain;background-repeat:no-repeat;background-position:center;}
+  .barn-mobile-label{position:absolute;top:0;left:0;right:0;bottom:auto;background:linear-gradient(to bottom, rgba(0,0,0,.7), rgba(0,0,0,0));padding:6px 10px 14px;color:#fff;}
+
   /* Completed section */
   .gc-completed-header{background:#188038;}
 }
@@ -275,9 +328,15 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .gc-name-quick-btn:active{transform:scale(.95);}
 .gc-name-or{text-align:center;font-size:10.5px;color:var(--ink-soft);margin:14px 0 8px;}
 .gc-name-input-row{display:flex;gap:8px;}
-.gc-name-input-row input{flex:1;min-width:0;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;font-family:var(--font-body);color:var(--ink);}
+.gc-name-input-row input{flex:1;min-width:0;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;font-family:var(--font-body);color:var(--ink);background:var(--paper);}
 .gc-name-input-row input:focus{outline:none;border-color:var(--teal);}
 .gc-name-ok{border:none;background:var(--teal);color:#fff;border-radius:10px;padding:0 18px;font-size:14px;font-weight:600;cursor:pointer;}
+.te-mode-option{border:2px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;text-align:left;transition:border-color .15s ease, background .15s ease;}
+.te-mode-option:hover{border-color:var(--ink-soft);}
+.te-mode-option.selected{border-color:var(--teal);background:rgba(26,115,232,.1);}
+.te-mode-title{font-weight:700;font-size:13px;color:var(--ink);}
+.te-mode-option.selected .te-mode-title{color:var(--teal-deep);}
+.te-mode-sub{font-size:11px;color:var(--ink-soft);margin-top:2px;line-height:1.35;}
 .gc-name-ok:hover{background:var(--teal-deep);}
 .gc-name-ok:active{transform:scale(.96);}
 </style>
@@ -304,6 +363,34 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
   </div>
 </div>
 
+<div class="gc-name-modal" id="taskEventConfigModal">
+  <div class="gc-name-card" style="max-width:340px;">
+    <div class="gc-name-title">Task Event Settings</div>
+    <div class="gc-name-sub">Applies for everyone, everywhere</div>
+    <div style="font-weight:700;font-size:12px;margin-top:16px;text-align:left;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.03em;">Choose mode</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+      <div class="te-mode-option" data-mode="1" id="teModeBox1">
+        <div class="te-mode-title">Unlimited Task Event</div>
+        <div class="te-mode-sub">Shows as an info row only — not checkable.</div>
+      </div>
+      <div class="te-mode-option" data-mode="2" id="teModeBox2">
+        <div class="te-mode-title">Tasks per day</div>
+        <div class="te-mode-sub">Counter resets to 0 every 4 PM. Set a daily target:</div>
+        <input type="number" id="teDailyTarget" min="1" max="999" placeholder="e.g. 5" style="margin-top:6px;width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);">
+      </div>
+      <div class="te-mode-option" data-mode="3" id="teModeBox3">
+        <div class="te-mode-title">Tasks counter goal</div>
+        <div class="te-mode-sub">No deadline. Set a total goal:</div>
+        <input type="number" id="teGoal" min="1" max="999999" placeholder="e.g. 100" style="margin-top:6px;width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);">
+      </div>
+    </div>
+    <div class="gc-name-input-row" style="margin-top:16px;">
+      <button class="gc-name-ok" id="teConfigCancel" style="background:var(--ink-soft);flex:1;">Cancel</button>
+      <button class="gc-name-ok" id="teConfigSave" style="flex:1;">Save</button>
+    </div>
+  </div>
+</div>
+
 <div class="gc-hover-card" id="gcHoverCard">
   <div class="gc-hover-scrim-top"></div>
   <div class="gc-hover-scrim-bottom"></div>
@@ -315,12 +402,18 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
   <div class="games-panel-head">
     <div class="games-title"><img src="https://store.supercell.com/public/logo-RHOJMJ47.png" alt="Hay Day logo"> Hayday Tracker</div>
     <div style="display:flex;gap:6px;align-items:center;">
-      <div id="syncBadge" title="I-click para palitan ang pangalan mo" style="cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-soft);padding:4px 8px;border:1px solid var(--line);border-radius:20px;background:#fff;">
+      <button class="icon-btn" id="darkModeToggle" title="Toggle dark mode">☀️ Light Mode</button>
+      <div id="syncBadge" title="I-click para palitan ang pangalan mo" style="cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-soft);padding:4px 8px;border:1px solid var(--line);border-radius:20px;background:var(--paper);">
         <span id="syncDot" style="width:7px;height:7px;border-radius:50%;background:#9AA0A6;flex-shrink:0;"></span>
         <span id="syncLabel">Connecting…</span>
       </div>
       <button class="icon-btn" id="undoBtn" title="Undo the last check/uncheck action">↶ Undo</button>
       <button class="icon-btn" id="resetBtn" title="Manually reset all checks">↻ Reset all</button>
+      <button class="icon-btn" id="barnToggleBtn" title="Show Max Barn Capacity in this view" style="display:none;flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage2.png" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Barn</span></button>
+      <button class="icon-btn" id="countyFairToggleBtn" title="Toggle County Fair for everyone" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/County%20Fair%20Event.png" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">County Fair</span></button>
+      <button class="icon-btn" id="taskEventToggleBtn" title="Toggle Task Event for everyone (long-press to configure)" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/Task%20Event.jpeg" style="width:18px;height:18px;object-fit:contain;border-radius:4px;"><span style="font-size:8px;line-height:1;">Task Event</span></button>
+      <button class="icon-btn" id="valleyToggleBtn" title="Show/hide The Valley tasks for everyone" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://static.wikia.nocookie.net/hayday/images/8/80/Valley_Board.png/revision/latest?cb=20190625060045" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Valley</span></button>
+      <button class="icon-btn" id="noResetToggleBtn" title="Show/hide Derby, Boat, Fishing, Town and Nurture for everyone" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://static.wikia.nocookie.net/hayday/images/2/2c/Riverboat.png/revision/latest?cb=20150712182459" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Other Tasks</span></button>
       <button class="icon-btn" id="mvuiToggleBtn" title="Show accounts side by side, grouped, mobile-card style">▦ Accounts Grouping</button>
     </div>
   </div>
@@ -385,24 +478,24 @@ const GAME_TASKS=[
   {id:'g4',group:'4pm',resetHour:8,label:'Greg Shop - Buy all',icon:'https://static.wikia.nocookie.net/hayday/images/7/7c/%D0%9C%D0%BE%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D1%88%D0%B0_%D0%93%D1%80%D0%B5%D0%B3.png/revision/latest?cb=20240918000156&path-prefix=ru'},
   {id:'g5',group:'4pm',resetHour:16,label:'Truck Orders - 5/5 rewards',icon:'https://static.wikia.nocookie.net/hayday/images/3/38/Send_Truck_Icon.png/revision/latest?cb=20171227192410',iconWide:'https://i.ibb.co/5h7fqn6L/image.png',iconHover:'https://i.ibb.co/5h7fqn6L/image.png'},
   {id:'g6',group:'4pm',resetHour:16,label:'Farm Pass - 3 Daily Missions',icon:'https://static.wikia.nocookie.net/hayday/images/d/d2/Farm_Pass_Building.png/revision/latest/scale-to-width-down/1200?cb=20211016095743'},
-  {id:'g15',group:'4pm',resetHour:null,label:'Event',icon:'https://i.ibb.co/zWs82dgT/image.png',iconWide:'https://i.ibb.co/TMNQQRQH/image.png',counterMax:29},
-  {id:'g7',group:'4pm',resetHour:16,label:'The Valley - Fuel Spin',icon:'https://static.wikia.nocookie.net/hayday/images/8/80/Valley_Board.png/revision/latest?cb=20190625060045'},
-  {id:'g8',group:'4pm',resetHour:16,label:'The Valley - Collect Sun Points (At least 2x Fuel Spin)',icon:'https://static.wikia.nocookie.net/hayday/images/6/61/Sun.png/revision/latest?cb=20190625060003'},
-  {id:'g9',group:'4pm',resetHour:16,label:'The Valley - 4 Daily Missions',icon:'https://ingame.help.supercellsupport.com/images/HayDay_SelfHelp_Valley_DailyQuest.jpg?v=1669645982'},
-  {id:'g10',group:'none',resetHour:null,label:'Derby Missions (Competitive Neighborhood Missions)',icon:'https://static.wikia.nocookie.net/hayday/images/e/e8/Derby_Stand.png/revision/latest?cb=20150712192526'},
-  {id:'g11',group:'none',resetHour:null,label:'Boat - Full Crates/Cargo - Send Boat (watch for Derby Mission)',icon:'https://static.wikia.nocookie.net/hayday/images/2/2c/Riverboat.png/revision/latest?cb=20150712182459'},
-  {id:'g12',group:'none',resetHour:null,label:'Fishing Lures + Net - Fishing Spot Cooldown Always',icon:'https://static.wikia.nocookie.net/hayday/images/8/81/Fishing_Boat.png/revision/latest/scale-to-width-down/1000?cb=20150712195437'},
-  {id:'g13',group:'none',resetHour:null,label:'Service Customers at Town',icon:'https://static.wikia.nocookie.net/hayday/images/f/f4/Farm_Train_Station.png/revision/latest?cb=20150712184204'},
-  {id:'g14',group:'none',resetHour:null,label:'Nurture Event Missions',icon:'https://static.wikia.nocookie.net/hayday/images/5/54/Sandcastle.png/revision/latest/scale-to-width-down/1000?cb=20150715120116',counterMax:27,weeklyReset:true}
+  {id:'g7',group:'4pm',resetHour:16,label:'The Valley - Fuel Spin',icon:'https://static.wikia.nocookie.net/hayday/images/8/80/Valley_Board.png/revision/latest?cb=20190625060045',hideFlag:'valleyEnabled'},
+  {id:'g8',group:'4pm',resetHour:16,label:'The Valley - Collect Sun Points (At least 2x Fuel Spin)',icon:'https://static.wikia.nocookie.net/hayday/images/6/61/Sun.png/revision/latest?cb=20190625060003',hideFlag:'valleyEnabled'},
+  {id:'g9',group:'4pm',resetHour:16,label:'The Valley - 4 Daily Missions',icon:'https://ingame.help.supercellsupport.com/images/HayDay_SelfHelp_Valley_DailyQuest.jpg?v=1669645982',hideFlag:'valleyEnabled'},
+  {id:'g10',group:'none',resetHour:null,label:'Derby Missions (Competitive Neighborhood Missions)',icon:'https://static.wikia.nocookie.net/hayday/images/e/e8/Derby_Stand.png/revision/latest?cb=20150712192526',hideFlag:'noResetTasksEnabled'},
+  {id:'g11',group:'none',resetHour:null,label:'Boat - Full Crates/Cargo - Send Boat (watch for Derby Mission)',icon:'https://static.wikia.nocookie.net/hayday/images/2/2c/Riverboat.png/revision/latest?cb=20150712182459',hideFlag:'noResetTasksEnabled'},
+  {id:'g12',group:'none',resetHour:null,label:'Fishing Lures + Net - Fishing Spot Cooldown Always',icon:'https://static.wikia.nocookie.net/hayday/images/8/81/Fishing_Boat.png/revision/latest/scale-to-width-down/1000?cb=20150712195437',hideFlag:'noResetTasksEnabled'},
+  {id:'g13',group:'none',resetHour:null,label:'Service Customers at Town',icon:'https://static.wikia.nocookie.net/hayday/images/f/f4/Farm_Train_Station.png/revision/latest?cb=20150712184204',hideFlag:'noResetTasksEnabled'},
+  {id:'g14',group:'none',resetHour:null,label:'Nurture Event Missions',icon:'https://static.wikia.nocookie.net/hayday/images/5/54/Sandcastle.png/revision/latest/scale-to-width-down/1000?cb=20150715120116',counterMax:27,weeklyReset:true,hideFlag:'noResetTasksEnabled'}
 ];
 
-let games={checks:{}, lastResetDates:{}};
+let games={checks:{}, lastResetDates:{}, settings:{}};
 try{
   const saved=localStorage.getItem(STORAGE_KEY);
   if(saved) games=JSON.parse(saved); // shown immediately while we connect to Firebase
 }catch(e){}
 if(!games.checks) games.checks={};
 if(!games.lastResetDates) games.lastResetDates={};
+if(!games.settings) games.settings={};
 
 function setSyncStatus(status){
   const dot=document.getElementById('syncDot'); const label=document.getElementById('syncLabel');
@@ -415,6 +508,8 @@ function cacheLocally(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(g
 
 function gamesTodayStr(d){ d=d||new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 
+function updateSetting(key, value){ gamesRef.child('settings/'+key).set(value); }
+
 /* ---- Firebase: live, multi-user sync ---- */
 db.ref('.info/connected').on('value', snap=>{
   setSyncStatus(snap.val()===true ? 'online' : 'connecting');
@@ -423,11 +518,11 @@ db.ref('.info/connected').on('value', snap=>{
 gamesRef.on('value', snapshot=>{
   const val=snapshot.val();
   if(val){
-    games={checks:val.checks||{}, lastResetDates:val.lastResetDates||{}};
+    games={checks:val.checks||{}, lastResetDates:val.lastResetDates||{}, settings:val.settings||{}};
   } else {
     // nothing in the cloud yet — seed it so every device starts from the same place
     const todayStr0=gamesTodayStr();
-    games={checks:{}, lastResetDates:{}};
+    games={checks:{}, lastResetDates:{}, settings:{}};
     new Set(GAME_TASKS.filter(t=>t.resetHour!=null).map(t=>t.resetHour)).forEach(rh=>{ games.lastResetDates[rh]=todayStr0; });
     gamesRef.set(games);
   }
@@ -435,6 +530,7 @@ gamesRef.on('value', snapshot=>{
   checkGamesReset();
   checkWeeklyReset();
   renderGamesTable();
+  applyUniversalToggleButtons();
 }, err=>{ setSyncStatus('offline'); });
 
 /* ---- Presence: show who else is online right now ---- */
@@ -518,11 +614,16 @@ db.ref('presence').on('value', snap=>{
 function checkGamesReset(){
   const d=new Date(); const todayStr=gamesTodayStr(d); const hour=d.getHours();
   const resetHours=new Set(GAME_TASKS.filter(t=>t.resetHour!=null).map(t=>t.resetHour));
+  resetHours.add(16); // County Fair (always) / Task Event mode 2 (conditionally) also reset at 4PM
   const updates={};
   let changed=false;
   resetHours.forEach(rh=>{
     if(hour>=rh && games.lastResetDates[rh]!==todayStr){
       const ids=new Set(GAME_TASKS.filter(t=>t.resetHour===rh).map(t=>t.id));
+      if(rh===16){
+        ids.add('countyfair');
+        if(games.settings && games.settings.taskEventMode===2) ids.add('taskevent');
+      }
       Object.keys(games.checks).forEach(k=>{ if(ids.has(k.split('::')[0])) updates['games/checks/'+k]=null; });
       updates['games/lastResetDates/'+rh]=todayStr;
       changed=true;
@@ -712,6 +813,156 @@ function hideHoverCard(){
   clearHoverHighlight();
 }
 
+/* ================= Max Barn Capacity (PC View only, persistent stat, no reset) ================= */
+const BARN_ICONS=[
+  'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage1.png',
+  'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage2.png',
+  'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage3.png',
+  'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage4.png',
+  'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage5.png',
+  'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage6.png'
+];
+function getBarnStage(value){
+  if(value<=25) return 1;
+  if(value<=50) return 2;
+  if(value<=125) return 3;
+  if(value<=275) return 4;
+  if(value<=775) return 5;
+  return 6;
+}
+function getBarnKey(acctId){ return 'barn::'+acctId; }
+function getBarnValue(acctId){ return games.checks[getBarnKey(acctId)] || 0; }
+
+function adjustBarnCapacity(acct, delta, imgEl, numEl){
+  const key=getBarnKey(acct.id);
+  const cur=getBarnValue(acct.id);
+  let next=cur+delta*25;
+  if(next<0) next=0;
+  if(next>10000) next=10000;
+  if(next===cur) return;
+  const oldStage=getBarnStage(cur);
+  const newStage=getBarnStage(next);
+  const prevVal=rawSnapshot(key);
+  writeCheckValue(key, next===0 ? false : next);
+  recordUndo({type:'delta', changes:{[key]:prevVal}});
+  numEl.textContent=next;
+
+  if(newStage!==oldStage){
+    // milestone crossed — fade out, swap image, big stretch-in
+    imgEl.style.transition='transform .18s ease, opacity .18s ease';
+    imgEl.style.opacity='0';
+    imgEl.style.transform='scale(.85)';
+    setTimeout(()=>{
+      imgEl.style.backgroundImage="url('"+BARN_ICONS[newStage-1]+"')";
+      imgEl.style.transition='transform .4s cubic-bezier(.34,1.56,.64,1), opacity .3s ease';
+      imgEl.style.opacity='1';
+      imgEl.style.transform='scale(1.24)';
+      setTimeout(()=>{ imgEl.style.transition='transform .22s ease'; imgEl.style.transform='scale(1)'; }, 220);
+    }, 180);
+  } else {
+    // same stage — small stretch bounce
+    imgEl.style.transition='transform .2s cubic-bezier(.34,1.56,.64,1)';
+    imgEl.style.transform='scale(1.1)';
+    setTimeout(()=>{ imgEl.style.transform='scale(1)'; }, 180);
+  }
+}
+
+function buildBarnRow(){
+  const tr=document.createElement('tr'); tr.className='task-row barn-row';
+  const labelTd=document.createElement('td'); labelTd.className='task-cell';
+  const inner=document.createElement('div'); inner.className='task-cell-inner';
+  const img=document.createElement('img'); img.className='task-icon'; img.src=BARN_ICONS[1]; img.alt=''; img.loading='lazy';
+  const text=document.createElement('span'); text.className='task-cell-text'; text.textContent='Max Barn Capacity';
+  inner.appendChild(img); inner.appendChild(text); labelTd.appendChild(inner);
+  tr.appendChild(labelTd);
+
+  GAME_ACCOUNTS.forEach(acct=>{
+    const val=getBarnValue(acct.id);
+    const stage=getBarnStage(val);
+    const td=document.createElement('td'); td.className='game-cell barn-cell';
+    const imgDiv=document.createElement('div'); imgDiv.className='barn-cell-img';
+    imgDiv.style.backgroundImage="url('"+BARN_ICONS[stage-1]+"')";
+    const controls=document.createElement('div'); controls.className='barn-cell-controls';
+    const minusBtn=document.createElement('div'); minusBtn.className='barn-btn'; minusBtn.textContent='−';
+    const numEl=document.createElement('div'); numEl.className='barn-num'; numEl.textContent=val;
+    const plusBtn=document.createElement('div'); plusBtn.className='barn-btn'; plusBtn.textContent='+';
+    minusBtn.onclick=()=>adjustBarnCapacity(acct, -1, imgDiv, numEl);
+    plusBtn.onclick=()=>adjustBarnCapacity(acct, 1, imgDiv, numEl);
+    controls.appendChild(minusBtn); controls.appendChild(numEl); controls.appendChild(plusBtn);
+    td.appendChild(imgDiv); td.appendChild(controls);
+    tr.appendChild(td);
+  });
+  return tr;
+}
+
+const COUNTY_FAIR_TASK={id:'countyfair'};
+function buildCountyFairRowDesktop(){
+  const tr=document.createElement('tr'); tr.className='task-row county-fair-row';
+  const labelTd=document.createElement('td'); labelTd.className='task-cell';
+  const inner=document.createElement('div'); inner.className='task-cell-inner';
+  const img=document.createElement('img'); img.className='task-icon'; img.src=COUNTY_FAIR_ICON; img.alt=''; img.loading='lazy';
+  const text=document.createElement('span'); text.className='task-cell-text'; text.textContent='County Fair';
+  inner.appendChild(img); inner.appendChild(text); labelTd.appendChild(inner);
+  tr.appendChild(labelTd);
+
+  const rowIdx=-1; // dedicated drag-select row index, separate from normal task rows
+  DRAG_GRID[rowIdx]=[];
+  GAME_ACCOUNTS.forEach((acct, colIdx)=>{
+    const key=getCountyFairKey(acct.id);
+    const checked=!!games.checks[key];
+    const td=document.createElement('td'); td.className='game-cell'+(checked?' checked':'');
+    const box=document.createElement('div'); box.className='gc-box'; td.appendChild(box);
+    const cellInfo={td, task:COUNTY_FAIR_TASK, acct};
+    DRAG_GRID[rowIdx][colIdx]=cellInfo;
+    DRAG_CELL_BY_KEY[key]=cellInfo;
+    td.addEventListener('mousedown', e=>{
+      e.preventDefault();
+      beginDrag(rowIdx, colIdx, COUNTY_FAIR_TASK, acct);
+    });
+    td.addEventListener('mouseenter', ()=>{
+      if(isDraggingCheck) updateDragRectangle(rowIdx, colIdx);
+    });
+    tr.appendChild(td);
+  });
+  return tr;
+}
+
+function buildTaskEventRowDesktop(){
+  const tr=document.createElement('tr'); tr.className='task-row task-event-row';
+  const labelTd=document.createElement('td'); labelTd.className='task-cell';
+  const inner=document.createElement('div'); inner.className='task-cell-inner';
+  const img=document.createElement('img'); img.className='task-icon'; img.src=TASK_EVENT_ICON; img.alt=''; img.loading='lazy';
+  const text=document.createElement('span'); text.className='task-cell-text'; text.textContent='Task Event';
+  const mode=games.settings.taskEventMode||1;
+  const tag=document.createElement('span'); tag.className='reset-tag';
+  tag.textContent = mode===1 ? ' (Unlimited)' : mode===2 ? ' (Resets 4 PM)' : ' (Goal)';
+  text.appendChild(tag);
+  inner.appendChild(img); inner.appendChild(text); labelTd.appendChild(inner);
+  tr.appendChild(labelTd);
+
+  GAME_ACCOUNTS.forEach(acct=>{
+    const td=document.createElement('td'); td.className='game-cell';
+    if(mode===1){
+      td.classList.add('te-uncheckable-cell');
+      td.textContent='—';
+    } else {
+      const max = mode===2 ? (games.settings.taskEventDailyTarget||1) : (games.settings.taskEventGoal||1);
+      const key=getTaskEventKey(acct.id);
+      const val=games.checks[key]||0;
+      const complete=val>=max;
+      td.className='game-cell counter-cell'+(complete?' checked':'');
+      const minusBtn=document.createElement('div'); minusBtn.className='gc-td-counter-btn gc-td-counter-minus'; minusBtn.textContent='−';
+      const plusBtn=document.createElement('div'); plusBtn.className='gc-td-counter-btn gc-td-counter-plus'; plusBtn.textContent='+';
+      const numEl=document.createElement('div'); numEl.className='gc-td-counter-num'; numEl.textContent=val;
+      minusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, -1); renderGamesTable(); };
+      plusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, 1); renderGamesTable(); };
+      td.appendChild(minusBtn); td.appendChild(numEl); td.appendChild(plusBtn);
+    }
+    tr.appendChild(td);
+  });
+  return tr;
+}
+
 function renderGamesTable(){
   const wrap=document.getElementById('gamesTableWrap');
   const table=document.createElement('table'); table.className='games-table';
@@ -720,10 +971,14 @@ function renderGamesTable(){
   GAME_ACCOUNTS.forEach(a=>{ const th=document.createElement('th'); th.textContent=a.label; htr.appendChild(th); });
   thead.appendChild(htr); table.appendChild(thead);
   const tbody=document.createElement('tbody');
+  DRAG_GRID=[]; DRAG_CELL_BY_KEY={};
+  tbody.appendChild(buildBarnRow());
+  if(games.settings.countyFairEnabled) tbody.appendChild(buildCountyFairRowDesktop());
+  if(games.settings.taskEventEnabled) tbody.appendChild(buildTaskEventRowDesktop());
   let currentGroup=null;
   let taskRowIndex=0;
-  DRAG_GRID=[]; DRAG_CELL_BY_KEY={};
-  GAME_TASKS.forEach(task=>{
+  const visibleTasks=GAME_TASKS.filter(t=> !(t.hideFlag && games.settings[t.hideFlag]===false));
+  visibleTasks.forEach(task=>{
     if(task.group!==currentGroup){
       currentGroup=task.group;
       const gtr=document.createElement('tr'); gtr.className='group-header';
@@ -814,16 +1069,15 @@ const MOBILE_LAYOUT=[
       { key:'r2', cols:2, size:'md', ids:['g0','g4'] },
       { key:'r3', cols:1, size:'wide', ids:['g5'] },
       { key:'r4', cols:1, size:'wide', ids:['g6'] },
-      { key:'r5', cols:1, size:'wide', type:'counter', counterMax:29, ids:['g15'] },
-      { key:'r6', cols:3, size:'sm', ids:['g7','g8','g9'] }
+      { key:'r6', cols:3, size:'sm', toggleFlag:'valleyEnabled', ids:['g7','g8','g9'] }
     ]
   },
   { title:'♾️ No specific time reset', rows:[
-      { key:'r7', cols:1, size:'wide', type:'cooldown', cooldownSec:330, ids:['g11'] },
-      { key:'r8', cols:1, size:'wide', type:'fishing', ids:['g12'] },
-      { key:'r9', cols:1, size:'wide', ids:['g10'] },
-      { key:'r10', cols:1, size:'wide', type:'counter', counterMax:27, ids:['g14'] },
-      { key:'r11', cols:1, size:'wide', ids:['g13'] }
+      { key:'r7', cols:1, size:'wide', type:'cooldown', cooldownSec:330, toggleFlag:'noResetTasksEnabled', ids:['g11'] },
+      { key:'r8', cols:1, size:'wide', type:'fishing', toggleFlag:'noResetTasksEnabled', ids:['g12'] },
+      { key:'r9', cols:1, size:'wide', toggleFlag:'noResetTasksEnabled', ids:['g10'] },
+      { key:'r10', cols:1, size:'wide', type:'counter', counterMax:27, toggleFlag:'noResetTasksEnabled', ids:['g14'] },
+      { key:'r11', cols:1, size:'wide', toggleFlag:'noResetTasksEnabled', ids:['g13'] }
     ]
   }
 ];
@@ -848,6 +1102,10 @@ function writeCheckValue(key, val){
   else { games.checks[key]=val; gamesRef.child('checks/'+key).set(val); }
 }
 
+function isRowVisible(row){
+  if(row.toggleFlag){ return games.settings[row.toggleFlag]!==false; } // default true unless explicitly toggled off
+  return true;
+}
 function isRowComplete(row, acct){
   if(row.type==='cooldown'){
     const key=row.ids[0]+'::'+acct.id;
@@ -970,6 +1228,120 @@ function toggleFishSide(task, acct, side, key, ms){
   refreshDynamicViews();
 }
 
+function buildBarnCardMobile(acct){
+  const val=getBarnValue(acct.id);
+  const stage=getBarnStage(val);
+  const row=document.createElement('div'); row.className='gc-row barn-mobile-row';
+  row.style.backgroundImage="url('"+BARN_ICONS[stage-1]+"')";
+  const label=document.createElement('div'); label.className='gc-row-label barn-mobile-label';
+  const ltext=document.createElement('span'); ltext.className='gc-row-text'; ltext.textContent='Max Barn Capacity';
+  label.appendChild(ltext);
+  const minusBtn=document.createElement('div'); minusBtn.className='gc-counter-btn gc-counter-minus'; minusBtn.textContent='−';
+  const plusBtn=document.createElement('div'); plusBtn.className='gc-counter-btn gc-counter-plus'; plusBtn.textContent='+';
+  const numDisplay=document.createElement('div'); numDisplay.className='gc-counter-num'; numDisplay.textContent=val;
+  minusBtn.onclick=e=>{ e.stopPropagation(); adjustBarnCapacity(acct, -1, row, numDisplay); };
+  plusBtn.onclick=e=>{ e.stopPropagation(); adjustBarnCapacity(acct, 1, row, numDisplay); };
+  row.appendChild(label); row.appendChild(minusBtn); row.appendChild(plusBtn); row.appendChild(numDisplay);
+  return row;
+}
+
+/* ---- County Fair: universal (Firebase-synced) toggle, simple checkbox row, resets at 4PM ---- */
+const COUNTY_FAIR_ICON='https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/County%20Fair%20Event.png';
+function getCountyFairKey(acctId){ return 'countyfair::'+acctId; }
+function buildCountyFairCard(acct){
+  const key=getCountyFairKey(acct.id);
+  const checked=!!games.checks[key];
+  const row=document.createElement('div'); row.className='gc-row'+(checked?' checked':'');
+  row.style.backgroundImage="url('"+COUNTY_FAIR_ICON+"')";
+  const scrim=document.createElement('div'); scrim.className='gc-row-scrim';
+  const label=document.createElement('div'); label.className='gc-row-label';
+  const ltext=document.createElement('span'); ltext.className='gc-row-text'; ltext.textContent='County Fair';
+  label.appendChild(ltext);
+  const box=document.createElement('div'); box.className='gc-box2';
+  const check=document.createElement('div'); check.className='gc-check-icon'; check.textContent='✓';
+  row.appendChild(scrim); row.appendChild(label); row.appendChild(box); row.appendChild(check);
+  row.onclick=()=>{
+    const prevVal=rawSnapshot(key);
+    toggleGameCheck('countyfair', acct.id, null);
+    recordUndo({type:'delta', changes:{[key]:prevVal}});
+    refreshDynamicViews();
+  };
+  return row;
+}
+
+/* ---- Task Event: universal (Firebase-synced) toggle + 3 configurable modes ---- */
+const TASK_EVENT_ICON='https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/Task%20Event.jpeg';
+function getTaskEventKey(acctId){ return 'taskevent::'+acctId; }
+function buildTaskEventCard(acct){
+  const mode=games.settings.taskEventMode||1;
+  const key=getTaskEventKey(acct.id);
+
+  if(mode===1){
+    // Unlimited — informational, not checkable
+    const row=document.createElement('div'); row.className='gc-row te-uncheckable';
+    row.style.backgroundImage="url('"+TASK_EVENT_ICON+"')";
+    const scrim=document.createElement('div'); scrim.className='gc-row-scrim';
+    const label=document.createElement('div'); label.className='gc-row-label';
+    const ltext=document.createElement('span'); ltext.className='gc-row-text'; ltext.textContent='Task Event';
+    const tag=document.createElement('span'); tag.className='gc-row-tag'; tag.textContent='Unlimited';
+    ltext.appendChild(tag);
+    label.appendChild(ltext);
+    row.appendChild(scrim); row.appendChild(label);
+    return row;
+  }
+
+  const max = mode===2 ? (games.settings.taskEventDailyTarget||1) : (games.settings.taskEventGoal||1);
+  const val=games.checks[key]||0;
+  const complete=val>=max;
+  const row=document.createElement('div'); row.className='gc-row'+(complete?' checked':'');
+  row.style.backgroundImage="url('"+TASK_EVENT_ICON+"')";
+  const scrim=document.createElement('div'); scrim.className='gc-row-scrim';
+  const label=document.createElement('div'); label.className='gc-row-label';
+  const ltext=document.createElement('span'); ltext.className='gc-row-text'; ltext.textContent='Task Event';
+  const tag=document.createElement('span'); tag.className='gc-row-tag'; tag.textContent = mode===2 ? 'Resets 4 PM' : 'Goal';
+  ltext.appendChild(tag);
+  label.appendChild(ltext);
+  const minusBtn=document.createElement('div'); minusBtn.className='gc-counter-btn gc-counter-minus'; minusBtn.textContent='−';
+  const plusBtn=document.createElement('div'); plusBtn.className='gc-counter-btn gc-counter-plus'; plusBtn.textContent='+';
+  const numDisplay=document.createElement('div'); numDisplay.className='gc-counter-num'+(complete?' complete':''); numDisplay.textContent=val+' / '+max;
+  minusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, -1); };
+  plusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, 1); };
+  row.appendChild(scrim); row.appendChild(label); row.appendChild(minusBtn); row.appendChild(plusBtn); row.appendChild(numDisplay);
+  return row;
+}
+function adjustTaskEventCounter(acct, key, max, delta){
+  const cur=games.checks[key]||0;
+  let next=cur+delta;
+  if(next<0) next=0;
+  if(next>max) next=max;
+  const prevVal=rawSnapshot(key);
+  writeCheckValue(key, next===0 ? false : next);
+  recordUndo({type:'delta', changes:{[key]:prevVal}});
+  refreshDynamicViews();
+}
+
+function isCountyFairComplete(acct){
+  return !!games.checks[getCountyFairKey(acct.id)];
+}
+function isTaskEventComplete(acct){
+  const mode=games.settings.taskEventMode||1;
+  if(mode===1) return false; // unlimited/uncheckable — never "completes", always stays pinned
+  const max = mode===2 ? (games.settings.taskEventDailyTarget||1) : (games.settings.taskEventGoal||1);
+  const val=games.checks[getTaskEventKey(acct.id)]||0;
+  return val>=max;
+}
+
+function applyUniversalToggleButtons(){
+  const cfBtn=document.getElementById('countyFairToggleBtn');
+  if(cfBtn) cfBtn.classList.toggle('active', !!games.settings.countyFairEnabled);
+  const teBtn=document.getElementById('taskEventToggleBtn');
+  if(teBtn) teBtn.classList.toggle('active', !!games.settings.taskEventEnabled);
+  const valleyBtn=document.getElementById('valleyToggleBtn');
+  if(valleyBtn) valleyBtn.classList.toggle('active', games.settings.valleyEnabled!==false);
+  const noResetBtn=document.getElementById('noResetToggleBtn');
+  if(noResetBtn) noResetBtn.classList.toggle('active', games.settings.noResetTasksEnabled!==false);
+}
+
 function buildCounterCard(task, acct, max){
   const key=task.id+'::'+acct.id;
   const val=games.checks[key]||0;
@@ -1055,22 +1427,60 @@ function renderMobileView(direction){
   list.innerHTML='';
   const completedRows=[];
 
+  if(barnCardViewsEnabled){
+    const barnGroup=document.createElement('div'); barnGroup.className='gc-row-group size-wide';
+    barnGroup.setAttribute('data-row-key', 'barnRow');
+    barnGroup.style.gridTemplateColumns='repeat(1, 1fr)';
+    barnGroup.appendChild(buildBarnCardMobile(acct));
+    list.appendChild(barnGroup);
+  }
+  const cfComplete = games.settings.countyFairEnabled && isCountyFairComplete(acct);
+  const teComplete = games.settings.taskEventEnabled && isTaskEventComplete(acct);
+  if(games.settings.countyFairEnabled && !cfComplete){
+    const cfGroup=document.createElement('div'); cfGroup.className='gc-row-group size-wide';
+    cfGroup.setAttribute('data-row-key', 'countyFairRow');
+    cfGroup.style.gridTemplateColumns='repeat(1, 1fr)';
+    cfGroup.appendChild(buildCountyFairCard(acct));
+    list.appendChild(cfGroup);
+  }
+  if(games.settings.taskEventEnabled && !teComplete){
+    const teGroup=document.createElement('div'); teGroup.className='gc-row-group size-wide';
+    teGroup.setAttribute('data-row-key', 'taskEventRow');
+    teGroup.style.gridTemplateColumns='repeat(1, 1fr)';
+    teGroup.appendChild(buildTaskEventCard(acct));
+    list.appendChild(teGroup);
+  }
+
   MOBILE_LAYOUT.forEach(section=>{
-    const activeRows=section.rows.filter(row=>!isRowComplete(row, acct));
+    const activeRows=section.rows.filter(row=>isRowVisible(row) && !isRowComplete(row, acct));
     if(activeRows.length){
       const gh=document.createElement('div'); gh.className='gc-group-header';
       gh.textContent=section.title;
       list.appendChild(gh);
       activeRows.forEach(row=>list.appendChild(buildRowGroup(row, acct)));
     }
-    section.rows.forEach(row=>{ if(isRowComplete(row, acct)) completedRows.push(row); });
+    section.rows.forEach(row=>{ if(isRowVisible(row) && isRowComplete(row, acct)) completedRows.push(row); });
   });
 
-  if(completedRows.length){
-    completedRows.sort((a,b)=>rowSortIndex(a.key)-rowSortIndex(b.key));
+  if(completedRows.length || cfComplete || teComplete){
     const gh=document.createElement('div'); gh.className='gc-group-header gc-completed-header';
     gh.textContent='✅ Completed';
     list.appendChild(gh);
+    if(cfComplete){
+      const cfGroup=document.createElement('div'); cfGroup.className='gc-row-group size-wide';
+      cfGroup.setAttribute('data-row-key', 'countyFairRow');
+      cfGroup.style.gridTemplateColumns='repeat(1, 1fr)';
+      cfGroup.appendChild(buildCountyFairCard(acct));
+      list.appendChild(cfGroup);
+    }
+    if(teComplete){
+      const teGroup=document.createElement('div'); teGroup.className='gc-row-group size-wide';
+      teGroup.setAttribute('data-row-key', 'taskEventRow');
+      teGroup.style.gridTemplateColumns='repeat(1, 1fr)';
+      teGroup.appendChild(buildTaskEventCard(acct));
+      list.appendChild(teGroup);
+    }
+    completedRows.sort((a,b)=>rowSortIndex(a.key)-rowSortIndex(b.key));
     completedRows.forEach(row=>list.appendChild(buildRowGroup(row, acct)));
   }
 
@@ -1079,9 +1489,12 @@ function renderMobileView(direction){
     list.querySelectorAll('[data-row-key]').forEach(el=>{
       const key=el.getAttribute('data-row-key');
       const old=oldRects[key];
-      if(!old){ // newly appeared — simple fade in
-        el.style.transition='none'; el.style.opacity='0';
-        requestAnimationFrame(()=>{ el.style.transition='opacity .35s ease'; el.style.opacity='1'; });
+      if(!old){ // newly appeared — squeeze/slide in from above + fade
+        el.style.transition='none'; el.style.opacity='0'; el.style.transform='translateY(-16px) scaleY(.85)'; el.style.transformOrigin='top';
+        requestAnimationFrame(()=>{
+          el.style.transition='opacity .32s ease, transform .32s cubic-bezier(.22,.61,.36,1)';
+          el.style.opacity='1'; el.style.transform='translateY(0) scaleY(1)';
+        });
         return;
       }
       const now=el.getBoundingClientRect();
@@ -1106,6 +1519,23 @@ function renderMobileView(direction){
 
 /* ================= MVUI: "Mobile version UI" — all 12 accounts shown as compact columns on desktop ================= */
 let mvuiActive=false;
+let barnCardViewsEnabled=false;
+
+function updateHeaderButtonsForView(){
+  const isMobile=window.matchMedia('(max-width:720px)').matches;
+  const cardView=isMobile || mvuiActive; // Phone View or Accounts Grouping
+  const resetBtn=document.getElementById('resetBtn');
+  const barnBtn=document.getElementById('barnToggleBtn');
+  if(resetBtn) resetBtn.style.display = cardView ? 'none' : '';
+  if(barnBtn) barnBtn.style.display = cardView ? '' : 'none';
+  // County Fair / Task Event toggles are universal — visible in every view, including PC table
+}
+function toggleBarnCardView(){
+  barnCardViewsEnabled=!barnCardViewsEnabled;
+  const btn=document.getElementById('barnToggleBtn');
+  if(btn) btn.classList.toggle('active', barnCardViewsEnabled);
+  refreshDynamicViews();
+}
 let mvuiLastSignatures={};
 
 const ACCOUNT_GROUPS=[
@@ -1176,10 +1606,81 @@ function renderMVUI(){
   });
   currentRow++;
 
+  if(barnCardViewsEnabled){
+    const bgh=document.createElement('div'); bgh.className='mvui-group-header';
+    bgh.style.gridRow=currentRow;
+    bgh.textContent='🏚️ Max Barn Capacity';
+    root.appendChild(bgh);
+    currentRow++;
+
+    const barnCellsRow=currentRow;
+    accounts.forEach((acct,i)=>{
+      const cell=document.createElement('div'); cell.className='mvui-col-cell';
+      cell.setAttribute('data-acct-id', acct.id);
+      cell.style.gridColumn=(i+1); cell.style.gridRow=barnCellsRow;
+      const barnCard=buildBarnCardMobile(acct);
+      barnCard.setAttribute('data-row-key', 'barnRow');
+      barnCard.setAttribute('data-acct-id', acct.id);
+      cell.appendChild(barnCard);
+      root.appendChild(cell);
+    });
+    currentRow++;
+  }
+
+  if(games.settings.countyFairEnabled){
+    const cfIncomplete=accounts.filter(acct=>!isCountyFairComplete(acct));
+    if(cfIncomplete.length){
+      const cfh=document.createElement('div'); cfh.className='mvui-group-header';
+      cfh.style.gridRow=currentRow;
+      cfh.textContent='🎡 County Fair';
+      root.appendChild(cfh);
+      currentRow++;
+
+      const cfRow=currentRow;
+      cfIncomplete.forEach(acct=>{
+        const i=accounts.indexOf(acct);
+        const cell=document.createElement('div'); cell.className='mvui-col-cell';
+        cell.setAttribute('data-acct-id', acct.id);
+        cell.style.gridColumn=(i+1); cell.style.gridRow=cfRow;
+        const card=buildCountyFairCard(acct);
+        card.setAttribute('data-row-key', 'countyFairRow');
+        card.setAttribute('data-acct-id', acct.id);
+        cell.appendChild(card);
+        root.appendChild(cell);
+      });
+      currentRow++;
+    }
+  }
+
+  if(games.settings.taskEventEnabled){
+    const teIncomplete=accounts.filter(acct=>!isTaskEventComplete(acct));
+    if(teIncomplete.length){
+      const teh=document.createElement('div'); teh.className='mvui-group-header';
+      teh.style.gridRow=currentRow;
+      teh.textContent='🎪 Task Event';
+      root.appendChild(teh);
+      currentRow++;
+
+      const teRow=currentRow;
+      teIncomplete.forEach(acct=>{
+        const i=accounts.indexOf(acct);
+        const cell=document.createElement('div'); cell.className='mvui-col-cell';
+        cell.setAttribute('data-acct-id', acct.id);
+        cell.style.gridColumn=(i+1); cell.style.gridRow=teRow;
+        const card=buildTaskEventCard(acct);
+        card.setAttribute('data-row-key', 'taskEventRow');
+        card.setAttribute('data-acct-id', acct.id);
+        cell.appendChild(card);
+        root.appendChild(cell);
+      });
+      currentRow++;
+    }
+  }
+
   // One merged header per section, then ONE row of cells — each cell holds that
   // account's own stack of active items, reflowing/collapsing independently per account.
   MOBILE_LAYOUT.forEach(section=>{
-    const anyActive=accounts.some(acct=>section.rows.some(row=>!isRowComplete(row, acct)));
+    const anyActive=accounts.some(acct=>section.rows.some(row=>isRowVisible(row) && !isRowComplete(row, acct)));
     if(!anyActive) return;
 
     const gh=document.createElement('div'); gh.className='mvui-group-header';
@@ -1190,7 +1691,7 @@ function renderMVUI(){
 
     const cellsRow=currentRow;
     accounts.forEach((acct,i)=>{
-      const activeRows=section.rows.filter(row=>!isRowComplete(row, acct));
+      const activeRows=section.rows.filter(row=>isRowVisible(row) && !isRowComplete(row, acct));
       if(!activeRows.length) return;
       const cell=document.createElement('div'); cell.className='mvui-col-cell';
       cell.setAttribute('data-acct-id', acct.id);
@@ -1207,7 +1708,11 @@ function renderMVUI(){
 
   // Completed band: one merged header, then one row of cells (each account's own
   // completed items, sorted top-to-bottom by original order, stacked within its own cell).
-  const anyCompleted=accounts.some(acct=>MOBILE_LAYOUT.some(s=>s.rows.some(row=>isRowComplete(row, acct))));
+  const anyCompleted=accounts.some(acct=>
+    MOBILE_LAYOUT.some(s=>s.rows.some(row=>isRowVisible(row) && isRowComplete(row, acct))) ||
+    (games.settings.countyFairEnabled && isCountyFairComplete(acct)) ||
+    (games.settings.taskEventEnabled && isTaskEventComplete(acct))
+  );
   if(anyCompleted){
     const gh=document.createElement('div'); gh.className='mvui-group-header mvui-completed-header';
     gh.style.gridRow=currentRow;
@@ -1217,11 +1722,23 @@ function renderMVUI(){
 
     const cellsRow=currentRow;
     accounts.forEach((acct,i)=>{
-      const completedRows=ROW_ORDER.filter(key=>isRowComplete(ROW_BY_KEY[key], acct)).map(key=>ROW_BY_KEY[key]);
-      if(!completedRows.length) return;
+      const completedRows=ROW_ORDER.filter(key=>isRowVisible(ROW_BY_KEY[key]) && isRowComplete(ROW_BY_KEY[key], acct)).map(key=>ROW_BY_KEY[key]);
+      const cfDone = games.settings.countyFairEnabled && isCountyFairComplete(acct);
+      const teDone = games.settings.taskEventEnabled && isTaskEventComplete(acct);
+      if(!completedRows.length && !cfDone && !teDone) return;
       const cell=document.createElement('div'); cell.className='mvui-col-cell';
       cell.setAttribute('data-acct-id', acct.id);
       cell.style.gridColumn=(i+1); cell.style.gridRow=cellsRow;
+      if(cfDone){
+        const card=buildCountyFairCard(acct);
+        card.setAttribute('data-row-key', 'countyFairRow'); card.setAttribute('data-acct-id', acct.id);
+        cell.appendChild(card);
+      }
+      if(teDone){
+        const card=buildTaskEventCard(acct);
+        card.setAttribute('data-row-key', 'taskEventRow'); card.setAttribute('data-acct-id', acct.id);
+        cell.appendChild(card);
+      }
       completedRows.forEach(row=>{
         const el=buildRowGroup(row, acct);
         el.setAttribute('data-acct-id', acct.id);
@@ -1240,8 +1757,11 @@ function renderMVUI(){
       const fullKey=el.getAttribute('data-acct-id')+'::'+el.getAttribute('data-row-key');
       const old=oldRects[fullKey];
       if(!old){
-        el.style.transition='none'; el.style.opacity='0';
-        requestAnimationFrame(()=>{ el.style.transition='opacity .3s ease'; el.style.opacity='1'; });
+        el.style.transition='none'; el.style.opacity='0'; el.style.transform='translateY(-12px) scaleY(.85)'; el.style.transformOrigin='top';
+        requestAnimationFrame(()=>{
+          el.style.transition='opacity .28s ease, transform .28s cubic-bezier(.22,.61,.36,1)';
+          el.style.opacity='1'; el.style.transform='translateY(0) scaleY(1)';
+        });
         return;
       }
       const now=el.getBoundingClientRect();
@@ -1267,6 +1787,7 @@ function setMvuiActive(active){
   const btn=document.getElementById('mvuiToggleBtn');
   if(btn) btn.classList.toggle('active', active);
   if(active){ updateMvuiGroupLabel(); renderMVUI(); }
+  updateHeaderButtonsForView();
 }
 
 function tickCountdowns(){
@@ -1349,6 +1870,7 @@ function applyResponsiveMode(){
   if(isMobile && mvuiActive){ setMvuiActive(false); }
   document.getElementById('gamesTableWrap').style.display = (isMobile || mvuiActive) ? 'none' : '';
   document.getElementById('mvuiWrap').style.display = mvuiActive ? 'flex' : 'none';
+  updateHeaderButtonsForView();
 }
 window.addEventListener('resize', applyResponsiveMode);
 applyResponsiveMode();
@@ -1361,6 +1883,80 @@ document.getElementById('resetBtn').onclick=()=>{
 };
 
 document.getElementById('mvuiToggleBtn').onclick=()=>{ setMvuiActive(!mvuiActive); };
+document.getElementById('barnToggleBtn').onclick=toggleBarnCardView;
+
+document.getElementById('countyFairToggleBtn').onclick=()=>{
+  updateSetting('countyFairEnabled', !games.settings.countyFairEnabled);
+};
+
+document.getElementById('valleyToggleBtn').onclick=()=>{
+  const currentlyVisible = games.settings.valleyEnabled!==false;
+  updateSetting('valleyEnabled', !currentlyVisible);
+};
+
+document.getElementById('noResetToggleBtn').onclick=()=>{
+  const currentlyVisible = games.settings.noResetTasksEnabled!==false;
+  updateSetting('noResetTasksEnabled', !currentlyVisible);
+};
+
+/* Task Event button: simple click = toggle on/off. Long-press (~550ms) = open config modal. */
+(function setupTaskEventButton(){
+  const btn=document.getElementById('taskEventToggleBtn');
+  let pressTimer=null, longPressed=false;
+  function startPress(){
+    longPressed=false;
+    pressTimer=setTimeout(()=>{ longPressed=true; openTaskEventConfig(); }, 550);
+  }
+  function endPress(){
+    if(pressTimer){ clearTimeout(pressTimer); pressTimer=null; }
+  }
+  btn.addEventListener('mousedown', startPress);
+  btn.addEventListener('touchstart', startPress, {passive:true});
+  btn.addEventListener('mouseup', endPress);
+  btn.addEventListener('mouseleave', endPress);
+  btn.addEventListener('touchend', endPress);
+  btn.addEventListener('click', ()=>{
+    if(longPressed){ longPressed=false; return; } // long-press already handled it, ignore the trailing click
+    updateSetting('taskEventEnabled', !games.settings.taskEventEnabled);
+  });
+})();
+
+let teSelectedMode=1;
+function selectTeMode(mode){
+  teSelectedMode=mode;
+  document.querySelectorAll('.te-mode-option').forEach(el=>{
+    el.classList.toggle('selected', parseInt(el.getAttribute('data-mode'),10)===mode);
+  });
+}
+document.querySelectorAll('.te-mode-option').forEach(el=>{
+  el.addEventListener('click', ()=>selectTeMode(parseInt(el.getAttribute('data-mode'),10)));
+});
+document.getElementById('teDailyTarget').addEventListener('click', e=>e.stopPropagation());
+document.getElementById('teGoal').addEventListener('click', e=>e.stopPropagation());
+
+function openTaskEventConfig(){
+  const mode=games.settings.taskEventMode||1;
+  selectTeMode(mode);
+  document.getElementById('teDailyTarget').value=games.settings.taskEventDailyTarget||'';
+  document.getElementById('teGoal').value=games.settings.taskEventGoal||'';
+  document.getElementById('taskEventConfigModal').classList.add('gc-show');
+}
+function closeTaskEventConfig(){
+  document.getElementById('taskEventConfigModal').classList.remove('gc-show');
+}
+document.getElementById('teConfigCancel').onclick=closeTaskEventConfig;
+document.getElementById('teConfigSave').onclick=()=>{
+  const mode=teSelectedMode;
+  const dailyTarget=Math.max(1, parseInt(document.getElementById('teDailyTarget').value,10)||1);
+  const goal=Math.max(1, parseInt(document.getElementById('teGoal').value,10)||1);
+  gamesRef.child('settings').update({
+    taskEventMode: mode,
+    taskEventDailyTarget: dailyTarget,
+    taskEventGoal: goal
+  });
+  closeTaskEventConfig();
+};
+
 document.getElementById('mvuiPrev').onclick=()=>goMvuiGroup(-1);
 document.getElementById('mvuiNext').onclick=()=>goMvuiGroup(1);
 (function setupMvuiSwipe(){
@@ -1382,6 +1978,27 @@ document.getElementById('mvuiNext').onclick=()=>goMvuiGroup(1);
 document.getElementById('undoBtn').onclick=performUndo;
 
 document.getElementById('syncBadge').onclick=renameSelf;
+
+/* ================= Dark Mode (applies to all views) ================= */
+(function setupDarkMode(){
+  const KEY='gc-dark-mode';
+  const btn=document.getElementById('darkModeToggle');
+  function apply(isDark){
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    if(btn) btn.innerHTML = isDark ? '🌙 Dark Mode' : '☀️ Light Mode';
+  }
+  let saved=null;
+  try{ saved=localStorage.getItem(KEY); }catch(e){}
+  const isDark = saved==='dark';
+  apply(isDark);
+  if(btn){
+    btn.onclick=()=>{
+      const nowDark = document.documentElement.getAttribute('data-theme')!=='dark';
+      apply(nowDark);
+      try{ localStorage.setItem(KEY, nowDark?'dark':'light'); }catch(e){}
+    };
+  }
+})();
 
 checkGamesReset();
 checkWeeklyReset();
