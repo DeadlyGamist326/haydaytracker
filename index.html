@@ -162,6 +162,15 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 #taskEventToggleBtn.active{background:#9334E6;color:#fff;border-color:#9334E6;}
 #valleyToggleBtn.active{background:#188038;color:#fff;border-color:#188038;}
 #noResetToggleBtn.active{background:#0B8043;color:#fff;border-color:#0B8043;}
+#farmPassToggleBtn.active{background:#8D6E63;color:#fff;border-color:#8D6E63;}
+.fp-acct-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;font-size:13px;color:var(--ink);transition:border-color .15s ease,background .15s ease;}
+.fp-acct-row:hover{border-color:var(--teal);}
+.fp-acct-row.selected{border-color:#8D6E63;background:rgba(141,110,99,.1);font-weight:700;}
+.fp-acct-row input{pointer-events:none;}
+.game-cell.farm-pass-locked{cursor:not-allowed;background:#E6F4EA;position:relative;}
+.game-cell.farm-pass-locked::after{content:'🔒';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:9px;}
+.gc-row.farm-pass-locked-card{cursor:not-allowed;}
+.gc-row.farm-pass-locked-card .gc-lock-badge{position:absolute;top:8px;right:8px;z-index:2;background:rgba(0,0,0,.5);border-radius:6px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:13px;}
 .gc-row.te-uncheckable{cursor:default;}
 .mvui-wrap{display:none;flex:1;flex-direction:column;overflow:hidden;}
 .mvui-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 14px;border-bottom:1px solid var(--line);background:var(--paper);flex-shrink:0;}
@@ -404,6 +413,18 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
   </div>
 </div>
 
+<div class="gc-name-modal" id="farmPassConfigModal">
+  <div class="gc-name-card" style="max-width:340px;">
+    <div class="gc-name-title">Farm Pass — Perma-check</div>
+    <div class="gc-name-sub">Checked accounts stay permanently checked for the whole month — locked, can't be unchecked from the task checker itself.</div>
+    <div id="farmPassAccountList" style="display:flex;flex-direction:column;gap:6px;margin-top:14px;max-height:320px;overflow-y:auto;text-align:left;"></div>
+    <div class="gc-name-input-row" style="margin-top:16px;">
+      <button class="gc-name-ok" id="fpConfigCancel" style="background:var(--ink-soft);flex:1;">Cancel</button>
+      <button class="gc-name-ok" id="fpConfigSave" style="flex:1;">Save</button>
+    </div>
+  </div>
+</div>
+
 <div class="gc-hover-card" id="gcHoverCard">
   <div class="gc-hover-scrim-top"></div>
   <div class="gc-hover-scrim-bottom"></div>
@@ -427,6 +448,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
       <button class="icon-btn" id="taskEventToggleBtn" title="Toggle Task Event for everyone (long-press to configure)" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/Task%20Event.jpeg" style="width:18px;height:18px;object-fit:contain;border-radius:4px;"><span style="font-size:8px;line-height:1;">Task Event</span></button>
       <button class="icon-btn" id="valleyToggleBtn" title="Show/hide The Valley tasks for everyone" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://static.wikia.nocookie.net/hayday/images/8/80/Valley_Board.png/revision/latest?cb=20190625060045" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Valley</span></button>
       <button class="icon-btn" id="noResetToggleBtn" title="Show/hide Derby, Boat, Fishing, Town and Nurture for everyone" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://static.wikia.nocookie.net/hayday/images/2/2c/Riverboat.png/revision/latest?cb=20150712182459" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Other Tasks</span></button>
+      <button class="icon-btn" id="farmPassToggleBtn" title="Show/hide Farm Pass for everyone (long-press to set monthly perma-check)" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://static.wikia.nocookie.net/hayday/images/d/d2/Farm_Pass_Building.png/revision/latest/scale-to-width-down/1200?cb=20211016095743" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Farm Pass</span></button>
       <button class="icon-btn" id="mvuiToggleBtn" title="Show accounts side by side, grouped, mobile-card style">▦ Accounts Grouping</button>
     </div>
   </div>
@@ -489,8 +511,8 @@ const GAME_TASKS=[
   {id:'g2',group:'4pm',resetHour:16,label:'Shop Offer Ads - Daily Reward',icon:'https://i.ibb.co/xKgdF9pv/image-png-2-K-202608281612.jpg'},
   {id:'g3',group:'4pm',resetHour:16,label:'Movie Ticket Ads - 4x Random Items',icon:'https://i.ibb.co/xdpBWNy/image-png-2-K-202608281452.jpg'},
   {id:'g4',group:'4pm',resetHour:8,label:'Greg Shop - Buy all',icon:'https://static.wikia.nocookie.net/hayday/images/7/7c/%D0%9C%D0%BE%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D1%88%D0%B0_%D0%93%D1%80%D0%B5%D0%B3.png/revision/latest?cb=20240918000156&path-prefix=ru'},
-  {id:'g5',group:'4pm',resetHour:16,label:'Truck Orders - 5/5 rewards',icon:'https://static.wikia.nocookie.net/hayday/images/3/38/Send_Truck_Icon.png/revision/latest?cb=20171227192410',iconWide:'https://i.ibb.co/5h7fqn6L/image.png',iconHover:'https://i.ibb.co/5h7fqn6L/image.png'},
-  {id:'g6',group:'4pm',resetHour:16,label:'Farm Pass - 3 Daily Missions',icon:'https://static.wikia.nocookie.net/hayday/images/d/d2/Farm_Pass_Building.png/revision/latest/scale-to-width-down/1200?cb=20211016095743'},
+  {id:'g5',group:'4pm',resetHour:16,label:'Truck Orders - Claim 2 or 4 rewards',labelOverrides:{naia:'Truck Orders - 5/5 rewards'},icon:'https://static.wikia.nocookie.net/hayday/images/3/38/Send_Truck_Icon.png/revision/latest?cb=20171227192410',iconWide:'https://i.ibb.co/5h7fqn6L/image.png',iconHover:'https://i.ibb.co/5h7fqn6L/image.png'},
+  {id:'g6',group:'4pm',resetHour:16,label:'Farm Pass - 3 Daily Missions',icon:'https://static.wikia.nocookie.net/hayday/images/d/d2/Farm_Pass_Building.png/revision/latest/scale-to-width-down/1200?cb=20211016095743',hideFlag:'farmPassEnabled'},
   {id:'g7',group:'4pm',resetHour:16,label:'The Valley - Fuel Spin',icon:'https://static.wikia.nocookie.net/hayday/images/8/80/Valley_Board.png/revision/latest?cb=20190625060045',hideFlag:'valleyEnabled'},
   {id:'g8',group:'4pm',resetHour:16,label:'The Valley - Collect Sun Points (At least 2x Fuel Spin)',icon:'https://static.wikia.nocookie.net/hayday/images/6/61/Sun.png/revision/latest?cb=20190625060003',hideFlag:'valleyEnabled'},
   {id:'g9',group:'4pm',resetHour:16,label:'The Valley - 4 Daily Missions',icon:'https://ingame.help.supercellsupport.com/images/HayDay_SelfHelp_Valley_DailyQuest.jpg?v=1669645982',hideFlag:'valleyEnabled'},
@@ -637,7 +659,12 @@ function checkGamesReset(){
         ids.add('countyfair');
         if(games.settings && games.settings.taskEventMode===2) ids.add('taskevent');
       }
-      Object.keys(games.checks).forEach(k=>{ if(ids.has(k.split('::')[0])) updates['games/checks/'+k]=null; });
+      Object.keys(games.checks).forEach(k=>{
+        if(!ids.has(k.split('::')[0])) return;
+        const [kTaskId, kAcctId]=k.split('::');
+        if(kTaskId==='g6' && games.settings && games.settings.farmPassPerma && games.settings.farmPassPerma[kAcctId]) return; // perma-checked — never cleared by the daily reset
+        updates['games/checks/'+k]=null;
+      });
       updates['games/lastResetDates/'+rh]=todayStr;
       changed=true;
     }
@@ -680,6 +707,12 @@ function toggleGameCheck(taskId, acctId, cellEl){
   gamesRef.child('checks/'+key).set(isOn ? null : true);
 }
 
+function getTaskLabel(task, acct){
+  return (task.labelOverrides && acct && task.labelOverrides[acct.id]) || task.label;
+}
+function isFarmPassLocked(acct){
+  return !!(games.settings.farmPassPerma && games.settings.farmPassPerma[acct.id]);
+}
 function isUrgentTask(task){
   const h=new Date().getHours();
   return task.resetHour===16 && h>=12 && h<16;
@@ -783,7 +816,7 @@ function showHoverCard(cellEl, task, acct){
   document.getElementById('gcHoverAccount').textContent=acct.label;
   const hoverIcon=task.iconHover||task.icon;
   card.style.backgroundImage=hoverIcon ? "url('"+hoverIcon+"')" : 'none';
-  document.getElementById('gcHoverTask').textContent=task.label;
+  document.getElementById('gcHoverTask').textContent=getTaskLabel(task, acct);
 
   const rect=cellEl.getBoundingClientRect();
   const left=rect.left+rect.width/2;
@@ -1033,6 +1066,15 @@ function renderGamesTable(){
       const checked=!!games.checks[key];
       const td=document.createElement('td'); td.className='game-cell'+(checked?' checked':'')+((urgent&&!checked)?' urgent':'');
 
+      if(task.id==='g6' && isFarmPassLocked(acct)){
+        td.className='game-cell farm-pass-locked checked';
+        td.title='Perma-checked for the month — unlock via long-press on the Farm Pass button';
+        td.addEventListener('mouseenter', ()=>showHoverCard(td, task, acct));
+        td.addEventListener('mouseleave', hideHoverCard);
+        tr.appendChild(td);
+        return;
+      }
+
       if(task.counterMax){
         const val=games.checks[key]||0;
         const complete=val>=task.counterMax;
@@ -1082,7 +1124,7 @@ const MOBILE_LAYOUT=[
       { key:'r1', cols:3, size:'sm', ids:['g1','g2','g3'] },
       { key:'r2', cols:2, size:'md', ids:['g0','g4'] },
       { key:'r3', cols:1, size:'wide', ids:['g5'] },
-      { key:'r4', cols:1, size:'wide', ids:['g6'] },
+      { key:'r4', cols:1, size:'wide', toggleFlag:'farmPassEnabled', ids:['g6'] },
       { key:'r6', cols:3, size:'sm', toggleFlag:'valleyEnabled', ids:['g7','g8','g9'] }
     ]
   },
@@ -1143,31 +1185,42 @@ let lastCompletionSignature=null;
 
 function buildMobileCard(task, acct, size){
   const key=task.id+'::'+acct.id;
-  const checked=!!games.checks[key];
+  const locked = task.id==='g6' && isFarmPassLocked(acct);
+  const checked = locked || !!games.checks[key];
   const urgent=isUrgentTask(task);
-  const row=document.createElement('div'); row.className='gc-row'+(checked?' checked':'')+((urgent&&!checked)?' urgent':'');
+  const row=document.createElement('div'); row.className='gc-row'+(checked?' checked':'')+((urgent&&!checked)?' urgent':'')+(locked?' farm-pass-locked-card':'');
   const iconToUse = (size==='wide' && task.iconWide) ? task.iconWide : task.icon;
   if(iconToUse){ row.style.backgroundImage="url('"+iconToUse+"')"; }
   const scrim=document.createElement('div'); scrim.className='gc-row-scrim';
   const label=document.createElement('div'); label.className='gc-row-label';
   const ltext=document.createElement('span'); ltext.className='gc-row-text';
-  ltext.textContent=task.label;
+  ltext.textContent=getTaskLabel(task, acct);
   if(task.resetHour===8){
     const tag=document.createElement('span'); tag.className='gc-row-tag'; tag.textContent='Resets 8 AM';
+    ltext.appendChild(tag);
+  }
+  if(locked){
+    const tag=document.createElement('span'); tag.className='gc-row-tag'; tag.textContent='Perma-checked this month';
     ltext.appendChild(tag);
   }
   label.appendChild(ltext);
   const box=document.createElement('div'); box.className='gc-box2';
   const check=document.createElement('div'); check.className='gc-check-icon'; check.textContent='✓';
   row.appendChild(scrim); row.appendChild(label); row.appendChild(box); row.appendChild(check);
+  if(locked){
+    const lockBadge=document.createElement('div'); lockBadge.className='gc-lock-badge'; lockBadge.textContent='🔒';
+    row.appendChild(lockBadge);
+  }
   row.addEventListener('mouseenter', ()=>showHoverCard(row, task, acct));
   row.addEventListener('mouseleave', hideHoverCard);
-  row.onclick=()=>{
-    const prevVal=rawSnapshot(key);
-    toggleGameCheck(task.id, acct.id, null);
-    recordUndo({type:'delta', changes:{[key]:prevVal}});
-    refreshDynamicViews();
-  };
+  if(!locked){
+    row.onclick=()=>{
+      const prevVal=rawSnapshot(key);
+      toggleGameCheck(task.id, acct.id, null);
+      recordUndo({type:'delta', changes:{[key]:prevVal}});
+      refreshDynamicViews();
+    };
+  }
   return row;
 }
 
@@ -1408,6 +1461,8 @@ function applyUniversalToggleButtons(){
   if(valleyBtn) valleyBtn.classList.toggle('active', games.settings.valleyEnabled!==false);
   const noResetBtn=document.getElementById('noResetToggleBtn');
   if(noResetBtn) noResetBtn.classList.toggle('active', games.settings.noResetTasksEnabled!==false);
+  const farmPassBtn=document.getElementById('farmPassToggleBtn');
+  if(farmPassBtn) farmPassBtn.classList.toggle('active', games.settings.farmPassEnabled!==false);
 }
 
 function buildCounterCard(task, acct, max){
@@ -2053,6 +2108,66 @@ document.getElementById('teConfigSave').onclick=()=>{
     taskEventGoal: goal
   });
   closeTaskEventConfig();
+};
+
+/* Farm Pass button: simple click = toggle visibility on/off. Long-press (~550ms) = open perma-check config. */
+(function setupFarmPassButton(){
+  const btn=document.getElementById('farmPassToggleBtn');
+  let pressTimer=null, longPressed=false;
+  function startPress(){
+    longPressed=false;
+    pressTimer=setTimeout(()=>{ longPressed=true; openFarmPassConfig(); }, 550);
+  }
+  function endPress(){
+    if(pressTimer){ clearTimeout(pressTimer); pressTimer=null; }
+  }
+  btn.addEventListener('mousedown', startPress);
+  btn.addEventListener('touchstart', startPress, {passive:true});
+  btn.addEventListener('mouseup', endPress);
+  btn.addEventListener('mouseleave', endPress);
+  btn.addEventListener('touchend', endPress);
+  btn.addEventListener('click', ()=>{
+    if(longPressed){ longPressed=false; return; }
+    const currentlyVisible = games.settings.farmPassEnabled!==false;
+    updateSetting('farmPassEnabled', !currentlyVisible);
+  });
+})();
+
+let fpSelectedAccounts={};
+function openFarmPassConfig(){
+  fpSelectedAccounts={};
+  if(games.settings.farmPassPerma){
+    Object.keys(games.settings.farmPassPerma).forEach(id=>{ if(games.settings.farmPassPerma[id]) fpSelectedAccounts[id]=true; });
+  }
+  const list=document.getElementById('farmPassAccountList');
+  list.innerHTML='';
+  GAME_ACCOUNTS.forEach(acct=>{
+    const row=document.createElement('div'); row.className='fp-acct-row'+(fpSelectedAccounts[acct.id]?' selected':'');
+    row.setAttribute('data-acct-id', acct.id);
+    const box=document.createElement('input'); box.type='checkbox'; box.checked=!!fpSelectedAccounts[acct.id];
+    const label=document.createElement('span'); label.textContent=acct.label;
+    row.appendChild(box); row.appendChild(label);
+    row.onclick=()=>{
+      if(fpSelectedAccounts[acct.id]){ delete fpSelectedAccounts[acct.id]; } else { fpSelectedAccounts[acct.id]=true; }
+      box.checked=!!fpSelectedAccounts[acct.id];
+      row.classList.toggle('selected', !!fpSelectedAccounts[acct.id]);
+    };
+    list.appendChild(row);
+  });
+  document.getElementById('farmPassConfigModal').classList.add('gc-show');
+}
+function closeFarmPassConfig(){
+  document.getElementById('farmPassConfigModal').classList.remove('gc-show');
+}
+document.getElementById('fpConfigCancel').onclick=closeFarmPassConfig;
+document.getElementById('fpConfigSave').onclick=()=>{
+  const updates={ 'settings/farmPassPerma': Object.keys(fpSelectedAccounts).length ? fpSelectedAccounts : null };
+  // Any newly perma-checked account should instantly show as checked
+  Object.keys(fpSelectedAccounts).forEach(acctId=>{
+    updates['checks/g6::'+acctId]=true;
+  });
+  gamesRef.update(updates);
+  closeFarmPassConfig();
 };
 
 document.getElementById('mvuiPrev').onclick=()=>goMvuiGroup(-1);
