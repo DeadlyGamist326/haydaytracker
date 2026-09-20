@@ -62,9 +62,12 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 
 .games-panel{background:var(--paper-raised);width:100vw;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
 .games-panel-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--line);flex-shrink:0;background:var(--paper);}
-.games-title{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--ink);display:flex;align-items:center;gap:8px;}
+.games-title{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--ink);display:flex;align-items:center;gap:8px;flex-shrink:0;}
 .games-title img{height:22px;width:auto;display:block;}
-.icon-btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:5px;}
+.icon-btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.gc-header-btn-scroll{scrollbar-width:thin;}
+.gc-header-btn-scroll::-webkit-scrollbar{height:4px;}
+.gc-header-btn-scroll::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px;}
 .icon-btn:hover{border-color:var(--teal);color:var(--teal-deep);}
 .gc-presence-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 7px;margin-right:5px;border-radius:14px;background:var(--paper);border:1px solid var(--line);cursor:pointer;color:var(--ink);font-size:11px;}
 .gc-presence-pill:hover{border-color:var(--teal);}
@@ -106,12 +109,12 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .gc-hover-task{position:absolute;bottom:14px;left:12px;right:12px;text-align:center;font-weight:700;font-size:14px;line-height:1.3;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7);}
 .game-cell{cursor:pointer;text-align:center;vertical-align:middle;transition:background .12s;user-select:none;}
 .barn-row td.task-cell{font-weight:700;}
-.barn-cell{cursor:default;padding:6px 3px !important;}
+.barn-cell{position:relative;cursor:default;padding:6px 3px !important;}
 .barn-cell-img{width:100%;height:110px;background-size:contain;background-position:center;background-repeat:no-repeat;margin:0 auto;}
-.barn-cell-controls{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;}
-.barn-btn{width:22px;height:22px;border-radius:5px;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-soft);user-select:none;}
-.barn-btn:hover{background:#E3ECFB;color:var(--teal-deep);}
-.barn-num{font-size:14px;font-weight:700;color:var(--ink);min-width:36px;text-align:center;}
+.barn-cell-controls{position:absolute;top:6px;left:4px;right:4px;bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:4px;pointer-events:none;}
+.barn-btn{pointer-events:auto;width:22px;height:22px;border-radius:50%;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.85);background:transparent;user-select:none;transition:background .15s ease;}
+.barn-btn:hover{background:rgba(255,255,255,.22);color:#fff;}
+.barn-num{font-size:14px;font-weight:800;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.85);min-width:30px;text-align:center;background:transparent;}
 .game-cell.counter-cell{position:relative;cursor:default;padding:2px 0;}
 .game-cell.te-uncheckable-cell{cursor:default;color:var(--ink-soft);font-size:11px;background:var(--paper-raised);}
 .gc-td-counter-btn{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;font-size:11px;font-weight:800;color:var(--ink-soft);cursor:pointer;user-select:none;}
@@ -158,6 +161,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 /* ================= MVUI: "Mobile version UI" — grouped account columns, desktop only ================= */
 #mvuiToggleBtn.active{background:var(--teal);color:#fff;border-color:var(--teal);}
 #barnToggleBtn.active{background:#1A73E8;color:#fff;border-color:#1A73E8;}
+#siloToggleBtn.active{background:#C0A030;color:#fff;border-color:#C0A030;}
 #countyFairToggleBtn.active{background:#F9AB00;color:#fff;border-color:#F9AB00;}
 #taskEventToggleBtn.active{background:#9334E6;color:#fff;border-color:#9334E6;}
 #valleyToggleBtn.active{background:#188038;color:#fff;border-color:#188038;}
@@ -435,15 +439,16 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 <div class="games-panel">
   <div class="games-panel-head">
     <div class="games-title"><img src="https://store.supercell.com/public/logo-RHOJMJ47.png" alt="Hay Day logo"> Hayday Tracker</div>
-    <div style="display:flex;gap:6px;align-items:center;">
+    <div class="gc-header-btn-scroll" style="display:flex;gap:6px;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;min-width:0;flex:1;justify-content:flex-end;">
       <button class="icon-btn" id="darkModeToggle" title="Toggle dark mode">☀️ Light Mode</button>
-      <div id="syncBadge" title="I-click para palitan ang pangalan mo" style="cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-soft);padding:4px 8px;border:1px solid var(--line);border-radius:20px;background:var(--paper);">
+      <div id="syncBadge" title="I-click para palitan ang pangalan mo" style="cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-soft);padding:4px 8px;border:1px solid var(--line);border-radius:20px;background:var(--paper);flex-shrink:0;">
         <span id="syncDot" style="width:7px;height:7px;border-radius:50%;background:#9AA0A6;flex-shrink:0;"></span>
         <span id="syncLabel">Connecting…</span>
       </div>
       <button class="icon-btn" id="undoBtn" title="Undo the last check/uncheck action">↶ Undo</button>
       <button class="icon-btn" id="resetBtn" title="Manually reset all checks">↻ Reset all</button>
       <button class="icon-btn" id="barnToggleBtn" title="Show Max Barn Capacity in this view" style="display:none;flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage2.png" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Barn</span></button>
+      <button class="icon-btn" id="siloToggleBtn" title="Show Max Silo Capacity in this view" style="display:none;flex-direction:column;gap:1px;padding:4px 8px;"><span style="font-size:18px;line-height:1;">🌾</span><span style="font-size:8px;line-height:1;">Silo</span></button>
       <button class="icon-btn" id="countyFairToggleBtn" title="Toggle County Fair for everyone" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/County%20Fair%20Event.png" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">County Fair</span></button>
       <button class="icon-btn" id="taskEventToggleBtn" title="Toggle Task Event for everyone (long-press to configure)" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/Task%20Event.jpeg" style="width:18px;height:18px;object-fit:contain;border-radius:4px;"><span style="font-size:8px;line-height:1;">Task Event</span></button>
       <button class="icon-btn" id="valleyToggleBtn" title="Show/hide The Valley tasks for everyone" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://static.wikia.nocookie.net/hayday/images/8/80/Valley_Board.png/revision/latest?cb=20190625060045" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Valley</span></button>
@@ -717,6 +722,10 @@ function isUrgentTask(task){
   const h=new Date().getHours();
   return task.resetHour===16 && h>=12 && h<16;
 }
+function isUrgentHourWindow(){
+  const h=new Date().getHours();
+  return h>=12 && h<16;
+}
 
 let hoverTaskCellEl=null, hoverHeaderCellEl=null;
 
@@ -941,6 +950,82 @@ function buildBarnRow(){
   return tr;
 }
 
+/* ================= Max Silo Capacity (same functionality as Barn — pics TBD) ================= */
+const SILO_ICONS=['','','','','',''];
+function getSiloStage(value){
+  if(value<=25) return 1;
+  if(value<=50) return 2;
+  if(value<=125) return 3;
+  if(value<=275) return 4;
+  if(value<=775) return 5;
+  return 6;
+}
+function getSiloKey(acctId){ return 'silo::'+acctId; }
+function getSiloValue(acctId){ return games.checks[getSiloKey(acctId)] || 0; }
+
+function adjustSiloCapacity(acct, delta, imgEl, numEl){
+  const key=getSiloKey(acct.id);
+  const cur=getSiloValue(acct.id);
+  let next=cur+delta*25;
+  if(next<0) next=0;
+  if(next>10000) next=10000;
+  if(next===cur) return;
+  const oldStage=getSiloStage(cur);
+  const newStage=getSiloStage(next);
+  const prevVal=rawSnapshot(key);
+  writeCheckValue(key, next===0 ? false : next);
+  recordUndo({type:'delta', changes:{[key]:prevVal}});
+  numEl.textContent=next;
+
+  if(newStage!==oldStage){
+    imgEl.style.transition='transform .18s ease, opacity .18s ease';
+    imgEl.style.opacity='0';
+    imgEl.style.transform='scale(.85)';
+    setTimeout(()=>{
+      if(SILO_ICONS[newStage-1]) imgEl.style.backgroundImage="url('"+SILO_ICONS[newStage-1]+"')";
+      imgEl.style.transition='transform .4s cubic-bezier(.34,1.56,.64,1), opacity .3s ease';
+      imgEl.style.opacity='1';
+      imgEl.style.transform='scale(1.24)';
+      setTimeout(()=>{ imgEl.style.transition='transform .22s ease'; imgEl.style.transform='scale(1)'; }, 220);
+    }, 180);
+  } else {
+    imgEl.style.transition='transform .2s cubic-bezier(.34,1.56,.64,1)';
+    imgEl.style.transform='scale(1.1)';
+    setTimeout(()=>{ imgEl.style.transform='scale(1)'; }, 180);
+  }
+}
+
+function buildSiloRow(){
+  const tr=document.createElement('tr'); tr.className='task-row silo-row';
+  const labelTd=document.createElement('td'); labelTd.className='task-cell';
+  const inner=document.createElement('div'); inner.className='task-cell-inner';
+  if(SILO_ICONS[1]){
+    const img=document.createElement('img'); img.className='task-icon'; img.src=SILO_ICONS[1]; img.alt=''; img.loading='lazy';
+    inner.appendChild(img);
+  }
+  const text=document.createElement('span'); text.className='task-cell-text'; text.textContent='Max Silo Capacity';
+  inner.appendChild(text); labelTd.appendChild(inner);
+  tr.appendChild(labelTd);
+
+  GAME_ACCOUNTS.forEach(acct=>{
+    const val=getSiloValue(acct.id);
+    const stage=getSiloStage(val);
+    const td=document.createElement('td'); td.className='game-cell barn-cell';
+    const imgDiv=document.createElement('div'); imgDiv.className='barn-cell-img';
+    if(SILO_ICONS[stage-1]) imgDiv.style.backgroundImage="url('"+SILO_ICONS[stage-1]+"')";
+    const controls=document.createElement('div'); controls.className='barn-cell-controls';
+    const minusBtn=document.createElement('div'); minusBtn.className='barn-btn'; minusBtn.textContent='−';
+    const numEl=document.createElement('div'); numEl.className='barn-num'; numEl.textContent=val;
+    const plusBtn=document.createElement('div'); plusBtn.className='barn-btn'; plusBtn.textContent='+';
+    minusBtn.onclick=()=>adjustSiloCapacity(acct, -1, imgDiv, numEl);
+    plusBtn.onclick=()=>adjustSiloCapacity(acct, 1, imgDiv, numEl);
+    controls.appendChild(minusBtn); controls.appendChild(numEl); controls.appendChild(plusBtn);
+    td.appendChild(imgDiv); td.appendChild(controls);
+    tr.appendChild(td);
+  });
+  return tr;
+}
+
 const COUNTY_FAIR_TASK={id:'countyfair'};
 function buildCountyFairRowDesktop(){
   const tr=document.createElement('tr'); tr.className='task-row county-fair-row';
@@ -956,7 +1041,8 @@ function buildCountyFairRowDesktop(){
   GAME_ACCOUNTS.forEach((acct, colIdx)=>{
     const key=getCountyFairKey(acct.id);
     const checked=!!games.checks[key];
-    const td=document.createElement('td'); td.className='game-cell'+(checked?' checked':'');
+    const urgent=isUrgentHourWindow() && !checked;
+    const td=document.createElement('td'); td.className='game-cell'+(checked?' checked':'')+(urgent?' urgent':'');
     const box=document.createElement('div'); box.className='gc-box'; td.appendChild(box);
     const cellInfo={td, task:COUNTY_FAIR_TASK, acct};
     DRAG_GRID[rowIdx][colIdx]=cellInfo;
@@ -996,7 +1082,8 @@ function buildTaskEventRowDesktop(){
       const key=getTaskEventKey(acct.id);
       const val=games.checks[key]||0;
       const complete=val>=max;
-      td.className='game-cell counter-cell'+(complete?' checked':'');
+      const urgent = mode===2 && isUrgentHourWindow() && !complete;
+      td.className='game-cell counter-cell'+(complete?' checked':'')+(urgent?' urgent':'');
       const minusBtn=document.createElement('div'); minusBtn.className='gc-td-counter-btn gc-td-counter-minus'; minusBtn.textContent='−';
       const plusBtn=document.createElement('div'); plusBtn.className='gc-td-counter-btn gc-td-counter-plus'; plusBtn.textContent='+';
       const numEl=document.createElement('div'); numEl.className='gc-td-counter-num'; numEl.textContent=val;
@@ -1019,6 +1106,7 @@ function renderGamesTable(){
   const tbody=document.createElement('tbody');
   DRAG_GRID=[]; DRAG_CELL_BY_KEY={};
   tbody.appendChild(buildBarnRow());
+  tbody.appendChild(buildSiloRow());
   if(games.settings.countyFairEnabled) tbody.appendChild(buildCountyFairRowDesktop());
   if(games.settings.taskEventEnabled) tbody.appendChild(buildTaskEventRowDesktop());
   let currentGroup=null;
@@ -1312,13 +1400,31 @@ function buildBarnCardMobile(acct){
   return row;
 }
 
+function buildSiloCardMobile(acct){
+  const val=getSiloValue(acct.id);
+  const stage=getSiloStage(val);
+  const row=document.createElement('div'); row.className='gc-row barn-mobile-row';
+  if(SILO_ICONS[stage-1]) row.style.backgroundImage="url('"+SILO_ICONS[stage-1]+"')";
+  const label=document.createElement('div'); label.className='gc-row-label barn-mobile-label';
+  const ltext=document.createElement('span'); ltext.className='gc-row-text'; ltext.textContent='Max Silo Capacity';
+  label.appendChild(ltext);
+  const minusBtn=document.createElement('div'); minusBtn.className='gc-counter-btn gc-counter-minus'; minusBtn.textContent='−';
+  const plusBtn=document.createElement('div'); plusBtn.className='gc-counter-btn gc-counter-plus'; plusBtn.textContent='+';
+  const numDisplay=document.createElement('div'); numDisplay.className='gc-counter-num'; numDisplay.textContent=val;
+  minusBtn.onclick=e=>{ e.stopPropagation(); adjustSiloCapacity(acct, -1, row, numDisplay); };
+  plusBtn.onclick=e=>{ e.stopPropagation(); adjustSiloCapacity(acct, 1, row, numDisplay); };
+  row.appendChild(label); row.appendChild(minusBtn); row.appendChild(plusBtn); row.appendChild(numDisplay);
+  return row;
+}
+
 /* ---- County Fair: universal (Firebase-synced) toggle, simple checkbox row, resets at 4PM ---- */
 const COUNTY_FAIR_ICON='https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/County%20Fair%20Event.png';
 function getCountyFairKey(acctId){ return 'countyfair::'+acctId; }
 function buildCountyFairCard(acct){
   const key=getCountyFairKey(acct.id);
   const checked=!!games.checks[key];
-  const row=document.createElement('div'); row.className='gc-row'+(checked?' checked':'');
+  const urgent=isUrgentHourWindow() && !checked;
+  const row=document.createElement('div'); row.className='gc-row'+(checked?' checked':'')+(urgent?' urgent':'');
   row.style.backgroundImage="url('"+COUNTY_FAIR_ICON+"')";
   const scrim=document.createElement('div'); scrim.className='gc-row-scrim';
   const label=document.createElement('div'); label.className='gc-row-label';
@@ -1360,7 +1466,8 @@ function buildTaskEventCard(acct){
   const max = mode===2 ? (games.settings.taskEventDailyTarget||1) : (games.settings.taskEventGoal||1);
   const val=games.checks[key]||0;
   const complete=val>=max;
-  const row=document.createElement('div'); row.className='gc-row'+(complete?' checked':'');
+  const urgent = mode===2 && isUrgentHourWindow() && !complete;
+  const row=document.createElement('div'); row.className='gc-row'+(complete?' checked':'')+(urgent?' urgent':'');
   row.style.backgroundImage="url('"+TASK_EVENT_ICON+"')";
   const scrim=document.createElement('div'); scrim.className='gc-row-scrim';
   const label=document.createElement('div'); label.className='gc-row-label';
@@ -1566,6 +1673,13 @@ function renderMobileView(direction){
     barnGroup.appendChild(buildBarnCardMobile(acct));
     list.appendChild(barnGroup);
   }
+  if(siloCardViewsEnabled){
+    const siloGroup=document.createElement('div'); siloGroup.className='gc-row-group size-wide';
+    siloGroup.setAttribute('data-row-key', 'siloRow');
+    siloGroup.style.gridTemplateColumns='repeat(1, 1fr)';
+    siloGroup.appendChild(buildSiloCardMobile(acct));
+    list.appendChild(siloGroup);
+  }
   const cfComplete = games.settings.countyFairEnabled && isCountyFairComplete(acct);
   const teComplete = games.settings.taskEventEnabled && isTaskEventComplete(acct);
   if(games.settings.countyFairEnabled && !cfComplete){
@@ -1652,20 +1766,29 @@ function renderMobileView(direction){
 /* ================= MVUI: "Mobile version UI" — all 12 accounts shown as compact columns on desktop ================= */
 let mvuiActive=false;
 let barnCardViewsEnabled=false;
+let siloCardViewsEnabled=false;
 
 function updateHeaderButtonsForView(){
   const isMobile=window.matchMedia('(max-width:720px)').matches;
   const cardView=isMobile || mvuiActive; // Phone View or Accounts Grouping
   const resetBtn=document.getElementById('resetBtn');
   const barnBtn=document.getElementById('barnToggleBtn');
+  const siloBtn=document.getElementById('siloToggleBtn');
   if(resetBtn) resetBtn.style.display = cardView ? 'none' : '';
   if(barnBtn) barnBtn.style.display = cardView ? '' : 'none';
+  if(siloBtn) siloBtn.style.display = cardView ? '' : 'none';
   // County Fair / Task Event toggles are universal — visible in every view, including PC table
 }
 function toggleBarnCardView(){
   barnCardViewsEnabled=!barnCardViewsEnabled;
   const btn=document.getElementById('barnToggleBtn');
   if(btn) btn.classList.toggle('active', barnCardViewsEnabled);
+  refreshDynamicViews();
+}
+function toggleSiloCardView(){
+  siloCardViewsEnabled=!siloCardViewsEnabled;
+  const btn=document.getElementById('siloToggleBtn');
+  if(btn) btn.classList.toggle('active', siloCardViewsEnabled);
   refreshDynamicViews();
 }
 let mvuiLastSignatures={};
@@ -1775,6 +1898,27 @@ function renderMVUI(){
       barnCard.setAttribute('data-row-key', 'barnRow');
       barnCard.setAttribute('data-acct-id', acct.id);
       cell.appendChild(barnCard);
+      root.appendChild(cell);
+    });
+    currentRow++;
+  }
+
+  if(siloCardViewsEnabled){
+    const sgh=document.createElement('div'); sgh.className='mvui-group-header';
+    sgh.style.gridRow=currentRow;
+    sgh.textContent='🌾 Max Silo Capacity';
+    root.appendChild(sgh);
+    currentRow++;
+
+    const siloCellsRow=currentRow;
+    accounts.forEach((acct,i)=>{
+      const cell=document.createElement('div'); cell.className='mvui-col-cell';
+      cell.setAttribute('data-acct-id', acct.id);
+      cell.style.gridColumn=(i+1); cell.style.gridRow=siloCellsRow;
+      const siloCard=buildSiloCardMobile(acct);
+      siloCard.setAttribute('data-row-key', 'siloRow');
+      siloCard.setAttribute('data-acct-id', acct.id);
+      cell.appendChild(siloCard);
       root.appendChild(cell);
     });
     currentRow++;
@@ -2037,6 +2181,7 @@ document.getElementById('resetBtn').onclick=()=>{
 
 document.getElementById('mvuiToggleBtn').onclick=()=>{ setMvuiActive(!mvuiActive); };
 document.getElementById('barnToggleBtn').onclick=toggleBarnCardView;
+document.getElementById('siloToggleBtn').onclick=toggleSiloCardView;
 
 document.getElementById('countyFairToggleBtn').onclick=()=>{
   updateSetting('countyFairEnabled', !games.settings.countyFairEnabled);
