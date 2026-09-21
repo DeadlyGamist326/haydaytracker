@@ -440,6 +440,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 <div class="games-panel">
   <div class="games-panel-head">
     <div class="games-title"><img src="https://store.supercell.com/public/logo-RHOJMJ47.png" alt="Hay Day logo"> Hayday Tracker</div>
+    <div id="liveClock" title="Philippines time (server-synced) — same time every reset check uses" style="font-size:12px;font-weight:700;color:var(--ink);padding:4px 10px;border:1px solid var(--line);border-radius:20px;background:var(--paper);flex-shrink:0;white-space:nowrap;">--:--:-- --</div>
     <div class="gc-header-btn-scroll" style="display:flex;gap:6px;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;min-width:0;flex:1;justify-content:flex-end;">
       <button class="icon-btn" id="darkModeToggle" title="Toggle dark mode">☀️ Light Mode</button>
       <div id="syncBadge" title="I-click para palitan ang pangalan mo" style="cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-soft);padding:4px 8px;border:1px solid var(--line);border-radius:20px;background:var(--paper);flex-shrink:0;">
@@ -495,6 +496,34 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const gamesRef = db.ref('games');
 
+/* ---- Server-synced time: every device computes "now" using Firebase's server clock,   ----
+   ---- not its own (possibly wrong/mismatched) local clock — fixes resets firing early/late. */
+let serverTimeOffsetMs=0;
+db.ref('.info/serverTimeOffset').on('value', snap=>{
+  serverTimeOffsetMs = snap.val() || 0;
+});
+function nowSynced(){
+  // Correct absolute time (synced to Firebase's server clock), then shifted to
+  // Philippines time (UTC+8, no DST) — read back using the UTC getters below,
+  // so every device agrees on the same "4 PM" regardless of its own local timezone setting.
+  const utcMs = Date.now() + serverTimeOffsetMs;
+  return new Date(utcMs + 8*3600*1000);
+}
+
+function updateLiveClock(){
+  const el=document.getElementById('liveClock');
+  if(!el) return;
+  const d=nowSynced();
+  let h=d.getUTCHours();
+  const m=String(d.getUTCMinutes()).padStart(2,'0');
+  const s=String(d.getUTCSeconds()).padStart(2,'0');
+  const ampm = h>=12 ? 'PM' : 'AM';
+  h = h % 12; if(h===0) h=12;
+  el.textContent = String(h).padStart(2,'0')+':'+m+':'+s+' '+ampm;
+}
+setInterval(updateLiveClock, 1000);
+updateLiveClock();
+
 const STORAGE_KEY='games-click-standalone'; // used only as an offline fallback cache
 
 const GAME_ACCOUNTS=[
@@ -547,7 +576,7 @@ function setSyncStatus(status){
 
 function cacheLocally(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(games)); }catch(e){} }
 
-function gamesTodayStr(d){ d=d||new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function gamesTodayStr(d){ d=d||nowSynced(); return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0'); }
 
 function updateSetting(key, value){ gamesRef.child('settings/'+key).set(value); }
 
@@ -653,7 +682,7 @@ db.ref('presence').on('value', snap=>{
 });
 
 function checkGamesReset(){
-  const d=new Date(); const todayStr=gamesTodayStr(d); const hour=d.getHours();
+  const d=nowSynced(); const todayStr=gamesTodayStr(d); const hour=d.getUTCHours();
   const resetHours=new Set(GAME_TASKS.filter(t=>t.resetHour!=null).map(t=>t.resetHour));
   resetHours.add(16); // County Fair (always) / Task Event mode 2 (conditionally) also reset at 4PM
   const updates={};
@@ -679,9 +708,9 @@ function checkGamesReset(){
 }
 
 function checkWeeklyReset(){
-  const d=new Date();
-  const isMonday=d.getDay()===1; // 0=Sun, 1=Mon
-  const hour=d.getHours();
+  const d=nowSynced();
+  const isMonday=d.getUTCDay()===1; // 0=Sun, 1=Mon
+  const hour=d.getUTCHours();
   if(!(isMonday && hour>=8)) return;
   const todayStr=gamesTodayStr(d);
   const weeklyTasks=GAME_TASKS.filter(t=>t.weeklyReset);
@@ -720,11 +749,11 @@ function isFarmPassLocked(acct){
   return !!(games.settings.farmPassPerma && games.settings.farmPassPerma[acct.id]);
 }
 function isUrgentTask(task){
-  const h=new Date().getHours();
+  const h=nowSynced().getUTCHours();
   return task.resetHour===16 && h>=12 && h<16;
 }
 function isUrgentHourWindow(){
-  const h=new Date().getHours();
+  const h=nowSynced().getUTCHours();
   return h>=12 && h<16;
 }
 
