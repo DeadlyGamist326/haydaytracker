@@ -102,7 +102,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
   transition:opacity .14s ease, transform .14s ease;
   transform:translate(-50%,4px);
 }
-.gc-hover-card.gc-show{opacity:.5;transform:translate(-50%,0);}
+.gc-hover-card.gc-show{opacity:1;transform:translate(-50%,0);}
 .gc-hover-scrim-top{position:absolute;top:0;left:0;right:0;height:38%;background:linear-gradient(to bottom, rgba(0,0,0,.68), rgba(0,0,0,0));}
 .gc-hover-scrim-bottom{position:absolute;bottom:0;left:0;right:0;height:46%;background:linear-gradient(to top, rgba(0,0,0,.82), rgba(0,0,0,0));}
 .gc-hover-account{position:absolute;top:14px;left:12px;right:12px;text-align:center;font-family:var(--font-display);font-weight:700;font-size:18px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7);}
@@ -360,6 +360,9 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .te-mode-title{font-weight:700;font-size:13px;color:var(--ink);}
 .te-mode-option.selected .te-mode-title{color:var(--teal-deep);}
 .te-mode-sub{font-size:11px;color:var(--ink-soft);margin-top:2px;line-height:1.35;}
+.te-step-option{flex:1;border:2px solid var(--line);border-radius:8px;padding:6px;text-align:center;font-weight:700;font-size:13px;cursor:pointer;transition:border-color .15s ease,background .15s ease;}
+.te-step-option:hover{border-color:var(--ink-soft);}
+.te-step-option.selected{border-color:var(--teal);background:rgba(26,115,232,.1);color:var(--teal-deep);}
 .gc-name-ok:hover{background:var(--teal-deep);}
 .gc-name-ok:active{transform:scale(.96);}
 </style>
@@ -391,26 +394,63 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 </div>
 
 <div class="gc-name-modal" id="taskEventConfigModal">
-  <div class="gc-name-card" style="max-width:340px;">
+  <div class="gc-name-card" style="max-width:360px;max-height:85vh;overflow-y:auto;">
     <div class="gc-name-title">Task Event Settings</div>
     <div class="gc-name-sub">Applies for everyone, everywhere</div>
-    <div style="font-weight:700;font-size:12px;margin-top:16px;text-align:left;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.03em;">Choose mode</div>
+
+    <div style="font-weight:700;font-size:12px;margin-top:16px;text-align:left;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.03em;">Task Event 1 — Choose mode</div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
-      <div class="te-mode-option" data-mode="1" id="teModeBox1">
+      <div class="te-mode-option" data-slot="1" data-mode="1" id="te1ModeBox1">
         <div class="te-mode-title">Unlimited Task Event</div>
         <div class="te-mode-sub">Shows as an info row only — not checkable.</div>
       </div>
-      <div class="te-mode-option" data-mode="2" id="teModeBox2">
+      <div class="te-mode-option" data-slot="1" data-mode="2" id="te1ModeBox2">
         <div class="te-mode-title">Tasks per day</div>
         <div class="te-mode-sub">Counter resets to 0 every 4 PM. Set a daily target:</div>
-        <input type="number" id="teDailyTarget" min="1" max="999" placeholder="e.g. 5" style="margin-top:6px;width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);">
+        <input type="number" id="te1DailyTarget" min="1" max="999" placeholder="e.g. 5" style="margin-top:6px;width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);">
       </div>
-      <div class="te-mode-option" data-mode="3" id="teModeBox3">
+      <div class="te-mode-option" data-slot="1" data-mode="3" id="te1ModeBox3">
         <div class="te-mode-title">Tasks counter goal</div>
         <div class="te-mode-sub">No deadline. Set a total goal:</div>
-        <input type="number" id="teGoal" min="1" max="999999" placeholder="e.g. 100" style="margin-top:6px;width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);">
+        <input type="number" id="te1Goal" min="1" max="999999" placeholder="e.g. 100" style="margin-top:6px;width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);">
+      </div>
+      <div style="text-align:left;font-size:11px;color:var(--ink-soft);margin-top:2px;">+ / − step size:</div>
+      <div style="display:flex;gap:6px;">
+        <div class="te-step-option" data-slot="1" data-step="1" id="te1StepBox1">1</div>
+        <div class="te-step-option" data-slot="1" data-step="10" id="te1StepBox10">10</div>
       </div>
     </div>
+
+    <hr style="margin:18px 0;border:none;border-top:1px solid var(--line);">
+
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;font-size:13px;text-align:left;">
+      <input type="checkbox" id="te2EnableCheckbox" style="width:16px;height:16px;"> Enable a second Task Event
+    </label>
+    <div id="te2SettingsWrap" style="display:none;margin-top:12px;">
+      <div style="font-weight:700;font-size:12px;text-align:left;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.03em;">Task Event 2 — Choose mode</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+        <div class="te-mode-option" data-slot="2" data-mode="1" id="te2ModeBox1">
+          <div class="te-mode-title">Unlimited Task Event</div>
+          <div class="te-mode-sub">Shows as an info row only — not checkable.</div>
+        </div>
+        <div class="te-mode-option" data-slot="2" data-mode="2" id="te2ModeBox2">
+          <div class="te-mode-title">Tasks per day</div>
+          <div class="te-mode-sub">Counter resets to 0 every 4 PM. Set a daily target:</div>
+          <input type="number" id="te2DailyTarget" min="1" max="999" placeholder="e.g. 5" style="margin-top:6px;width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);">
+        </div>
+        <div class="te-mode-option" data-slot="2" data-mode="3" id="te2ModeBox3">
+          <div class="te-mode-title">Tasks counter goal</div>
+          <div class="te-mode-sub">No deadline. Set a total goal:</div>
+          <input type="number" id="te2Goal" min="1" max="999999" placeholder="e.g. 100" style="margin-top:6px;width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);">
+        </div>
+        <div style="text-align:left;font-size:11px;color:var(--ink-soft);margin-top:2px;">+ / − step size:</div>
+        <div style="display:flex;gap:6px;">
+          <div class="te-step-option" data-slot="2" data-step="1" id="te2StepBox1">1</div>
+          <div class="te-step-option" data-slot="2" data-step="10" id="te2StepBox10">10</div>
+        </div>
+      </div>
+    </div>
+
     <div class="gc-name-input-row" style="margin-top:16px;">
       <button class="gc-name-ok" id="teConfigCancel" style="background:var(--ink-soft);flex:1;">Cancel</button>
       <button class="gc-name-ok" id="teConfigSave" style="flex:1;">Save</button>
@@ -452,7 +492,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
       <button class="icon-btn" id="barnToggleBtn" title="Show Max Barn Capacity in this view" style="display:none;flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage2.png" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Barn</span></button>
       <button class="icon-btn" id="siloToggleBtn" title="Show Max Silo Capacity in this view" style="display:none;flex-direction:column;gap:1px;padding:4px 8px;"><span style="font-size:18px;line-height:1;">🌾</span><span style="font-size:8px;line-height:1;">Silo</span></button>
       <button class="icon-btn" id="countyFairToggleBtn" title="Toggle County Fair for everyone" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/County%20Fair%20Event.png" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">County Fair</span></button>
-      <button class="icon-btn" id="taskEventToggleBtn" title="Toggle Task Event for everyone (long-press to configure)" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/Task%20Event.png" style="width:18px;height:18px;object-fit:contain;border-radius:4px;"><span style="font-size:8px;line-height:1;">Task Event</span></button>
+      <button class="icon-btn" id="taskEventToggleBtn" title="Toggle Task Event 1 for everyone (long-press to configure Task Event 1 &amp; 2)" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/Task%20Event.png" style="width:18px;height:18px;object-fit:contain;border-radius:4px;"><span style="font-size:8px;line-height:1;">Task Event</span></button>
       <button class="icon-btn" id="valleyToggleBtn" title="Show/hide The Valley tasks for everyone" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://static.wikia.nocookie.net/hayday/images/8/80/Valley_Board.png/revision/latest?cb=20190625060045" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Valley</span></button>
       <button class="icon-btn" id="noResetToggleBtn" title="Show/hide Derby, Boat, Fishing, Town and Nurture for everyone" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://static.wikia.nocookie.net/hayday/images/2/2c/Riverboat.png/revision/latest?cb=20150712182459" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Other Tasks</span></button>
       <button class="icon-btn" id="farmPassToggleBtn" title="Show/hide Farm Pass for everyone (long-press to set monthly perma-check)" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://static.wikia.nocookie.net/hayday/images/d/d2/Farm_Pass_Building.png/revision/latest/scale-to-width-down/1200?cb=20211016095743" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Farm Pass</span></button>
@@ -693,6 +733,7 @@ function checkGamesReset(){
       if(rh===16){
         ids.add('countyfair');
         if(games.settings && games.settings.taskEventMode===2) ids.add('taskevent');
+        if(games.settings && games.settings.taskEvent2Mode===2) ids.add('taskevent2');
       }
       Object.keys(games.checks).forEach(k=>{
         if(!ids.has(k.split('::')[0])) return;
@@ -1089,13 +1130,15 @@ function buildCountyFairRowDesktop(){
   return tr;
 }
 
-function buildTaskEventRowDesktop(){
+function buildTaskEventRowDesktop(slot){
+  slot=slot||1;
   const tr=document.createElement('tr'); tr.className='task-row task-event-row';
   const labelTd=document.createElement('td'); labelTd.className='task-cell';
   const inner=document.createElement('div'); inner.className='task-cell-inner';
   const img=document.createElement('img'); img.className='task-icon'; img.src=TASK_EVENT_ICON; img.alt=''; img.loading='lazy';
-  const text=document.createElement('span'); text.className='task-cell-text'; text.textContent='Task Event';
-  const mode=games.settings.taskEventMode||1;
+  const text=document.createElement('span'); text.className='task-cell-text'; text.textContent='Task Event'+(slot===2?' 2':'');
+  const mode=getTaskEventMode(slot);
+  const step=getTaskEventStep(slot);
   const tag=document.createElement('span'); tag.className='reset-tag';
   tag.textContent = mode===1 ? ' (Unlimited)' : mode===2 ? ' (Resets 4 PM)' : ' (Goal)';
   text.appendChild(tag);
@@ -1108,8 +1151,8 @@ function buildTaskEventRowDesktop(){
       td.classList.add('te-uncheckable-cell');
       td.textContent='—';
     } else {
-      const max = mode===2 ? (games.settings.taskEventDailyTarget||1) : (games.settings.taskEventGoal||1);
-      const key=getTaskEventKey(acct.id);
+      const max=getTaskEventMax(slot);
+      const key=getTaskEventKey(acct.id, slot);
       const val=games.checks[key]||0;
       const complete=val>=max;
       const urgent = mode===2 && isUrgentHourWindow() && !complete;
@@ -1117,8 +1160,8 @@ function buildTaskEventRowDesktop(){
       const minusBtn=document.createElement('div'); minusBtn.className='gc-td-counter-btn gc-td-counter-minus'; minusBtn.textContent='−';
       const plusBtn=document.createElement('div'); plusBtn.className='gc-td-counter-btn gc-td-counter-plus'; plusBtn.textContent='+';
       const numEl=document.createElement('div'); numEl.className='gc-td-counter-num'; numEl.textContent=val;
-      minusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, -1); renderGamesTable(); };
-      plusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, 1); renderGamesTable(); };
+      minusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, -step); renderGamesTable(); };
+      plusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, step); renderGamesTable(); };
       td.appendChild(minusBtn); td.appendChild(numEl); td.appendChild(plusBtn);
     }
     tr.appendChild(td);
@@ -1138,7 +1181,8 @@ function renderGamesTable(){
   tbody.appendChild(buildBarnRow());
   tbody.appendChild(buildSiloRow());
   if(games.settings.countyFairEnabled) tbody.appendChild(buildCountyFairRowDesktop());
-  if(games.settings.taskEventEnabled) tbody.appendChild(buildTaskEventRowDesktop());
+  if(games.settings.taskEventEnabled) tbody.appendChild(buildTaskEventRowDesktop(1));
+  if(games.settings.taskEvent2Enabled) tbody.appendChild(buildTaskEventRowDesktop(2));
   let currentGroup=null;
   let taskRowIndex=0;
   const visibleTasks=GAME_TASKS.filter(t=> !(t.hideFlag && games.settings[t.hideFlag]===false));
@@ -1474,10 +1518,22 @@ function buildCountyFairCard(acct){
 
 /* ---- Task Event: universal (Firebase-synced) toggle + 3 configurable modes ---- */
 const TASK_EVENT_ICON='https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/Task%20Event.png';
-function getTaskEventKey(acctId){ return 'taskevent::'+acctId; }
-function buildTaskEventCard(acct){
-  const mode=games.settings.taskEventMode||1;
-  const key=getTaskEventKey(acct.id);
+function teKey(slot, base){ return (slot===2?'taskEvent2':'taskEvent')+base; }
+function getTaskEventTaskId(slot){ return slot===2 ? 'taskevent2' : 'taskevent'; }
+function getTaskEventKey(acctId, slot){ return getTaskEventTaskId(slot||1)+'::'+acctId; }
+function getTaskEventMode(slot){ return games.settings[teKey(slot||1,'Mode')]||1; }
+function getTaskEventMax(slot){
+  const mode=getTaskEventMode(slot);
+  return mode===2 ? (games.settings[teKey(slot||1,'DailyTarget')]||1) : (games.settings[teKey(slot||1,'Goal')]||1);
+}
+function getTaskEventStep(slot){ return games.settings[teKey(slot||1,'Step')]||1; }
+function isTaskEventEnabled(slot){ return !!games.settings[teKey(slot||1,'Enabled')]; }
+
+function buildTaskEventCard(acct, slot){
+  slot=slot||1;
+  const mode=getTaskEventMode(slot);
+  const key=getTaskEventKey(acct.id, slot);
+  const labelText='Task Event'+(slot===2?' 2':'');
 
   if(mode===1){
     // Unlimited — informational, not checkable
@@ -1485,7 +1541,7 @@ function buildTaskEventCard(acct){
     row.style.backgroundImage="url('"+TASK_EVENT_ICON+"')";
     const scrim=document.createElement('div'); scrim.className='gc-row-scrim';
     const label=document.createElement('div'); label.className='gc-row-label';
-    const ltext=document.createElement('span'); ltext.className='gc-row-text'; ltext.textContent='Task Event';
+    const ltext=document.createElement('span'); ltext.className='gc-row-text'; ltext.textContent=labelText;
     const tag=document.createElement('span'); tag.className='gc-row-tag'; tag.textContent='Unlimited';
     ltext.appendChild(tag);
     label.appendChild(ltext);
@@ -1493,7 +1549,8 @@ function buildTaskEventCard(acct){
     return row;
   }
 
-  const max = mode===2 ? (games.settings.taskEventDailyTarget||1) : (games.settings.taskEventGoal||1);
+  const max=getTaskEventMax(slot);
+  const step=getTaskEventStep(slot);
   const val=games.checks[key]||0;
   const complete=val>=max;
   const urgent = mode===2 && isUrgentHourWindow() && !complete;
@@ -1501,15 +1558,15 @@ function buildTaskEventCard(acct){
   row.style.backgroundImage="url('"+TASK_EVENT_ICON+"')";
   const scrim=document.createElement('div'); scrim.className='gc-row-scrim';
   const label=document.createElement('div'); label.className='gc-row-label';
-  const ltext=document.createElement('span'); ltext.className='gc-row-text'; ltext.textContent='Task Event';
+  const ltext=document.createElement('span'); ltext.className='gc-row-text'; ltext.textContent=labelText;
   const tag=document.createElement('span'); tag.className='gc-row-tag'; tag.textContent = mode===2 ? 'Resets 4 PM' : 'Goal';
   ltext.appendChild(tag);
   label.appendChild(ltext);
   const minusBtn=document.createElement('div'); minusBtn.className='gc-counter-btn gc-counter-minus'; minusBtn.textContent='−';
   const plusBtn=document.createElement('div'); plusBtn.className='gc-counter-btn gc-counter-plus'; plusBtn.textContent='+';
   const numDisplay=document.createElement('div'); numDisplay.className='gc-counter-num'+(complete?' complete':''); numDisplay.textContent=val+' / '+max;
-  minusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, -1); };
-  plusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, 1); };
+  minusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, -step); };
+  plusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, step); };
   const cluster=document.createElement('div'); cluster.className='gc-counter-cluster';
   cluster.appendChild(minusBtn); cluster.appendChild(numDisplay); cluster.appendChild(plusBtn);
   row.appendChild(scrim); row.appendChild(label); row.appendChild(cluster);
@@ -1529,11 +1586,12 @@ function adjustTaskEventCounter(acct, key, max, delta){
 function isCountyFairComplete(acct){
   return !!games.checks[getCountyFairKey(acct.id)];
 }
-function isTaskEventComplete(acct){
-  const mode=games.settings.taskEventMode||1;
+function isTaskEventComplete(acct, slot){
+  slot=slot||1;
+  const mode=getTaskEventMode(slot);
   if(mode===1) return false; // unlimited/uncheckable — never "completes", always stays pinned
-  const max = mode===2 ? (games.settings.taskEventDailyTarget||1) : (games.settings.taskEventGoal||1);
-  const val=games.checks[getTaskEventKey(acct.id)]||0;
+  const max=getTaskEventMax(slot);
+  const val=games.checks[getTaskEventKey(acct.id, slot)]||0;
   return val>=max;
 }
 
@@ -1549,7 +1607,8 @@ function isEverythingDoneForAccount(acct){
   const anyTaskLeft = MOBILE_LAYOUT.some(section=>section.rows.some(row=>isRowVisible(row) && !isRowComplete(row, acct)));
   if(anyTaskLeft) return false;
   if(games.settings.countyFairEnabled && !isCountyFairComplete(acct)) return false;
-  if(games.settings.taskEventEnabled && (games.settings.taskEventMode||1)!==1 && !isTaskEventComplete(acct)) return false;
+  if(games.settings.taskEventEnabled && (games.settings.taskEventMode||1)!==1 && !isTaskEventComplete(acct, 1)) return false;
+  if(games.settings.taskEvent2Enabled && (games.settings.taskEvent2Mode||1)!==1 && !isTaskEventComplete(acct, 2)) return false;
   return true;
 }
 function buildAllDoneCard(){
@@ -1793,7 +1852,8 @@ function renderMobileView(direction){
     list.appendChild(siloGroup);
   }
   const cfComplete = games.settings.countyFairEnabled && isCountyFairComplete(acct);
-  const teComplete = games.settings.taskEventEnabled && isTaskEventComplete(acct);
+  const teComplete = games.settings.taskEventEnabled && isTaskEventComplete(acct, 1);
+  const te2Complete = games.settings.taskEvent2Enabled && isTaskEventComplete(acct, 2);
   if(games.settings.countyFairEnabled && !cfComplete){
     const cfGroup=document.createElement('div'); cfGroup.className='gc-row-group size-wide';
     cfGroup.setAttribute('data-row-key', 'countyFairRow');
@@ -1805,8 +1865,15 @@ function renderMobileView(direction){
     const teGroup=document.createElement('div'); teGroup.className='gc-row-group size-wide';
     teGroup.setAttribute('data-row-key', 'taskEventRow');
     teGroup.style.gridTemplateColumns='repeat(1, 1fr)';
-    teGroup.appendChild(buildTaskEventCard(acct));
+    teGroup.appendChild(buildTaskEventCard(acct, 1));
     list.appendChild(teGroup);
+  }
+  if(games.settings.taskEvent2Enabled && !te2Complete){
+    const te2Group=document.createElement('div'); te2Group.className='gc-row-group size-wide';
+    te2Group.setAttribute('data-row-key', 'taskEvent2Row');
+    te2Group.style.gridTemplateColumns='repeat(1, 1fr)';
+    te2Group.appendChild(buildTaskEventCard(acct, 2));
+    list.appendChild(te2Group);
   }
 
   MOBILE_LAYOUT.forEach(section=>{
@@ -1820,7 +1887,7 @@ function renderMobileView(direction){
     section.rows.forEach(row=>{ if(isRowVisible(row) && isRowComplete(row, acct)) completedRows.push(row); });
   });
 
-  if(completedRows.length || cfComplete || teComplete){
+  if(completedRows.length || cfComplete || teComplete || te2Complete){
     const gh=document.createElement('div'); gh.className='gc-group-header gc-completed-header';
     gh.textContent='✅ Completed';
     list.appendChild(gh);
@@ -1835,8 +1902,15 @@ function renderMobileView(direction){
       const teGroup=document.createElement('div'); teGroup.className='gc-row-group size-wide';
       teGroup.setAttribute('data-row-key', 'taskEventRow');
       teGroup.style.gridTemplateColumns='repeat(1, 1fr)';
-      teGroup.appendChild(buildTaskEventCard(acct));
+      teGroup.appendChild(buildTaskEventCard(acct, 1));
       list.appendChild(teGroup);
+    }
+    if(te2Complete){
+      const te2Group=document.createElement('div'); te2Group.className='gc-row-group size-wide';
+      te2Group.setAttribute('data-row-key', 'taskEvent2Row');
+      te2Group.style.gridTemplateColumns='repeat(1, 1fr)';
+      te2Group.appendChild(buildTaskEventCard(acct, 2));
+      list.appendChild(te2Group);
     }
     completedRows.sort((a,b)=>rowSortIndex(a.key)-rowSortIndex(b.key));
     completedRows.forEach(row=>list.appendChild(buildRowGroup(row, acct)));
@@ -2062,7 +2136,7 @@ function renderMVUI(){
   }
 
   if(games.settings.taskEventEnabled){
-    const teIncomplete=accounts.filter(acct=>!isTaskEventComplete(acct));
+    const teIncomplete=accounts.filter(acct=>!isTaskEventComplete(acct, 1));
     if(teIncomplete.length){
       const teh=document.createElement('div'); teh.className='mvui-group-header';
       teh.style.gridRow=currentRow;
@@ -2076,8 +2150,33 @@ function renderMVUI(){
         const cell=document.createElement('div'); cell.className='mvui-col-cell';
         cell.setAttribute('data-acct-id', acct.id);
         cell.style.gridColumn=(i+1); cell.style.gridRow=teRow;
-        const card=buildTaskEventCard(acct);
+        const card=buildTaskEventCard(acct, 1);
         card.setAttribute('data-row-key', 'taskEventRow');
+        card.setAttribute('data-acct-id', acct.id);
+        cell.appendChild(card);
+        root.appendChild(cell);
+      });
+      currentRow++;
+    }
+  }
+
+  if(games.settings.taskEvent2Enabled){
+    const te2Incomplete=accounts.filter(acct=>!isTaskEventComplete(acct, 2));
+    if(te2Incomplete.length){
+      const te2h=document.createElement('div'); te2h.className='mvui-group-header';
+      te2h.style.gridRow=currentRow;
+      te2h.textContent='🎪 Task Event 2';
+      root.appendChild(te2h);
+      currentRow++;
+
+      const te2Row=currentRow;
+      te2Incomplete.forEach(acct=>{
+        const i=accounts.indexOf(acct);
+        const cell=document.createElement('div'); cell.className='mvui-col-cell';
+        cell.setAttribute('data-acct-id', acct.id);
+        cell.style.gridColumn=(i+1); cell.style.gridRow=te2Row;
+        const card=buildTaskEventCard(acct, 2);
+        card.setAttribute('data-row-key', 'taskEvent2Row');
         card.setAttribute('data-acct-id', acct.id);
         cell.appendChild(card);
         root.appendChild(cell);
@@ -2120,7 +2219,8 @@ function renderMVUI(){
   const anyCompleted=accounts.some(acct=>
     MOBILE_LAYOUT.some(s=>s.rows.some(row=>isRowVisible(row) && isRowComplete(row, acct))) ||
     (games.settings.countyFairEnabled && isCountyFairComplete(acct)) ||
-    (games.settings.taskEventEnabled && isTaskEventComplete(acct))
+    (games.settings.taskEventEnabled && isTaskEventComplete(acct, 1)) ||
+    (games.settings.taskEvent2Enabled && isTaskEventComplete(acct, 2))
   );
   if(anyCompleted){
     const gh=document.createElement('div'); gh.className='mvui-group-header mvui-completed-header';
@@ -2133,8 +2233,9 @@ function renderMVUI(){
     accounts.forEach((acct,i)=>{
       const completedRows=ROW_ORDER.filter(key=>isRowVisible(ROW_BY_KEY[key]) && isRowComplete(ROW_BY_KEY[key], acct)).map(key=>ROW_BY_KEY[key]);
       const cfDone = games.settings.countyFairEnabled && isCountyFairComplete(acct);
-      const teDone = games.settings.taskEventEnabled && isTaskEventComplete(acct);
-      if(!completedRows.length && !cfDone && !teDone) return;
+      const teDone = games.settings.taskEventEnabled && isTaskEventComplete(acct, 1);
+      const te2Done = games.settings.taskEvent2Enabled && isTaskEventComplete(acct, 2);
+      if(!completedRows.length && !cfDone && !teDone && !te2Done) return;
       const cell=document.createElement('div'); cell.className='mvui-col-cell';
       cell.setAttribute('data-acct-id', acct.id);
       cell.style.gridColumn=(i+1); cell.style.gridRow=cellsRow;
@@ -2144,8 +2245,13 @@ function renderMVUI(){
         cell.appendChild(card);
       }
       if(teDone){
-        const card=buildTaskEventCard(acct);
+        const card=buildTaskEventCard(acct, 1);
         card.setAttribute('data-row-key', 'taskEventRow'); card.setAttribute('data-acct-id', acct.id);
+        cell.appendChild(card);
+      }
+      if(te2Done){
+        const card=buildTaskEventCard(acct, 2);
+        card.setAttribute('data-row-key', 'taskEvent2Row'); card.setAttribute('data-acct-id', acct.id);
         cell.appendChild(card);
       }
       completedRows.forEach(row=>{
@@ -2331,24 +2437,48 @@ document.getElementById('noResetToggleBtn').onclick=()=>{
   });
 })();
 
-let teSelectedMode=1;
-function selectTeMode(mode){
-  teSelectedMode=mode;
-  document.querySelectorAll('.te-mode-option').forEach(el=>{
+let teSelectedMode={1:1, 2:1};
+let teSelectedStep={1:1, 2:1};
+function selectTeMode(slot, mode){
+  teSelectedMode[slot]=mode;
+  document.querySelectorAll('.te-mode-option[data-slot="'+slot+'"]').forEach(el=>{
     el.classList.toggle('selected', parseInt(el.getAttribute('data-mode'),10)===mode);
   });
 }
+function selectTeStep(slot, step){
+  teSelectedStep[slot]=step;
+  document.querySelectorAll('.te-step-option[data-slot="'+slot+'"]').forEach(el=>{
+    el.classList.toggle('selected', parseInt(el.getAttribute('data-step'),10)===step);
+  });
+}
 document.querySelectorAll('.te-mode-option').forEach(el=>{
-  el.addEventListener('click', ()=>selectTeMode(parseInt(el.getAttribute('data-mode'),10)));
+  el.addEventListener('click', ()=>selectTeMode(parseInt(el.getAttribute('data-slot'),10), parseInt(el.getAttribute('data-mode'),10)));
 });
-document.getElementById('teDailyTarget').addEventListener('click', e=>e.stopPropagation());
-document.getElementById('teGoal').addEventListener('click', e=>e.stopPropagation());
+document.querySelectorAll('.te-step-option').forEach(el=>{
+  el.addEventListener('click', ()=>selectTeStep(parseInt(el.getAttribute('data-slot'),10), parseInt(el.getAttribute('data-step'),10)));
+});
+document.getElementById('te1DailyTarget').addEventListener('click', e=>e.stopPropagation());
+document.getElementById('te1Goal').addEventListener('click', e=>e.stopPropagation());
+document.getElementById('te2DailyTarget').addEventListener('click', e=>e.stopPropagation());
+document.getElementById('te2Goal').addEventListener('click', e=>e.stopPropagation());
+document.getElementById('te2EnableCheckbox').addEventListener('change', e=>{
+  document.getElementById('te2SettingsWrap').style.display = e.target.checked ? '' : 'none';
+});
 
 function openTaskEventConfig(){
-  const mode=games.settings.taskEventMode||1;
-  selectTeMode(mode);
-  document.getElementById('teDailyTarget').value=games.settings.taskEventDailyTarget||'';
-  document.getElementById('teGoal').value=games.settings.taskEventGoal||'';
+  selectTeMode(1, games.settings.taskEventMode||1);
+  selectTeStep(1, games.settings.taskEventStep||1);
+  document.getElementById('te1DailyTarget').value=games.settings.taskEventDailyTarget||'';
+  document.getElementById('te1Goal').value=games.settings.taskEventGoal||'';
+
+  const te2Enabled=!!games.settings.taskEvent2Enabled;
+  document.getElementById('te2EnableCheckbox').checked=te2Enabled;
+  document.getElementById('te2SettingsWrap').style.display = te2Enabled ? '' : 'none';
+  selectTeMode(2, games.settings.taskEvent2Mode||1);
+  selectTeStep(2, games.settings.taskEvent2Step||1);
+  document.getElementById('te2DailyTarget').value=games.settings.taskEvent2DailyTarget||'';
+  document.getElementById('te2Goal').value=games.settings.taskEvent2Goal||'';
+
   document.getElementById('taskEventConfigModal').classList.add('gc-show');
 }
 function closeTaskEventConfig(){
@@ -2356,13 +2486,21 @@ function closeTaskEventConfig(){
 }
 document.getElementById('teConfigCancel').onclick=closeTaskEventConfig;
 document.getElementById('teConfigSave').onclick=()=>{
-  const mode=teSelectedMode;
-  const dailyTarget=Math.max(1, parseInt(document.getElementById('teDailyTarget').value,10)||1);
-  const goal=Math.max(1, parseInt(document.getElementById('teGoal').value,10)||1);
+  const dailyTarget1=Math.max(1, parseInt(document.getElementById('te1DailyTarget').value,10)||1);
+  const goal1=Math.max(1, parseInt(document.getElementById('te1Goal').value,10)||1);
+  const dailyTarget2=Math.max(1, parseInt(document.getElementById('te2DailyTarget').value,10)||1);
+  const goal2=Math.max(1, parseInt(document.getElementById('te2Goal').value,10)||1);
   gamesRef.child('settings').update({
-    taskEventMode: mode,
-    taskEventDailyTarget: dailyTarget,
-    taskEventGoal: goal
+    taskEventMode: teSelectedMode[1],
+    taskEventDailyTarget: dailyTarget1,
+    taskEventGoal: goal1,
+    taskEventStep: teSelectedStep[1],
+
+    taskEvent2Enabled: document.getElementById('te2EnableCheckbox').checked,
+    taskEvent2Mode: teSelectedMode[2],
+    taskEvent2DailyTarget: dailyTarget2,
+    taskEvent2Goal: goal2,
+    taskEvent2Step: teSelectedStep[2]
   });
   closeTaskEventConfig();
 };
