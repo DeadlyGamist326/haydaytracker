@@ -959,10 +959,58 @@ function getBarnStage(value){
 function getBarnKey(acctId){ return 'barn::'+acctId; }
 function getBarnValue(acctId){ return games.checks[getBarnKey(acctId)] || 0; }
 
+/* ---- Press-and-hold accelerator for +/- buttons: tap once for a single step;      ----
+   ---- hold it down and the jump size ramps up the longer you hold (like a volume slider). */
+let activeHoldStoppers=[];
+function stopAllHoldRepeats(){
+  activeHoldStoppers.forEach(fn=>fn());
+  activeHoldStoppers=[];
+}
+document.addEventListener('mouseup', stopAllHoldRepeats);
+document.addEventListener('touchend', stopAllHoldRepeats);
+document.addEventListener('touchcancel', stopAllHoldRepeats);
+
+function wireHoldRepeat(btn, baseStep, applyFn){
+  let holdTimer=null, repeatTimer=null, elapsedMs=0, active=false;
+  function magnitude(){
+    if(elapsedMs>=4000) return baseStep*25;
+    if(elapsedMs>=2500) return baseStep*10;
+    if(elapsedMs>=1200) return baseStep*4;
+    return baseStep;
+  }
+  function tick(){
+    elapsedMs+=130;
+    applyFn(magnitude());
+  }
+  function stop(){
+    if(!active) return;
+    active=false;
+    clearTimeout(holdTimer); clearInterval(repeatTimer);
+    holdTimer=null; repeatTimer=null; elapsedMs=0;
+    const idx=activeHoldStoppers.indexOf(stop);
+    if(idx>-1) activeHoldStoppers.splice(idx,1);
+  }
+  function start(e){
+    if(e.cancelable) e.preventDefault();
+    if(active) return;
+    active=true;
+    elapsedMs=0;
+    applyFn(baseStep); // immediate single step, so a plain tap still feels instant
+    activeHoldStoppers.push(stop);
+    holdTimer=setTimeout(()=>{ repeatTimer=setInterval(tick, 130); }, 400);
+  }
+  btn.addEventListener('mousedown', start);
+  btn.addEventListener('touchstart', start, {passive:false});
+  // Release is handled by the single document-level listeners above (see stopAllHoldRepeats) —
+  // not per-button — because some of these buttons get replaced by a fresh re-render mid-hold
+  // (the counter's own click handler rebuilds the table/cards), which would otherwise orphan
+  // a running interval with no element left to catch its mouseup/touchend.
+}
+
 function adjustBarnCapacity(acct, delta, imgEl, numEl){
   const key=getBarnKey(acct.id);
   const cur=getBarnValue(acct.id);
-  let next=cur+delta*25;
+  let next=cur+delta;
   if(next<0) next=0;
   if(next>10000) next=10000;
   if(next===cur) return;
@@ -1012,8 +1060,8 @@ function buildBarnRow(){
     const minusBtn=document.createElement('div'); minusBtn.className='barn-btn'; minusBtn.textContent='−';
     const numEl=document.createElement('div'); numEl.className='barn-num'; numEl.textContent=val;
     const plusBtn=document.createElement('div'); plusBtn.className='barn-btn'; plusBtn.textContent='+';
-    minusBtn.onclick=()=>adjustBarnCapacity(acct, -1, imgDiv, numEl);
-    plusBtn.onclick=()=>adjustBarnCapacity(acct, 1, imgDiv, numEl);
+    wireHoldRepeat(minusBtn, 25, mag=>adjustBarnCapacity(acct, -mag, imgDiv, numEl));
+    wireHoldRepeat(plusBtn, 25, mag=>adjustBarnCapacity(acct, mag, imgDiv, numEl));
     controls.appendChild(minusBtn); controls.appendChild(numEl); controls.appendChild(plusBtn);
     td.appendChild(imgDiv); td.appendChild(controls);
     tr.appendChild(td);
@@ -1037,7 +1085,7 @@ function getSiloValue(acctId){ return games.checks[getSiloKey(acctId)] || 0; }
 function adjustSiloCapacity(acct, delta, imgEl, numEl){
   const key=getSiloKey(acct.id);
   const cur=getSiloValue(acct.id);
-  let next=cur+delta*25;
+  let next=cur+delta;
   if(next<0) next=0;
   if(next>10000) next=10000;
   if(next===cur) return;
@@ -1088,8 +1136,8 @@ function buildSiloRow(){
     const minusBtn=document.createElement('div'); minusBtn.className='barn-btn'; minusBtn.textContent='−';
     const numEl=document.createElement('div'); numEl.className='barn-num'; numEl.textContent=val;
     const plusBtn=document.createElement('div'); plusBtn.className='barn-btn'; plusBtn.textContent='+';
-    minusBtn.onclick=()=>adjustSiloCapacity(acct, -1, imgDiv, numEl);
-    plusBtn.onclick=()=>adjustSiloCapacity(acct, 1, imgDiv, numEl);
+    wireHoldRepeat(minusBtn, 25, mag=>adjustSiloCapacity(acct, -mag, imgDiv, numEl));
+    wireHoldRepeat(plusBtn, 25, mag=>adjustSiloCapacity(acct, mag, imgDiv, numEl));
     controls.appendChild(minusBtn); controls.appendChild(numEl); controls.appendChild(plusBtn);
     td.appendChild(imgDiv); td.appendChild(controls);
     tr.appendChild(td);
@@ -1160,8 +1208,10 @@ function buildTaskEventRowDesktop(slot){
       const minusBtn=document.createElement('div'); minusBtn.className='gc-td-counter-btn gc-td-counter-minus'; minusBtn.textContent='−';
       const plusBtn=document.createElement('div'); plusBtn.className='gc-td-counter-btn gc-td-counter-plus'; plusBtn.textContent='+';
       const numEl=document.createElement('div'); numEl.className='gc-td-counter-num'; numEl.textContent=val;
-      minusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, -step); renderGamesTable(); };
-      plusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, step); renderGamesTable(); };
+      minusBtn.addEventListener('mousedown', e=>e.stopPropagation());
+      plusBtn.addEventListener('mousedown', e=>e.stopPropagation());
+      wireHoldRepeat(minusBtn, step, mag=>{ adjustTaskEventCounter(acct, key, max, -mag); renderGamesTable(); });
+      wireHoldRepeat(plusBtn, step, mag=>{ adjustTaskEventCounter(acct, key, max, mag); renderGamesTable(); });
       td.appendChild(minusBtn); td.appendChild(numEl); td.appendChild(plusBtn);
     }
     tr.appendChild(td);
@@ -1244,8 +1294,10 @@ function renderGamesTable(){
         const minusBtn=document.createElement('div'); minusBtn.className='gc-td-counter-btn gc-td-counter-minus'; minusBtn.textContent='−';
         const plusBtn=document.createElement('div'); plusBtn.className='gc-td-counter-btn gc-td-counter-plus'; plusBtn.textContent='+';
         const numEl=document.createElement('div'); numEl.className='gc-td-counter-num'; numEl.textContent=val;
-        minusBtn.onclick=e=>{ e.stopPropagation(); adjustCounter(task, acct, key, task.counterMax, -1); renderGamesTable(); };
-        plusBtn.onclick=e=>{ e.stopPropagation(); adjustCounter(task, acct, key, task.counterMax, 1); renderGamesTable(); };
+        minusBtn.addEventListener('mousedown', e=>e.stopPropagation());
+        plusBtn.addEventListener('mousedown', e=>e.stopPropagation());
+        wireHoldRepeat(minusBtn, 1, mag=>{ adjustCounter(task, acct, key, task.counterMax, -mag); renderGamesTable(); });
+        wireHoldRepeat(plusBtn, 1, mag=>{ adjustCounter(task, acct, key, task.counterMax, mag); renderGamesTable(); });
         td.appendChild(minusBtn); td.appendChild(numEl); td.appendChild(plusBtn);
         td.addEventListener('mouseenter', ()=>showHoverCard(td, task, acct));
         td.addEventListener('mouseleave', hideHoverCard);
@@ -1468,8 +1520,10 @@ function buildBarnCardMobile(acct){
   const minusBtn=document.createElement('div'); minusBtn.className='gc-counter-btn gc-counter-minus'; minusBtn.textContent='−';
   const plusBtn=document.createElement('div'); plusBtn.className='gc-counter-btn gc-counter-plus'; plusBtn.textContent='+';
   const numDisplay=document.createElement('div'); numDisplay.className='gc-counter-num'; numDisplay.textContent=val;
-  minusBtn.onclick=e=>{ e.stopPropagation(); adjustBarnCapacity(acct, -1, row, numDisplay); };
-  plusBtn.onclick=e=>{ e.stopPropagation(); adjustBarnCapacity(acct, 1, row, numDisplay); };
+  minusBtn.addEventListener('mousedown', e=>e.stopPropagation());
+  plusBtn.addEventListener('mousedown', e=>e.stopPropagation());
+  wireHoldRepeat(minusBtn, 25, mag=>adjustBarnCapacity(acct, -mag, row, numDisplay));
+  wireHoldRepeat(plusBtn, 25, mag=>adjustBarnCapacity(acct, mag, row, numDisplay));
   row.appendChild(label); row.appendChild(minusBtn); row.appendChild(plusBtn); row.appendChild(numDisplay);
   return row;
 }
@@ -1485,8 +1539,10 @@ function buildSiloCardMobile(acct){
   const minusBtn=document.createElement('div'); minusBtn.className='gc-counter-btn gc-counter-minus'; minusBtn.textContent='−';
   const plusBtn=document.createElement('div'); plusBtn.className='gc-counter-btn gc-counter-plus'; plusBtn.textContent='+';
   const numDisplay=document.createElement('div'); numDisplay.className='gc-counter-num'; numDisplay.textContent=val;
-  minusBtn.onclick=e=>{ e.stopPropagation(); adjustSiloCapacity(acct, -1, row, numDisplay); };
-  plusBtn.onclick=e=>{ e.stopPropagation(); adjustSiloCapacity(acct, 1, row, numDisplay); };
+  minusBtn.addEventListener('mousedown', e=>e.stopPropagation());
+  plusBtn.addEventListener('mousedown', e=>e.stopPropagation());
+  wireHoldRepeat(minusBtn, 25, mag=>adjustSiloCapacity(acct, -mag, row, numDisplay));
+  wireHoldRepeat(plusBtn, 25, mag=>adjustSiloCapacity(acct, mag, row, numDisplay));
   row.appendChild(label); row.appendChild(minusBtn); row.appendChild(plusBtn); row.appendChild(numDisplay);
   return row;
 }
@@ -1565,8 +1621,10 @@ function buildTaskEventCard(acct, slot){
   const minusBtn=document.createElement('div'); minusBtn.className='gc-counter-btn gc-counter-minus'; minusBtn.textContent='−';
   const plusBtn=document.createElement('div'); plusBtn.className='gc-counter-btn gc-counter-plus'; plusBtn.textContent='+';
   const numDisplay=document.createElement('div'); numDisplay.className='gc-counter-num'+(complete?' complete':''); numDisplay.textContent=val+' / '+max;
-  minusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, -step); };
-  plusBtn.onclick=e=>{ e.stopPropagation(); adjustTaskEventCounter(acct, key, max, step); };
+  minusBtn.addEventListener('mousedown', e=>e.stopPropagation());
+  plusBtn.addEventListener('mousedown', e=>e.stopPropagation());
+  wireHoldRepeat(minusBtn, step, mag=>adjustTaskEventCounter(acct, key, max, -mag));
+  wireHoldRepeat(plusBtn, step, mag=>adjustTaskEventCounter(acct, key, max, mag));
   const cluster=document.createElement('div'); cluster.className='gc-counter-cluster';
   cluster.appendChild(minusBtn); cluster.appendChild(numDisplay); cluster.appendChild(plusBtn);
   row.appendChild(scrim); row.appendChild(label); row.appendChild(cluster);
@@ -1754,11 +1812,13 @@ function buildCounterCard(task, acct, max){
 
   const minusBtn=document.createElement('div'); minusBtn.className='gc-counter-btn gc-counter-minus';
   minusBtn.textContent='−';
-  minusBtn.onclick=e=>{ e.stopPropagation(); adjustCounter(task, acct, key, max, -1); };
+  minusBtn.addEventListener('mousedown', e=>e.stopPropagation());
+  wireHoldRepeat(minusBtn, 1, mag=>adjustCounter(task, acct, key, max, -mag));
 
   const plusBtn=document.createElement('div'); plusBtn.className='gc-counter-btn gc-counter-plus';
   plusBtn.textContent='+';
-  plusBtn.onclick=e=>{ e.stopPropagation(); adjustCounter(task, acct, key, max, 1); };
+  plusBtn.addEventListener('mousedown', e=>e.stopPropagation());
+  wireHoldRepeat(plusBtn, 1, mag=>adjustCounter(task, acct, key, max, mag));
 
   const numDisplay=document.createElement('div'); numDisplay.className='gc-counter-num'+(complete?' complete':'');
   numDisplay.textContent=val+' / '+max;
