@@ -377,6 +377,9 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .te-step-option{flex:1;border:2px solid var(--line);border-radius:8px;padding:6px;text-align:center;font-weight:700;font-size:13px;cursor:pointer;transition:border-color .15s ease,background .15s ease;}
 .te-step-option:hover{border-color:var(--ink-soft);}
 .te-step-option.selected{border-color:var(--teal);background:rgba(26,115,232,.1);color:var(--teal-deep);}
+.te-endhour-option{flex:1;border:2px solid var(--line);border-radius:8px;padding:6px;text-align:center;font-weight:700;font-size:12px;cursor:pointer;transition:border-color .15s ease,background .15s ease;}
+.te-endhour-option:hover{border-color:var(--ink-soft);}
+.te-endhour-option.selected{border-color:var(--teal);background:rgba(26,115,232,.1);color:var(--teal-deep);}
 .gc-name-ok:hover{background:var(--teal-deep);}
 .gc-name-ok:active{transform:scale(.96);}
 </style>
@@ -432,7 +435,8 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
     <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;">
 
       <div class="te-slot-box" id="te1SlotBox" style="flex:1;min-width:210px;border:1.5px solid var(--line);border-radius:12px;padding:12px;text-align:left;">
-        <div style="font-weight:700;font-size:13px;margin-bottom:8px;">Task Event 1</div>
+        <div style="font-weight:700;font-size:13px;margin-bottom:6px;">Task Event 1</div>
+        <input type="text" id="te1Name" maxlength="30" placeholder="Pangalan (opsyonal)" style="width:100%;margin-bottom:8px;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:12px;">
         <div style="display:flex;flex-direction:column;gap:6px;">
           <div class="te-mode-option" data-slot="1" data-mode="1" id="te1ModeBox1">
             <div class="te-mode-title">Unlimited</div>
@@ -453,6 +457,14 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
             <div class="te-step-option" data-slot="1" data-step="1" id="te1StepBox1">1</div>
             <div class="te-step-option" data-slot="1" data-step="10" id="te1StepBox10">10</div>
           </div>
+          <div style="font-size:11px;color:var(--ink-soft);margin-top:8px;">Event countdown (optional) — ends at:</div>
+          <div style="display:flex;gap:6px;">
+            <div class="te-endhour-option" data-slot="1" data-hour="8" id="te1EndHourBox8">8 AM</div>
+            <div class="te-endhour-option" data-slot="1" data-hour="16" id="te1EndHourBox16">4 PM</div>
+          </div>
+          <input type="number" id="te1Days" min="0" max="365" placeholder="Ilang araw mula ngayon" style="width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);">
+          <button class="gc-name-ok" id="te1SetCountdownBtn" style="width:100%;background:var(--teal);font-size:11px;padding:7px;">⏱ Set Countdown</button>
+          <div id="te1CountdownStatus" style="font-size:11px;color:var(--teal-deep);font-weight:700;"></div>
           <button class="gc-name-ok" id="te1ResetBtn" style="width:100%;margin-top:6px;background:#D93025;font-size:11px;padding:7px;">↻ Reset progress (all accounts)</button>
         </div>
       </div>
@@ -462,6 +474,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
           <input type="checkbox" id="te2EnableCheckbox" style="width:16px;height:16px;pointer-events:auto;"> Task Event 2
         </label>
         <div id="te2InnerContent" style="display:flex;flex-direction:column;gap:6px;pointer-events:none;">
+          <input type="text" id="te2Name" maxlength="30" placeholder="Pangalan (opsyonal)" style="width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:12px;">
           <div class="te-mode-option" data-slot="2" data-mode="1" id="te2ModeBox1">
             <div class="te-mode-title">Unlimited</div>
             <div class="te-mode-sub">Info row only — not checkable.</div>
@@ -481,6 +494,14 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
             <div class="te-step-option" data-slot="2" data-step="1" id="te2StepBox1">1</div>
             <div class="te-step-option" data-slot="2" data-step="10" id="te2StepBox10">10</div>
           </div>
+          <div style="font-size:11px;color:var(--ink-soft);margin-top:8px;">Event countdown (optional) — ends at:</div>
+          <div style="display:flex;gap:6px;">
+            <div class="te-endhour-option" data-slot="2" data-hour="8" id="te2EndHourBox8">8 AM</div>
+            <div class="te-endhour-option" data-slot="2" data-hour="16" id="te2EndHourBox16">4 PM</div>
+          </div>
+          <input type="number" id="te2Days" min="0" max="365" placeholder="Ilang araw mula ngayon" style="width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);">
+          <button class="gc-name-ok" id="te2SetCountdownBtn" style="width:100%;background:var(--teal);font-size:11px;padding:7px;">⏱ Set Countdown</button>
+          <div id="te2CountdownStatus" style="font-size:11px;color:var(--teal-deep);font-weight:700;"></div>
           <button class="gc-name-ok" id="te2ResetBtn" style="width:100%;margin-top:6px;background:#D93025;font-size:11px;padding:7px;">↻ Reset progress (all accounts)</button>
         </div>
       </div>
@@ -1331,12 +1352,18 @@ function buildTaskEventRowDesktop(slot){
   const labelTd=document.createElement('td'); labelTd.className='task-cell';
   const inner=document.createElement('div'); inner.className='task-cell-inner';
   const img=document.createElement('img'); img.className='task-icon'; img.src=TASK_EVENT_ICON; img.alt=''; img.loading='lazy';
-  const text=document.createElement('span'); text.className='task-cell-text'; text.textContent='Task Event'+(slot===2?' 2':'');
+  const text=document.createElement('span'); text.className='task-cell-text'; text.textContent=getTaskEventName(slot);
   const mode=getTaskEventMode(slot);
   const step=getTaskEventStep(slot);
   const tag=document.createElement('span'); tag.className='reset-tag';
   tag.textContent = mode===1 ? ' (Unlimited)' : mode===2 ? ' (Resets 4 PM)' : ' (Goal)';
   text.appendChild(tag);
+  const cdText=getTaskEventCountdownText(slot);
+  if(cdText){
+    const cdTag=document.createElement('span'); cdTag.className='reset-tag te-countdown-tag'; cdTag.setAttribute('data-te-slot', slot);
+    cdTag.textContent=' ⏱ '+cdText;
+    text.appendChild(cdTag);
+  }
   inner.appendChild(img); inner.appendChild(text); labelTd.appendChild(inner);
   tr.appendChild(labelTd);
 
@@ -1731,12 +1758,44 @@ function getTaskEventMax(slot){
 }
 function getTaskEventStep(slot){ return games.settings[teKey(slot||1,'Step')]||1; }
 function isTaskEventEnabled(slot){ return !!games.settings[teKey(slot||1,'Enabled')]; }
+function getTaskEventName(slot){
+  slot=slot||1;
+  const custom=games.settings[teKey(slot,'Name')];
+  return (custom && custom.trim()) ? custom.trim() : ('Task Event'+(slot===2?' 2':''));
+}
+
+/* ---- Task Event countdown: an optional "this event ends on [day] at [8AM/4PM]" timer ---- */
+function trueNowMs(){ return Date.now() + serverTimeOffsetMs; }
+function computeTaskEventEndAt(days, endHour){
+  const ph=nowSynced(); // PH-local calendar fields, read via the UTC getters (see nowSynced)
+  const targetPhMoment=new Date(Date.UTC(
+    ph.getUTCFullYear(), ph.getUTCMonth(), ph.getUTCDate()+days,
+    endHour, 0, 0, 0
+  ));
+  return targetPhMoment.getTime() - 8*3600*1000; // convert back to a true, storable UTC ms timestamp
+}
+function formatEventCountdown(remainingMs){
+  if(remainingMs<=0) return 'Ended';
+  const totalMin=Math.floor(remainingMs/60000);
+  const days=Math.floor(totalMin/1440);
+  const hours=Math.floor((totalMin%1440)/60);
+  const mins=totalMin%60;
+  if(days>0) return days+'d '+hours+'h left';
+  if(hours>0) return hours+'h '+mins+'m left';
+  return mins+'m left';
+}
+function getTaskEventEndAt(slot){ return games.settings[teKey(slot||1,'EndAt')]||null; }
+function getTaskEventCountdownText(slot){
+  const endAt=getTaskEventEndAt(slot);
+  if(!endAt) return null;
+  return formatEventCountdown(endAt-trueNowMs());
+}
 
 function buildTaskEventCard(acct, slot){
   slot=slot||1;
   const mode=getTaskEventMode(slot);
   const key=getTaskEventKey(acct.id, slot);
-  const labelText='Task Event'+(slot===2?' 2':'');
+  const labelText=getTaskEventName(slot);
 
   if(mode===1){
     // Unlimited — informational, not checkable
@@ -1747,6 +1806,12 @@ function buildTaskEventCard(acct, slot){
     const ltext=document.createElement('span'); ltext.className='gc-row-text'; ltext.textContent=labelText;
     const tag=document.createElement('span'); tag.className='gc-row-tag'; tag.textContent='Unlimited';
     ltext.appendChild(tag);
+    const cdText=getTaskEventCountdownText(slot);
+    if(cdText){
+      const cdTag=document.createElement('span'); cdTag.className='gc-row-tag te-countdown-tag'; cdTag.setAttribute('data-te-slot', slot);
+      cdTag.textContent=' · ⏱ '+cdText;
+      ltext.appendChild(cdTag);
+    }
     label.appendChild(ltext);
     row.appendChild(scrim); row.appendChild(label);
     return row;
@@ -1764,6 +1829,12 @@ function buildTaskEventCard(acct, slot){
   const ltext=document.createElement('span'); ltext.className='gc-row-text'; ltext.textContent=labelText;
   const tag=document.createElement('span'); tag.className='gc-row-tag'; tag.textContent = mode===2 ? 'Resets 4 PM' : 'Goal';
   ltext.appendChild(tag);
+  const cdText=getTaskEventCountdownText(slot);
+  if(cdText){
+    const cdTag=document.createElement('span'); cdTag.className='gc-row-tag te-countdown-tag'; cdTag.setAttribute('data-te-slot', slot);
+    cdTag.textContent=' · ⏱ '+cdText;
+    ltext.appendChild(cdTag);
+  }
   label.appendChild(ltext);
   const minusBtn=document.createElement('div'); minusBtn.className='gc-counter-btn gc-counter-minus'; minusBtn.textContent='−';
   const plusBtn=document.createElement('div'); plusBtn.className='gc-counter-btn gc-counter-plus'; plusBtn.textContent='+';
@@ -2351,7 +2422,7 @@ function renderMVUI(){
     if(teIncomplete.length){
       const teh=document.createElement('div'); teh.className='mvui-group-header';
       teh.style.gridRow=currentRow;
-      teh.textContent='🎪 Task Event';
+      teh.textContent='🎪 '+getTaskEventName(1);
       root.appendChild(teh);
       currentRow++;
 
@@ -2376,7 +2447,7 @@ function renderMVUI(){
     if(te2Incomplete.length){
       const te2h=document.createElement('div'); te2h.className='mvui-group-header';
       te2h.style.gridRow=currentRow;
-      te2h.textContent='🎪 Task Event 2';
+      te2h.textContent='🎪 '+getTaskEventName(2);
       root.appendChild(te2h);
       currentRow++;
 
@@ -2532,9 +2603,8 @@ function tickCountdowns(){
       const sig=computeCompletionSignature(acct);
       if(sig!==lastCompletionSignature){ renderMobileView(); return; }
     }
-  } else {
-    return; // desktop table, no cooldown widgets to tick there
   }
+  // (desktop table falls through here too, so Task Event countdown tags keep ticking there)
 
   document.querySelectorAll('.gc-cooldown-pill[data-cooldown-key]').forEach(pill=>{
     const key=pill.getAttribute('data-cooldown-key');
@@ -2547,6 +2617,11 @@ function tickCountdowns(){
     const ms=parseInt(btn.getAttribute('data-fish-ms'),10);
     const startedAt=games.checks[key];
     if(typeof startedAt==='number') btn.textContent=formatCountdown(ms-(Date.now()-startedAt));
+  });
+  document.querySelectorAll('.te-countdown-tag[data-te-slot]').forEach(tag=>{
+    const slot=parseInt(tag.getAttribute('data-te-slot'),10);
+    const cdText=getTaskEventCountdownText(slot);
+    if(cdText) tag.textContent = (tag.className.indexOf('reset-tag')>-1 ? ' ⏱ ' : ' · ⏱ ')+cdText;
   });
 }
 setInterval(tickCountdowns, 1000);
@@ -2662,6 +2737,37 @@ function selectTeStep(slot, step){
     el.classList.toggle('selected', parseInt(el.getAttribute('data-step'),10)===step);
   });
 }
+let teSelectedEndHour={1:16, 2:16};
+function selectTeEndHour(slot, hour){
+  teSelectedEndHour[slot]=hour;
+  document.querySelectorAll('.te-endhour-option[data-slot="'+slot+'"]').forEach(el=>{
+    el.classList.toggle('selected', parseInt(el.getAttribute('data-hour'),10)===hour);
+  });
+}
+document.querySelectorAll('.te-endhour-option').forEach(el=>{
+  el.addEventListener('click', ()=>selectTeEndHour(parseInt(el.getAttribute('data-slot'),10), parseInt(el.getAttribute('data-hour'),10)));
+});
+function refreshTeCountdownStatus(slot){
+  const statusEl=document.getElementById('te'+slot+'CountdownStatus');
+  const cdText=getTaskEventCountdownText(slot);
+  statusEl.textContent = cdText ? ('Current: ends in '+cdText) : 'Walang countdown na naka-set.';
+}
+document.getElementById('te1SetCountdownBtn').onclick=()=>{
+  const days=Math.max(0, parseInt(document.getElementById('te1Days').value,10)||0);
+  const endAt=computeTaskEventEndAt(days, teSelectedEndHour[1]);
+  gamesRef.child('settings').update({ taskEventEndHour: teSelectedEndHour[1], taskEventEndAt: endAt });
+  games.settings.taskEventEndHour=teSelectedEndHour[1];
+  games.settings.taskEventEndAt=endAt;
+  refreshTeCountdownStatus(1);
+};
+document.getElementById('te2SetCountdownBtn').onclick=()=>{
+  const days=Math.max(0, parseInt(document.getElementById('te2Days').value,10)||0);
+  const endAt=computeTaskEventEndAt(days, teSelectedEndHour[2]);
+  gamesRef.child('settings').update({ taskEvent2EndHour: teSelectedEndHour[2], taskEvent2EndAt: endAt });
+  games.settings.taskEvent2EndHour=teSelectedEndHour[2];
+  games.settings.taskEvent2EndAt=endAt;
+  refreshTeCountdownStatus(2);
+};
 document.querySelectorAll('.te-mode-option').forEach(el=>{
   el.addEventListener('click', ()=>selectTeMode(parseInt(el.getAttribute('data-slot'),10), parseInt(el.getAttribute('data-mode'),10)));
 });
@@ -2684,16 +2790,24 @@ document.getElementById('te2EnableCheckbox').addEventListener('change', e=>{
 function openTaskEventConfig(){
   selectTeMode(1, games.settings.taskEventMode||1);
   selectTeStep(1, games.settings.taskEventStep||1);
+  selectTeEndHour(1, games.settings.taskEventEndHour||16);
+  document.getElementById('te1Name').value=games.settings.taskEventName||'';
   document.getElementById('te1DailyTarget').value=games.settings.taskEventDailyTarget||'';
   document.getElementById('te1Goal').value=games.settings.taskEventGoal||'';
+  document.getElementById('te1Days').value='';
+  refreshTeCountdownStatus(1);
 
   const te2Enabled=!!games.settings.taskEvent2Enabled;
   document.getElementById('te2EnableCheckbox').checked=te2Enabled;
   setTe2BoxEnabled(te2Enabled);
   selectTeMode(2, games.settings.taskEvent2Mode||1);
   selectTeStep(2, games.settings.taskEvent2Step||1);
+  selectTeEndHour(2, games.settings.taskEvent2EndHour||16);
+  document.getElementById('te2Name').value=games.settings.taskEvent2Name||'';
   document.getElementById('te2DailyTarget').value=games.settings.taskEvent2DailyTarget||'';
   document.getElementById('te2Goal').value=games.settings.taskEvent2Goal||'';
+  document.getElementById('te2Days').value='';
+  refreshTeCountdownStatus(2);
 
   document.getElementById('taskEventConfigModal').classList.add('gc-show');
 }
@@ -2706,13 +2820,17 @@ document.getElementById('teConfigSave').onclick=()=>{
   const goal1=Math.max(1, parseInt(document.getElementById('te1Goal').value,10)||1);
   const dailyTarget2=Math.max(1, parseInt(document.getElementById('te2DailyTarget').value,10)||1);
   const goal2=Math.max(1, parseInt(document.getElementById('te2Goal').value,10)||1);
+  const name1=document.getElementById('te1Name').value.trim();
+  const name2=document.getElementById('te2Name').value.trim();
   gamesRef.child('settings').update({
+    taskEventName: name1 || null,
     taskEventMode: teSelectedMode[1],
     taskEventDailyTarget: dailyTarget1,
     taskEventGoal: goal1,
     taskEventStep: teSelectedStep[1],
 
     taskEvent2Enabled: document.getElementById('te2EnableCheckbox').checked,
+    taskEvent2Name: name2 || null,
     taskEvent2Mode: teSelectedMode[2],
     taskEvent2DailyTarget: dailyTarget2,
     taskEvent2Goal: goal2,
@@ -2739,15 +2857,21 @@ document.getElementById('teSwapBtn').onclick=()=>{
   const s=games.settings;
   const updates={
     'settings/taskEventEnabled': !!s.taskEvent2Enabled,
+    'settings/taskEventName': s.taskEvent2Name || null,
     'settings/taskEventMode': s.taskEvent2Mode||1,
     'settings/taskEventDailyTarget': s.taskEvent2DailyTarget||1,
     'settings/taskEventGoal': s.taskEvent2Goal||1,
     'settings/taskEventStep': s.taskEvent2Step||1,
     'settings/taskEvent2Enabled': !!s.taskEventEnabled,
+    'settings/taskEvent2Name': s.taskEventName || null,
     'settings/taskEvent2Mode': s.taskEventMode||1,
     'settings/taskEvent2DailyTarget': s.taskEventDailyTarget||1,
     'settings/taskEvent2Goal': s.taskEventGoal||1,
-    'settings/taskEvent2Step': s.taskEventStep||1
+    'settings/taskEvent2Step': s.taskEventStep||1,
+    'settings/taskEventEndHour': s.taskEvent2EndHour||16,
+    'settings/taskEventEndAt': s.taskEvent2EndAt||null,
+    'settings/taskEvent2EndHour': s.taskEventEndHour||16,
+    'settings/taskEvent2EndAt': s.taskEventEndAt||null
   };
   GAME_ACCOUNTS.forEach(acct=>{
     const v1=games.checks[getTaskEventKey(acct.id,1)];
