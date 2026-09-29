@@ -1827,7 +1827,7 @@ function buildTaskEventCard(acct, slot){
   const scrim=document.createElement('div'); scrim.className='gc-row-scrim';
   const label=document.createElement('div'); label.className='gc-row-label';
   const ltext=document.createElement('span'); ltext.className='gc-row-text'; ltext.textContent=labelText;
-  const tag=document.createElement('span'); tag.className='gc-row-tag'; tag.textContent = mode===2 ? 'Resets 4 PM' : 'Goal';
+  const tag=document.createElement('span'); tag.className='gc-row-tag'; tag.textContent = mode===2 ? 'Resets 4 PM' : (val+'/'+max+' Goal');
   ltext.appendChild(tag);
   const cdText=getTaskEventCountdownText(slot);
   if(cdText){
