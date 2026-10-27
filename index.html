@@ -647,8 +647,12 @@ const gamesRef = db.ref('games');
 /* ---- Server-synced time: every device computes "now" using Firebase's server clock,   ----
    ---- not its own (possibly wrong/mismatched) local clock — fixes resets firing early/late. */
 let serverTimeOffsetMs=0;
+let serverTimeReady=false;   // resets must NOT run until we know the real server time
+let gamesSynced=false;       // ...and until we've loaded the real (not cached) data from Firebase
 db.ref('.info/serverTimeOffset').on('value', snap=>{
   serverTimeOffsetMs = snap.val() || 0;
+  serverTimeReady = true;
+  if(typeof checkGamesReset==='function'){ checkGamesReset(); checkWeeklyReset(); }
 });
 function nowSynced(){
   // Correct absolute time (synced to Firebase's server clock), then shifted to
@@ -761,6 +765,7 @@ gamesRef.on('value', snapshot=>{
     gamesRef.set(games);
   }
   cacheLocally();
+  gamesSynced=true;
   checkGamesReset();
   checkWeeklyReset();
   renderGamesTable();
@@ -955,34 +960,51 @@ db.ref('presence').on('value', snap=>{
   ).join('');
 });
 
+/* ---- Daily resets ----
+   Safe against: wrong device clocks (waits for server time), stale cached data (waits for real
+   Firebase data), and several devices resetting at once (a Firebase transaction on the
+   "last reset" date lets exactly ONE device win and clear the boxes — everyone else backs off,
+   so a box you tick right after the reset is never wiped by another device's late reset). */
+const resetInFlight={};
 function checkGamesReset(){
+  if(!serverTimeReady || !gamesSynced) return;
   const d=nowSynced(); const todayStr=gamesTodayStr(d); const hour=d.getUTCHours();
   const resetHours=new Set(GAME_TASKS.filter(t=>t.resetHour!=null).map(t=>t.resetHour));
   resetHours.add(16); // County Fair (always) / Task Event mode 2 (conditionally) also reset at 4PM
-  const updates={};
-  let changed=false;
   resetHours.forEach(rh=>{
-    if(hour>=rh && games.lastResetDates[rh]!==todayStr){
-      const ids=new Set(GAME_TASKS.filter(t=>t.resetHour===rh).map(t=>t.id));
-      if(rh===16){
-        ids.add('countyfair');
-        if(games.settings && games.settings.taskEventMode===2) ids.add('taskevent');
-        if(games.settings && games.settings.taskEvent2Mode===2) ids.add('taskevent2');
-      }
-      Object.keys(games.checks).forEach(k=>{
-        if(!ids.has(k.split('::')[0])) return;
-        const [kTaskId, kAcctId]=k.split('::');
-        if(kTaskId==='g6' && games.settings && games.settings.farmPassPerma && games.settings.farmPassPerma[kAcctId]) return; // perma-checked — never cleared by the daily reset
-        updates['games/checks/'+k]=null;
-      });
-      updates['games/lastResetDates/'+rh]=todayStr;
-      changed=true;
-    }
+    if(hour<rh) return;
+    if(games.lastResetDates[rh]===todayStr) return;
+    if(resetInFlight[rh]) return;
+    resetInFlight[rh]=true;
+    db.ref('games/lastResetDates/'+rh).transaction(cur=>{
+      return cur===todayStr ? undefined : todayStr;   // undefined = someone already reset today -> abort
+    }, (err, committed)=>{
+      if(err || !committed){ resetInFlight[rh]=false; return; }
+      // We won the race: clear the right boxes using the freshest data.
+      gamesRef.once('value').then(snap=>{
+        const val=snap.val()||{};
+        const checks=val.checks||{}; const settings=val.settings||{};
+        const ids=new Set(GAME_TASKS.filter(t=>t.resetHour===rh).map(t=>t.id));
+        if(rh===16){
+          ids.add('countyfair');
+          if(settings.taskEventMode===2) ids.add('taskevent');
+          if(settings.taskEvent2Mode===2) ids.add('taskevent2');
+        }
+        const updates={};
+        Object.keys(checks).forEach(k=>{
+          const [kTaskId, kAcctId]=k.split('::');
+          if(!ids.has(kTaskId)) return;
+          if(kTaskId==='g6' && settings.farmPassPerma && settings.farmPassPerma[kAcctId]) return; // perma-checked — never cleared
+          updates['games/checks/'+k]=null;
+        });
+        if(Object.keys(updates).length) return db.ref().update(updates);
+      }).catch(()=>{}).then(()=>{ resetInFlight[rh]=false; });
+    }, false);
   });
-  if(changed){ db.ref().update(updates); } // pushes the reset to every connected device
 }
 
 function checkWeeklyReset(){
+  if(!serverTimeReady || !gamesSynced) return;
   const d=nowSynced();
   const isMonday=d.getUTCDay()===1; // 0=Sun, 1=Mon
   const hour=d.getUTCHours();
@@ -3189,11 +3211,13 @@ document.getElementById('syncBadge').onclick=renameSelf;
   }
 })();
 
-checkGamesReset();
-checkWeeklyReset();
 renderGamesTable();
 updateUndoButtonState();
-setInterval(()=>{ checkGamesReset(); checkWeeklyReset(); renderGamesTable(); }, 60000);
+// Re-check every few seconds (so it fires right at 8 AM / 4 PM) and the moment the tab wakes up
+setInterval(()=>{ checkGamesReset(); checkWeeklyReset(); }, 5000);
+setInterval(()=>{ renderGamesTable(); }, 60000);
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden){ checkGamesReset(); checkWeeklyReset(); renderGamesTable(); } });
+window.addEventListener('focus', ()=>{ checkGamesReset(); checkWeeklyReset(); });
 
 /* ================= SPLASH SCREEN ================= */
 (function splashInit(){
