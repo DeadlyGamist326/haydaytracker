@@ -3130,7 +3130,8 @@ function buildUpgradeTable(){
           const next=all[all.indexOf(inp)+1];
           if(next){ next.focus(); next.select(); next.scrollIntoView({block:'nearest'}); } else { inp.blur(); }
         } else if(e.key==='Escape'){
-          inp.value=upgGet(acct.id,m.id); inp.blur();
+          e.stopPropagation();   // first Esc only removes the typing cursor — the menu stays open
+          inp.blur();
         }
       });
       bindUpgTip(c, m, acct);
