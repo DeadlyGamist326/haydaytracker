@@ -766,6 +766,7 @@ gamesRef.on('value', snapshot=>{
   }
   cacheLocally();
   gamesSynced=true;
+  ensureAlwaysOn();
   checkGamesReset();
   checkWeeklyReset();
   renderGamesTable();
@@ -994,6 +995,7 @@ function checkGamesReset(){
         Object.keys(checks).forEach(k=>{
           const [kTaskId, kAcctId]=k.split('::');
           if(!ids.has(kTaskId)) return;
+          if(isAlwaysOn(kTaskId, kAcctId)) return; // always-on cell is never cleared
           if(kTaskId==='g6' && settings.farmPassPerma && settings.farmPassPerma[kAcctId]) return; // perma-checked — never cleared
           updates['games/checks/'+k]=null;
         });
@@ -1025,7 +1027,23 @@ function checkWeeklyReset(){
   if(changed){ db.ref().update(updates); }
 }
 
+/* ---- "Where's my Naia~": Movie Ticket Ads is permanently checked in the data (counts as done),
+   but it LOOKS checked only when Wheel of Fortune + Shop Offer are both checked, so it never
+   stands out after a reset. It can't be toggled. ---- */
+const ALWAYS_ON_ACCT='wheresmynaia', ALWAYS_ON_TASK='g3';
+function isAlwaysOn(taskId, acctId){ return taskId===ALWAYS_ON_TASK && acctId===ALWAYS_ON_ACCT; }
+function isCheckedForDisplay(taskId, acctId){
+  if(isAlwaysOn(taskId, acctId)) return !!games.checks['g1::'+acctId] && !!games.checks['g2::'+acctId];
+  return !!games.checks[taskId+'::'+acctId];
+}
+function ensureAlwaysOn(){
+  if(!gamesSynced) return;
+  const key=ALWAYS_ON_TASK+'::'+ALWAYS_ON_ACCT;
+  if(games.checks[key]!==true){ games.checks[key]=true; gamesRef.child('checks/'+key).set(true); }
+}
+
 function toggleGameCheck(taskId, acctId, cellEl){
+  if(isAlwaysOn(taskId, acctId)) return;
   const key=taskId+'::'+acctId;
   const isOn=!!games.checks[key];
   // optimistic UI update so it feels instant; the Firebase listener will reconcile shortly after
@@ -1537,7 +1555,7 @@ function renderGamesTable(){
     const urgent=isUrgentTask(task);
     GAME_ACCOUNTS.forEach((acct, colIdx)=>{
       const key=task.id+'::'+acct.id;
-      const checked=!!games.checks[key];
+      const checked=isCheckedForDisplay(task.id, acct.id);
       const td=document.createElement('td'); td.className='game-cell'+(checked?' checked':'')+((urgent&&!checked)?' urgent':'');
 
       if(task.id==='g6' && isFarmPassLocked(acct)){
@@ -1662,7 +1680,7 @@ let lastCompletionSignature=null;
 function buildMobileCard(task, acct, size){
   const key=task.id+'::'+acct.id;
   const locked = task.id==='g6' && isFarmPassLocked(acct);
-  const checked = locked || !!games.checks[key];
+  const checked = locked || isCheckedForDisplay(task.id, acct.id);
   const urgent=isUrgentTask(task);
   const row=document.createElement('div'); row.className='gc-row'+(checked?' checked':'')+((urgent&&!checked)?' urgent':'')+(locked?' farm-pass-locked-card':'');
   const iconToUse = (size==='wide' && task.iconWide) ? task.iconWide : task.icon;
