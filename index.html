@@ -3113,7 +3113,8 @@ function buildUpgradeTable(){
       inp.value=upgGet(acct.id,m.id); inp.classList.toggle('zero', inp.value==='0');
       inp.addEventListener('focus',()=>setTimeout(()=>{ if(document.activeElement===inp) inp.select(); },0));
       inp.addEventListener('mouseup',e=>e.preventDefault());
-      inp.addEventListener('input',()=>{ inp.value=inp.value.replace(/[^0-9]/g,'').slice(0,6); updateUpgTotals(); });
+      inp.addEventListener('input',()=>{ inp.value=inp.value.replace(/[^0-9]/g,'').slice(0,6); updateUpgTotals(); upgBumpIdle(); });
+      inp.addEventListener('focus',upgBumpIdle);
       const commit=()=>{
         const n=upgParse(inp.value);
         if(n!==upgGet(acct.id,m.id)) upgSet(acct.id,m.id,n);
@@ -3121,10 +3122,13 @@ function buildUpgradeTable(){
       };
       inp.addEventListener('blur',commit);
       inp.addEventListener('keydown',e=>{
+        upgBumpIdle();
         if(e.key==='Enter'){
           e.preventDefault(); commit();
-          const next=tr.querySelectorAll('.upg-input')[i+1];
-          if(next){ next.focus(); next.select(); } else { inp.blur(); }
+          // next cell in the row; after the last one, jump to the first cell of the next account
+          const all=Array.from(document.querySelectorAll('#upgTable .upg-input'));
+          const next=all[all.indexOf(inp)+1];
+          if(next){ next.focus(); next.select(); next.scrollIntoView({block:'nearest'}); } else { inp.blur(); }
         } else if(e.key==='Escape'){
           inp.value=upgGet(acct.id,m.id); inp.blur();
         }
@@ -3160,6 +3164,15 @@ function bindUpgTip(el, mat, acct){
   });
   el.addEventListener('mousemove',move);
   el.addEventListener('mouseleave',()=>tip.classList.remove('show'));
+}
+/* typing cursor goes away after 5 minutes of no typing */
+let upgIdleTimer=null;
+function upgBumpIdle(){
+  clearTimeout(upgIdleTimer);
+  upgIdleTimer=setTimeout(()=>{
+    const a=document.activeElement;
+    if(a && a.classList && a.classList.contains('upg-input')) a.blur();
+  }, 5*60*1000);
 }
 function refreshUpgradeMenu(){
   const m=document.getElementById('upgradeModal');
