@@ -1344,7 +1344,14 @@ function buildBarnRow(){
 }
 
 /* ================= Max Silo Capacity (same functionality as Barn — pics TBD) ================= */
-const SILO_ICONS=['','','','','',''];
+const SILO_ICONS=[
+  'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/SiloStage1.png',
+  'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/SiloStage2.png',
+  'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/SiloStage3.png',
+  'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/SiloStage4.png',
+  'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/SiloStage5.png',
+  'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/SiloStage6.png'
+];
 function getSiloStage(value){
   if(value<=25) return 1;
   if(value<=50) return 2;
