@@ -349,6 +349,8 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
   padding:20px;
 }
 .gc-name-modal.gc-show{display:flex;}
+.gc-name-card.exp-card{max-width:min(96vw,520px) !important;width:min(96vw,520px) !important;max-height:92vh;overflow:auto;box-sizing:border-box;}
+
 /* ===== Account Level badge ===== */
 .lvl-badge{--bs:30px;position:absolute;top:-2px;left:calc(50% - var(--bs)/2);width:var(--bs);height:var(--bs);display:flex;align-items:center;justify-content:center;background:center/contain no-repeat url("https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/LevelStar.png");color:#fff;font-family:var(--font-display);font-weight:normal;line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.65),0 0 3px rgba(0,30,90,.8);cursor:pointer;user-select:none;box-sizing:border-box;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));transition:transform .15s cubic-bezier(.34,1.56,.64,1);z-index:2;}
 .lvl-badge:hover{transform:scale(1.2) rotate(-6deg);}
@@ -588,6 +590,17 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
     <div style="overflow:auto;"><table class="upg-table" id="lvlTable"></table></div>
   </div>
 </div>
+<div class="gc-name-modal" id="expModal">
+  <div class="gc-name-card exp-card">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/ExpansionLandDeed.png" alt="" style="height:34px;">
+      <div class="gc-name-title" style="margin:0;flex:1;text-align:left;">Expansion Materials</div>
+      <button class="gc-name-ok" id="expClose" style="background:var(--ink-soft);padding:6px 14px;">Close</button>
+    </div>
+    <div class="gc-name-sub" style="text-align:left;margin-top:6px;">I-click ang number para palitan — Enter para lumipat sa susunod.</div>
+    <div style="overflow:auto;"><table class="upg-table" id="expTable"></table></div>
+  </div>
+</div>
 <div class="gc-name-modal" id="upgradeModal">
   <div class="gc-name-card upg-card">
     <div style="display:flex;align-items:center;gap:8px;">
@@ -621,6 +634,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
       <button class="icon-btn" id="undoBtn" title="Undo the last check/uncheck action">↶ Undo</button>
       <button class="icon-btn" id="resetBtn" title="Manually reset all checks">↻ Reset all</button>
       <button class="icon-btn" id="levelBtn" title="Edit account levels"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/LevelStar.png" alt="">Levels</button>
+      <button class="icon-btn" id="expBtn" title="Expansion Materials"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/ExpansionLandDeed.png" alt="" style="height:18px;width:18px;object-fit:contain;display:block;">Expansion</button>
       <button class="icon-btn" id="barnToggleBtn" title="Show Max Barn Capacity in this view" style="display:none;flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage2.png" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Barn</span></button>
       <button class="icon-btn" id="siloToggleBtn" title="Show Max Silo Capacity in this view" style="display:none;flex-direction:column;gap:1px;padding:4px 8px;"><span style="font-size:18px;line-height:1;">🌾</span><span style="font-size:8px;line-height:1;">Silo</span></button>
       <button class="icon-btn" id="countyFairToggleBtn" title="Toggle County Fair for everyone" style="flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/County%20Fair%20Event.png" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">County Fair</span></button>
@@ -811,6 +825,7 @@ gamesRef.on('value', snapshot=>{
   applyUniversalToggleButtons();
   if(typeof refreshUpgradeMenu==='function') refreshUpgradeMenu();
   if(typeof refreshLevelMenu==='function') refreshLevelMenu();
+  if(typeof refreshExpMenu==='function') refreshExpMenu();
 }, err=>{ setSyncStatus('offline'); });
 
 /* ---- Presence: show who else is online right now ---- */
@@ -2836,7 +2851,7 @@ applyResponsiveMode();
 document.getElementById('resetBtn').onclick=()=>{
   if(!confirm('Clear all checks for every account and task? Pwede mo pang i-Undo agad kung magbago isip mo.')) return;
   // Persistent stats (barn/silo capacity, upgrade materials, account levels, always-on cell) are NOT reset
-  const KEEP=/^(barn|silo|upg|level)::/;
+  const KEEP=/^(barn|silo|upg|level|exp)::/;
   const changes={}, updates={};
   Object.keys(games.checks||{}).forEach(k=>{
     if(KEEP.test(k) || isAlwaysOn(...k.split('::'))) return;
@@ -3193,6 +3208,103 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape' && document.getElementById('levelModal').classList.contains('gc-show') && !(document.activeElement && document.activeElement.classList.contains('lvl-input'))) closeLevelMenu();
 });
 
+/* ================= Expansion Materials menu ================= */
+const EXPANSION_MATS=[
+  {id:'deed',  label:'Land Deed',    img:"https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/ExpansionLandDeed.png"},
+  {id:'mallet',label:'Mallet',       img:"https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/ExpansionMallet.png"},
+  {id:'stake', label:'Marker Stake', img:"https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/ExpansionMarkerStake.png"}
+];
+function expKey(a,m){ return 'exp::'+a+'::'+m; }
+function expGet(a,m){ const v=games.checks[expKey(a,m)]; return (typeof v==='number')?v:0; }
+function expSet(a,m,n){
+  const key=expKey(a,m); const prev=rawSnapshot(key);
+  writeCheckValue(key, n>0 ? n : false);
+  recordUndo({type:'delta', changes:{[key]:prev}});
+}
+let expIdleTimer=null;
+function expBumpIdle(){
+  clearTimeout(expIdleTimer);
+  expIdleTimer=setTimeout(()=>{ const a=document.activeElement; if(a && a.classList && a.classList.contains('exp-input')) a.blur(); }, 5*60*1000);
+}
+function buildExpTable(){
+  const t=document.getElementById('expTable'); t.innerHTML='';
+  const thead=document.createElement('thead');
+  const r1=document.createElement('tr');
+  const a=document.createElement('th'); a.className='upg-acct'; a.rowSpan=2; a.textContent='Account'; r1.appendChild(a);
+  const g=document.createElement('th'); g.colSpan=EXPANSION_MATS.length; g.className='upg-grp'; g.textContent='Expansion Materials'; r1.appendChild(g);
+  thead.appendChild(r1);
+  const r2=document.createElement('tr');
+  EXPANSION_MATS.forEach(m=>{
+    const th=document.createElement('th'); const im=document.createElement('img'); im.className='upg-mat-img'; im.src=m.img; im.alt=m.label;
+    th.appendChild(im); bindUpgTip(th, m, null); r2.appendChild(th);
+  });
+  thead.appendChild(r2); t.appendChild(thead);
+  const tb=document.createElement('tbody');
+  const trT=document.createElement('tr'); trT.className='upg-total';
+  const tdT=document.createElement('td'); tdT.className='upg-acct'; tdT.textContent='Total'; trT.appendChild(tdT);
+  EXPANSION_MATS.forEach(m=>{ const c=document.createElement('td'); c.className='exp-total-cell'; c.setAttribute('data-mat',m.id); c.textContent='0'; trT.appendChild(c); });
+  tb.appendChild(trT);
+  GAME_ACCOUNTS.forEach(acct=>{
+    const tr=document.createElement('tr');
+    const td=document.createElement('td'); td.className='upg-acct'; td.textContent=acct.label; tr.appendChild(td);
+    EXPANSION_MATS.forEach(m=>{
+      const c=document.createElement('td');
+      const inp=document.createElement('input'); inp.type='text'; inp.inputMode='numeric'; inp.autocomplete='off';
+      inp.className='upg-input exp-input'; inp.setAttribute('data-acct',acct.id); inp.setAttribute('data-mat',m.id);
+      inp.value=expGet(acct.id,m.id); inp.classList.toggle('zero', inp.value==='0');
+      inp.addEventListener('focus',()=>{ expBumpIdle(); setTimeout(()=>{ if(document.activeElement===inp) inp.select(); },0); });
+      inp.addEventListener('mouseup',e=>e.preventDefault());
+      inp.addEventListener('input',()=>{ inp.value=inp.value.replace(/[^0-9]/g,'').slice(0,6); updateExpTotals(); expBumpIdle(); });
+      const commit=()=>{
+        const n=upgParse(inp.value);
+        if(n!==expGet(acct.id,m.id)) expSet(acct.id,m.id,n);
+        inp.value=n; inp.classList.toggle('zero', n===0); updateExpTotals();
+      };
+      inp.addEventListener('blur',commit);
+      inp.addEventListener('keydown',e=>{
+        expBumpIdle();
+        if(e.key==='Enter'){
+          e.preventDefault(); commit();
+          const all=Array.from(document.querySelectorAll('#expTable .exp-input'));
+          const next=all[all.indexOf(inp)+1];
+          if(next){ next.focus(); next.select(); next.scrollIntoView({block:'nearest'}); } else { inp.blur(); }
+        } else if(e.key==='Escape'){ e.stopPropagation(); inp.blur(); }
+      });
+      bindUpgTip(c, m, acct);
+      c.appendChild(inp); tr.appendChild(c);
+    });
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  updateExpTotals();
+}
+function updateExpTotals(){
+  const sums={};
+  document.querySelectorAll('#expTable .exp-input').forEach(inp=>{ const m=inp.getAttribute('data-mat'); sums[m]=(sums[m]||0)+upgParse(inp.value); });
+  document.querySelectorAll('#expTable .exp-total-cell').forEach(c=>{ c.textContent=(sums[c.getAttribute('data-mat')]||0).toLocaleString(); });
+}
+function refreshExpMenu(){
+  const m=document.getElementById('expModal');
+  if(!m || !m.classList.contains('gc-show')) return;
+  m.querySelectorAll('.exp-input').forEach(inp=>{
+    if(document.activeElement===inp) return;
+    const v=expGet(inp.getAttribute('data-acct'), inp.getAttribute('data-mat')); inp.value=v; inp.classList.toggle('zero', v===0);
+  });
+  updateExpTotals();
+}
+function openExpMenu(){ buildExpTable(); document.getElementById('expModal').classList.add('gc-show'); }
+function closeExpMenu(){
+  const a=document.activeElement; if(a && a.classList && a.classList.contains('exp-input')) a.blur();
+  document.getElementById('upgTip').classList.remove('show');
+  document.getElementById('expModal').classList.remove('gc-show');
+}
+document.getElementById('expBtn').onclick=openExpMenu;
+document.getElementById('expClose').onclick=closeExpMenu;
+document.getElementById('expModal').addEventListener('mousedown',e=>{ if(e.target.id==='expModal') closeExpMenu(); });
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && document.getElementById('expModal').classList.contains('gc-show') && !(document.activeElement && document.activeElement.classList.contains('exp-input'))) closeExpMenu();
+});
+
 /* ================= Upgrade Materials menu ================= */
 function upgKey(acctId,matId){ return 'upg::'+acctId+'::'+matId; }
 function upgGet(acctId,matId){ const v=games.checks[upgKey(acctId,matId)]; return (typeof v==='number')?v:0; }
@@ -3291,7 +3403,7 @@ function bindUpgTip(el, mat, acct){
   };
   el.addEventListener('mouseenter',e=>{
     document.getElementById('upgTipImg').src=mat.img;
-    document.getElementById('upgTipItem').textContent=mat.label+' ('+(mat.group==='barn'?'Barn':'Silo')+')';
+    document.getElementById('upgTipItem').textContent=mat.label+(mat.group?' ('+(mat.group==='barn'?'Barn':'Silo')+')':'');
     document.getElementById('upgTipPlayer').textContent=acct?acct.label:'';
     document.getElementById('upgTipPlayer').style.display=acct?'':'none';
     tip.classList.add('show'); move(e);
