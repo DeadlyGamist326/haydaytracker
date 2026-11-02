@@ -354,6 +354,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 /* ===== Account Level badge ===== */
 .lvl-badge{--bs:30px;position:absolute;top:-2px;left:calc(50% - var(--bs)/2);width:var(--bs);height:var(--bs);display:flex;align-items:center;justify-content:center;background:center/contain no-repeat url("https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/LevelStar.png");color:#fff;font-family:var(--font-display);font-weight:normal;line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.65),0 0 3px rgba(0,30,90,.8);cursor:pointer;user-select:none;box-sizing:border-box;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));transition:transform .15s cubic-bezier(.34,1.56,.64,1);z-index:2;}
 .lvl-badge:hover{transform:scale(1.2) rotate(-6deg);}
+.acct-name{display:inline-block;white-space:nowrap;max-width:100%;}
 .lvl-badge span{display:block;white-space:nowrap;font-size:calc(var(--bs)*.4333);transform:translate(calc(var(--bs)*.01667),calc(var(--bs)*-.1));}
 .lvl-badge.d3 span,.lvl-badge.d4 span{font-size:calc(var(--bs)*.45);}
 .lvl-badge.inline{position:relative;top:auto;left:auto;right:auto;display:inline-flex;vertical-align:middle;margin-left:8px;--bs:32px;}
@@ -1565,7 +1566,7 @@ function renderGamesTable(){
   const table=document.createElement('table'); table.className='games-table';
   const thead=document.createElement('thead'); const htr=document.createElement('tr');
   htr.appendChild(document.createElement('th'));
-  GAME_ACCOUNTS.forEach(a=>{ const th=document.createElement('th'); th.textContent=a.label; th.appendChild(makeLevelBadge(a,false)); htr.appendChild(th); });
+  GAME_ACCOUNTS.forEach(a=>{ const th=document.createElement('th'); const nm=document.createElement('span'); nm.className='acct-name'; nm.textContent=a.label; th.appendChild(nm); th.appendChild(makeLevelBadge(a,false)); htr.appendChild(th); });
   thead.appendChild(htr); table.appendChild(thead);
   const tbody=document.createElement('tbody');
   DRAG_GRID=[]; DRAG_CELL_BY_KEY={};
@@ -2493,7 +2494,7 @@ function renderMVUI(){
     const head=document.createElement('div'); head.className='mvui-acct-head';
     head.setAttribute('data-acct-id', acct.id);
     head.style.gridColumn=(i+1); head.style.gridRow=currentRow;
-    head.textContent=acct.label;
+    const hn=document.createElement('span'); hn.className='acct-name'; hn.textContent=acct.label; head.appendChild(hn);
     head.appendChild(makeLevelBadge(acct,false));
     head.onclick=()=>toggleMvuiFocus(acct.id);
     root.appendChild(head);
@@ -3130,6 +3131,26 @@ document.getElementById('fpConfigSave').onclick=()=>{
   gamesRef.update(updates);
   closeFarmPassConfig();
 };
+
+/* ---- Account names stay on ONE line: keep the original font size while it fits, shrink only when it doesn't ---- */
+function fitAcctNames(){
+  document.querySelectorAll('.acct-name').forEach(el=>{
+    const host=el.parentElement; if(!host) return;
+    el.style.fontSize='';                       // back to the original size first
+    const cs=getComputedStyle(host);
+    const avail=host.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+    if(avail<=0) return;
+    let size=parseFloat(getComputedStyle(el).fontSize);
+    const min=4;
+    while(el.scrollWidth>avail+0.5 && size>min){ size-=0.25; el.style.fontSize=size+'px'; }
+  });
+}
+let fitQueued=false;
+function queueFitAcctNames(){ if(fitQueued) return; fitQueued=true; requestAnimationFrame(()=>{ fitQueued=false; fitAcctNames(); }); }
+new MutationObserver(queueFitAcctNames).observe(document.body,{childList:true,subtree:true});
+window.addEventListener('resize',queueFitAcctNames);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(queueFitAcctNames);
+queueFitAcctNames();
 
 /* ================= Account Levels menu ================= */
 function lvlParse(str){ const n=parseInt(String(str).replace(/[^0-9]/g,''),10); return isNaN(n)?0:Math.min(n,9999); }
