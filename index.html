@@ -3137,6 +3137,7 @@ document.getElementById('fpConfigSave').onclick=()=>{
 /* ---- Row labels + pictures: fill the row ("sagad"). One font size for the normal rows (the biggest that fits the tightest one),
    pictures as tall as the row allows. Recomputed when the window or the rows change. ---- */
 let lblFitCache=null;
+const LBL_SCALE=0.72;   // how much of the biggest-possible label font to use (1 = fill the row completely)
 function fitTaskLabels(){
   const wrap=document.getElementById('gamesTableWrap'); if(!wrap) return;
   const table=wrap.querySelector('table.games-table'); if(!table || wrap.offsetParent===null) return;
@@ -3193,15 +3194,15 @@ function fitTaskLabels(){
   const Sreg=regular.length? Math.min.apply(null,regular.map(r=>r.S)) : 24;
   const plan=res.map((r,i)=>{
     if(!r) return null;
-    if(meas[i].special) return {f:Math.floor(Math.min(r.f,U*1.15)*4)/4, s:Math.floor(r.S)};
-    return {f:Math.floor(U*4)/4, s:Math.floor(Sreg)};
+    if(meas[i].special) return {f:Math.floor(Math.min(r.f,U*1.15)*LBL_SCALE*4)/4, s:Math.floor(r.S)};
+    return {f:Math.floor(U*LBL_SCALE*4)/4, s:Math.floor(Sreg)};
   });
   // group header ("Resets daily once 4 PM...") scales with its own row height
   const gh=cells.find(c=>c.grp);
-  if(gh){ const td=gh.tr.querySelector('td'); const hh=td?td.clientHeight:0; plan.grpF=Math.max(10.5,Math.min(hh*0.55,U)); }
+  if(gh){ const td=gh.tr.querySelector('td'); const hh=td?td.clientHeight:0; plan.grpF=Math.max(10.5,Math.min(hh*0.55,U)*LBL_SCALE); }
   apply(plan);
   // safety net: if the bigger text made the table taller than it naturally was, step the font down until it fits again
-  let guard=0, cur=U;
+  let guard=0, cur=U*LBL_SCALE;
   while(table.offsetHeight>H0+1 && cur>9 && guard++<60){
     cur-=0.5;
     cells.forEach((c,i)=>{
