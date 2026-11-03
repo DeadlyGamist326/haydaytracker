@@ -3490,6 +3490,7 @@ function reqRenderSlot(el){
     const im=document.createElement('img'); im.src=reqImg(d.item); im.alt=d.item.n; el.appendChild(im);
     const q=document.createElement('span'); q.className='req-q'; q.textContent=d.qty; el.appendChild(q);
   }
+  reqApplyL2();
 }
 function buildReqGrid(){
   const g=document.getElementById('reqGrid'); g.innerHTML='';
@@ -3529,14 +3530,13 @@ function buildReqGrid(){
         bd.appendChild(el);
       });
       bd.dataset.row=(b==='t'?0:2)+gi;
-      bd.addEventListener('click',e=>{ if(reqMode===2 && !e.target.closest('.req-slot')) reqToggleFocus(bd); });
       rowsList[(b==='t'?0:2)+gi].push(bd);
     });
   }));
   g.classList.toggle('req-l2',reqMode===2);
   if(reqMode===2){
     rowsList.forEach((arr,ri)=>{ const row=document.createElement('div'); row.className='req-row2'; row.dataset.row=ri; arr.forEach(bd=>row.appendChild(bd)); g.appendChild(row);
-      const f=arr.findIndex(bd=>bd.querySelector('.req-slot img')); reqFocusIdx[ri]=f>=0?f:-1; });
+    });
   } else rowsList.forEach(arr=>arr.forEach(bd=>g.appendChild(bd)));
   reqApplyL2(true);
   reqFitSigns();
@@ -3564,13 +3564,18 @@ const reqFocusIdx=[-1,-1,-1,-1];
 let reqW=150;
 function reqApplyL2(instant){
   const g=document.getElementById('reqGrid'); if(!g || reqMode!==2) return;
-  g.querySelectorAll('.req-row2').forEach(row=>{
-    const ri=+row.dataset.row, f=reqFocusIdx[ri], ratio=ri<2?0.9:0.9472;
-    row.style.height=(reqW*ratio)+'px';
-    Array.from(row.children).forEach((bd,i)=>{
-      const on=(f===i), dim=(f>=0 && !on);
+  const editBd=(reqEdState&&reqEdState.slot)?reqEdState.slot.parentNode:null;
+  const rows=Array.from(g.querySelectorAll('.req-row2'));
+  const hasOf=bd=>bd===editBd || !!bd.querySelector('.req-slot img');
+  // tables = rows 0-1, shops = rows 2-3. If any board of that kind has items, boards with items are focused and empty ones step aside.
+  [[0,1],[2,3]].forEach(grp=>{
+    const boards=[]; rows.forEach(r=>{ if(grp.includes(+r.dataset.row)) boards.push(...r.children); });
+    const any=boards.some(hasOf);
+    boards.forEach(bd=>{
+      const on=any&&hasOf(bd), dim=any&&!on, ri=+bd.parentNode.dataset.row;
+      bd.parentNode.style.height=(reqW*(ri<2?0.9:0.9472))+'px';
       if(instant) bd.style.transition='none';
-      bd.style.width=(dim? reqW*0.62 : reqW)+'px';
+      bd.style.width=(dim?reqW*0.62:reqW)+'px';
       bd.classList.toggle('focus',on); bd.classList.toggle('dim',dim);
       if(instant){ void bd.offsetWidth; bd.style.transition=''; }
     });
@@ -3578,8 +3583,7 @@ function reqApplyL2(instant){
   if(reqEdState){ clearTimeout(reqPlaceT); reqPlaceT=setTimeout(()=>{ if(reqEdState) reqPlace(reqEdState.slot,document.getElementById('reqEd')); },420); }
 }
 let reqPlaceT=null;
-function reqFocusBoard(bd){ if(reqMode!==2||!bd) return; const ri=+bd.dataset.row; const i=Array.from(bd.parentNode.children).indexOf(bd); if(reqFocusIdx[ri]===i) return; reqFocusIdx[ri]=i; reqApplyL2(); }
-function reqToggleFocus(bd){ const ri=+bd.dataset.row; const i=Array.from(bd.parentNode.children).indexOf(bd); reqFocusIdx[ri]=(reqFocusIdx[ri]===i)?-1:i; reqApplyL2(); }
+function reqFocusBoard(bd){ reqApplyL2(); }
 function reqLayout(){
   const m=document.getElementById('reqModal'); if(!m) return;
   const gap=6, pad=16+ 40; // card padding + modal padding
@@ -3596,13 +3600,13 @@ function reqFitSigns(){
   let n=0; while(sg.some(s=>s.scrollWidth>s.clientWidth+1) && fs>2.5 && n++<120){ fs-=0.1; sg.forEach(s=>{ s.style.fontSize=fs+'cqw'; }); }
 }
 let reqEdState=null;
-function reqCloseEd(){ document.getElementById('reqEd').classList.remove('show'); reqEdState=null; }
+function reqCloseEd(){ document.getElementById('reqEd').classList.remove('show'); reqEdState=null; reqApplyL2(); }
 function reqOpenEd(slot, step, opts){
   document.getElementById('upgTip').classList.remove('show');
-  reqFocusBoard(slot.parentNode);
   const a=slot.dataset.acct,b=slot.dataset.board,i=+slot.dataset.i;
   const cur=reqGet(a,b,i);
   reqEdState={slot,a,b,i,item:cur?cur.item:null,qty:cur?cur.qty:1,drag:!!(opts&&opts.drag)};
+  reqApplyL2();
   slot.scrollIntoView({block:'nearest',inline:'nearest'});
   const ed=document.getElementById('reqEd'); ed.classList.add('show');
   const ac=GAME_ACCOUNTS.find(x=>x.id===a);
