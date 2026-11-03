@@ -3577,10 +3577,12 @@ function reqPlace(slot,ed){
   ed.style.left=x+'px'; ed.style.top=y+'px';
 }
 function reqNorm(s){ return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim(); }
+function reqMaxLevel(){ let m=0; GAME_ACCOUNTS.forEach(a=>{ m=Math.max(m,lvlGet(a.id)); }); return m; }
 function reqSearch(q){
   q=reqNorm(q); if(!q) return [];
   const toks=q.split(/\s+/);
-  const hits=REQ_ITEMS.filter(it=>toks.every(t=>it.k.includes(t)));
+  const mx=reqMaxLevel(); // highest level among all accounts; if no level is set yet, show everything
+  const hits=REQ_ITEMS.filter(it=>(!mx || it.l<=mx) && toks.every(t=>it.k.includes(t)));
   hits.sort((x,y)=>{
     const xs=x.k.startsWith(q)?0:(x.k.split(' ').some(w=>w.startsWith(toks[0]))?1:2);
     const ys=y.k.startsWith(q)?0:(y.k.split(' ').some(w=>w.startsWith(toks[0]))?1:2);
