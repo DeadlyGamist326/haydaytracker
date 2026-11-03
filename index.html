@@ -351,7 +351,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .gc-name-modal.gc-show{display:flex;}
 
 /* ================= ITEM REQUEST TRACKER ================= */
-.req-card{width:min(98vw,1500px) !important;max-width:none !important;max-height:94vh;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box;padding:14px 16px !important;}
+.req-card{position:relative;width:min(98vw,1500px) !important;max-width:none !important;max-height:94vh;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box;padding:14px 16px !important;}
 .req-scroll{overflow:auto;min-height:0;margin-top:8px;}
 .req-grid{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:6px;min-width:max-content;width:100%;}
 .req-grid{min-width:0;}
@@ -640,13 +640,8 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 </div>
 <div class="gc-name-modal" id="reqModal">
   <div class="gc-name-card req-card">
-    <div style="display:flex;align-items:center;gap:8px;">
-      <img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/RequestTable.webp" alt="" style="height:34px;border-radius:6px;">
-      <div class="gc-name-title" style="margin:0;flex:1;text-align:left;">Item Request Tracker</div>
-      <button class="gc-name-ok" id="reqClose" style="background:var(--ink-soft);padding:6px 14px;">Close</button>
-    </div>
-    <div class="gc-name-sub" style="text-align:left;margin-top:6px;">I-click ang slot → type ang item → Enter → bilang (default 1) → Enter para sa susunod na slot.</div>
-    <div class="req-scroll"><div class="req-grid" id="reqGrid"></div></div>
+    <button class="gc-name-ok" id="reqClose" title="Close (Esc)" style="position:absolute;top:8px;right:10px;z-index:5;background:var(--ink-soft);padding:2px 10px;font-size:16px;line-height:1.2;">✕</button>
+    <div class="req-scroll" style="margin-top:0;"><div class="req-grid" id="reqGrid"></div></div>
   </div>
 </div>
 <div class="req-ed" id="reqEd"></div>
@@ -3491,7 +3486,7 @@ function reqRenderSlot(el){
 function buildReqGrid(){
   const g=document.getElementById('reqGrid'); g.innerHTML='';
   const groups=[GAME_ACCOUNTS.slice(0,6),GAME_ACCOUNTS.slice(6,12)];
-  groups.forEach(acct=>[['t',REQ_TABLE,'RequestTable.webp',''],['s',REQ_SHOP,'RoadsideShop.webp',' req-shop']].forEach(([b,geo,img,cls])=>{
+  [['t',REQ_TABLE,'RequestTable.webp',''],['s',REQ_SHOP,'RoadsideShop.webp',' req-shop']].forEach(([b,geo,img,cls])=>groups.forEach(acct=>{
     acct.forEach(ac=>{
       const bd=document.createElement('div'); bd.className='req-board'+cls;
       const bg=document.createElement('img'); bg.className='req-bg'; bg.src=REQ_IMG_BASE+img; bg.alt=''; bg.draggable=false; bd.appendChild(bg);
