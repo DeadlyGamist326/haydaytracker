@@ -355,6 +355,8 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .lvl-badge{--bs:30px;position:absolute;top:-2px;left:calc(50% - var(--bs)/2);width:var(--bs);height:var(--bs);display:flex;align-items:center;justify-content:center;background:center/contain no-repeat url("https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/LevelStar.png");color:#fff;font-family:var(--font-display);font-weight:normal;line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.65),0 0 3px rgba(0,30,90,.8);cursor:pointer;user-select:none;box-sizing:border-box;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));transition:transform .15s cubic-bezier(.34,1.56,.64,1);z-index:2;}
 .lvl-badge:hover{transform:scale(1.2) rotate(-6deg);}
 .acct-name{display:inline-block;white-space:nowrap;max-width:100%;}
+.games-table td.task-cell .upg-btn img{height:calc(var(--lblf,18px)*1.5);}
+.games-table td.task-cell .upg-btn{margin-left:calc(var(--lblf,18px)*.4);}
 .lvl-badge span{display:block;white-space:nowrap;font-size:calc(var(--bs)*.4333);transform:translate(calc(var(--bs)*.01667),calc(var(--bs)*-.1));}
 .lvl-badge.d3 span,.lvl-badge.d4 span{font-size:calc(var(--bs)*.45);}
 .lvl-badge.inline{position:relative;top:auto;left:auto;right:auto;display:inline-flex;vertical-align:middle;margin-left:8px;--bs:32px;}
@@ -3132,6 +3134,85 @@ document.getElementById('fpConfigSave').onclick=()=>{
   closeFarmPassConfig();
 };
 
+/* ---- Row labels + pictures: fill the row ("sagad"). One font size for the normal rows (the biggest that fits the tightest one),
+   pictures as tall as the row allows. Recomputed when the window or the rows change. ---- */
+let lblFitCache=null;
+function fitTaskLabels(){
+  const wrap=document.getElementById('gamesTableWrap'); if(!wrap) return;
+  const table=wrap.querySelector('table.games-table'); if(!table || wrap.offsetParent===null) return;
+  const rows=Array.from(table.querySelectorAll('tbody tr'));
+  const cells=rows.map(tr=>({tr, td:tr.querySelector('td.task-cell'), grp:tr.classList.contains('group-header')}));
+  const sig=wrap.clientWidth+'x'+wrap.clientHeight+'|'+rows.length+'|'+cells.map(c=>c.td?c.td.textContent.length:'-').join(',');
+  const apply=(plan)=>{
+    cells.forEach((c,i)=>{
+      const pl=plan[i]; if(!pl || !c.td) return;
+      const text=c.td.querySelector('.task-cell-text'), icons=c.td.querySelectorAll('.task-icon');
+      if(text) text.style.fontSize=pl.f+'px';
+      icons.forEach(ic=>{ ic.style.width=pl.s+'px'; ic.style.height=pl.s+'px'; });
+      c.td.style.setProperty('--lblf',pl.f+'px');
+      const tag=c.td.querySelector('.reset-tag'); if(tag) tag.style.fontSize=(pl.f*.78)+'px';
+    });
+    cells.forEach(c=>{ if(c.grp){ const td=c.tr.querySelector('td'); if(td && plan.grpF) td.style.fontSize=plan.grpF+'px'; } });
+  };
+  if(lblFitCache && lblFitCache.sig===sig){ apply(lblFitCache.plan); return; }
+  // reset to natural sizes, then measure the stretched row heights
+  cells.forEach(c=>{
+    if(!c.td) return;
+    const text=c.td.querySelector('.task-cell-text'); if(text) text.style.fontSize='';
+    c.td.querySelectorAll('.task-icon').forEach(ic=>{ ic.style.width=''; ic.style.height=''; });
+    c.td.style.removeProperty('--lblf');
+    const tag=c.td.querySelector('.reset-tag'); if(tag) tag.style.fontSize='';
+  });
+  const H0=table.offsetHeight;   // natural height (never let the fitted version grow past this)
+  const meas=cells.map(c=>{
+    if(!c.td) return null;
+    const cs=getComputedStyle(c.td);
+    const w=c.td.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+    const hgt=c.td.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
+    return {w,hgt,text:c.td.querySelector('.task-cell-text'),hasBtn:!!c.td.querySelector('.upg-btn'),special:c.tr.classList.contains('barn-row')||c.tr.classList.contains('silo-row')};
+  });
+  const bestFont=(m)=>{
+    if(!m||!m.text||m.w<=0||m.hgt<=0) return null;
+    const S=Math.max(20,Math.min(m.hgt-2,m.w*0.26,140));
+    let lo=9, hi=64, best=9;
+    const prev=m.text.style.fontSize, prevD=m.text.style.display, prevW=m.text.style.width;
+    while(hi-lo>0.25){
+      const f=(lo+hi)/2;
+      const btn=m.hasBtn? f*1.17+f*.4+6 : 0;
+      const tw=Math.max(10,m.w-S-6-btn);
+      m.text.style.fontSize=f+'px'; m.text.style.display='block'; m.text.style.width=tw+'px';
+      const ok=m.text.getBoundingClientRect().height<=m.hgt+0.5;
+      if(ok){ best=f; lo=f; } else { hi=f; }
+    }
+    m.text.style.fontSize=prev; m.text.style.display=prevD; m.text.style.width=prevW;
+    return {f:best,S};
+  };
+  const res=meas.map(bestFont);
+  const regular=res.filter((r,i)=>r && meas[i] && !meas[i].special);
+  const U=regular.length? Math.min.apply(null,regular.map(r=>r.f)) : 13;
+  const Sreg=regular.length? Math.min.apply(null,regular.map(r=>r.S)) : 24;
+  const plan=res.map((r,i)=>{
+    if(!r) return null;
+    if(meas[i].special) return {f:Math.floor(Math.min(r.f,U*1.15)*4)/4, s:Math.floor(r.S)};
+    return {f:Math.floor(U*4)/4, s:Math.floor(Sreg)};
+  });
+  // group header ("Resets daily once 4 PM...") scales with its own row height
+  const gh=cells.find(c=>c.grp);
+  if(gh){ const td=gh.tr.querySelector('td'); const hh=td?td.clientHeight:0; plan.grpF=Math.max(10.5,Math.min(hh*0.55,U)); }
+  apply(plan);
+  // safety net: if the bigger text made the table taller than it naturally was, step the font down until it fits again
+  let guard=0, cur=U;
+  while(table.offsetHeight>H0+1 && cur>9 && guard++<60){
+    cur-=0.5;
+    cells.forEach((c,i)=>{
+      const pl=plan[i]; if(!pl) return;
+      if(meas[i] && meas[i].special) pl.f=Math.min(pl.f,cur*1.15); else pl.f=cur;
+    });
+    apply(plan);
+  }
+  lblFitCache={sig,plan};
+}
+
 /* ---- Account names stay on ONE line: keep the original font size while it fits, shrink only when it doesn't ---- */
 function fitAcctNames(){
   document.querySelectorAll('.acct-name').forEach(el=>{
@@ -3146,7 +3227,7 @@ function fitAcctNames(){
   });
 }
 let fitQueued=false;
-function queueFitAcctNames(){ if(fitQueued) return; fitQueued=true; requestAnimationFrame(()=>{ fitQueued=false; fitAcctNames(); }); }
+function queueFitAcctNames(){ if(fitQueued) return; fitQueued=true; requestAnimationFrame(()=>{ fitQueued=false; fitAcctNames(); fitTaskLabels(); }); }
 new MutationObserver(queueFitAcctNames).observe(document.body,{childList:true,subtree:true});
 window.addEventListener('resize',queueFitAcctNames);
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(queueFitAcctNames);
