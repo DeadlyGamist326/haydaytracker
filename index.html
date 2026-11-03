@@ -349,6 +349,37 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
   padding:20px;
 }
 .gc-name-modal.gc-show{display:flex;}
+
+/* ================= ITEM REQUEST TRACKER ================= */
+.req-card{width:min(98vw,1900px) !important;max-width:none !important;max-height:94vh;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box;padding:14px 16px !important;}
+.req-scroll{overflow:auto;min-height:0;margin-top:8px;}
+.req-grid{display:grid;grid-template-columns:repeat(12,minmax(138px,1fr));gap:6px;min-width:max-content;width:100%;}
+.req-grid{min-width:0;}
+.req-board{position:relative;container-type:inline-size;border-radius:10px;overflow:hidden;background:#fff;line-height:0;user-select:none;}
+.req-board.req-shop{background:#c9704a;}
+.req-board>img.req-bg{width:100%;height:auto;display:block;pointer-events:none;}
+.req-slot{position:absolute;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:8%;box-sizing:border-box;}
+.req-slot:hover{background:rgba(255,255,255,.35);outline:2px solid rgba(255,255,255,.9);}
+.req-slot.empty:hover::after{content:'+';font:700 26cqw/1 var(--font-body);color:rgba(90,50,10,.55);}
+.req-slot img{width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 1px 1px rgba(0,0,0,.35));}
+.req-slot .req-q{position:absolute;right:-2%;bottom:-2%;min-width:9px;padding:0 3px;font:700 clamp(9px,6.2cqw,22px)/1.25 var(--font-display);color:#fff;background:rgba(60,30,5,.82);border-radius:7px;border:1px solid rgba(255,255,255,.7);}
+.req-sign{position:absolute;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.1;white-space:nowrap;overflow:hidden;font-family:var(--font-body),'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-weight:700;color:#4a2a0c;text-shadow:0 1px 0 rgba(255,236,190,.85);padding:0 3%;box-sizing:border-box;}
+.req-ed{position:fixed;z-index:1100;width:260px;max-width:92vw;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:10px;display:none;line-height:1.3;}
+.req-ed.show{display:block;}
+.req-ed .req-ed-h{font-size:11px;color:var(--ink-soft);margin-bottom:6px;}
+.req-ed input{width:100%;box-sizing:border-box;padding:7px 9px;font:600 14px var(--font-body);border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);outline:none;}
+.req-ed input:focus{border-color:#e08a2e;box-shadow:0 0 0 2px rgba(224,138,46,.25);}
+.req-ed input.shake{animation:reqShake .25s;}
+@keyframes reqShake{25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+.req-list{margin-top:6px;max-height:260px;overflow:auto;}
+.req-opt{display:flex;align-items:center;gap:8px;padding:4px 6px;border-radius:7px;cursor:pointer;font-size:13px;}
+.req-opt img{width:28px;height:28px;object-fit:contain;}
+.req-opt .req-lv{margin-left:auto;font-size:11px;color:var(--ink-soft);}
+.req-opt.on,.req-opt:hover{background:rgba(224,138,46,.22);}
+.req-pick{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:14px;font-weight:700;}
+.req-pick img{width:36px;height:36px;object-fit:contain;}
+.req-ed .req-row{display:flex;gap:6px;align-items:center;margin-top:8px;}
+.req-ed button{font:600 12px var(--font-body);padding:5px 10px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;}
 .gc-name-card.exp-card{max-width:min(96vw,520px) !important;width:min(96vw,520px) !important;max-height:92vh;overflow:auto;box-sizing:border-box;}
 
 /* ===== Account Level badge ===== */
@@ -604,6 +635,18 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
     <div style="overflow:auto;"><table class="upg-table" id="expTable"></table></div>
   </div>
 </div>
+<div class="gc-name-modal" id="reqModal">
+  <div class="gc-name-card req-card">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/RequestTable.webp" alt="" style="height:34px;border-radius:6px;">
+      <div class="gc-name-title" style="margin:0;flex:1;text-align:left;">Item Request Tracker</div>
+      <button class="gc-name-ok" id="reqClose" style="background:var(--ink-soft);padding:6px 14px;">Close</button>
+    </div>
+    <div class="gc-name-sub" style="text-align:left;margin-top:6px;">I-click ang slot → type ang item → Enter → bilang (default 1) → Enter para sa susunod na slot.</div>
+    <div class="req-scroll"><div class="req-grid" id="reqGrid"></div></div>
+  </div>
+</div>
+<div class="req-ed" id="reqEd"></div>
 <div class="gc-name-modal" id="upgradeModal">
   <div class="gc-name-card upg-card">
     <div style="display:flex;align-items:center;gap:8px;">
@@ -637,6 +680,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
       <button class="icon-btn" id="undoBtn" title="Undo the last check/uncheck action">↶ Undo</button>
       <button class="icon-btn" id="resetBtn" title="Manually reset all checks">↻ Reset all</button>
       <button class="icon-btn" id="levelBtn" title="Edit account levels"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/LevelStar.png" alt="">Levels</button>
+      <button class="icon-btn" id="reqBtn" title="Item Request Tracker"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/RequestTable.webp" alt="" style="height:18px;width:18px;object-fit:cover;border-radius:3px;display:block;">Requests</button>
       <button class="icon-btn" id="expBtn" title="Expansion Materials"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/ExpansionLandDeed.png" alt="" style="height:18px;width:18px;object-fit:contain;display:block;">Expansion</button>
       <button class="icon-btn" id="barnToggleBtn" title="Show Max Barn Capacity in this view" style="display:none;flex-direction:column;gap:1px;padding:4px 8px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage2.png" style="width:18px;height:18px;object-fit:contain;"><span style="font-size:8px;line-height:1;">Barn</span></button>
       <button class="icon-btn" id="siloToggleBtn" title="Show Max Silo Capacity in this view" style="display:none;flex-direction:column;gap:1px;padding:4px 8px;"><span style="font-size:18px;line-height:1;">🌾</span><span style="font-size:8px;line-height:1;">Silo</span></button>
@@ -829,6 +873,7 @@ gamesRef.on('value', snapshot=>{
   if(typeof refreshUpgradeMenu==='function') refreshUpgradeMenu();
   if(typeof refreshLevelMenu==='function') refreshLevelMenu();
   if(typeof refreshExpMenu==='function') refreshExpMenu();
+  if(typeof refreshReqMenu==='function') refreshReqMenu();
 }, err=>{ setSyncStatus('offline'); });
 
 /* ---- Presence: show who else is online right now ---- */
@@ -2854,7 +2899,7 @@ applyResponsiveMode();
 document.getElementById('resetBtn').onclick=()=>{
   if(!confirm('Clear all checks for every account and task? Pwede mo pang i-Undo agad kung magbago isip mo.')) return;
   // Persistent stats (barn/silo capacity, upgrade materials, account levels, always-on cell) are NOT reset
-  const KEEP=/^(barn|silo|upg|level|exp)::/;
+  const KEEP=/^(barn|silo|upg|level|exp|req)::/;
   const changes={}, updates={};
   Object.keys(games.checks||{}).forEach(k=>{
     if(KEEP.test(k) || isAlwaysOn(...k.split('::'))) return;
@@ -3406,6 +3451,210 @@ document.getElementById('expClose').onclick=closeExpMenu;
 document.getElementById('expModal').addEventListener('mousedown',e=>{ if(e.target.id==='expModal') closeExpMenu(); });
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape' && document.getElementById('expModal').classList.contains('gc-show') && !(document.activeElement && document.activeElement.classList.contains('exp-input'))) closeExpMenu();
+});
+
+
+/* ================= Item Request Tracker ================= */
+const REQ_IMG_BASE="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/";
+const REQ_ITEMS=(function(){
+  const raw=[["wheat","Wheat",1],["egg","Egg",1],["corn","Corn",2],["chicken-feed","Chicken feed",2],["bread","Bread",4],["soybean","Soybean",5],["cow-feed","Cow feed",6],["milk","Milk",6],["cream","Cream",6],["sugarcane","Sugarcane",7],["corn-bread","Corn bread",7],["brown-sugar","Brown sugar",7],["popcorn","Popcorn",8],["carrot","Carrot",9],["butter","Butter",9],["pancake","Pancake",9],["pig-feed","Pig feed",10],["bacon","Bacon",10],["cookie","Cookie",10],["bacon-and-eggs","Bacon and eggs",11],["cheese","Cheese",12],["indigo","Indigo",13],["white-sugar","White sugar",13],["carrot-pie","Carrot pie",14],["pumpkin","Pumpkin",15],["pumpkin-pie","Pumpkin pie",15],["apple","Apple",15],["sheep-feed","Sheep feed",16],["wool","Wool",16],["buttered-popcorn","Buttered popcorn",16],["sweater","Sweater",17],["cotton","Cotton",18],["bacon-pie","Bacon pie",18],["syrup","Syrup",18],["cotton-fabric","Cotton fabric",18],["hamburger","Hamburger",18],["raspberry","Raspberry",19],["raspberry-muffin","Raspberry muffin",19],["blue-woolly-hat","Blue woolly hat",19],["cotton-shirt","Cotton shirt",19],["blue-sweater","Blue sweater",20],["carrot-cake","Carrot cake",21],["wooly-chaps","Wooly chaps",21],["cherry","Cherry",22],["cream-cake","Cream cake",23],["red-berry-cake","Red berry cake",23],["cheesecake","Cheesecake",24],["silver-ore","Silver ore",24],["gold-ore","Gold ore",24],["platinum-ore","Platinum ore",24],["silver-bar","Silver bar",24],["chili-pepper","Chili pepper",25],["black-bean","Black bean",25],["chili-popcorn","Chili popcorn",25],["gold-bar","Gold bar",25],["platinum-bar","Platinum bar",25],["violet-dress","Violet dress",25],["lamb-feed","Lamb feed",25],["lamb-chop","Lamb chop",25],["grilled-lamb-skewer","Grilled lamb skewer",25],["blackberry","Blackberry",26],["blackberry-muffin","Blackberry muffin",26],["carrot-juice","Carrot juice",26],["red-lure","Red lure",27],["green-lure","Green lure",27],["blue-lure","Blue lure",27],["purple-lure","Purple lure",27],["gold-lure","Gold lure",27],["fish-fillet","Fish fillet",27],["fish-burger","Fish burger",27],["apple-pie","Apple pie",28],["fish-pie","Fish pie",28],["apple-juice","Apple juice",28],["vanilla-ice-cream","Vanilla ice cream",29],["tomato","Tomato",30],["roasted-tomatoes","Roasted tomatoes",30],["cherry-juice","Cherry juice",30],["fishing-net","Fishing net",30],["mystery-net","Mystery net",30],["blueberries","Blueberries",30],["tomato-juice","Tomato juice",31],["berry-juice","Berry juice",31],["blueberry-cheesecake","Blueberry cheesecake",31],["goat-feed","Goat feed",32],["goat-milk","Goat milk",32],["lamb-d-ner-wrap","Lamb döner wrap",32],["spicy-bean-d-ner","Spicy bean döner",32],["goat-cheese","Goat cheese",33],["pizza","Pizza",33],["coal","Coal",33],["refined-coal","Refined coal",33],["cherry-popsicle","Cherry popsicle",33],["blueberry-muffin","Blueberry muffin",33],["strawberry","Strawberry",34],["feta-pie","Feta pie",34],["iron-ore","Iron ore",34],["iron-bar","Iron bar",34],["strawberry-ice-cream","Strawberry ice cream",34],["wheat-bundle","Wheat bundle",34],["meat-bucket","Meat bucket",34],["potato","Potato",35],["strawberry-cake","Strawberry cake",35],["baked-potato","Baked potato",35],["apple-jam","Apple jam",35],["chocolate-cake","Chocolate cake",36],["casserole","Casserole",36],["cacao","Cacao",36],["raspberry-jam","Raspberry jam",36],["spicy-pizza","Spicy pizza",37],["blackberry-jam","Blackberry jam",37],["potato-feta-cake","Potato feta cake",38],["cherry-jam","Cherry jam",38],["bracelet","Bracelet",38],["potato-bread","Potato bread",39],["shepherd-s-pie","Shepherd's pie",39],["chocolate-ice-cream","Chocolate ice cream",39],["honeycomb","Honeycomb",39],["necklace","Necklace",39],["honey","Honey",39],["honey-popcorn","Honey popcorn",40],["diamond-ring","Diamond ring",40],["fish-and-chips","Fish and chips",41],["iron-bracelet","Iron bracelet",41],["coffee-bean","Coffee bean",42],["espresso","Espresso",42],["honey-apple-cake","Honey apple cake",42],["caff-latte","Caffè latte",43],["chocolate-popcorn","Chocolate popcorn",44],["lobster-trap","Lobster trap",44],["lobster-tail","Lobster tail",44],["frutti-di-mare-pizza","Frutti di Mare pizza",45],["caff-mocha","Caffè mocha",45],["chamomile","Chamomile",45],["soothing-pad","Soothing pad",45],["raspberry-mocha","Raspberry mocha",46],["lobster-soup","Lobster soup",46],["lamb-soup","Lamb soup",46],["hot-chocolate","Hot chocolate",47],["tomato-soup","Tomato soup",47],["red-scarf","Red scarf",48],["lobster-skewer","Lobster skewer",48],["beeswax","Beeswax",48],["strawberry-candle","Strawberry candle",48],["rustic-bouquet","Rustic bouquet",49],["pumpkin-soup","Pumpkin soup",49],["asparagus","Asparagus",49],["asparagus-quiche","Asparagus quiche",49],["strawberry-jam","Strawberry jam",50],["duck-trap","Duck trap",50],["duck-feather","Duck feather",50],["sesame","Sesame",50],["sesame-ice-cream","Sesame ice cream",50],["caramel-apple","Caramel apple",51],["pillow","Pillow",51],["asparagus-soup","Asparagus soup",51],["toffee","Toffee",52],["raspberry-candle","Raspberry candle",52],["pineapple","Pineapple",52],["pineapple-juice","Pineapple juice",52],["fish-soup","Fish soup",53],["lily","Lily",53],["soy-sauce","Soy sauce",54],["chocolate","Chocolate",54],["bean-dip","Bean dip",54],["fancy-cake","Fancy cake",54],["rice","Rice",56],["sushi-roll","Sushi roll",56],["olive","Olive",57],["lollipop","Lollipop",57],["lettuce","Lettuce",58],["feta-salad","Feta salad",58],["bean-salad","Bean salad",58],["tower-d-ner-supreme","Tower döner supreme",58],["lobster-sushi","Lobster sushi",59],["blanket","Blanket",59],["jelly-beans","Jelly beans",60],["olive-oil","Olive oil",60],["garlic","Garlic",60],["garlic-bread","Garlic bread",60],["veggie-bagel","Veggie bagel",61],["mayonnaise","Mayonnaise",62],["blt-salad","BLT salad",62],["caramel-latte","Caramel latte",62],["peanuts","Peanuts",62],["sunflower","Sunflower",63],["egg-sushi","Egg sushi",63],["honey-peanuts","Honey peanuts",63],["seafood-salad","Seafood salad",64],["berry-smoothie","Berry smoothie",64],["snack-mix","Snack mix",64],["bright-bouquet","Bright bouquet",65],["bacon-toast","Bacon toast",65],["pineapple-cake","Pineapple cake",65],["chocolate-pie","Chocolate pie",65],["cabbage","Cabbage",65],["cabbage-soup","Cabbage soup",65],["lemon","Lemon",66],["lemon-curd","Lemon curd",66],["olive-dip","Olive dip",66],["egg-sandwich","Egg sandwich",66],["green-smoothie","Green smoothie",66],["fresh-pasta","Fresh pasta",67],["pasta-salad","Pasta salad",67],["lemon-pie","Lemon pie",67],["grilled-asparagus","Grilled asparagus",67],["onion","Onion",68],["grilled-onion","Grilled onion",68],["lemon-cake","Lemon cake",68],["lemon-essential-oil","Lemon essential oil",68],["peanut-butter-milkshake","Peanut butter milkshake",68],["tomato-sauce","Tomato sauce",69],["honey-toast","Honey toast",69],["fried-rice","Fried rice",69],["lamb-stir-fry","Lamb stir fry",69],["yogurt-smoothie","Yogurt smoothie",70],["cloche-hat","Cloche hat",70],["cucumber","Cucumber",70],["cucumber-smoothie","Cucumber smoothie",70],["blueberry-chutney","Blueberry chutney",70],["orange","Orange",71],["flower-shawl","Flower shawl",71],["orange-juice","Orange juice",71],["peanut-butter-and-jelly-sandwich","Peanut butter and jelly sandwich",71],["onion-soup","Onion soup",72],["lemon-candle","Lemon candle",72],["top-hat","Top hat",72],["gnocchi","Gnocchi",72],["beetroot","Beetroot",72],["winter-veggies","Winter veggies",72],["rice-noodles","Rice noodles",73],["noodle-soup","Noodle soup",73],["gracious-bouquet","Gracious bouquet",73],["bell-pepper","Bell pepper",74],["marmalade","Marmalade",74],["sun-hat","Sun hat",74],["veggie-lasagna","Veggie lasagna",74],["veggie-platter","Veggie platter",74],["chamomile-essential-oil","Chamomile essential oil",74],["hot-dog","Hot dog",75],["coleslaw","Coleslaw",75],["cotton-candy","Cotton candy",75],["peach","Peach",76],["peach-tart","Peach tart",76],["tofu-dog","Tofu dog",76],["big-sushi-roll","Big sushi roll",76],["beetroot-salad","Beetroot salad",76],["plain-donut","Plain donut",76],["salsa","Salsa",77],["spicy-bean-taco","Spicy bean taco",77],["taco","Taco",77],["colourful-omelet","Colourful omelet",77],["spring-omelet","Spring omelet",77],["summer-rolls","Summer rolls",78],["orange-sorbet","Orange sorbet",78],["corn-dog","Corn dog",78],["potato-soup","Potato soup",78],["ginger","Ginger",78],["sesame-brittle","Sesame brittle",78],["affogato","Affogato",78],["fish-taco","Fish taco",79],["peach-jam","Peach jam",79],["lobster-pasta","Lobster pasta",79],["cucumber-sandwich","Cucumber sandwich",79],["spicy-fish","Spicy fish",79],["sprinkled-donut","Sprinkled donut",79],["cheese-omelet","Cheese omelet",79],["tea-leaf","Tea leaf",80],["green-tea","Green tea",80],["onion-dog","Onion dog",80],["stuffed-peppers","Stuffed peppers",80],["ginger-essential-oil","Ginger essential oil",80],["milk-tea","Milk tea",81],["bell-pepper-soup","Bell pepper soup",81],["chocolate-fondue","Chocolate fondue",81],["peony","Peony",82],["quesadilla","Quesadilla",82],["fruit-salad","Fruit salad",82],["crunchy-donut","Crunchy donut",82],["pasta-carbonara","Pasta carbonara",83],["peach-ice-cream","Peach ice cream",83],["honey-tea","Honey tea",83],["broccoli","Broccoli",83],["broccoli-pasta","Broccoli pasta",83],["rice-omelet","Rice omelet",83],["summer-salad","Summer salad",84],["grapes","Grapes",84],["grape-juice","Grape juice",84],["onion-melt","Onion melt",84],["honey-soap","Honey soap",84],["lemon-lotion","Lemon lotion",84],["colorful-candles","Colorful candles",84],["mint","Mint",85],["mint-essential-oil","Mint essential oil",85],["grape-jam","Grape jam",85],["mint-ice-cream","Mint ice cream",85],["flower-crown","Flower crown",86],["lemon-tea","Lemon tea",86],["bacon-fondue","Bacon fondue",86],["peanut-noodles","Peanut noodles",86],["gingerbread-cookie","Gingerbread cookie",86],["cream-donut","Cream donut",86],["nachos","Nachos",87],["spicy-pasta","Spicy pasta",87],["broccoli-soup","Broccoli soup",87],["bacon-fries","Bacon fries",87],["potato-omelet","Potato omelet",87],["mixed-smoothie","Mixed smoothie",88],["banana","Banana",88],["iced-banana-latte","Iced banana latte",88],["apple-ginger-tea","Apple ginger tea",88],["bacon-donut","Bacon donut",88],["passion-fruit","Passion fruit",88],["passion-fruit-juice","Passion fruit juice",88],["orange-tea","Orange tea",89],["fruit-cake","Fruit cake",89],["mushroom","Mushroom",89],["mushroom-salad","Mushroom salad",89],["tofu-stir-fry","Tofu stir fry",89],["candy-bouquet","Candy bouquet",90],["eggplant","Eggplant",90],["grilled-eggplant","Grilled eggplant",90],["banana-bread","Banana bread",91],["cheese-fondue","Cheese fondue",91],["hand-pies","Hand pies",91],["pickles","Pickles",91],["watermelon","Watermelon",92],["iced-tea","Iced tea",92],["goat-cheese-toast","Goat cheese toast",92],["watermelon-juice","Watermelon juice",92],["birthday-bouquet","Birthday bouquet",92],["passion-fruit-pie","Passion fruit pie",92],["soft-bouquet","Soft bouquet",93],["black-sesame-smoothie","Black sesame smoothie",93],["exfoliating-soap","Exfoliating soap",93],["filled-donut","Filled donut",93],["plum","Plum",94],["banana-pancakes","Banana pancakes",94],["plum-jam","Plum jam",94],["clay","Clay",94],["tea-pot","Tea pot",94],["floral-candle","Floral candle",95],["chocolate-roll","Chocolate roll",95],["canned-fish","Canned fish",95],["chickpea","Chickpea",95],["hummus","Hummus",95],["banana-split","Banana split",96],["fish-skewer","Fish skewer",96],["passion-fruit-jam","Passion fruit jam",96],["potted-plant","Potted plant",96],["mint-tea","Mint tea",97],["mushroom-pot-pie","Mushroom pot pie",97],["mango","Mango",97],["mango-juice","Mango juice",97],["flower-pendant","Flower pendant",98],["chili-poppers","Chili poppers",98],["falafel","Falafel",98],["kimchi","Kimchi",98],["eggplant-parmesan","Eggplant parmesan",99],["honey-face-mask","Honey face mask",99],["clay-mug","Clay mug",99],["rich-fudge","Rich fudge",99],["cocoa-smoothie","Cocoa smoothie",100],["fried-candy-bar","Fried candy bar",100],["tart-dressing","Tart dressing",100],["tropical-fondue","Tropical fondue",100],["chamomile-tea","Chamomile tea",100],["mushroom-pasta","Mushroom pasta",101],["coconut","Coconut",101],["macaroon","Macaroon",101],["plum-smoothie","Plum smoothie",102],["dried-fruit","Dried fruit",102],["mint-fudge","Mint fudge",102],["coconut-ice-cream","Coconut ice cream",102],["samosa","Samosa",103],["plain-yogurt","Plain yogurt",103],["mushroom-soup","Mushroom soup",104],["chili-fudge","Chili fudge",104],["tropical-smoothie","Tropical smoothie",104],["guava","Guava",104],["guava-juice","Guava juice",104],["guava-compote","Guava compote",104],["strawberry-yogurt","Strawberry yogurt",105],["veggie-bouquet","Veggie bouquet",106],["chickpea-stew","Chickpea stew",106],["fruit-sorbet","Fruit sorbet",106],["pomegranate","Pomegranate",107],["pomegranate-tea","Pomegranate tea",107],["lemon-fudge","Lemon fudge",108],["pomegranate-cake","Pomegranate cake",108],["hummus-wrap","Hummus wrap",109],["tropical-yogurt","Tropical yogurt",109],["chili-stew","Chili stew",109],["plain-cupcake","Plain cupcake",109],["guava-cupcake","Guava cupcake",109],["rice-ball","Rice ball",110],["fresh-diffuser","Fresh diffuser",110],["peanut-fudge","Peanut fudge",111],["tropical-cupcake","Tropical cupcake",112],["winter-stew","Winter stew",112],["zesty-perfume","Zesty perfume",113],["cookie-cupcake","Cookie cupcake",114],["plain-waffles","Plain waffles",114],["berry-waffles","Berry waffles",114],["calming-diffuser","Calming diffuser",116],["orange-salad","Orange salad",117],["chocolate-waffles","Chocolate waffles",117],["blueberry-waffles","Blueberry waffles",118],["breakfast-waffles","Breakfast waffles",119],["oats","Oats",119],["breakfast-bowl","Breakfast bowl",119],["apple-porridge","Apple porridge",119],["pineapple-coconut-bars","Pineapple coconut bars",120],["sweet-porridge","Sweet porridge",120],["rich-soap","Rich soap",121],["fresh-porridge","Fresh porridge",122],["vanilla-milkshake","Vanilla milkshake",124],["mocha-milkshake","Mocha milkshake",125],["fruity-milkshake","Fruity milkshake",126]];
+  return raw.map(r=>({s:r[0],n:r[1],l:r[2],k:r[1].normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()}));
+})();
+const REQ_BY_SLUG={}; REQ_ITEMS.forEach(i=>{REQ_BY_SLUG[i.s]=i;});
+const REQ_TABLE=Array.from({length:6},(_,i)=>{const c=i%3,r=Math.floor(i/3); return {x:(265+240*c)/12, y:(275+240*r)/10.8, w:220/12, h:220/10.8};});
+const REQ_SHOP=Array.from({length:6},(_,i)=>{const c=i%3,r=Math.floor(i/3); return {x:[162,481,796][c]/11.9, y:[320,667][r]/11.27, w:246/11.9, h:240/11.27};});
+const REQ_SIGN={x:60/11.9,y:40/11.27,w:1070/11.9,h:150/11.27};
+function reqKey(a,b,i){ return 'req::'+a+'::'+b+(i+1); }
+function reqGet(a,b,i){
+  const v=games.checks[reqKey(a,b,i)]; if(typeof v!=='string') return null;
+  const p=v.split('|'); const it=REQ_BY_SLUG[p[0]]; if(!it) return null;
+  return {item:it, qty:Math.max(1,parseInt(p[1],10)||1)};
+}
+function reqSet(a,b,i,item,qty){
+  const key=reqKey(a,b,i), prev=rawSnapshot(key);
+  writeCheckValue(key, item ? item.s+'|'+qty : false);
+  recordUndo({type:'delta', changes:{[key]:prev}});
+}
+function reqImg(it){ return REQ_IMG_BASE+'goods/'+it.s+'.webp'; }
+function reqRenderSlot(el){
+  const a=el.dataset.acct,b=el.dataset.board,i=+el.dataset.i, d=reqGet(a,b,i);
+  el.innerHTML=''; el.classList.toggle('empty',!d);
+  if(d){
+    const im=document.createElement('img'); im.src=reqImg(d.item); im.alt=d.item.n; el.appendChild(im);
+    const q=document.createElement('span'); q.className='req-q'; q.textContent=d.qty; el.appendChild(q);
+  }
+}
+function buildReqGrid(){
+  const g=document.getElementById('reqGrid'); g.innerHTML='';
+  const acct=GAME_ACCOUNTS;
+  [['t',REQ_TABLE,'RequestTable.webp',''],['s',REQ_SHOP,'RoadsideShop.webp',' req-shop']].forEach(([b,geo,img,cls])=>{
+    acct.forEach(ac=>{
+      const bd=document.createElement('div'); bd.className='req-board'+cls;
+      const bg=document.createElement('img'); bg.className='req-bg'; bg.src=REQ_IMG_BASE+img; bg.alt=''; bg.draggable=false; bd.appendChild(bg);
+      if(b==='s'){
+        const sg=document.createElement('div'); sg.className='req-sign'; sg.textContent=ac.label;
+        sg.style.cssText='left:'+REQ_SIGN.x+'%;top:'+REQ_SIGN.y+'%;width:'+REQ_SIGN.w+'%;height:'+REQ_SIGN.h+'%;';
+        bd.appendChild(sg);
+      }
+      geo.forEach((s,i)=>{
+        const el=document.createElement('div'); el.className='req-slot empty';
+        el.dataset.acct=ac.id; el.dataset.board=b; el.dataset.i=i;
+        el.style.cssText='left:'+s.x+'%;top:'+s.y+'%;width:'+s.w+'%;height:'+s.h+'%;';
+        el.addEventListener('click',()=>reqOpenEd(el,'name'));
+        el.addEventListener('contextmenu',e=>{ e.preventDefault(); if(reqGet(ac.id,b,i)) reqSet(ac.id,b,i,null,0), reqRenderSlot(el); });
+        reqRenderSlot(el);
+        reqBindTip(el);
+        bd.appendChild(el);
+      });
+      g.appendChild(bd);
+    });
+  });
+  reqFitSigns();
+}
+function reqBindTip(el){
+  const tip=document.getElementById('upgTip');
+  const move=e=>{
+    const pad=14,w=tip.offsetWidth||200,h=tip.offsetHeight||60; let x=e.clientX+pad,y=e.clientY+pad;
+    if(x+w>innerWidth-6)x=e.clientX-w-pad; if(y+h>innerHeight-6)y=e.clientY-h-pad;
+    tip.style.left=Math.max(6,x)+'px'; tip.style.top=Math.max(6,y)+'px';
+  };
+  el.addEventListener('mouseenter',e=>{
+    const d=reqGet(el.dataset.acct,el.dataset.board,+el.dataset.i); if(!d) return;
+    const ac=GAME_ACCOUNTS.find(x=>x.id===el.dataset.acct);
+    document.getElementById('upgTipImg').src=reqImg(d.item);
+    document.getElementById('upgTipItem').textContent=d.item.n+' ×'+d.qty;
+    const p=document.getElementById('upgTipPlayer'); p.textContent=ac?ac.label:''; p.style.display='';
+    tip.classList.add('show'); move(e);
+  });
+  el.addEventListener('mousemove',move);
+  el.addEventListener('mouseleave',()=>tip.classList.remove('show'));
+}
+function reqFitSigns(){
+  document.querySelectorAll('#reqGrid .req-sign').forEach(sg=>{
+    let fs=Math.max(8,sg.clientHeight*0.62); sg.style.fontSize=fs+'px';
+    let n=0; while(sg.scrollWidth>sg.clientWidth+1 && fs>6 && n++<40){ fs-=0.5; sg.style.fontSize=fs+'px'; }
+  });
+}
+let reqEdState=null;
+function reqCloseEd(){ document.getElementById('reqEd').classList.remove('show'); reqEdState=null; }
+function reqOpenEd(slot, step){
+  document.getElementById('upgTip').classList.remove('show');
+  const a=slot.dataset.acct,b=slot.dataset.board,i=+slot.dataset.i;
+  const cur=reqGet(a,b,i);
+  reqEdState={slot,a,b,i,item:cur?cur.item:null,qty:cur?cur.qty:1};
+  slot.scrollIntoView({block:'nearest',inline:'nearest'});
+  const ed=document.getElementById('reqEd'); ed.classList.add('show');
+  const ac=GAME_ACCOUNTS.find(x=>x.id===a);
+  ed.innerHTML='';
+  const hd=document.createElement('div'); hd.className='req-ed-h'; hd.textContent=(ac?ac.label:a)+' · '+(b==='t'?'Table':'Roadside Shop')+' · Slot '+(i+1); ed.appendChild(hd);
+  const body=document.createElement('div'); ed.appendChild(body);
+  reqPlace(slot,ed);
+  reqStepName(body, cur?cur.item.n:'');
+}
+function reqPlace(slot,ed){
+  const r=slot.getBoundingClientRect(); const w=ed.offsetWidth||260, h=ed.offsetHeight||200;
+  let x=r.left+r.width/2-w/2, y=r.bottom+6;
+  if(y+h>innerHeight-8) y=Math.max(8,r.top-h-6);
+  x=Math.min(Math.max(8,x),innerWidth-w-8);
+  ed.style.left=x+'px'; ed.style.top=y+'px';
+}
+function reqNorm(s){ return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim(); }
+function reqSearch(q){
+  q=reqNorm(q); if(!q) return [];
+  const toks=q.split(/\s+/);
+  const hits=REQ_ITEMS.filter(it=>toks.every(t=>it.k.includes(t)));
+  hits.sort((x,y)=>{
+    const xs=x.k.startsWith(q)?0:(x.k.split(' ').some(w=>w.startsWith(toks[0]))?1:2);
+    const ys=y.k.startsWith(q)?0:(y.k.split(' ').some(w=>w.startsWith(toks[0]))?1:2);
+    return xs-ys || x.k.length-y.k.length;
+  });
+  return hits.slice(0,8);
+}
+function reqStepName(body, prefill){
+  body.innerHTML='';
+  const inp=document.createElement('input'); inp.type='text'; inp.placeholder='Item name…'; inp.autocomplete='off'; inp.spellcheck=false; inp.value=prefill||'';
+  const list=document.createElement('div'); list.className='req-list';
+  body.appendChild(inp); body.appendChild(list);
+  if(reqEdState && reqEdState.item){
+    const clr=document.createElement('div'); clr.className='req-row';
+    const cb=document.createElement('button'); cb.textContent='Clear slot';
+    cb.onmousedown=e=>e.preventDefault();
+    cb.onclick=()=>{ const s=reqEdState; reqSet(s.a,s.b,s.i,null,0); reqRenderSlot(s.slot); reqCloseEd(); };
+    clr.appendChild(cb); body.appendChild(clr);
+  }
+  let hits=[], on=0;
+  const draw=()=>{
+    list.innerHTML='';
+    hits.forEach((it,k)=>{
+      const o=document.createElement('div'); o.className='req-opt'+(k===on?' on':'');
+      const im=document.createElement('img'); im.src=reqImg(it); o.appendChild(im);
+      const t=document.createElement('span'); t.textContent=it.n; o.appendChild(t);
+      const lv=document.createElement('span'); lv.className='req-lv'; lv.textContent='Lv '+it.l; o.appendChild(lv);
+      o.onmousedown=e=>{ e.preventDefault(); choose(it); };
+      list.appendChild(o);
+    });
+    reqPlace(reqEdState.slot, document.getElementById('reqEd'));
+  };
+  const choose=it=>{ reqEdState.item=it; reqStepQty(body); };
+  inp.addEventListener('input',()=>{ hits=reqSearch(inp.value); on=0; draw(); });
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='ArrowDown'){ e.preventDefault(); if(hits.length){ on=(on+1)%hits.length; draw(); } }
+    else if(e.key==='ArrowUp'){ e.preventDefault(); if(hits.length){ on=(on-1+hits.length)%hits.length; draw(); } }
+    else if(e.key==='Enter'){
+      e.preventDefault();
+      if(hits.length){ choose(hits[on]); return; }
+      const exact=REQ_ITEMS.find(it=>reqNorm(it.n)===reqNorm(inp.value));
+      if(exact){ choose(exact); return; }
+      if(!inp.value.trim()){ reqNext(); return; }
+      inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake');
+    }
+    else if(e.key==='Escape'){ e.stopPropagation(); reqCloseEd(); }
+  });
+  inp.focus(); if(inp.value) inp.select();
+}
+function reqStepQty(body){
+  const s=reqEdState; body.innerHTML='';
+  const pk=document.createElement('div'); pk.className='req-pick';
+  const im=document.createElement('img'); im.src=reqImg(s.item); pk.appendChild(im);
+  const t=document.createElement('span'); t.textContent=s.item.n; pk.appendChild(t);
+  body.appendChild(pk);
+  const inp=document.createElement('input'); inp.type='text'; inp.inputMode='numeric'; inp.autocomplete='off'; inp.maxLength=4;
+  inp.value=String(s.qty||1); body.appendChild(inp);
+  const hint=document.createElement('div'); hint.className='req-ed-h'; hint.style.marginTop='6px'; hint.textContent='Bilang — Enter para sa susunod na slot'; body.appendChild(hint);
+  inp.addEventListener('input',()=>{ inp.value=inp.value.replace(/[^0-9]/g,'').slice(0,4); });
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){
+      e.preventDefault();
+      const q=Math.max(1,parseInt(inp.value,10)||1);
+      reqSet(s.a,s.b,s.i,s.item,q); reqRenderSlot(s.slot); reqNext();
+    } else if(e.key==='Escape'){ e.stopPropagation(); reqStepName(body, s.item.n); }
+  });
+  reqPlace(s.slot, document.getElementById('reqEd'));
+  inp.focus(); inp.select();
+}
+function reqNext(){
+  const s=reqEdState; if(!s) return;
+  const next=s.slot.parentNode.querySelector('.req-slot[data-i="'+(s.i+1)+'"]');
+  if(next) reqOpenEd(next,'name'); else reqCloseEd();
+}
+function refreshReqMenu(){
+  const m=document.getElementById('reqModal'); if(!m || !m.classList.contains('gc-show')) return;
+  m.querySelectorAll('.req-slot').forEach(el=>{
+    if(reqEdState && reqEdState.slot===el) return;
+    reqRenderSlot(el);
+  });
+}
+function openReqMenu(){ buildReqGrid(); document.getElementById('reqModal').classList.add('gc-show'); requestAnimationFrame(reqFitSigns); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(reqFitSigns); }
+function closeReqMenu(){ reqCloseEd(); document.getElementById('upgTip').classList.remove('show'); document.getElementById('reqModal').classList.remove('gc-show'); }
+document.getElementById('reqBtn').onclick=openReqMenu;
+document.getElementById('reqClose').onclick=closeReqMenu;
+document.getElementById('reqModal').addEventListener('mousedown',e=>{
+  if(e.target.id==='reqModal') closeReqMenu();
+  else if(reqEdState && !e.target.closest('#reqEd') && !e.target.closest('.req-slot')) reqCloseEd();
+});
+window.addEventListener('resize',()=>{ if(document.getElementById('reqModal').classList.contains('gc-show')) reqFitSigns(); });
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && document.getElementById('reqModal').classList.contains('gc-show')){ if(reqEdState) reqCloseEd(); else closeReqMenu(); }
 });
 
 /* ================= Upgrade Materials menu ================= */
