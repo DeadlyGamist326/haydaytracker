@@ -351,9 +351,9 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .gc-name-modal.gc-show{display:flex;}
 
 /* ================= ITEM REQUEST TRACKER ================= */
-.req-card{position:relative;width:min(98vw,1500px) !important;max-width:none !important;max-height:94vh;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box;padding:14px 16px !important;}
-.req-scroll{overflow:auto;min-height:0;margin-top:8px;}
-.req-grid{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:6px;min-width:max-content;width:100%;}
+.req-card{position:relative;width:auto !important;max-width:none !important;max-height:none;overflow:visible;display:flex;flex-direction:column;box-sizing:border-box;padding:8px !important;}
+.req-scroll{overflow:visible;min-height:0;margin-top:0;}
+.req-grid{display:grid;grid-template-columns:repeat(6,var(--req-w,150px));gap:6px;min-width:max-content;width:100%;}
 .req-grid{min-width:0;}
 .req-board{position:relative;container-type:inline-size;border-radius:10px;overflow:hidden;background:#fff;line-height:0;user-select:none;}
 .req-board.req-shop{background:#c9704a;}
@@ -3542,6 +3542,15 @@ function reqBindTip(el){
   el.addEventListener('mousemove',move);
   el.addEventListener('mouseleave',()=>tip.classList.remove('show'));
 }
+function reqLayout(){
+  const m=document.getElementById('reqModal'); if(!m) return;
+  const gap=6, pad=16+ 40; // card padding + modal padding
+  const cs=getComputedStyle(m); const mp=parseFloat(cs.paddingTop)||0;
+  const availH=innerHeight-2*mp-16-3*gap, availW=innerWidth-2*mp-16-5*gap;
+  const wh=availH/(0.9*2+0.9472*2), ww=availW/6;
+  const w=Math.max(60,Math.floor(Math.min(wh,ww)));
+  document.getElementById('reqGrid').style.setProperty('--req-w',w+'px');
+}
 function reqFitSigns(){
   // every name (table bench + roadside shop sign) gets the same font size: the largest one that fits the longest name
   const sg=Array.from(document.querySelectorAll('#reqGrid .req-sign')); if(!sg.length) return;
@@ -3660,7 +3669,7 @@ function refreshReqMenu(){
     reqRenderSlot(el);
   });
 }
-function openReqMenu(){ buildReqGrid(); document.getElementById('reqModal').classList.add('gc-show'); requestAnimationFrame(reqFitSigns); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(reqFitSigns); }
+function openReqMenu(){ reqLayout(); buildReqGrid(); document.getElementById('reqModal').classList.add('gc-show'); requestAnimationFrame(reqFitSigns); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(reqFitSigns); }
 function closeReqMenu(){ reqCloseEd(); document.getElementById('upgTip').classList.remove('show'); document.getElementById('reqModal').classList.remove('gc-show'); }
 document.getElementById('reqBtn').onclick=openReqMenu;
 document.getElementById('reqClose').onclick=closeReqMenu;
@@ -3668,7 +3677,7 @@ document.getElementById('reqModal').addEventListener('mousedown',e=>{
   if(e.target.id==='reqModal') closeReqMenu();
   else if(reqEdState && !e.target.closest('#reqEd') && !e.target.closest('.req-slot')) reqCloseEd();
 });
-window.addEventListener('resize',()=>{ if(document.getElementById('reqModal').classList.contains('gc-show')) reqFitSigns(); });
+window.addEventListener('resize',()=>{ if(document.getElementById('reqModal').classList.contains('gc-show')){ reqLayout(); reqFitSigns(); } });
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape' && document.getElementById('reqModal').classList.contains('gc-show')){ if(reqEdState) reqCloseEd(); else closeReqMenu(); }
 });
