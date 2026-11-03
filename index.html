@@ -366,6 +366,13 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .req-slot img{width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 1px 1px rgba(0,0,0,.35));}
 .req-slot .req-q{position:absolute;right:-2%;bottom:-2%;min-width:9px;padding:0 3px;font:700 clamp(9px,6.2cqw,22px)/1.25 var(--font-display);color:#fff;background:rgba(60,30,5,.82);border-radius:7px;border:1px solid rgba(255,255,255,.7);}
 .req-sign{position:absolute;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.1;white-space:nowrap;overflow:hidden;font-family:var(--font-body),'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-weight:700;color:#4a2a0c;text-shadow:0 1px 0 rgba(255,236,190,.85);padding:0 3%;box-sizing:border-box;}
+.req-grid{width:calc(6*var(--req-w,150px) + 30px);}
+.req-grid.req-l2{display:flex;flex-direction:column;gap:6px;}
+.req-row2{display:flex;justify-content:center;align-items:center;gap:6px;}
+.req-l2 .req-board{flex:none;transition:width .38s cubic-bezier(.4,.1,.2,1),opacity .38s,box-shadow .38s;}
+.req-l2 .req-board.dim{opacity:.55;}
+.req-l2 .req-board.focus{box-shadow:0 8px 22px rgba(0,0,0,.35);}
+#reqLayoutBtn{position:absolute;top:8px;left:10px;z-index:5;background:var(--ink-soft);padding:2px 10px;font-size:13px;line-height:1.4;}
 .req-sign.req-bench{color:#fff3d6;text-shadow:0 1px 2px rgba(40,18,4,.9);}
 .req-ed{position:fixed;z-index:1100;width:260px;max-width:92vw;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:10px;display:none;line-height:1.3;}
 .req-ed.show{display:block;}
@@ -640,6 +647,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 </div>
 <div class="gc-name-modal" id="reqModal">
   <div class="gc-name-card req-card">
+    <button class="gc-name-ok" id="reqLayoutBtn" title="Palitan ang layout">Layout 1</button>
     <button class="gc-name-ok" id="reqClose" title="Close (Esc)" style="position:absolute;top:8px;right:10px;z-index:5;background:var(--ink-soft);padding:2px 10px;font-size:16px;line-height:1.2;">✕</button>
     <div class="req-scroll" style="margin-top:0;"><div class="req-grid" id="reqGrid"></div></div>
   </div>
@@ -3486,7 +3494,8 @@ function reqRenderSlot(el){
 function buildReqGrid(){
   const g=document.getElementById('reqGrid'); g.innerHTML='';
   const groups=[GAME_ACCOUNTS.slice(0,6),GAME_ACCOUNTS.slice(6,12)];
-  [['t',REQ_TABLE,'RequestTable.webp',''],['s',REQ_SHOP,'RoadsideShop.webp',' req-shop']].forEach(([b,geo,img,cls])=>groups.forEach(acct=>{
+  const rowsList=[[],[],[],[]];
+  [['t',REQ_TABLE,'RequestTable.webp',''],['s',REQ_SHOP,'RoadsideShop.webp',' req-shop']].forEach(([b,geo,img,cls])=>groups.forEach((acct,gi)=>{
     acct.forEach(ac=>{
       const bd=document.createElement('div'); bd.className='req-board'+cls;
       const bg=document.createElement('img'); bg.className='req-bg'; bg.src=REQ_IMG_BASE+img; bg.alt=''; bg.draggable=false; bd.appendChild(bg);
@@ -3519,9 +3528,17 @@ function buildReqGrid(){
         reqBindTip(el);
         bd.appendChild(el);
       });
-      g.appendChild(bd);
+      bd.dataset.row=(b==='t'?0:2)+gi;
+      bd.addEventListener('click',e=>{ if(reqMode===2 && !e.target.closest('.req-slot')) reqToggleFocus(bd); });
+      rowsList[(b==='t'?0:2)+gi].push(bd);
     });
   }));
+  g.classList.toggle('req-l2',reqMode===2);
+  if(reqMode===2){
+    rowsList.forEach((arr,ri)=>{ const row=document.createElement('div'); row.className='req-row2'; row.dataset.row=ri; arr.forEach(bd=>row.appendChild(bd)); g.appendChild(row);
+      const f=arr.findIndex(bd=>bd.querySelector('.req-slot img')); reqFocusIdx[ri]=f>=0?f:-1; });
+  } else rowsList.forEach(arr=>arr.forEach(bd=>g.appendChild(bd)));
+  reqApplyL2(true);
   reqFitSigns();
 }
 function reqBindTip(el){
@@ -3542,6 +3559,27 @@ function reqBindTip(el){
   el.addEventListener('mousemove',move);
   el.addEventListener('mouseleave',()=>tip.classList.remove('show'));
 }
+let reqMode=1; try{ reqMode=(localStorage.getItem('reqLayout')==='2')?2:1; }catch(e){}
+const reqFocusIdx=[-1,-1,-1,-1];
+let reqW=150;
+function reqApplyL2(instant){
+  const g=document.getElementById('reqGrid'); if(!g || reqMode!==2) return;
+  g.querySelectorAll('.req-row2').forEach(row=>{
+    const ri=+row.dataset.row, f=reqFocusIdx[ri], ratio=ri<2?0.9:0.9472;
+    row.style.height=(reqW*ratio)+'px';
+    Array.from(row.children).forEach((bd,i)=>{
+      const on=(f===i), dim=(f>=0 && !on);
+      if(instant) bd.style.transition='none';
+      bd.style.width=(dim? reqW*0.62 : reqW)+'px';
+      bd.classList.toggle('focus',on); bd.classList.toggle('dim',dim);
+      if(instant){ void bd.offsetWidth; bd.style.transition=''; }
+    });
+  });
+  if(reqEdState){ clearTimeout(reqPlaceT); reqPlaceT=setTimeout(()=>{ if(reqEdState) reqPlace(reqEdState.slot,document.getElementById('reqEd')); },420); }
+}
+let reqPlaceT=null;
+function reqFocusBoard(bd){ if(reqMode!==2||!bd) return; const ri=+bd.dataset.row; const i=Array.from(bd.parentNode.children).indexOf(bd); if(reqFocusIdx[ri]===i) return; reqFocusIdx[ri]=i; reqApplyL2(); }
+function reqToggleFocus(bd){ const ri=+bd.dataset.row; const i=Array.from(bd.parentNode.children).indexOf(bd); reqFocusIdx[ri]=(reqFocusIdx[ri]===i)?-1:i; reqApplyL2(); }
 function reqLayout(){
   const m=document.getElementById('reqModal'); if(!m) return;
   const gap=6, pad=16+ 40; // card padding + modal padding
@@ -3549,19 +3587,19 @@ function reqLayout(){
   const availH=innerHeight-2*mp-16-3*gap, availW=innerWidth-2*mp-16-5*gap;
   const wh=availH/(0.9*2+0.9472*2), ww=availW/6;
   const w=Math.max(60,Math.floor(Math.min(wh,ww)));
-  document.getElementById('reqGrid').style.setProperty('--req-w',w+'px');
+  reqW=w; document.getElementById('reqGrid').style.setProperty('--req-w',w+'px');
 }
 function reqFitSigns(){
-  // every name (table bench + roadside shop sign) gets the same font size: the largest one that fits the longest name
+  // every name gets the same font size relative to its board: the largest that fits the longest name
   const sg=Array.from(document.querySelectorAll('#reqGrid .req-sign')); if(!sg.length) return;
-  const bw=sg[0].parentNode.clientWidth||150;
-  let fs=Math.max(8,bw*0.075); sg.forEach(s=>{ s.style.fontSize=fs+'px'; });
-  let n=0; while(sg.some(s=>s.scrollWidth>s.clientWidth+1) && fs>6 && n++<80){ fs-=0.25; sg.forEach(s=>{ s.style.fontSize=fs+'px'; }); }
+  let fs=7.6; sg.forEach(s=>{ s.style.fontSize=fs+'cqw'; });
+  let n=0; while(sg.some(s=>s.scrollWidth>s.clientWidth+1) && fs>2.5 && n++<120){ fs-=0.1; sg.forEach(s=>{ s.style.fontSize=fs+'cqw'; }); }
 }
 let reqEdState=null;
 function reqCloseEd(){ document.getElementById('reqEd').classList.remove('show'); reqEdState=null; }
 function reqOpenEd(slot, step, opts){
   document.getElementById('upgTip').classList.remove('show');
+  reqFocusBoard(slot.parentNode);
   const a=slot.dataset.acct,b=slot.dataset.board,i=+slot.dataset.i;
   const cur=reqGet(a,b,i);
   reqEdState={slot,a,b,i,item:cur?cur.item:null,qty:cur?cur.qty:1,drag:!!(opts&&opts.drag)};
@@ -3669,15 +3707,19 @@ function refreshReqMenu(){
     reqRenderSlot(el);
   });
 }
-function openReqMenu(){ reqLayout(); buildReqGrid(); document.getElementById('reqModal').classList.add('gc-show'); requestAnimationFrame(reqFitSigns); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(reqFitSigns); }
+function openReqMenu(){ document.getElementById('reqLayoutBtn').textContent='Layout '+reqMode; reqLayout(); buildReqGrid(); document.getElementById('reqModal').classList.add('gc-show'); requestAnimationFrame(reqFitSigns); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(reqFitSigns); }
 function closeReqMenu(){ reqCloseEd(); document.getElementById('upgTip').classList.remove('show'); document.getElementById('reqModal').classList.remove('gc-show'); }
 document.getElementById('reqBtn').onclick=openReqMenu;
 document.getElementById('reqClose').onclick=closeReqMenu;
+document.getElementById('reqLayoutBtn').onclick=()=>{
+  reqCloseEd(); reqMode=(reqMode===1)?2:1; try{ localStorage.setItem('reqLayout',String(reqMode)); }catch(e){}
+  document.getElementById('reqLayoutBtn').textContent='Layout '+reqMode; buildReqGrid(); requestAnimationFrame(reqFitSigns);
+};
 document.getElementById('reqModal').addEventListener('mousedown',e=>{
   if(e.target.id==='reqModal') closeReqMenu();
   else if(reqEdState && !e.target.closest('#reqEd') && !e.target.closest('.req-slot')) reqCloseEd();
 });
-window.addEventListener('resize',()=>{ if(document.getElementById('reqModal').classList.contains('gc-show')){ reqLayout(); reqFitSigns(); } });
+window.addEventListener('resize',()=>{ if(document.getElementById('reqModal').classList.contains('gc-show')){ reqLayout(); reqApplyL2(true); reqFitSigns(); } });
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape' && document.getElementById('reqModal').classList.contains('gc-show')){ if(reqEdState) reqCloseEd(); else closeReqMenu(); }
 });
