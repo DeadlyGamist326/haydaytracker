@@ -359,6 +359,8 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .req-board.req-shop{background:#c9704a;}
 .req-board>img.req-bg{width:100%;height:auto;display:block;pointer-events:none;}
 .req-slot{position:absolute;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:8%;box-sizing:border-box;}
+.req-slot.drag-over{background:rgba(255,255,255,.5);outline:2px dashed #fff;}
+.req-slot[draggable=true]{cursor:grab;}
 .req-slot:hover{background:rgba(255,255,255,.35);outline:2px solid rgba(255,255,255,.9);}
 .req-slot.empty:hover::after{content:'+';font:700 26cqw/1 var(--font-body);color:rgba(90,50,10,.55);}
 .req-slot img{width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 1px 1px rgba(0,0,0,.35));}
@@ -3478,7 +3480,7 @@ function reqSet(a,b,i,item,qty){
 function reqImg(it){ return REQ_IMG_BASE+'goods/'+it.s+'.webp'; }
 function reqRenderSlot(el){
   const a=el.dataset.acct,b=el.dataset.board,i=+el.dataset.i, d=reqGet(a,b,i);
-  el.innerHTML=''; el.classList.toggle('empty',!d);
+  el.innerHTML=''; el.classList.toggle('empty',!d); el.draggable=!!d;
   if(d){
     const im=document.createElement('img'); im.src=reqImg(d.item); im.alt=d.item.n; el.appendChild(im);
     const q=document.createElement('span'); q.className='req-q'; q.textContent=d.qty; el.appendChild(q);
@@ -3502,6 +3504,21 @@ function buildReqGrid(){
         el.style.cssText='left:'+s.x+'%;top:'+s.y+'%;width:'+s.w+'%;height:'+s.h+'%;';
         el.addEventListener('click',()=>reqOpenEd(el,'name'));
         el.addEventListener('contextmenu',e=>{ e.preventDefault(); if(reqGet(ac.id,b,i)) reqSet(ac.id,b,i,null,0), reqRenderSlot(el); });
+        el.addEventListener('dragstart',e=>{
+          if(!reqGet(ac.id,b,i)){ e.preventDefault(); return; }
+          e.dataTransfer.setData('text/plain','req:'+ac.id+':'+b+':'+i); e.dataTransfer.effectAllowed='copy';
+          document.getElementById('upgTip').classList.remove('show'); reqCloseEd();
+        });
+        el.addEventListener('dragover',e=>{ e.preventDefault(); e.dataTransfer.dropEffect='copy'; el.classList.add('drag-over'); });
+        el.addEventListener('dragleave',()=>el.classList.remove('drag-over'));
+        el.addEventListener('drop',e=>{
+          e.preventDefault(); el.classList.remove('drag-over');
+          const p=(e.dataTransfer.getData('text/plain')||'').split(':'); if(p[0]!=='req') return;
+          const src=reqGet(p[1],p[2],+p[3]); if(!src) return;
+          if(p[1]===ac.id && p[2]===b && +p[3]===i) return;
+          reqSet(ac.id,b,i,src.item,src.qty); reqRenderSlot(el);
+          reqOpenEd(el,'qty',{drag:true});
+        });
         reqRenderSlot(el);
         reqBindTip(el);
         bd.appendChild(el);
@@ -3537,11 +3554,11 @@ function reqFitSigns(){
 }
 let reqEdState=null;
 function reqCloseEd(){ document.getElementById('reqEd').classList.remove('show'); reqEdState=null; }
-function reqOpenEd(slot, step){
+function reqOpenEd(slot, step, opts){
   document.getElementById('upgTip').classList.remove('show');
   const a=slot.dataset.acct,b=slot.dataset.board,i=+slot.dataset.i;
   const cur=reqGet(a,b,i);
-  reqEdState={slot,a,b,i,item:cur?cur.item:null,qty:cur?cur.qty:1};
+  reqEdState={slot,a,b,i,item:cur?cur.item:null,qty:cur?cur.qty:1,drag:!!(opts&&opts.drag)};
   slot.scrollIntoView({block:'nearest',inline:'nearest'});
   const ed=document.getElementById('reqEd'); ed.classList.add('show');
   const ac=GAME_ACCOUNTS.find(x=>x.id===a);
@@ -3549,7 +3566,7 @@ function reqOpenEd(slot, step){
   const hd=document.createElement('div'); hd.className='req-ed-h'; hd.textContent=(ac?ac.label:a)+' · '+(b==='t'?'Table':'Roadside Shop')+' · Slot '+(i+1); ed.appendChild(hd);
   const body=document.createElement('div'); ed.appendChild(body);
   reqPlace(slot,ed);
-  reqStepName(body, cur?cur.item.n:'');
+  if(step==='qty' && cur) reqStepQty(body); else reqStepName(body, cur?cur.item.n:'');
 }
 function reqPlace(slot,ed){
   const r=slot.getBoundingClientRect(); const w=ed.offsetWidth||260, h=ed.offsetHeight||200;
@@ -3626,8 +3643,8 @@ function reqStepQty(body){
     if(e.key==='Enter'){
       e.preventDefault();
       const q=Math.max(1,parseInt(inp.value,10)||1);
-      reqSet(s.a,s.b,s.i,s.item,q); reqRenderSlot(s.slot); reqNext();
-    } else if(e.key==='Escape'){ e.stopPropagation(); reqStepName(body, s.item.n); }
+      reqSet(s.a,s.b,s.i,s.item,q); reqRenderSlot(s.slot); if(s.drag) reqCloseEd(); else reqNext();
+    } else if(e.key==='Escape'){ e.stopPropagation(); if(s.drag) reqCloseEd(); else reqStepName(body, s.item.n); }
   });
   reqPlace(s.slot, document.getElementById('reqEd'));
   inp.focus(); inp.select();
