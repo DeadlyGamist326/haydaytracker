@@ -3525,6 +3525,16 @@ function buildReqGrid(){
           const p=(e.dataTransfer.getData('text/plain')||'').split(':'); if(p[0]!=='req') return;
           const src=reqGet(p[1],p[2],+p[3]); if(!src) return;
           if(p[1]===ac.id && p[2]===b && +p[3]===i) return;
+          const tgt=reqGet(ac.id,b,i);
+          if(tgt && tgt.item.s===src.item.s && p[1]===ac.id && p[2]===b){
+            // same board, same item: merge both stacks into the target slot
+            const tk=reqKey(ac.id,b,i), sk=reqKey(p[1],p[2],+p[3]);
+            const changes={[tk]:rawSnapshot(tk),[sk]:rawSnapshot(sk)};
+            writeCheckValue(tk, src.item.s+'|'+Math.min(9999,tgt.qty+src.qty)); writeCheckValue(sk,false);
+            recordUndo({type:'delta',changes});
+            document.querySelectorAll('#reqGrid .req-slot').forEach(reqRenderSlot);
+            reqOpenEd(el,'qty',{drag:true}); return;
+          }
           reqSet(ac.id,b,i,src.item,src.qty); reqRenderSlot(el);
           reqOpenEd(el,'qty',{drag:true});
         });
