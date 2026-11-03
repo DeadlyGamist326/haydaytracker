@@ -1444,7 +1444,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/96/Red_Lure.png/revision/latest?cb=20140330225706",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/96/Red_Lure.png/revision/latest?cb=20140330225706",
-  "wiki": "https://hayday.fandom.com/wiki/Lure"
+  "wiki": "https://hayday.fandom.com/wiki/Lure",
+  "file": "goods/red-lure.webp"
  },
  {
   "name": "Green lure",
@@ -1714,7 +1715,8 @@
   "perBoatCrate": "6-12",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/9d/Tomato.png/revision/latest?cb=20240219025108",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/9d/Tomato.png/revision/latest/scale-to-width-down/100?cb=20240219025108",
-  "wiki": "https://hayday.fandom.com/wiki/Tomato"
+  "wiki": "https://hayday.fandom.com/wiki/Tomato",
+  "file": "goods/tomato.webp"
  },
  {
   "name": "Roasted tomatoes",
@@ -1734,7 +1736,8 @@
   "perBoatCrate": "3-5",
   "image": "https://static.wikia.nocookie.net/hayday/images/0/04/Roasted_Tomatoes.png/revision/latest?cb=20191023233109",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/0/04/Roasted_Tomatoes.png/revision/latest/scale-to-width-down/100?cb=20191023233109",
-  "wiki": "https://hayday.fandom.com/wiki/Roasted_Tomatoes"
+  "wiki": "https://hayday.fandom.com/wiki/Roasted_Tomatoes",
+  "file": "goods/roasted-tomatoes.webp"
  },
  {
   "name": "Cherry juice",
@@ -1754,7 +1757,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/ab/Cherry_Juice.png/revision/latest?cb=20240223064636",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/ab/Cherry_Juice.png/revision/latest/scale-to-width-down/100?cb=20240223064636",
-  "wiki": "https://hayday.fandom.com/wiki/Cherry_Juice"
+  "wiki": "https://hayday.fandom.com/wiki/Cherry_Juice",
+  "file": "goods/cherry-juice.webp"
  },
  {
   "name": "Fishing net",
@@ -1769,7 +1773,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/a1/Fishing_Net.png/revision/latest?cb=20150725033019",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/a1/Fishing_Net.png/revision/latest/scale-to-width-down/100?cb=20150725033019",
-  "wiki": "https://hayday.fandom.com/wiki/Fishing_Net"
+  "wiki": "https://hayday.fandom.com/wiki/Fishing_Net",
+  "file": "goods/fishing-net.webp"
  },
  {
   "name": "Mystery net",
@@ -1789,7 +1794,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/17/Mystery_Net.png/revision/latest?cb=20150725033113",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/17/Mystery_Net.png/revision/latest/scale-to-width-down/100?cb=20150725033113",
-  "wiki": "https://hayday.fandom.com/wiki/Mystery_Net"
+  "wiki": "https://hayday.fandom.com/wiki/Mystery_Net",
+  "file": "goods/mystery-net.webp"
  },
  {
   "name": "Blueberries",
@@ -1804,7 +1810,8 @@
   "perBoatCrate": "4",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/af/Blueberries.png/revision/latest?cb=20250622152858",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/af/Blueberries.png/revision/latest/scale-to-width-down/100?cb=20250622152858",
-  "wiki": "https://hayday.fandom.com/wiki/Blueberries"
+  "wiki": "https://hayday.fandom.com/wiki/Blueberries",
+  "file": "goods/blueberries.webp"
  },
  {
   "name": "Tomato juice",
@@ -1953,7 +1960,8 @@
   "perBoatCrate": "??",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/10/Lamb_D%C3%B6ner_Wrap.png/revision/latest?cb=20260604000844",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/10/Lamb_D%C3%B6ner_Wrap.png/revision/latest/scale-to-width-down/100?cb=20260604000844",
-  "wiki": "https://hayday.fandom.com/wiki/Lamb_D%C3%B6ner_Wrap"
+  "wiki": "https://hayday.fandom.com/wiki/Lamb_D%C3%B6ner_Wrap",
+  "file": "goods/lamb-d-ner-wrap.webp"
  },
  {
   "name": "Spicy bean döner",
@@ -1985,7 +1993,8 @@
   "perBoatCrate": "??",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/98/Spicy_Bean_D%C3%B6ner.png/revision/latest?cb=20260604000933",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/98/Spicy_Bean_D%C3%B6ner.png/revision/latest/scale-to-width-down/100?cb=20260604000933",
-  "wiki": "https://hayday.fandom.com/wiki/Spicy_Bean_D%C3%B6ner"
+  "wiki": "https://hayday.fandom.com/wiki/Spicy_Bean_D%C3%B6ner",
+  "file": "goods/spicy-bean-d-ner.webp"
  },
  {
   "name": "Goat cheese",
@@ -2071,7 +2080,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b5/Refined_Coal.png/revision/latest?cb=20240208090929",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b5/Refined_Coal.png/revision/latest/scale-to-width-down/100?cb=20240208090929",
-  "wiki": "https://hayday.fandom.com/wiki/Refined_Coal"
+  "wiki": "https://hayday.fandom.com/wiki/Refined_Coal",
+  "file": "goods/refined-coal.webp"
  },
  {
   "name": "Cherry popsicle",
@@ -2095,7 +2105,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/48/Cherry_Popsicle.png/revision/latest?cb=20240411152842",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/48/Cherry_Popsicle.png/revision/latest/scale-to-width-down/100?cb=20240411152842",
-  "wiki": "https://hayday.fandom.com/wiki/Cherry_Popsicle"
+  "wiki": "https://hayday.fandom.com/wiki/Cherry_Popsicle",
+  "file": "goods/cherry-popsicle.webp"
  },
  {
   "name": "Blueberry muffin",
@@ -2123,7 +2134,8 @@
   "perBoatCrate": "1-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/31/Blueberry_Muffin.png/revision/latest?cb=20250923203855",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/31/Blueberry_Muffin.png/revision/latest/scale-to-width-down/100?cb=20250923203855",
-  "wiki": "https://hayday.fandom.com/wiki/Blueberry_Muffin"
+  "wiki": "https://hayday.fandom.com/wiki/Blueberry_Muffin",
+  "file": "goods/blueberry-muffin.webp"
  },
  {
   "name": "Strawberry",
@@ -2143,7 +2155,8 @@
   "perBoatCrate": "3-10",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/6d/Strawberry.png/revision/latest?cb=20240219031821",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/6d/Strawberry.png/revision/latest/scale-to-width-down/100?cb=20240219031821",
-  "wiki": "https://hayday.fandom.com/wiki/Strawberry"
+  "wiki": "https://hayday.fandom.com/wiki/Strawberry",
+  "file": "goods/strawberry.webp"
  },
  {
   "name": "Feta pie",
@@ -2171,7 +2184,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/61/Feta_Pie.png/revision/latest?cb=20240207150211",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/61/Feta_Pie.png/revision/latest/scale-to-width-down/100?cb=20240207150211",
-  "wiki": "https://hayday.fandom.com/wiki/Feta_Pie"
+  "wiki": "https://hayday.fandom.com/wiki/Feta_Pie",
+  "file": "goods/feta-pie.webp"
  },
  {
   "name": "Iron ore",
@@ -2186,7 +2200,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/87/Iron_Ore.png/revision/latest?cb=20150711233632",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/87/Iron_Ore.png/revision/latest/scale-to-width-down/100?cb=20150711233632",
-  "wiki": "https://hayday.fandom.com/wiki/Iron_Ore"
+  "wiki": "https://hayday.fandom.com/wiki/Iron_Ore",
+  "file": "goods/iron-ore.webp"
  },
  {
   "name": "Iron bar",
@@ -2206,7 +2221,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/6c/Iron_Bar.png/revision/latest?cb=20240208090640",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/6c/Iron_Bar.png/revision/latest/scale-to-width-down/100?cb=20240208090640",
-  "wiki": "https://hayday.fandom.com/wiki/Iron_Bar"
+  "wiki": "https://hayday.fandom.com/wiki/Iron_Bar",
+  "file": "goods/iron-bar.webp"
  },
  {
   "name": "Strawberry ice cream",
@@ -2238,7 +2254,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/8d/Strawberry_Ice_Cream.png/revision/latest?cb=20240411152635",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/8d/Strawberry_Ice_Cream.png/revision/latest/scale-to-width-down/100?cb=20240411152635",
-  "wiki": "https://hayday.fandom.com/wiki/Strawberry_Ice_Cream"
+  "wiki": "https://hayday.fandom.com/wiki/Strawberry_Ice_Cream",
+  "file": "goods/strawberry-ice-cream.webp"
  },
  {
   "name": "Wheat bundle",
@@ -2258,7 +2275,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/5d/Wheat_Bundle.png/revision/latest?cb=20170707203212",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/5d/Wheat_Bundle.png/revision/latest/scale-to-width-down/100?cb=20170707203212",
-  "wiki": "https://hayday.fandom.com/wiki/Wheat_Bundle"
+  "wiki": "https://hayday.fandom.com/wiki/Wheat_Bundle",
+  "file": "goods/wheat-bundle.webp"
  },
  {
   "name": "Meat bucket",
@@ -2282,7 +2300,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/5e/Meat_Bucket.png/revision/latest?cb=20240411151118",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/5e/Meat_Bucket.png/revision/latest/scale-to-width-down/100?cb=20240411151118",
-  "wiki": "https://hayday.fandom.com/wiki/Meat_Bucket"
+  "wiki": "https://hayday.fandom.com/wiki/Meat_Bucket",
+  "file": "goods/meat-bucket.webp"
  },
  {
   "name": "Potato",
@@ -2302,7 +2321,8 @@
   "perBoatCrate": "6-14",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/c2/Potato.png/revision/latest?cb=20240219030654",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/c2/Potato.png/revision/latest/scale-to-width-down/100?cb=20240219030654",
-  "wiki": "https://hayday.fandom.com/wiki/Potato"
+  "wiki": "https://hayday.fandom.com/wiki/Potato",
+  "file": "goods/potato.webp"
  },
  {
   "name": "Strawberry cake",
@@ -2334,7 +2354,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/1a/Strawberry_Cake.png/revision/latest?cb=20240223073929",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/1a/Strawberry_Cake.png/revision/latest/scale-to-width-down/100?cb=20240223073929",
-  "wiki": "https://hayday.fandom.com/wiki/Strawberry_Cake"
+  "wiki": "https://hayday.fandom.com/wiki/Strawberry_Cake",
+  "file": "goods/strawberry-cake.webp"
  },
  {
   "name": "Baked potato",
@@ -2366,7 +2387,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/11/Baked_Potato.png/revision/latest?cb=20240205164314",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/11/Baked_Potato.png/revision/latest/scale-to-width-down/100?cb=20240205164314",
-  "wiki": "https://hayday.fandom.com/wiki/Baked_Potato"
+  "wiki": "https://hayday.fandom.com/wiki/Baked_Potato",
+  "file": "goods/baked-potato.webp"
  },
  {
   "name": "Apple jam",
@@ -2386,7 +2408,8 @@
   "perBoatCrate": "2-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/6c/Apple_Jam.png/revision/latest?cb=20240208151258",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/6c/Apple_Jam.png/revision/latest/scale-to-width-down/100?cb=20240208151258",
-  "wiki": "https://hayday.fandom.com/wiki/Apple_Jam"
+  "wiki": "https://hayday.fandom.com/wiki/Apple_Jam",
+  "file": "goods/apple-jam.webp"
  },
  {
   "name": "Chocolate cake",
@@ -2414,7 +2437,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/87/Chocolate_Cake.png/revision/latest?cb=20240223074025",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/87/Chocolate_Cake.png/revision/latest/scale-to-width-down/100?cb=20240223074025",
-  "wiki": "https://hayday.fandom.com/wiki/Chocolate_Cake"
+  "wiki": "https://hayday.fandom.com/wiki/Chocolate_Cake",
+  "file": "goods/chocolate-cake.webp"
  },
  {
   "name": "Casserole",
@@ -2446,7 +2470,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b6/Casserole.png/revision/latest?cb=20240207145740",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b6/Casserole.png/revision/latest/scale-to-width-down/100?cb=20240207145740",
-  "wiki": "https://hayday.fandom.com/wiki/Casserole"
+  "wiki": "https://hayday.fandom.com/wiki/Casserole",
+  "file": "goods/casserole.webp"
  },
  {
   "name": "Cacao",
@@ -2461,7 +2486,8 @@
   "perBoatCrate": "4-6",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/60/Cacao.png/revision/latest?cb=20240219032732",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/60/Cacao.png/revision/latest/scale-to-width-down/100?cb=20240219032732",
-  "wiki": "https://hayday.fandom.com/wiki/Cacao"
+  "wiki": "https://hayday.fandom.com/wiki/Cacao",
+  "file": "goods/cacao.webp"
  },
  {
   "name": "Raspberry jam",
@@ -2481,7 +2507,8 @@
   "perBoatCrate": "1-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/84/Raspberry_Jam.png/revision/latest?cb=20240208151524",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/84/Raspberry_Jam.png/revision/latest/scale-to-width-down/100?cb=20240208151524",
-  "wiki": "https://hayday.fandom.com/wiki/Raspberry_Jam"
+  "wiki": "https://hayday.fandom.com/wiki/Raspberry_Jam",
+  "file": "goods/raspberry-jam.webp"
  },
  {
   "name": "Spicy pizza",
@@ -2513,7 +2540,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/5c/Spicy_Pizza.png/revision/latest?cb=20240205083244",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/5c/Spicy_Pizza.png/revision/latest/scale-to-width-down/100?cb=20240205083244",
-  "wiki": "https://hayday.fandom.com/wiki/Spicy_Pizza"
+  "wiki": "https://hayday.fandom.com/wiki/Spicy_Pizza",
+  "file": "goods/spicy-pizza.webp"
  },
  {
   "name": "Blackberry jam",
@@ -2533,7 +2561,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/52/Blackberry_Jam.png/revision/latest?cb=20240208151625",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/52/Blackberry_Jam.png/revision/latest/scale-to-width-down/100?cb=20240208151625",
-  "wiki": "https://hayday.fandom.com/wiki/Blackberry_Jam"
+  "wiki": "https://hayday.fandom.com/wiki/Blackberry_Jam",
+  "file": "goods/blackberry-jam.webp"
  },
  {
   "name": "Potato feta cake",
@@ -2561,7 +2590,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/7c/Potato_Feta_Cake.png/revision/latest?cb=20240223074133",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/7c/Potato_Feta_Cake.png/revision/latest/scale-to-width-down/100?cb=20240223074133",
-  "wiki": "https://hayday.fandom.com/wiki/Potato_Feta_Cake"
+  "wiki": "https://hayday.fandom.com/wiki/Potato_Feta_Cake",
+  "file": "goods/potato-feta-cake.webp"
  },
  {
   "name": "Cherry jam",
@@ -2581,7 +2611,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/53/Cherry_Jam.png/revision/latest?cb=20240208151724",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/53/Cherry_Jam.png/revision/latest/scale-to-width-down/100?cb=20240208151724",
-  "wiki": "https://hayday.fandom.com/wiki/Cherry_Jam"
+  "wiki": "https://hayday.fandom.com/wiki/Cherry_Jam",
+  "file": "goods/cherry-jam.webp"
  },
  {
   "name": "Bracelet",
@@ -2605,7 +2636,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/33/Bracelet.png/revision/latest?cb=20240208162033",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/33/Bracelet.png/revision/latest/scale-to-width-down/100?cb=20240208162033",
-  "wiki": "https://hayday.fandom.com/wiki/Bracelet"
+  "wiki": "https://hayday.fandom.com/wiki/Bracelet",
+  "file": "goods/bracelet.webp"
  },
  {
   "name": "Potato bread",
@@ -2637,7 +2669,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/26/Potato_Bread.png/revision/latest?cb=20240205083506",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/26/Potato_Bread.png/revision/latest/scale-to-width-down/100?cb=20240205083506",
-  "wiki": "https://hayday.fandom.com/wiki/Potato_Bread"
+  "wiki": "https://hayday.fandom.com/wiki/Potato_Bread",
+  "file": "goods/potato-bread.webp"
  },
  {
   "name": "Shepherd's pie",
@@ -2669,7 +2702,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b8/Shepherd%27s_Pie.png/revision/latest?cb=20240207150949",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b8/Shepherd%27s_Pie.png/revision/latest/scale-to-width-down/100?cb=20240207150949",
-  "wiki": "https://hayday.fandom.com/wiki/Shepherd%27s_Pie"
+  "wiki": "https://hayday.fandom.com/wiki/Shepherd%27s_Pie",
+  "file": "goods/shepherd-s-pie.webp"
  },
  {
   "name": "Chocolate ice cream",
@@ -2701,7 +2735,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/41/Chocolate_Ice_Cream.png/revision/latest?cb=20240411152825",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/41/Chocolate_Ice_Cream.png/revision/latest/scale-to-width-down/100?cb=20240411152825",
-  "wiki": "https://hayday.fandom.com/wiki/Chocolate_Ice_Cream"
+  "wiki": "https://hayday.fandom.com/wiki/Chocolate_Ice_Cream",
+  "file": "goods/chocolate-ice-cream.webp"
  },
  {
   "name": "Honeycomb",
@@ -2716,7 +2751,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/7c/Honeycomb.png/revision/latest?cb=20191025193524",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/7c/Honeycomb.png/revision/latest/scale-to-width-down/100?cb=20191025193524",
-  "wiki": "https://hayday.fandom.com/wiki/Honeycomb"
+  "wiki": "https://hayday.fandom.com/wiki/Honeycomb",
+  "file": "goods/honeycomb.webp"
  },
  {
   "name": "Necklace",
@@ -2744,7 +2780,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/3a/Necklace.png/revision/latest?cb=20240208162414",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/3a/Necklace.png/revision/latest/scale-to-width-down/100?cb=20240208162414",
-  "wiki": "https://hayday.fandom.com/wiki/Necklace"
+  "wiki": "https://hayday.fandom.com/wiki/Necklace",
+  "file": "goods/necklace.webp"
  },
  {
   "name": "Honey",
@@ -2764,7 +2801,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/c6/Honey.png/revision/latest?cb=20240209012557",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/c6/Honey.png/revision/latest/scale-to-width-down/100?cb=20240209012557",
-  "wiki": "https://hayday.fandom.com/wiki/Honey"
+  "wiki": "https://hayday.fandom.com/wiki/Honey",
+  "file": "goods/honey.webp"
  },
  {
   "name": "Honey popcorn",
@@ -2788,7 +2826,8 @@
   "perBoatCrate": "3-5",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b1/Honey_Popcorn.png/revision/latest?cb=20240206170401",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b1/Honey_Popcorn.png/revision/latest/scale-to-width-down/100?cb=20240206170401",
-  "wiki": "https://hayday.fandom.com/wiki/Honey_Popcorn"
+  "wiki": "https://hayday.fandom.com/wiki/Honey_Popcorn",
+  "file": "goods/honey-popcorn.webp"
  },
  {
   "name": "Diamond ring",
@@ -2816,7 +2855,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/a6/Diamond_Ring.png/revision/latest?cb=20240208162131",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/a6/Diamond_Ring.png/revision/latest/scale-to-width-down/100?cb=20240208162131",
-  "wiki": "https://hayday.fandom.com/wiki/Diamond_Ring"
+  "wiki": "https://hayday.fandom.com/wiki/Diamond_Ring",
+  "file": "goods/diamond-ring.webp"
  },
  {
   "name": "Fish and chips",
@@ -2840,7 +2880,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/ea/Fish_and_Chips.png/revision/latest?cb=20191023233220",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/ea/Fish_and_Chips.png/revision/latest/scale-to-width-down/100?cb=20191023233220",
-  "wiki": "https://hayday.fandom.com/wiki/Fish_and_Chips"
+  "wiki": "https://hayday.fandom.com/wiki/Fish_and_Chips",
+  "file": "goods/fish-and-chips.webp"
  },
  {
   "name": "Iron bracelet",
@@ -2868,7 +2909,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/40/Iron_Bracelet.png/revision/latest?cb=20240208162523",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/40/Iron_Bracelet.png/revision/latest/scale-to-width-down/100?cb=20240208162523",
-  "wiki": "https://hayday.fandom.com/wiki/Iron_Bracelet"
+  "wiki": "https://hayday.fandom.com/wiki/Iron_Bracelet",
+  "file": "goods/iron-bracelet.webp"
  },
  {
   "name": "Coffee bean",
@@ -2883,7 +2925,8 @@
   "perBoatCrate": "4-8",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/33/Coffee_Bean.png/revision/latest?cb=20240219032959",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/33/Coffee_Bean.png/revision/latest/scale-to-width-down/100?cb=20240219032959",
-  "wiki": "https://hayday.fandom.com/wiki/Coffee_Bean"
+  "wiki": "https://hayday.fandom.com/wiki/Coffee_Bean",
+  "file": "goods/coffee-bean.webp"
  },
  {
   "name": "Espresso",
@@ -2907,7 +2950,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/ad/Espresso.png/revision/latest?cb=20240209012756",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/ad/Espresso.png/revision/latest/scale-to-width-down/100?cb=20240209012756",
-  "wiki": "https://hayday.fandom.com/wiki/Espresso"
+  "wiki": "https://hayday.fandom.com/wiki/Espresso",
+  "file": "goods/espresso.webp"
  },
  {
   "name": "Honey apple cake",
@@ -2939,7 +2983,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/16/Honey_Apple_Cake.png/revision/latest?cb=20240223074318",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/16/Honey_Apple_Cake.png/revision/latest/scale-to-width-down/100?cb=20240223074318",
-  "wiki": "https://hayday.fandom.com/wiki/Honey_Apple_Cake"
+  "wiki": "https://hayday.fandom.com/wiki/Honey_Apple_Cake",
+  "file": "goods/honey-apple-cake.webp"
  },
  {
   "name": "Caffè latte",
@@ -2967,7 +3012,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/6e/Caff%C3%A8_Latte.png/revision/latest?cb=20240209012944",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/6e/Caff%C3%A8_Latte.png/revision/latest/scale-to-width-down/100?cb=20240209012944",
-  "wiki": "https://hayday.fandom.com/wiki/Caff%C3%A8_Latte"
+  "wiki": "https://hayday.fandom.com/wiki/Caff%C3%A8_Latte",
+  "file": "goods/caff-latte.webp"
  },
  {
   "name": "Chocolate popcorn",
@@ -2991,7 +3037,8 @@
   "perBoatCrate": "2-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/0/09/Chocolate_Popcorn.png/revision/latest?cb=20240206170316",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/0/09/Chocolate_Popcorn.png/revision/latest/scale-to-width-down/100?cb=20240206170316",
-  "wiki": "https://hayday.fandom.com/wiki/Chocolate_Popcorn"
+  "wiki": "https://hayday.fandom.com/wiki/Chocolate_Popcorn",
+  "file": "goods/chocolate-popcorn.webp"
  },
  {
   "name": "Lobster trap",
@@ -3006,7 +3053,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/38/Lobster_Trap.png/revision/latest?cb=20150725035512",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/38/Lobster_Trap.png/revision/latest/scale-to-width-down/100?cb=20150725035512",
-  "wiki": "https://hayday.fandom.com/wiki/Lobster_Trap"
+  "wiki": "https://hayday.fandom.com/wiki/Lobster_Trap",
+  "file": "goods/lobster-trap.webp"
  },
  {
   "name": "Lobster tail",
@@ -3026,7 +3074,8 @@
   "perBoatCrate": "2-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/5d/Lobster_Tail.png/revision/latest?cb=20150411101115",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/5d/Lobster_Tail.png/revision/latest/scale-to-width-down/100?cb=20150411101115",
-  "wiki": "https://hayday.fandom.com/wiki/Lobster_Tail"
+  "wiki": "https://hayday.fandom.com/wiki/Lobster_Tail",
+  "file": "goods/lobster-tail.webp"
  },
  {
   "name": "Frutti di Mare pizza",
@@ -3058,7 +3107,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/5f/Frutti_di_Mare_Pizza.png/revision/latest?cb=20240205083710",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/5f/Frutti_di_Mare_Pizza.png/revision/latest/scale-to-width-down/100?cb=20240205083710",
-  "wiki": "https://hayday.fandom.com/wiki/Frutti_di_Mare_Pizza"
+  "wiki": "https://hayday.fandom.com/wiki/Frutti_di_Mare_Pizza",
+  "file": "goods/frutti-di-mare-pizza.webp"
  },
  {
   "name": "Caffè mocha",
@@ -3086,7 +3136,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/c7/Caff%C3%A8_Mocha.png/revision/latest?cb=20240209012852",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/c7/Caff%C3%A8_Mocha.png/revision/latest/scale-to-width-down/100?cb=20240209012852",
-  "wiki": "https://hayday.fandom.com/wiki/Caff%C3%A8_Mocha"
+  "wiki": "https://hayday.fandom.com/wiki/Caff%C3%A8_Mocha",
+  "file": "goods/caff-mocha.webp"
  },
  {
   "name": "Chamomile",
@@ -3106,7 +3157,8 @@
   "perBoatCrate": "32-47",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/31/Chamomile.png/revision/latest?cb=20241209180843",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/31/Chamomile.png/revision/latest/scale-to-width-down/100?cb=20241209180843",
-  "wiki": "https://hayday.fandom.com/wiki/Chamomile"
+  "wiki": "https://hayday.fandom.com/wiki/Chamomile",
+  "file": "goods/chamomile.webp"
  },
  {
   "name": "Soothing pad",
@@ -3134,7 +3186,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/c0/Soothing_Pad.png/revision/latest?cb=20241209182716",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/c0/Soothing_Pad.png/revision/latest/scale-to-width-down/100?cb=20241209182716",
-  "wiki": "https://hayday.fandom.com/wiki/Soothing_Pad"
+  "wiki": "https://hayday.fandom.com/wiki/Soothing_Pad",
+  "file": "goods/soothing-pad.webp"
  },
  {
   "name": "Raspberry mocha",
@@ -3166,7 +3219,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/5c/Raspberry_Mocha.png/revision/latest?cb=20180223180014",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/5c/Raspberry_Mocha.png/revision/latest/scale-to-width-down/100?cb=20180223180014",
-  "wiki": "https://hayday.fandom.com/wiki/Raspberry_Mocha"
+  "wiki": "https://hayday.fandom.com/wiki/Raspberry_Mocha",
+  "file": "goods/raspberry-mocha.webp"
  },
  {
   "name": "Lobster soup",
@@ -3198,7 +3252,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/59/Lobster_Soup.png/revision/latest?cb=20240209021219",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/59/Lobster_Soup.png/revision/latest/scale-to-width-down/100?cb=20240209021219",
-  "wiki": "https://hayday.fandom.com/wiki/Lobster_Soup"
+  "wiki": "https://hayday.fandom.com/wiki/Lobster_Soup",
+  "file": "goods/lobster-soup.webp"
  },
  {
   "name": "Lamb soup",
@@ -3226,7 +3281,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b8/Lamb_Soup.png/revision/latest?cb=20260510102125",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b8/Lamb_Soup.png/revision/latest/scale-to-width-down/100?cb=20260510102125",
-  "wiki": "https://hayday.fandom.com/wiki/Lamb_Soup"
+  "wiki": "https://hayday.fandom.com/wiki/Lamb_Soup",
+  "file": "goods/lamb-soup.webp"
  },
  {
   "name": "Hot chocolate",
@@ -3258,7 +3314,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b0/Hot_Chocolate.png/revision/latest?cb=20240209013139",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b0/Hot_Chocolate.png/revision/latest/scale-to-width-down/100?cb=20240209013139",
-  "wiki": "https://hayday.fandom.com/wiki/Hot_Chocolate"
+  "wiki": "https://hayday.fandom.com/wiki/Hot_Chocolate",
+  "file": "goods/hot-chocolate.webp"
  },
  {
   "name": "Tomato soup",
@@ -3290,7 +3347,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/d/dc/Tomato_Soup.png/revision/latest?cb=20240209023225",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/dc/Tomato_Soup.png/revision/latest/scale-to-width-down/100?cb=20240209023225",
-  "wiki": "https://hayday.fandom.com/wiki/Tomato_Soup"
+  "wiki": "https://hayday.fandom.com/wiki/Tomato_Soup",
+  "file": "goods/tomato-soup.webp"
  },
  {
   "name": "Red scarf",
@@ -3314,7 +3372,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/4f/Red_Scarf.png/revision/latest?cb=20240207160030",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/4f/Red_Scarf.png/revision/latest/scale-to-width-down/100?cb=20240207160030",
-  "wiki": "https://hayday.fandom.com/wiki/Red_Scarf"
+  "wiki": "https://hayday.fandom.com/wiki/Red_Scarf",
+  "file": "goods/red-scarf.webp"
  },
  {
   "name": "Lobster skewer",
@@ -3342,7 +3401,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/62/Lobster_Skewer.png/revision/latest?cb=20240223075812",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/62/Lobster_Skewer.png/revision/latest/scale-to-width-down/100?cb=20240223075812",
-  "wiki": "https://hayday.fandom.com/wiki/Lobster_Skewer"
+  "wiki": "https://hayday.fandom.com/wiki/Lobster_Skewer",
+  "file": "goods/lobster-skewer.webp"
  },
  {
   "name": "Beeswax",
@@ -3362,7 +3422,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/e4/Beeswax.png/revision/latest?cb=20240209012642",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/e4/Beeswax.png/revision/latest/scale-to-width-down/100?cb=20240209012642",
-  "wiki": "https://hayday.fandom.com/wiki/Beeswax"
+  "wiki": "https://hayday.fandom.com/wiki/Beeswax",
+  "file": "goods/beeswax.webp"
  },
  {
   "name": "Strawberry candle",
@@ -3386,7 +3447,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/21/Strawberry_Candle.png/revision/latest?cb=20240209023413",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/21/Strawberry_Candle.png/revision/latest/scale-to-width-down/100?cb=20240209023413",
-  "wiki": "https://hayday.fandom.com/wiki/Strawberry_Candle"
+  "wiki": "https://hayday.fandom.com/wiki/Strawberry_Candle",
+  "file": "goods/strawberry-candle.webp"
  },
  {
   "name": "Rustic bouquet",
@@ -3414,7 +3476,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/93/Rustic_Bouquet.png/revision/latest?cb=20240209042055",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/93/Rustic_Bouquet.png/revision/latest/scale-to-width-down/100?cb=20240209042055",
-  "wiki": "https://hayday.fandom.com/wiki/Rustic_Bouquet"
+  "wiki": "https://hayday.fandom.com/wiki/Rustic_Bouquet",
+  "file": "goods/rustic-bouquet.webp"
  },
  {
   "name": "Pumpkin soup",
@@ -3446,7 +3509,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/59/Pumpkin_Soup.png/revision/latest?cb=20240209023128",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/59/Pumpkin_Soup.png/revision/latest/scale-to-width-down/100?cb=20240209023128",
-  "wiki": "https://hayday.fandom.com/wiki/Pumpkin_Soup"
+  "wiki": "https://hayday.fandom.com/wiki/Pumpkin_Soup",
+  "file": "goods/pumpkin-soup.webp"
  },
  {
   "name": "Asparagus",
@@ -3466,7 +3530,8 @@
   "perBoatCrate": "6-12",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/45/Asparagus.png/revision/latest?cb=20240218150229",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/45/Asparagus.png/revision/latest/scale-to-width-down/100?cb=20240218150229",
-  "wiki": "https://hayday.fandom.com/wiki/Asparagus"
+  "wiki": "https://hayday.fandom.com/wiki/Asparagus",
+  "file": "goods/asparagus.webp"
  },
  {
   "name": "Asparagus quiche",
@@ -3498,7 +3563,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/4b/Asparagus_Quiche.png/revision/latest?cb=20240207145524",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/4b/Asparagus_Quiche.png/revision/latest/scale-to-width-down/100?cb=20240207145524",
-  "wiki": "https://hayday.fandom.com/wiki/Asparagus_Quiche"
+  "wiki": "https://hayday.fandom.com/wiki/Asparagus_Quiche",
+  "file": "goods/asparagus-quiche.webp"
  },
  {
   "name": "Strawberry jam",
@@ -3755,7 +3821,8 @@
   "perBoatCrate": "20-31",
   "image": "https://static.wikia.nocookie.net/hayday/images/f/fb/Pineapple.png/revision/latest?cb=20240219030555",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/f/fb/Pineapple.png/revision/latest/scale-to-width-down/100?cb=20240219030555",
-  "wiki": "https://hayday.fandom.com/wiki/Pineapple"
+  "wiki": "https://hayday.fandom.com/wiki/Pineapple",
+  "file": "goods/pineapple.webp"
  },
  {
   "name": "Pineapple juice",
@@ -3775,7 +3842,8 @@
   "perBoatCrate": "5-8",
   "image": "https://static.wikia.nocookie.net/hayday/images/f/fd/Pineapple_Juice.png/revision/latest?cb=20240223064929",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/f/fd/Pineapple_Juice.png/revision/latest/scale-to-width-down/100?cb=20240223064929",
-  "wiki": "https://hayday.fandom.com/wiki/Pineapple_Juice"
+  "wiki": "https://hayday.fandom.com/wiki/Pineapple_Juice",
+  "file": "goods/pineapple-juice.webp"
  },
  {
   "name": "Fish soup",
@@ -3807,7 +3875,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/be/Fish_Soup.png/revision/latest?cb=20240209022047",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/be/Fish_Soup.png/revision/latest/scale-to-width-down/100?cb=20240209022047",
-  "wiki": "https://hayday.fandom.com/wiki/Fish_Soup"
+  "wiki": "https://hayday.fandom.com/wiki/Fish_Soup",
+  "file": "goods/fish-soup.webp"
  },
  {
   "name": "Lily",
@@ -3827,7 +3896,8 @@
   "perBoatCrate": "12-20",
   "image": "https://static.wikia.nocookie.net/hayday/images/0/0a/Lily.png/revision/latest?cb=20240219025449",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/0/0a/Lily.png/revision/latest/scale-to-width-down/100?cb=20240219025449",
-  "wiki": "https://hayday.fandom.com/wiki/Lily"
+  "wiki": "https://hayday.fandom.com/wiki/Lily",
+  "file": "goods/lily.webp"
  },
  {
   "name": "Soy sauce",
@@ -3851,7 +3921,8 @@
   "perBoatCrate": "2-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/97/Soy_Sauce.png/revision/latest?cb=20240210055302",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/97/Soy_Sauce.png/revision/latest/scale-to-width-down/100?cb=20240210055302",
-  "wiki": "https://hayday.fandom.com/wiki/Soy_Sauce"
+  "wiki": "https://hayday.fandom.com/wiki/Soy_Sauce",
+  "file": "goods/soy-sauce.webp"
  },
  {
   "name": "Chocolate",
@@ -3879,7 +3950,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/d/df/Chocolate.png/revision/latest?cb=20240210053728",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/df/Chocolate.png/revision/latest/scale-to-width-down/100?cb=20240210053728",
-  "wiki": "https://hayday.fandom.com/wiki/Chocolate"
+  "wiki": "https://hayday.fandom.com/wiki/Chocolate",
+  "file": "goods/chocolate.webp"
  },
  {
   "name": "Bean dip",
@@ -3907,7 +3979,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/58/Bean_Dip.png/revision/latest?cb=20260126210943",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/58/Bean_Dip.png/revision/latest/scale-to-width-down/100?cb=20260126210943",
-  "wiki": "https://hayday.fandom.com/wiki/Bean_Dip"
+  "wiki": "https://hayday.fandom.com/wiki/Bean_Dip",
+  "file": "goods/bean-dip.webp"
  },
  {
   "name": "Fancy cake",
@@ -3939,7 +4012,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/d/dd/Fancy_Cake.png/revision/latest?cb=20240411150410",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/dd/Fancy_Cake.png/revision/latest/scale-to-width-down/100?cb=20240411150410",
-  "wiki": "https://hayday.fandom.com/wiki/Fancy_Cake"
+  "wiki": "https://hayday.fandom.com/wiki/Fancy_Cake",
+  "file": "goods/fancy-cake.webp"
  },
  {
   "name": "Rice",
@@ -3959,7 +4033,8 @@
   "perBoatCrate": "19-32",
   "image": "https://static.wikia.nocookie.net/hayday/images/d/da/Rice.png/revision/latest?cb=20240219030840",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/da/Rice.png/revision/latest/scale-to-width-down/100?cb=20240219030840",
-  "wiki": "https://hayday.fandom.com/wiki/Rice"
+  "wiki": "https://hayday.fandom.com/wiki/Rice",
+  "file": "goods/rice.webp"
  },
  {
   "name": "Sushi roll",
@@ -3987,7 +4062,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/cf/Sushi_Roll.png/revision/latest?cb=20240210101804",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/cf/Sushi_Roll.png/revision/latest/scale-to-width-down/100?cb=20240210101804",
-  "wiki": "https://hayday.fandom.com/wiki/Sushi_Roll"
+  "wiki": "https://hayday.fandom.com/wiki/Sushi_Roll",
+  "file": "goods/sushi-roll.webp"
  },
  {
   "name": "Olive",
@@ -4002,7 +4078,8 @@
   "perBoatCrate": "4-6",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/5f/Olive.png/revision/latest?cb=20240219033435",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/5f/Olive.png/revision/latest/scale-to-width-down/100?cb=20240219033435",
-  "wiki": "https://hayday.fandom.com/wiki/Olive"
+  "wiki": "https://hayday.fandom.com/wiki/Olive",
+  "file": "goods/olive.webp"
  },
  {
   "name": "Lollipop",
@@ -4150,7 +4227,8 @@
   "perBoatCrate": "??",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/4b/Tower_D%C3%B6ner_Supreme.png/revision/latest?cb=20260604001035",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/4b/Tower_D%C3%B6ner_Supreme.png/revision/latest/scale-to-width-down/100?cb=20260604001035",
-  "wiki": "https://hayday.fandom.com/wiki/Tower_D%C3%B6ner_Supreme"
+  "wiki": "https://hayday.fandom.com/wiki/Tower_D%C3%B6ner_Supreme",
+  "file": "goods/tower-d-ner-supreme.webp"
  },
  {
   "name": "Lobster sushi",
@@ -4307,7 +4385,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/7f/Garlic_Bread.png/revision/latest?cb=20240411150635",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/7f/Garlic_Bread.png/revision/latest/scale-to-width-down/100?cb=20240411150635",
-  "wiki": "https://hayday.fandom.com/wiki/Garlic_Bread"
+  "wiki": "https://hayday.fandom.com/wiki/Garlic_Bread",
+  "file": "goods/garlic-bread.webp"
  },
  {
   "name": "Veggie bagel",
@@ -4339,7 +4418,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/14/Veggie_Bagel.png/revision/latest?cb=20240211131010",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/14/Veggie_Bagel.png/revision/latest/scale-to-width-down/100?cb=20240211131010",
-  "wiki": "https://hayday.fandom.com/wiki/Veggie_Bagel"
+  "wiki": "https://hayday.fandom.com/wiki/Veggie_Bagel",
+  "file": "goods/veggie-bagel.webp"
  },
  {
   "name": "Mayonnaise",
@@ -4363,7 +4443,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/4e/Mayonnaise.png/revision/latest?cb=20240210055543",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/4e/Mayonnaise.png/revision/latest/scale-to-width-down/100?cb=20240210055543",
-  "wiki": "https://hayday.fandom.com/wiki/Mayonnaise"
+  "wiki": "https://hayday.fandom.com/wiki/Mayonnaise",
+  "file": "goods/mayonnaise.webp"
  },
  {
   "name": "BLT salad",
@@ -4395,7 +4476,8 @@
   "perBoatCrate": "1-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/eb/BLT_Salad.png/revision/latest?cb=20240211074418",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/eb/BLT_Salad.png/revision/latest/scale-to-width-down/100?cb=20240211074418",
-  "wiki": "https://hayday.fandom.com/wiki/BLT_Salad"
+  "wiki": "https://hayday.fandom.com/wiki/BLT_Salad",
+  "file": "goods/blt-salad.webp"
  },
  {
   "name": "Caramel latte",
@@ -4423,7 +4505,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/6a/Caramel_Latte.png/revision/latest?cb=20240209013040",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/6a/Caramel_Latte.png/revision/latest/scale-to-width-down/100?cb=20240209013040",
-  "wiki": "https://hayday.fandom.com/wiki/Caramel_Latte"
+  "wiki": "https://hayday.fandom.com/wiki/Caramel_Latte",
+  "file": "goods/caramel-latte.webp"
  },
  {
   "name": "Peanuts",
@@ -4438,7 +4521,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/9b/Peanuts.png/revision/latest?cb=20200707051034",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/9b/Peanuts.png/revision/latest/scale-to-width-down/100?cb=20200707051034",
-  "wiki": "https://hayday.fandom.com/wiki/Peanuts"
+  "wiki": "https://hayday.fandom.com/wiki/Peanuts",
+  "file": "goods/peanuts.webp"
  },
  {
   "name": "Sunflower",
@@ -4458,7 +4542,8 @@
   "perBoatCrate": "12-19",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/81/Sunflower.png/revision/latest?cb=20240219031925",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/81/Sunflower.png/revision/latest/scale-to-width-down/100?cb=20240219031925",
-  "wiki": "https://hayday.fandom.com/wiki/Sunflower"
+  "wiki": "https://hayday.fandom.com/wiki/Sunflower",
+  "file": "goods/sunflower.webp"
  },
  {
   "name": "Egg sushi",
@@ -4490,7 +4575,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/9b/Egg_Sushi.png/revision/latest?cb=20240210101954",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/9b/Egg_Sushi.png/revision/latest/scale-to-width-down/100?cb=20240210101954",
-  "wiki": "https://hayday.fandom.com/wiki/Egg_Sushi"
+  "wiki": "https://hayday.fandom.com/wiki/Egg_Sushi",
+  "file": "goods/egg-sushi.webp"
  },
  {
   "name": "Honey peanuts",
@@ -4514,7 +4600,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/ad/Honey_Peanuts.png/revision/latest?cb=20240411150946",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/ad/Honey_Peanuts.png/revision/latest/scale-to-width-down/100?cb=20240411150946",
-  "wiki": "https://hayday.fandom.com/wiki/Honey_Peanuts"
+  "wiki": "https://hayday.fandom.com/wiki/Honey_Peanuts",
+  "file": "goods/honey-peanuts.webp"
  },
  {
   "name": "Seafood salad",
@@ -4546,7 +4633,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/69/Seafood_Salad.png/revision/latest?cb=20240211102556",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/69/Seafood_Salad.png/revision/latest/scale-to-width-down/100?cb=20240211102556",
-  "wiki": "https://hayday.fandom.com/wiki/Seafood_Salad"
+  "wiki": "https://hayday.fandom.com/wiki/Seafood_Salad",
+  "file": "goods/seafood-salad.webp"
  },
  {
   "name": "Berry smoothie",
@@ -4574,7 +4662,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/a8/Berry_Smoothie.png/revision/latest?cb=20240211171218",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/a8/Berry_Smoothie.png/revision/latest/scale-to-width-down/100?cb=20240211171218",
-  "wiki": "https://hayday.fandom.com/wiki/Berry_Smoothie"
+  "wiki": "https://hayday.fandom.com/wiki/Berry_Smoothie",
+  "file": "goods/berry-smoothie.webp"
  },
  {
   "name": "Snack mix",
@@ -4602,7 +4691,8 @@
   "perBoatCrate": "4-7",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/a3/Snack_Mix.png/revision/latest?cb=20240411151336",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/a3/Snack_Mix.png/revision/latest/scale-to-width-down/100?cb=20240411151336",
-  "wiki": "https://hayday.fandom.com/wiki/Snack_Mix"
+  "wiki": "https://hayday.fandom.com/wiki/Snack_Mix",
+  "file": "goods/snack-mix.webp"
  },
  {
   "name": "Bright bouquet",
@@ -4634,7 +4724,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/52/Bright_Bouquet.png/revision/latest?cb=20240411145809",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/52/Bright_Bouquet.png/revision/latest/scale-to-width-down/100?cb=20240411145809",
-  "wiki": "https://hayday.fandom.com/wiki/Bright_Bouquet"
+  "wiki": "https://hayday.fandom.com/wiki/Bright_Bouquet",
+  "file": "goods/bright-bouquet.webp"
  },
  {
   "name": "Bacon toast",
@@ -4666,7 +4757,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/72/Bacon_Toast.png/revision/latest?cb=20150711224147",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/72/Bacon_Toast.png/revision/latest/scale-to-width-down/100?cb=20150711224147",
-  "wiki": "https://hayday.fandom.com/wiki/Bacon_Toast"
+  "wiki": "https://hayday.fandom.com/wiki/Bacon_Toast",
+  "file": "goods/bacon-toast.webp"
  },
  {
   "name": "Pineapple cake",
@@ -4698,7 +4790,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/e1/Pineapple_Cake.png/revision/latest?cb=20240223074541",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/e1/Pineapple_Cake.png/revision/latest/scale-to-width-down/100?cb=20240223074541",
-  "wiki": "https://hayday.fandom.com/wiki/Pineapple_Cake"
+  "wiki": "https://hayday.fandom.com/wiki/Pineapple_Cake",
+  "file": "goods/pineapple-cake.webp"
  },
  {
   "name": "Chocolate pie",
@@ -4730,7 +4823,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/7c/Chocolate_Pie.png/revision/latest?cb=20240207145850",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/7c/Chocolate_Pie.png/revision/latest/scale-to-width-down/100?cb=20240207145850",
-  "wiki": "https://hayday.fandom.com/wiki/Chocolate_Pie"
+  "wiki": "https://hayday.fandom.com/wiki/Chocolate_Pie",
+  "file": "goods/chocolate-pie.webp"
  },
  {
   "name": "Cabbage",
@@ -4750,7 +4844,8 @@
   "perBoatCrate": "12-31",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/cc/Cabbage.png/revision/latest?cb=20240218151308",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/cc/Cabbage.png/revision/latest/scale-to-width-down/100?cb=20240218151308",
-  "wiki": "https://hayday.fandom.com/wiki/Cabbage"
+  "wiki": "https://hayday.fandom.com/wiki/Cabbage",
+  "file": "goods/cabbage.webp"
  },
  {
   "name": "Cabbage soup",
@@ -4782,7 +4877,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/34/Cabbage_Soup.png/revision/latest?cb=20240209021929",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/34/Cabbage_Soup.png/revision/latest/scale-to-width-down/100?cb=20240209021929",
-  "wiki": "https://hayday.fandom.com/wiki/Cabbage_Soup"
+  "wiki": "https://hayday.fandom.com/wiki/Cabbage_Soup",
+  "file": "goods/cabbage-soup.webp"
  },
  {
   "name": "Lemon",
@@ -4797,7 +4893,8 @@
   "perBoatCrate": "4-6",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/35/Lemon.png/revision/latest?cb=20240219033200",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/35/Lemon.png/revision/latest/scale-to-width-down/100?cb=20240219033200",
-  "wiki": "https://hayday.fandom.com/wiki/Lemon"
+  "wiki": "https://hayday.fandom.com/wiki/Lemon",
+  "file": "goods/lemon.webp"
  },
  {
   "name": "Lemon curd",
@@ -4829,7 +4926,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/ea/Lemon_Curd.png/revision/latest?cb=20240210055448",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/ea/Lemon_Curd.png/revision/latest/scale-to-width-down/100?cb=20240210055448",
-  "wiki": "https://hayday.fandom.com/wiki/Lemon_Curd"
+  "wiki": "https://hayday.fandom.com/wiki/Lemon_Curd",
+  "file": "goods/lemon-curd.webp"
  },
  {
   "name": "Olive dip",
@@ -4861,7 +4959,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/32/Olive_Dip.png/revision/latest?cb=20240411151145",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/32/Olive_Dip.png/revision/latest/scale-to-width-down/100?cb=20240411151145",
-  "wiki": "https://hayday.fandom.com/wiki/Olive_Dip"
+  "wiki": "https://hayday.fandom.com/wiki/Olive_Dip",
+  "file": "goods/olive-dip.webp"
  },
  {
   "name": "Egg sandwich",
@@ -4893,7 +4992,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/81/Egg_Sandwich.png/revision/latest?cb=20240211165444",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/81/Egg_Sandwich.png/revision/latest/scale-to-width-down/100?cb=20240211165444",
-  "wiki": "https://hayday.fandom.com/wiki/Egg_Sandwich"
+  "wiki": "https://hayday.fandom.com/wiki/Egg_Sandwich",
+  "file": "goods/egg-sandwich.webp"
  },
  {
   "name": "Green smoothie",
@@ -4921,7 +5021,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/f/f6/Green_Smoothie.png/revision/latest?cb=20240211171507",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/f/f6/Green_Smoothie.png/revision/latest/scale-to-width-down/100?cb=20240211171507",
-  "wiki": "https://hayday.fandom.com/wiki/Green_Smoothie"
+  "wiki": "https://hayday.fandom.com/wiki/Green_Smoothie",
+  "file": "goods/green-smoothie.webp"
  },
  {
   "name": "Fresh pasta",
@@ -4945,7 +5046,8 @@
   "perBoatCrate": "8-12",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/93/Fresh_Pasta.png/revision/latest?cb=20240211172634",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/93/Fresh_Pasta.png/revision/latest/scale-to-width-down/100?cb=20240211172634",
-  "wiki": "https://hayday.fandom.com/wiki/Fresh_Pasta"
+  "wiki": "https://hayday.fandom.com/wiki/Fresh_Pasta",
+  "file": "goods/fresh-pasta.webp"
  },
  {
   "name": "Pasta salad",
@@ -4977,7 +5079,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/18/Pasta_Salad.png/revision/latest?cb=20240211105704",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/18/Pasta_Salad.png/revision/latest/scale-to-width-down/100?cb=20240211105704",
-  "wiki": "https://hayday.fandom.com/wiki/Pasta_Salad"
+  "wiki": "https://hayday.fandom.com/wiki/Pasta_Salad",
+  "file": "goods/pasta-salad.webp"
  },
  {
   "name": "Lemon pie",
@@ -5005,7 +5108,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/85/Lemon_Pie.png/revision/latest?cb=20240207150447",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/85/Lemon_Pie.png/revision/latest/scale-to-width-down/100?cb=20240207150447",
-  "wiki": "https://hayday.fandom.com/wiki/Lemon_Pie"
+  "wiki": "https://hayday.fandom.com/wiki/Lemon_Pie",
+  "file": "goods/lemon-pie.webp"
  },
  {
   "name": "Grilled asparagus",
@@ -5033,7 +5137,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/cf/Grilled_Asparagus.png/revision/latest?cb=20240223080059",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/cf/Grilled_Asparagus.png/revision/latest/scale-to-width-down/100?cb=20240223080059",
-  "wiki": "https://hayday.fandom.com/wiki/Grilled_Asparagus"
+  "wiki": "https://hayday.fandom.com/wiki/Grilled_Asparagus",
+  "file": "goods/grilled-asparagus.webp"
  },
  {
   "name": "Onion",
@@ -5053,7 +5158,8 @@
   "perBoatCrate": "8-9",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/51/Onion.png/revision/latest?cb=20240219025803",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/51/Onion.png/revision/latest/scale-to-width-down/100?cb=20240219025803",
-  "wiki": "https://hayday.fandom.com/wiki/Onion"
+  "wiki": "https://hayday.fandom.com/wiki/Onion",
+  "file": "goods/onion.webp"
  },
  {
   "name": "Grilled onion",
@@ -5077,7 +5183,8 @@
   "perBoatCrate": "3",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/70/Grilled_Onion.png/revision/latest?cb=20191023233225",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/70/Grilled_Onion.png/revision/latest/scale-to-width-down/100?cb=20191023233225",
-  "wiki": "https://hayday.fandom.com/wiki/Grilled_Onion"
+  "wiki": "https://hayday.fandom.com/wiki/Grilled_Onion",
+  "file": "goods/grilled-onion.webp"
  },
  {
   "name": "Lemon cake",
@@ -5109,7 +5216,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/6c/Lemon_Cake.png/revision/latest?cb=20240223074632",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/6c/Lemon_Cake.png/revision/latest/scale-to-width-down/100?cb=20240223074632",
-  "wiki": "https://hayday.fandom.com/wiki/Lemon_Cake"
+  "wiki": "https://hayday.fandom.com/wiki/Lemon_Cake",
+  "file": "goods/lemon-cake.webp"
  },
  {
   "name": "Lemon essential oil",
@@ -5129,7 +5237,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/9a/Lemon_Essential_Oil.png/revision/latest?cb=20240428095756",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/9a/Lemon_Essential_Oil.png/revision/latest/scale-to-width-down/135?cb=20240428095756",
-  "wiki": "https://hayday.fandom.com/wiki/Lemon_Essential_Oil"
+  "wiki": "https://hayday.fandom.com/wiki/Lemon_Essential_Oil",
+  "file": "goods/lemon-essential-oil.webp"
  },
  {
   "name": "Peanut butter milkshake",
@@ -5161,7 +5270,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b7/Peanut_Butter_Milkshake.png/revision/latest?cb=20240303131045",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b7/Peanut_Butter_Milkshake.png/revision/latest/scale-to-width-down/75?cb=20240303131045",
-  "wiki": "https://hayday.fandom.com/wiki/Peanut_Butter_Milkshake"
+  "wiki": "https://hayday.fandom.com/wiki/Peanut_Butter_Milkshake",
+  "file": "goods/peanut-butter-milkshake.webp"
  },
  {
   "name": "Tomato sauce",
@@ -5189,7 +5299,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/0/09/Tomato_Sauce.png/revision/latest?cb=20240210060131",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/0/09/Tomato_Sauce.png/revision/latest/scale-to-width-down/100?cb=20240210060131",
-  "wiki": "https://hayday.fandom.com/wiki/Tomato_Sauce"
+  "wiki": "https://hayday.fandom.com/wiki/Tomato_Sauce",
+  "file": "goods/tomato-sauce.webp"
  },
  {
   "name": "Honey toast",
@@ -5221,7 +5332,8 @@
   "perBoatCrate": "3-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/6d/Honey_Toast.png/revision/latest?cb=20240211164950",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/6d/Honey_Toast.png/revision/latest/scale-to-width-down/100?cb=20240211164950",
-  "wiki": "https://hayday.fandom.com/wiki/Honey_Toast"
+  "wiki": "https://hayday.fandom.com/wiki/Honey_Toast",
+  "file": "goods/honey-toast.webp"
  },
  {
   "name": "Fried rice",
@@ -5245,7 +5357,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/61/Fried_Rice.png/revision/latest?cb=20240411150556",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/61/Fried_Rice.png/revision/latest/scale-to-width-down/100?cb=20240411150556",
-  "wiki": "https://hayday.fandom.com/wiki/Fried_Rice"
+  "wiki": "https://hayday.fandom.com/wiki/Fried_Rice",
+  "file": "goods/fried-rice.webp"
  },
  {
   "name": "Lamb stir fry",
@@ -5277,7 +5390,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/83/Lamb_Stir_Fry.png/revision/latest?cb=20260510102207",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/83/Lamb_Stir_Fry.png/revision/latest/scale-to-width-down/100?cb=20260510102207",
-  "wiki": "https://hayday.fandom.com/wiki/Lamb_Stir_Fry"
+  "wiki": "https://hayday.fandom.com/wiki/Lamb_Stir_Fry",
+  "file": "goods/lamb-stir-fry.webp"
  },
  {
   "name": "Yogurt smoothie",
@@ -5309,7 +5423,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/d/d2/Yogurt_Smoothie.png/revision/latest?cb=20240211171944",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/d2/Yogurt_Smoothie.png/revision/latest/scale-to-width-down/100?cb=20240211171944",
-  "wiki": "https://hayday.fandom.com/wiki/Yogurt_Smoothie"
+  "wiki": "https://hayday.fandom.com/wiki/Yogurt_Smoothie",
+  "file": "goods/yogurt-smoothie.webp"
  },
  {
   "name": "Cloche hat",
@@ -5333,7 +5448,8 @@
   "perBoatCrate": "1-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/1e/Cloche_Hat.png/revision/latest?cb=20180223175734",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/1e/Cloche_Hat.png/revision/latest/scale-to-width-down/100?cb=20180223175734",
-  "wiki": "https://hayday.fandom.com/wiki/Cloche_Hat"
+  "wiki": "https://hayday.fandom.com/wiki/Cloche_Hat",
+  "file": "goods/cloche-hat.webp"
  },
  {
   "name": "Cucumber",
@@ -5353,7 +5469,8 @@
   "perBoatCrate": "21-31",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/59/Cucumber.png/revision/latest?cb=20240218151809",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/59/Cucumber.png/revision/latest/scale-to-width-down/100?cb=20240218151809",
-  "wiki": "https://hayday.fandom.com/wiki/Cucumber"
+  "wiki": "https://hayday.fandom.com/wiki/Cucumber",
+  "file": "goods/cucumber.webp"
  },
  {
   "name": "Cucumber smoothie",
@@ -5381,7 +5498,8 @@
   "perBoatCrate": "2-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/57/Cucumber_Smoothie.png/revision/latest?cb=20190129164559",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/57/Cucumber_Smoothie.png/revision/latest/scale-to-width-down/100?cb=20190129164559",
-  "wiki": "https://hayday.fandom.com/wiki/Cucumber_Smoothie"
+  "wiki": "https://hayday.fandom.com/wiki/Cucumber_Smoothie",
+  "file": "goods/cucumber-smoothie.webp"
  },
  {
   "name": "Blueberry chutney",
@@ -5413,7 +5531,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/2e/Blueberry_Chutney.png/revision/latest?cb=20250722061113",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/2e/Blueberry_Chutney.png/revision/latest/scale-to-width-down/89?cb=20250722061113",
-  "wiki": "https://hayday.fandom.com/wiki/Blueberry_Chutney"
+  "wiki": "https://hayday.fandom.com/wiki/Blueberry_Chutney",
+  "file": "goods/blueberry-chutney.webp"
  },
  {
   "name": "Orange",
@@ -5428,7 +5547,8 @@
   "perBoatCrate": "4-6",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/43/Orange.png/revision/latest?cb=20240219033522",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/43/Orange.png/revision/latest/scale-to-width-down/100?cb=20240219033522",
-  "wiki": "https://hayday.fandom.com/wiki/Orange"
+  "wiki": "https://hayday.fandom.com/wiki/Orange",
+  "file": "goods/orange.webp"
  },
  {
   "name": "Flower shawl",
@@ -5456,7 +5576,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/66/Flower_Shawl.png/revision/latest?cb=20240207160117",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/66/Flower_Shawl.png/revision/latest/scale-to-width-down/100?cb=20240207160117",
-  "wiki": "https://hayday.fandom.com/wiki/Flower_Shawl"
+  "wiki": "https://hayday.fandom.com/wiki/Flower_Shawl",
+  "file": "goods/flower-shawl.webp"
  },
  {
   "name": "Orange juice",
@@ -5476,7 +5597,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/7e/Orange_Juice.png/revision/latest?cb=20240223065838",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/7e/Orange_Juice.png/revision/latest/scale-to-width-down/100?cb=20240223065838",
-  "wiki": "https://hayday.fandom.com/wiki/Orange_Juice"
+  "wiki": "https://hayday.fandom.com/wiki/Orange_Juice",
+  "file": "goods/orange-juice.webp"
  },
  {
   "name": "Peanut butter and jelly sandwich",
@@ -5504,7 +5626,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/69/Peanut_Butter_and_Jelly_Sandwich.png/revision/latest?cb=20240411151207",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/69/Peanut_Butter_and_Jelly_Sandwich.png/revision/latest/scale-to-width-down/100?cb=20240411151207",
-  "wiki": "https://hayday.fandom.com/wiki/Peanut_Butter_and_Jelly_Sandwich"
+  "wiki": "https://hayday.fandom.com/wiki/Peanut_Butter_and_Jelly_Sandwich",
+  "file": "goods/peanut-butter-and-jelly-sandwich.webp"
  },
  {
   "name": "Onion soup",
@@ -5532,7 +5655,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/0/05/Onion_Soup.png/revision/latest?cb=20240209022621",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/0/05/Onion_Soup.png/revision/latest/scale-to-width-down/100?cb=20240209022621",
-  "wiki": "https://hayday.fandom.com/wiki/Onion_Soup"
+  "wiki": "https://hayday.fandom.com/wiki/Onion_Soup",
+  "file": "goods/onion-soup.webp"
  },
  {
   "name": "Lemon candle",
@@ -5556,7 +5680,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/8a/Lemon_Candle.png/revision/latest?cb=20240209023630",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/8a/Lemon_Candle.png/revision/latest/scale-to-width-down/100?cb=20240209023630",
-  "wiki": "https://hayday.fandom.com/wiki/Lemon_Candle"
+  "wiki": "https://hayday.fandom.com/wiki/Lemon_Candle",
+  "file": "goods/lemon-candle.webp"
  },
  {
   "name": "Top hat",
@@ -5584,7 +5709,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/8d/Top_Hat.png/revision/latest?cb=20240211173933",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/8d/Top_Hat.png/revision/latest/scale-to-width-down/100?cb=20240211173933",
-  "wiki": "https://hayday.fandom.com/wiki/Top_Hat"
+  "wiki": "https://hayday.fandom.com/wiki/Top_Hat",
+  "file": "goods/top-hat.webp"
  },
  {
   "name": "Gnocchi",
@@ -5616,7 +5742,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/81/Gnocchi.png/revision/latest?cb=20240211175230",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/81/Gnocchi.png/revision/latest/scale-to-width-down/100?cb=20240211175230",
-  "wiki": "https://hayday.fandom.com/wiki/Gnocchi"
+  "wiki": "https://hayday.fandom.com/wiki/Gnocchi",
+  "file": "goods/gnocchi.webp"
  },
  {
   "name": "Beetroot",
@@ -5636,7 +5763,8 @@
   "perBoatCrate": "20-32",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/56/Beetroot.png/revision/latest?cb=20240218150336",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/56/Beetroot.png/revision/latest/scale-to-width-down/100?cb=20240218150336",
-  "wiki": "https://hayday.fandom.com/wiki/Beetroot"
+  "wiki": "https://hayday.fandom.com/wiki/Beetroot",
+  "file": "goods/beetroot.webp"
  },
  {
   "name": "Winter veggies",
@@ -5668,7 +5796,8 @@
   "perBoatCrate": "2-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/0/08/Winter_Veggies.png/revision/latest?cb=20240411151607",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/0/08/Winter_Veggies.png/revision/latest/scale-to-width-down/100?cb=20240411151607",
-  "wiki": "https://hayday.fandom.com/wiki/Winter_Veggies"
+  "wiki": "https://hayday.fandom.com/wiki/Winter_Veggies",
+  "file": "goods/winter-veggies.webp"
  },
  {
   "name": "Rice noodles",
@@ -5688,7 +5817,8 @@
   "perBoatCrate": "4-6",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/20/Rice_Noodles.png/revision/latest?cb=20240211172740",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/20/Rice_Noodles.png/revision/latest/scale-to-width-down/100?cb=20240211172740",
-  "wiki": "https://hayday.fandom.com/wiki/Rice_Noodles"
+  "wiki": "https://hayday.fandom.com/wiki/Rice_Noodles",
+  "file": "goods/rice-noodles.webp"
  },
  {
   "name": "Noodle soup",
@@ -5720,7 +5850,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/86/Noodle_Soup.png/revision/latest?cb=20240209022516",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/86/Noodle_Soup.png/revision/latest/scale-to-width-down/100?cb=20240209022516",
-  "wiki": "https://hayday.fandom.com/wiki/Noodle_Soup"
+  "wiki": "https://hayday.fandom.com/wiki/Noodle_Soup",
+  "file": "goods/noodle-soup.webp"
  },
  {
   "name": "Gracious bouquet",
@@ -5752,7 +5883,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/82/Gracious_Bouquet.png/revision/latest?cb=20240411150713",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/82/Gracious_Bouquet.png/revision/latest/scale-to-width-down/100?cb=20240411150713",
-  "wiki": "https://hayday.fandom.com/wiki/Gracious_Bouquet"
+  "wiki": "https://hayday.fandom.com/wiki/Gracious_Bouquet",
+  "file": "goods/gracious-bouquet.webp"
  },
  {
   "name": "Bell pepper",
@@ -5772,7 +5904,8 @@
   "perBoatCrate": "9-14",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/e2/Bell_Pepper.png/revision/latest?cb=20240218150145",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/e2/Bell_Pepper.png/revision/latest/scale-to-width-down/100?cb=20240218150145",
-  "wiki": "https://hayday.fandom.com/wiki/Bell_Pepper"
+  "wiki": "https://hayday.fandom.com/wiki/Bell_Pepper",
+  "file": "goods/bell-pepper.webp"
  },
  {
   "name": "Marmalade",
@@ -5792,7 +5925,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/ed/Marmalade.png/revision/latest?cb=20240208152141",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/ed/Marmalade.png/revision/latest/scale-to-width-down/100?cb=20240208152141",
-  "wiki": "https://hayday.fandom.com/wiki/Marmalade"
+  "wiki": "https://hayday.fandom.com/wiki/Marmalade",
+  "file": "goods/marmalade.webp"
  },
  {
   "name": "Sun hat",
@@ -5824,7 +5958,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/4c/Sun_Hat.png/revision/latest?cb=20240211173826",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/4c/Sun_Hat.png/revision/latest/scale-to-width-down/100?cb=20240211173826",
-  "wiki": "https://hayday.fandom.com/wiki/Sun_Hat"
+  "wiki": "https://hayday.fandom.com/wiki/Sun_Hat",
+  "file": "goods/sun-hat.webp"
  },
  {
   "name": "Veggie lasagna",
@@ -5856,7 +5991,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/d/d1/Veggie_Lasagna.png/revision/latest?cb=20240211180053",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/d1/Veggie_Lasagna.png/revision/latest/scale-to-width-down/100?cb=20240211180053",
-  "wiki": "https://hayday.fandom.com/wiki/Veggie_Lasagna"
+  "wiki": "https://hayday.fandom.com/wiki/Veggie_Lasagna",
+  "file": "goods/veggie-lasagna.webp"
  },
  {
   "name": "Veggie platter",
@@ -5888,7 +6024,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/7d/Veggie_Platter.png/revision/latest?cb=20240211105316",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/7d/Veggie_Platter.png/revision/latest/scale-to-width-down/100?cb=20240211105316",
-  "wiki": "https://hayday.fandom.com/wiki/Veggie_Platter"
+  "wiki": "https://hayday.fandom.com/wiki/Veggie_Platter",
+  "file": "goods/veggie-platter.webp"
  },
  {
   "name": "Chamomile essential oil",
@@ -5908,7 +6045,8 @@
   "perBoatCrate": "??",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/53/Chamomile_Essential_Oil.png/revision/latest?cb=20241209181229",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/53/Chamomile_Essential_Oil.png/revision/latest/scale-to-width-down/100?cb=20241209181229",
-  "wiki": "https://hayday.fandom.com/wiki/Chamomile_Essential_Oil"
+  "wiki": "https://hayday.fandom.com/wiki/Chamomile_Essential_Oil",
+  "file": "goods/chamomile-essential-oil.webp"
  },
  {
   "name": "Hot dog",
@@ -5936,7 +6074,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/82/Hot_Dog.png/revision/latest?cb=20240211180755",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/82/Hot_Dog.png/revision/latest/scale-to-width-down/100?cb=20240211180755",
-  "wiki": "https://hayday.fandom.com/wiki/Hot_Dog"
+  "wiki": "https://hayday.fandom.com/wiki/Hot_Dog",
+  "file": "goods/hot-dog.webp"
  },
  {
   "name": "Coleslaw",
@@ -5964,7 +6103,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/e1/Coleslaw.png/revision/latest?cb=20240411150158",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/e1/Coleslaw.png/revision/latest/scale-to-width-down/100?cb=20240411150158",
-  "wiki": "https://hayday.fandom.com/wiki/Coleslaw"
+  "wiki": "https://hayday.fandom.com/wiki/Coleslaw",
+  "file": "goods/coleslaw.webp"
  },
  {
   "name": "Cotton candy",
@@ -5988,7 +6128,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/67/Cotton_Candy.png/revision/latest?cb=20240210053918",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/67/Cotton_Candy.png/revision/latest/scale-to-width-down/100?cb=20240210053918",
-  "wiki": "https://hayday.fandom.com/wiki/Cotton_Candy"
+  "wiki": "https://hayday.fandom.com/wiki/Cotton_Candy",
+  "file": "goods/cotton-candy.webp"
  },
  {
   "name": "Peach",
@@ -6003,7 +6144,8 @@
   "perBoatCrate": "4-6",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/e2/Peach.png/revision/latest?cb=20240219033622",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/e2/Peach.png/revision/latest/scale-to-width-down/100?cb=20240219033622",
-  "wiki": "https://hayday.fandom.com/wiki/Peach"
+  "wiki": "https://hayday.fandom.com/wiki/Peach",
+  "file": "goods/peach.webp"
  },
  {
   "name": "Peach tart",
@@ -6333,7 +6475,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/74/Summer_Rolls.png/revision/latest?cb=20240211110030",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/74/Summer_Rolls.png/revision/latest/scale-to-width-down/100?cb=20240211110030",
-  "wiki": "https://hayday.fandom.com/wiki/Summer_Rolls"
+  "wiki": "https://hayday.fandom.com/wiki/Summer_Rolls",
+  "file": "goods/summer-rolls.webp"
  },
  {
   "name": "Orange sorbet",
@@ -6357,7 +6500,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/11/Orange_Sorbet.png/revision/latest?cb=20240411152737",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/11/Orange_Sorbet.png/revision/latest/scale-to-width-down/100?cb=20240411152737",
-  "wiki": "https://hayday.fandom.com/wiki/Orange_Sorbet"
+  "wiki": "https://hayday.fandom.com/wiki/Orange_Sorbet",
+  "file": "goods/orange-sorbet.webp"
  },
  {
   "name": "Corn dog",
@@ -6385,7 +6529,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/15/Corn_Dog.png/revision/latest?cb=20240211180913",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/15/Corn_Dog.png/revision/latest/scale-to-width-down/100?cb=20240211180913",
-  "wiki": "https://hayday.fandom.com/wiki/Corn_Dog"
+  "wiki": "https://hayday.fandom.com/wiki/Corn_Dog",
+  "file": "goods/corn-dog.webp"
  },
  {
   "name": "Potato soup",
@@ -6413,7 +6558,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/ab/Potato_Soup.png/revision/latest?cb=20240303134341",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/ab/Potato_Soup.png/revision/latest/scale-to-width-down/100?cb=20240303134341",
-  "wiki": "https://hayday.fandom.com/wiki/Potato_Soup"
+  "wiki": "https://hayday.fandom.com/wiki/Potato_Soup",
+  "file": "goods/potato-soup.webp"
  },
  {
   "name": "Ginger",
@@ -6433,7 +6579,8 @@
   "perBoatCrate": "11-16",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/85/Ginger.png/revision/latest?cb=20240218152109",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/85/Ginger.png/revision/latest/scale-to-width-down/100?cb=20240218152109",
-  "wiki": "https://hayday.fandom.com/wiki/Ginger"
+  "wiki": "https://hayday.fandom.com/wiki/Ginger",
+  "file": "goods/ginger.webp"
  },
  {
   "name": "Sesame brittle",
@@ -6461,7 +6608,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/65/Sesame_Brittle.png/revision/latest?cb=20240210054437",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/65/Sesame_Brittle.png/revision/latest/scale-to-width-down/100?cb=20240210054437",
-  "wiki": "https://hayday.fandom.com/wiki/Sesame_Brittle"
+  "wiki": "https://hayday.fandom.com/wiki/Sesame_Brittle",
+  "file": "goods/sesame-brittle.webp"
  },
  {
   "name": "Affogato",
@@ -6485,7 +6633,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/f/fc/Affogato.png/revision/latest?cb=20240208103914",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/f/fc/Affogato.png/revision/latest/scale-to-width-down/100?cb=20240208103914",
-  "wiki": "https://hayday.fandom.com/wiki/Affogato"
+  "wiki": "https://hayday.fandom.com/wiki/Affogato",
+  "file": "goods/affogato.webp"
  },
  {
   "name": "Fish taco",
@@ -6517,7 +6666,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/d/d5/Fish_Taco.png/revision/latest?cb=20240212102746",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/d5/Fish_Taco.png/revision/latest/scale-to-width-down/100?cb=20240212102746",
-  "wiki": "https://hayday.fandom.com/wiki/Fish_Taco"
+  "wiki": "https://hayday.fandom.com/wiki/Fish_Taco",
+  "file": "goods/fish-taco.webp"
  },
  {
   "name": "Peach jam",
@@ -6537,7 +6687,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/be/Peach_Jam.png/revision/latest?cb=20240208152501",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/be/Peach_Jam.png/revision/latest/scale-to-width-down/100?cb=20240208152501",
-  "wiki": "https://hayday.fandom.com/wiki/Peach_Jam"
+  "wiki": "https://hayday.fandom.com/wiki/Peach_Jam",
+  "file": "goods/peach-jam.webp"
  },
  {
   "name": "Lobster pasta",
@@ -6569,7 +6720,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/5a/Lobster_Pasta.png/revision/latest?cb=20240211175632",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/5a/Lobster_Pasta.png/revision/latest/scale-to-width-down/100?cb=20240211175632",
-  "wiki": "https://hayday.fandom.com/wiki/Lobster_Pasta"
+  "wiki": "https://hayday.fandom.com/wiki/Lobster_Pasta",
+  "file": "goods/lobster-pasta.webp"
  },
  {
   "name": "Cucumber sandwich",
@@ -6597,7 +6749,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b4/Cucumber_Sandwich.png/revision/latest?cb=20240211170159",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b4/Cucumber_Sandwich.png/revision/latest/scale-to-width-down/100?cb=20240211170159",
-  "wiki": "https://hayday.fandom.com/wiki/Cucumber_Sandwich"
+  "wiki": "https://hayday.fandom.com/wiki/Cucumber_Sandwich",
+  "file": "goods/cucumber-sandwich.webp"
  },
  {
   "name": "Spicy fish",
@@ -6629,7 +6782,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/71/Spicy_Fish.png/revision/latest?cb=20240411151355",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/71/Spicy_Fish.png/revision/latest/scale-to-width-down/100?cb=20240411151355",
-  "wiki": "https://hayday.fandom.com/wiki/Spicy_Fish"
+  "wiki": "https://hayday.fandom.com/wiki/Spicy_Fish",
+  "file": "goods/spicy-fish.webp"
  },
  {
   "name": "Sprinkled donut",
@@ -6653,7 +6807,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/40/Sprinkled_Donut.png/revision/latest?cb=20240212101844",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/40/Sprinkled_Donut.png/revision/latest/scale-to-width-down/100?cb=20240212101844",
-  "wiki": "https://hayday.fandom.com/wiki/Sprinkled_Donut"
+  "wiki": "https://hayday.fandom.com/wiki/Sprinkled_Donut",
+  "file": "goods/sprinkled-donut.webp"
  },
  {
   "name": "Cheese omelet",
@@ -6685,7 +6840,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/c2/Cheese_Omelet.png/revision/latest?cb=20240212103833",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/c2/Cheese_Omelet.png/revision/latest/scale-to-width-down/100?cb=20240212103833",
-  "wiki": "https://hayday.fandom.com/wiki/Cheese_Omelet"
+  "wiki": "https://hayday.fandom.com/wiki/Cheese_Omelet",
+  "file": "goods/cheese-omelet.webp"
  },
  {
   "name": "Tea leaf",
@@ -6705,7 +6861,8 @@
   "perBoatCrate": "7-11",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/e3/Tea_Leaf.png/revision/latest?cb=20240219032147",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/e3/Tea_Leaf.png/revision/latest/scale-to-width-down/100?cb=20240219032147",
-  "wiki": "https://hayday.fandom.com/wiki/Tea_Leaf"
+  "wiki": "https://hayday.fandom.com/wiki/Tea_Leaf",
+  "file": "goods/tea-leaf.webp"
  },
  {
   "name": "Green tea",
@@ -6725,7 +6882,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/8f/Green_Tea.png/revision/latest?cb=20240212110927",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/8f/Green_Tea.png/revision/latest/scale-to-width-down/100?cb=20240212110927",
-  "wiki": "https://hayday.fandom.com/wiki/Green_Tea"
+  "wiki": "https://hayday.fandom.com/wiki/Green_Tea",
+  "file": "goods/green-tea.webp"
  },
  {
   "name": "Onion dog",
@@ -6757,7 +6915,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/e8/Onion_Dog.png/revision/latest?cb=20240211181128",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/e8/Onion_Dog.png/revision/latest/scale-to-width-down/100?cb=20240211181128",
-  "wiki": "https://hayday.fandom.com/wiki/Onion_Dog"
+  "wiki": "https://hayday.fandom.com/wiki/Onion_Dog",
+  "file": "goods/onion-dog.webp"
  },
  {
   "name": "Stuffed peppers",
@@ -6789,7 +6948,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/0/06/Stuffed_Peppers.png/revision/latest?cb=20240411151408",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/0/06/Stuffed_Peppers.png/revision/latest/scale-to-width-down/100?cb=20240411151408",
-  "wiki": "https://hayday.fandom.com/wiki/Stuffed_Peppers"
+  "wiki": "https://hayday.fandom.com/wiki/Stuffed_Peppers",
+  "file": "goods/stuffed-peppers.webp"
  },
  {
   "name": "Ginger essential oil",
@@ -6809,7 +6969,8 @@
   "perBoatCrate": "1-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/47/Ginger_Essential_Oil.png/revision/latest?cb=20240616080909",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/47/Ginger_Essential_Oil.png/revision/latest/scale-to-width-down/100?cb=20240616080909",
-  "wiki": "https://hayday.fandom.com/wiki/Ginger_Essential_Oil"
+  "wiki": "https://hayday.fandom.com/wiki/Ginger_Essential_Oil",
+  "file": "goods/ginger-essential-oil.webp"
  },
  {
   "name": "Milk tea",
@@ -6833,7 +6994,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/d/d5/Milk_Tea.png/revision/latest?cb=20240212111407",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/d5/Milk_Tea.png/revision/latest/scale-to-width-down/100?cb=20240212111407",
-  "wiki": "https://hayday.fandom.com/wiki/Milk_Tea"
+  "wiki": "https://hayday.fandom.com/wiki/Milk_Tea",
+  "file": "goods/milk-tea.webp"
  },
  {
   "name": "Bell pepper soup",
@@ -6865,7 +7027,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/81/Bell_Pepper_Soup.png/revision/latest?cb=20240209021442",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/81/Bell_Pepper_Soup.png/revision/latest/scale-to-width-down/100?cb=20240209021442",
-  "wiki": "https://hayday.fandom.com/wiki/Bell_Pepper_Soup"
+  "wiki": "https://hayday.fandom.com/wiki/Bell_Pepper_Soup",
+  "file": "goods/bell-pepper-soup.webp"
  },
  {
   "name": "Chocolate fondue",
@@ -6889,7 +7052,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/ce/Chocolate_Fondue.png/revision/latest?cb=20240411150042",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/ce/Chocolate_Fondue.png/revision/latest/scale-to-width-down/100?cb=20240411150042",
-  "wiki": "https://hayday.fandom.com/wiki/Chocolate_Fondue"
+  "wiki": "https://hayday.fandom.com/wiki/Chocolate_Fondue",
+  "file": "goods/chocolate-fondue.webp"
  },
  {
   "name": "Peony",
@@ -6909,7 +7073,8 @@
   "perBoatCrate": "9-14",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/50/Peony.png/revision/latest?cb=20240219030430",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/50/Peony.png/revision/latest/scale-to-width-down/100?cb=20240219030430",
-  "wiki": "https://hayday.fandom.com/wiki/Peony"
+  "wiki": "https://hayday.fandom.com/wiki/Peony",
+  "file": "goods/peony.webp"
  },
  {
   "name": "Quesadilla",
@@ -6937,7 +7102,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/f/f1/Quesadilla.png/revision/latest?cb=20240212103004",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/f/f1/Quesadilla.png/revision/latest/scale-to-width-down/100?cb=20240212103004",
-  "wiki": "https://hayday.fandom.com/wiki/Quesadilla"
+  "wiki": "https://hayday.fandom.com/wiki/Quesadilla",
+  "file": "goods/quesadilla.webp"
  },
  {
   "name": "Fruit salad",
@@ -6969,7 +7135,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/9e/Fruit_Salad.png/revision/latest?cb=20240211102701",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/9e/Fruit_Salad.png/revision/latest/scale-to-width-down/100?cb=20240211102701",
-  "wiki": "https://hayday.fandom.com/wiki/Fruit_Salad"
+  "wiki": "https://hayday.fandom.com/wiki/Fruit_Salad",
+  "file": "goods/fruit-salad.webp"
  },
  {
   "name": "Crunchy donut",
@@ -6997,7 +7164,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/46/Crunchy_Donut.png/revision/latest?cb=20240212101719",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/46/Crunchy_Donut.png/revision/latest/scale-to-width-down/100?cb=20240212101719",
-  "wiki": "https://hayday.fandom.com/wiki/Crunchy_Donut"
+  "wiki": "https://hayday.fandom.com/wiki/Crunchy_Donut",
+  "file": "goods/crunchy-donut.webp"
  },
  {
   "name": "Pasta carbonara",
@@ -7029,7 +7197,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/cd/Pasta_Carbonara.png/revision/latest?cb=20240211180005",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/cd/Pasta_Carbonara.png/revision/latest/scale-to-width-down/100?cb=20240211180005",
-  "wiki": "https://hayday.fandom.com/wiki/Pasta_Carbonara"
+  "wiki": "https://hayday.fandom.com/wiki/Pasta_Carbonara",
+  "file": "goods/pasta-carbonara.webp"
  },
  {
   "name": "Peach ice cream",
@@ -7057,7 +7226,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/72/Peach_Ice_Cream.png/revision/latest?cb=20240411152720",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/72/Peach_Ice_Cream.png/revision/latest/scale-to-width-down/100?cb=20240411152720",
-  "wiki": "https://hayday.fandom.com/wiki/Peach_Ice_Cream"
+  "wiki": "https://hayday.fandom.com/wiki/Peach_Ice_Cream",
+  "file": "goods/peach-ice-cream.webp"
  },
  {
   "name": "Honey tea",
@@ -7081,7 +7251,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b8/Honey_Tea.png/revision/latest?cb=20240212111138",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b8/Honey_Tea.png/revision/latest/scale-to-width-down/100?cb=20240212111138",
-  "wiki": "https://hayday.fandom.com/wiki/Honey_Tea"
+  "wiki": "https://hayday.fandom.com/wiki/Honey_Tea",
+  "file": "goods/honey-tea.webp"
  },
  {
   "name": "Broccoli",
@@ -7101,7 +7272,8 @@
   "perBoatCrate": "15-24",
   "image": "https://static.wikia.nocookie.net/hayday/images/f/f1/Broccoli.png/revision/latest?cb=20240218150508",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/f/f1/Broccoli.png/revision/latest/scale-to-width-down/100?cb=20240218150508",
-  "wiki": "https://hayday.fandom.com/wiki/Broccoli"
+  "wiki": "https://hayday.fandom.com/wiki/Broccoli",
+  "file": "goods/broccoli.webp"
  },
  {
   "name": "Broccoli pasta",
@@ -7129,7 +7301,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/a8/Broccoli_Pasta.png/revision/latest?cb=20240211175501",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/a8/Broccoli_Pasta.png/revision/latest/scale-to-width-down/100?cb=20240211175501",
-  "wiki": "https://hayday.fandom.com/wiki/Broccoli_Pasta"
+  "wiki": "https://hayday.fandom.com/wiki/Broccoli_Pasta",
+  "file": "goods/broccoli-pasta.webp"
  },
  {
   "name": "Rice omelet",
@@ -7189,7 +7362,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/30/Summer_Salad.png/revision/latest?cb=20240211105900",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/30/Summer_Salad.png/revision/latest/scale-to-width-down/100?cb=20240211105900",
-  "wiki": "https://hayday.fandom.com/wiki/Summer_Salad"
+  "wiki": "https://hayday.fandom.com/wiki/Summer_Salad",
+  "file": "goods/summer-salad.webp"
  },
  {
   "name": "Grapes",
@@ -7209,7 +7383,8 @@
   "perBoatCrate": "11-16",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/39/Grapes.png/revision/latest?cb=20240218152214",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/39/Grapes.png/revision/latest/scale-to-width-down/100?cb=20240218152214",
-  "wiki": "https://hayday.fandom.com/wiki/Grapes"
+  "wiki": "https://hayday.fandom.com/wiki/Grapes",
+  "file": "goods/grapes.webp"
  },
  {
   "name": "Grape juice",
@@ -7229,7 +7404,8 @@
   "perBoatCrate": "2-6",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/24/Grape_Juice.png/revision/latest?cb=20240223070201",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/24/Grape_Juice.png/revision/latest/scale-to-width-down/100?cb=20240223070201",
-  "wiki": "https://hayday.fandom.com/wiki/Grape_Juice"
+  "wiki": "https://hayday.fandom.com/wiki/Grape_Juice",
+  "file": "goods/grape-juice.webp"
  },
  {
   "name": "Onion melt",
@@ -7257,7 +7433,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/54/Onion_Melt.png/revision/latest?cb=20240211170015",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/54/Onion_Melt.png/revision/latest/scale-to-width-down/100?cb=20240211170015",
-  "wiki": "https://hayday.fandom.com/wiki/Onion_Melt"
+  "wiki": "https://hayday.fandom.com/wiki/Onion_Melt",
+  "file": "goods/onion-melt.webp"
  },
  {
   "name": "Honey soap",
@@ -7285,7 +7462,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/8f/Honey_Soap.png/revision/latest?cb=20240411151024",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/8f/Honey_Soap.png/revision/latest/scale-to-width-down/100?cb=20240411151024",
-  "wiki": "https://hayday.fandom.com/wiki/Honey_Soap"
+  "wiki": "https://hayday.fandom.com/wiki/Honey_Soap",
+  "file": "goods/honey-soap.webp"
  },
  {
   "name": "Lemon lotion",
@@ -7309,7 +7487,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/8f/Lemon_Lotion.png/revision/latest?cb=20240411151054",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/8f/Lemon_Lotion.png/revision/latest/scale-to-width-down/100?cb=20240411151054",
-  "wiki": "https://hayday.fandom.com/wiki/Lemon_Lotion"
+  "wiki": "https://hayday.fandom.com/wiki/Lemon_Lotion",
+  "file": "goods/lemon-lotion.webp"
  },
  {
   "name": "Colorful candles",
@@ -7337,7 +7516,8 @@
   "perBoatCrate": "3-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/19/Colorful_Candles.png/revision/latest?cb=20240411150229",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/19/Colorful_Candles.png/revision/latest/scale-to-width-down/100?cb=20240411150229",
-  "wiki": "https://hayday.fandom.com/wiki/Colorful_Candles"
+  "wiki": "https://hayday.fandom.com/wiki/Colorful_Candles",
+  "file": "goods/colorful-candles.webp"
  },
  {
   "name": "Mint",
@@ -7357,7 +7537,8 @@
   "perBoatCrate": "11-16",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/13/Mint.png/revision/latest?cb=20240219025557",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/13/Mint.png/revision/latest/scale-to-width-down/100?cb=20240219025557",
-  "wiki": "https://hayday.fandom.com/wiki/Mint"
+  "wiki": "https://hayday.fandom.com/wiki/Mint",
+  "file": "goods/mint.webp"
  },
  {
   "name": "Mint essential oil",
@@ -7377,7 +7558,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/33/Mint_Essential_Oil.png/revision/latest?cb=20240428095620",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/33/Mint_Essential_Oil.png/revision/latest/scale-to-width-down/135?cb=20240428095620",
-  "wiki": "https://hayday.fandom.com/wiki/Mint_Essential_Oil"
+  "wiki": "https://hayday.fandom.com/wiki/Mint_Essential_Oil",
+  "file": "goods/mint-essential-oil.webp"
  },
  {
   "name": "Grape jam",
@@ -7397,7 +7579,8 @@
   "perBoatCrate": "3-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/f/fa/Grape_Jam.png/revision/latest?cb=20240208152012",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/f/fa/Grape_Jam.png/revision/latest/scale-to-width-down/100?cb=20240208152012",
-  "wiki": "https://hayday.fandom.com/wiki/Grape_Jam"
+  "wiki": "https://hayday.fandom.com/wiki/Grape_Jam",
+  "file": "goods/grape-jam.webp"
  },
  {
   "name": "Mint ice cream",
@@ -7429,7 +7612,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b9/Mint_Ice_Cream.png/revision/latest?cb=20240411152759",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b9/Mint_Ice_Cream.png/revision/latest/scale-to-width-down/100?cb=20240411152759",
-  "wiki": "https://hayday.fandom.com/wiki/Mint_Ice_Cream"
+  "wiki": "https://hayday.fandom.com/wiki/Mint_Ice_Cream",
+  "file": "goods/mint-ice-cream.webp"
  },
  {
   "name": "Flower crown",
@@ -7453,7 +7637,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/ce/Flower_Crown.png/revision/latest?cb=20240211173705",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/ce/Flower_Crown.png/revision/latest/scale-to-width-down/100?cb=20240211173705",
-  "wiki": "https://hayday.fandom.com/wiki/Flower_Crown"
+  "wiki": "https://hayday.fandom.com/wiki/Flower_Crown",
+  "file": "goods/flower-crown.webp"
  },
  {
   "name": "Lemon tea",
@@ -7477,7 +7662,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/28/Lemon_Tea.png/revision/latest?cb=20240212111316",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/28/Lemon_Tea.png/revision/latest/scale-to-width-down/100?cb=20240212111316",
-  "wiki": "https://hayday.fandom.com/wiki/Lemon_Tea"
+  "wiki": "https://hayday.fandom.com/wiki/Lemon_Tea",
+  "file": "goods/lemon-tea.webp"
  },
  {
   "name": "Bacon fondue",
@@ -7509,7 +7695,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/d/d0/Bacon_Fondue.png/revision/latest?cb=20240411145310",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/d0/Bacon_Fondue.png/revision/latest/scale-to-width-down/100?cb=20240411145310",
-  "wiki": "https://hayday.fandom.com/wiki/Bacon_Fondue"
+  "wiki": "https://hayday.fandom.com/wiki/Bacon_Fondue",
+  "file": "goods/bacon-fondue.webp"
  },
  {
   "name": "Peanut noodles",
@@ -7541,7 +7728,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/20/Peanut_Noodles.png/revision/latest?cb=20240411151227",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/20/Peanut_Noodles.png/revision/latest/scale-to-width-down/100?cb=20240411151227",
-  "wiki": "https://hayday.fandom.com/wiki/Peanut_Noodles"
+  "wiki": "https://hayday.fandom.com/wiki/Peanut_Noodles",
+  "file": "goods/peanut-noodles.webp"
  },
  {
   "name": "Gingerbread cookie",
@@ -7573,7 +7761,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/0/02/Gingerbread_Cookie.png/revision/latest?cb=20240411150653",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/0/02/Gingerbread_Cookie.png/revision/latest/scale-to-width-down/100?cb=20240411150653",
-  "wiki": "https://hayday.fandom.com/wiki/Gingerbread_Cookie"
+  "wiki": "https://hayday.fandom.com/wiki/Gingerbread_Cookie",
+  "file": "goods/gingerbread-cookie.webp"
  },
  {
   "name": "Cream donut",
@@ -7601,7 +7790,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/60/Cream_Donut.png/revision/latest?cb=20240212101625",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/60/Cream_Donut.png/revision/latest/scale-to-width-down/100?cb=20240212101625",
-  "wiki": "https://hayday.fandom.com/wiki/Cream_Donut"
+  "wiki": "https://hayday.fandom.com/wiki/Cream_Donut",
+  "file": "goods/cream-donut.webp"
  },
  {
   "name": "Nachos",
@@ -7629,7 +7819,8 @@
   "perBoatCrate": "1-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/4c/Nachos.png/revision/latest?cb=20240212102910",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/4c/Nachos.png/revision/latest/scale-to-width-down/100?cb=20240212102910",
-  "wiki": "https://hayday.fandom.com/wiki/Nachos"
+  "wiki": "https://hayday.fandom.com/wiki/Nachos",
+  "file": "goods/nachos.webp"
  },
  {
   "name": "Spicy pasta",
@@ -7661,7 +7852,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/e6/Spicy_Pasta.png/revision/latest?cb=20180412211159",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/e6/Spicy_Pasta.png/revision/latest/scale-to-width-down/100?cb=20180412211159",
-  "wiki": "https://hayday.fandom.com/wiki/Spicy_Pasta"
+  "wiki": "https://hayday.fandom.com/wiki/Spicy_Pasta",
+  "file": "goods/spicy-pasta.webp"
  },
  {
   "name": "Broccoli soup",
@@ -7689,7 +7881,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b6/Broccoli_Soup.png/revision/latest?cb=20240209021523",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b6/Broccoli_Soup.png/revision/latest/scale-to-width-down/100?cb=20240209021523",
-  "wiki": "https://hayday.fandom.com/wiki/Broccoli_Soup"
+  "wiki": "https://hayday.fandom.com/wiki/Broccoli_Soup",
+  "file": "goods/broccoli-soup.webp"
  },
  {
   "name": "Bacon fries",
@@ -7721,7 +7914,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/80/Bacon_Fries.png/revision/latest?cb=20240411145403",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/80/Bacon_Fries.png/revision/latest/scale-to-width-down/100?cb=20240411145403",
-  "wiki": "https://hayday.fandom.com/wiki/Bacon_Fries"
+  "wiki": "https://hayday.fandom.com/wiki/Bacon_Fries",
+  "file": "goods/bacon-fries.webp"
  },
  {
   "name": "Potato omelet",
@@ -7749,8 +7943,7 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/ca/Potato_Omelet.png/revision/latest?cb=20240212103708",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/ca/Potato_Omelet.png/revision/latest/scale-to-width-down/100?cb=20240212103708",
-  "wiki": "https://hayday.fandom.com/wiki/Potato_Omelet",
-  "file": "goods/potato-omelet.webp"
+  "wiki": "https://hayday.fandom.com/wiki/Potato_Omelet"
  },
  {
   "name": "Mixed smoothie",
@@ -7778,8 +7971,7 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/6b/Mixed_Smoothie.png/revision/latest?cb=20240211171601",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/6b/Mixed_Smoothie.png/revision/latest/scale-to-width-down/100?cb=20240211171601",
-  "wiki": "https://hayday.fandom.com/wiki/Mixed_Smoothie",
-  "file": "goods/mixed-smoothie.webp"
+  "wiki": "https://hayday.fandom.com/wiki/Mixed_Smoothie"
  },
  {
   "name": "Banana",
@@ -7794,8 +7986,7 @@
   "perBoatCrate": "4-6",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/69/Banana.png/revision/latest?cb=20240219032506",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/69/Banana.png/revision/latest/scale-to-width-down/100?cb=20240219032506",
-  "wiki": "https://hayday.fandom.com/wiki/Banana",
-  "file": "goods/banana.webp"
+  "wiki": "https://hayday.fandom.com/wiki/Banana"
  },
  {
   "name": "Iced banana latte",
@@ -7823,8 +8014,7 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b0/Iced_Banana_Latte.png/revision/latest?cb=20240209013217",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b0/Iced_Banana_Latte.png/revision/latest/scale-to-width-down/100?cb=20240209013217",
-  "wiki": "https://hayday.fandom.com/wiki/Iced_Banana_Latte",
-  "file": "goods/iced-banana-latte.webp"
+  "wiki": "https://hayday.fandom.com/wiki/Iced_Banana_Latte"
  },
  {
   "name": "Apple ginger tea",
@@ -8342,7 +8532,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/87/Goat_Cheese_Toast.png/revision/latest?cb=20240211165644",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/87/Goat_Cheese_Toast.png/revision/latest/scale-to-width-down/100?cb=20240211165644",
-  "wiki": "https://hayday.fandom.com/wiki/Goat_Cheese_Toast"
+  "wiki": "https://hayday.fandom.com/wiki/Goat_Cheese_Toast",
+  "file": "goods/goat-cheese-toast.webp"
  },
  {
   "name": "Watermelon juice",
@@ -8362,7 +8553,8 @@
   "perBoatCrate": "3-5",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/a3/Watermelon_Juice.png/revision/latest?cb=20240223071838",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/a3/Watermelon_Juice.png/revision/latest/scale-to-width-down/100?cb=20240223071838",
-  "wiki": "https://hayday.fandom.com/wiki/Watermelon_Juice"
+  "wiki": "https://hayday.fandom.com/wiki/Watermelon_Juice",
+  "file": "goods/watermelon-juice.webp"
  },
  {
   "name": "Birthday bouquet",
@@ -8394,7 +8586,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/23/Birthday_Bouquet.png/revision/latest?cb=20240411145536",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/23/Birthday_Bouquet.png/revision/latest/scale-to-width-down/100?cb=20240411145536",
-  "wiki": "https://hayday.fandom.com/wiki/Birthday_Bouquet"
+  "wiki": "https://hayday.fandom.com/wiki/Birthday_Bouquet",
+  "file": "goods/birthday-bouquet.webp"
  },
  {
   "name": "Passion fruit pie",
@@ -8422,7 +8615,8 @@
   "perBoatCrate": "4-5",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/65/Passion_Fruit_Pie.png/revision/latest?cb=20240207150628",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/65/Passion_Fruit_Pie.png/revision/latest/scale-to-width-down/100?cb=20240207150628",
-  "wiki": "https://hayday.fandom.com/wiki/Passion_Fruit_Pie"
+  "wiki": "https://hayday.fandom.com/wiki/Passion_Fruit_Pie",
+  "file": "goods/passion-fruit-pie.webp"
  },
  {
   "name": "Soft bouquet",
@@ -8450,7 +8644,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/8a/Soft_Bouquet.png/revision/latest?cb=20240209042807",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/8a/Soft_Bouquet.png/revision/latest/scale-to-width-down/100?cb=20240209042807",
-  "wiki": "https://hayday.fandom.com/wiki/Soft_Bouquet"
+  "wiki": "https://hayday.fandom.com/wiki/Soft_Bouquet",
+  "file": "goods/soft-bouquet.webp"
  },
  {
   "name": "Black sesame smoothie",
@@ -8478,7 +8673,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/3c/Black_Sesame_Smoothie.png/revision/latest?cb=20240211171316",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/3c/Black_Sesame_Smoothie.png/revision/latest/scale-to-width-down/100?cb=20240211171316",
-  "wiki": "https://hayday.fandom.com/wiki/Black_Sesame_Smoothie"
+  "wiki": "https://hayday.fandom.com/wiki/Black_Sesame_Smoothie",
+  "file": "goods/black-sesame-smoothie.webp"
  },
  {
   "name": "Exfoliating soap",
@@ -8506,7 +8702,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/38/Exfoliating_Soap.png/revision/latest?cb=20240411150337",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/38/Exfoliating_Soap.png/revision/latest/scale-to-width-down/100?cb=20240411150337",
-  "wiki": "https://hayday.fandom.com/wiki/Exfoliating_Soap"
+  "wiki": "https://hayday.fandom.com/wiki/Exfoliating_Soap",
+  "file": "goods/exfoliating-soap.webp"
  },
  {
   "name": "Filled donut",
@@ -8530,7 +8727,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/30/Filled_Donut.png/revision/latest?cb=20240212102005",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/30/Filled_Donut.png/revision/latest/scale-to-width-down/100?cb=20240212102005",
-  "wiki": "https://hayday.fandom.com/wiki/Filled_Donut"
+  "wiki": "https://hayday.fandom.com/wiki/Filled_Donut",
+  "file": "goods/filled-donut.webp"
  },
  {
   "name": "Plum",
@@ -8545,7 +8743,8 @@
   "perBoatCrate": "4-6",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/e6/Plum.png/revision/latest?cb=20240219033810",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/e6/Plum.png/revision/latest/scale-to-width-down/100?cb=20240219033810",
-  "wiki": "https://hayday.fandom.com/wiki/Plum"
+  "wiki": "https://hayday.fandom.com/wiki/Plum",
+  "file": "goods/plum.webp"
  },
  {
   "name": "Banana pancakes",
@@ -8577,7 +8776,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/4f/Banana_Pancakes.png/revision/latest?cb=20240205164435",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/4f/Banana_Pancakes.png/revision/latest/scale-to-width-down/100?cb=20240205164435",
-  "wiki": "https://hayday.fandom.com/wiki/Banana_Pancakes"
+  "wiki": "https://hayday.fandom.com/wiki/Banana_Pancakes",
+  "file": "goods/banana-pancakes.webp"
  },
  {
   "name": "Plum jam",
@@ -8597,7 +8797,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/3a/Plum_Jam.png/revision/latest?cb=20240208152615",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/3a/Plum_Jam.png/revision/latest/scale-to-width-down/100?cb=20240208152615",
-  "wiki": "https://hayday.fandom.com/wiki/Plum_Jam"
+  "wiki": "https://hayday.fandom.com/wiki/Plum_Jam",
+  "file": "goods/plum-jam.webp"
  },
  {
   "name": "Clay",
@@ -8899,7 +9100,8 @@
   "perBoatCrate": "3-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/a1/Potted_Plant.png/revision/latest?cb=20240212143019",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/a1/Potted_Plant.png/revision/latest/scale-to-width-down/100?cb=20240212143019",
-  "wiki": "https://hayday.fandom.com/wiki/Potted_Plant"
+  "wiki": "https://hayday.fandom.com/wiki/Potted_Plant",
+  "file": "goods/potted-plant.webp"
  },
  {
   "name": "Mint tea",
@@ -8927,7 +9129,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/40/Mint_Tea.png/revision/latest?cb=20240212111658",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/40/Mint_Tea.png/revision/latest/scale-to-width-down/100?cb=20240212111658",
-  "wiki": "https://hayday.fandom.com/wiki/Mint_Tea"
+  "wiki": "https://hayday.fandom.com/wiki/Mint_Tea",
+  "file": "goods/mint-tea.webp"
  },
  {
   "name": "Mushroom pot pie",
@@ -8959,7 +9162,8 @@
   "perBoatCrate": "1-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/c2/Mushroom_Pot_Pie.png/revision/latest?cb=20240207150536",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/c2/Mushroom_Pot_Pie.png/revision/latest/scale-to-width-down/100?cb=20240207150536",
-  "wiki": "https://hayday.fandom.com/wiki/Mushroom_Pot_Pie"
+  "wiki": "https://hayday.fandom.com/wiki/Mushroom_Pot_Pie",
+  "file": "goods/mushroom-pot-pie.webp"
  },
  {
   "name": "Mango",
@@ -8974,7 +9178,8 @@
   "perBoatCrate": "4-6",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/38/Mango.png/revision/latest?cb=20240219033328",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/38/Mango.png/revision/latest/scale-to-width-down/100?cb=20240219033328",
-  "wiki": "https://hayday.fandom.com/wiki/Mango"
+  "wiki": "https://hayday.fandom.com/wiki/Mango",
+  "file": "goods/mango.webp"
  },
  {
   "name": "Mango juice",
@@ -8994,7 +9199,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/e1/Mango_Juice.png/revision/latest?cb=20240223071922",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/e1/Mango_Juice.png/revision/latest/scale-to-width-down/100?cb=20240223071922",
-  "wiki": "https://hayday.fandom.com/wiki/Mango_Juice"
+  "wiki": "https://hayday.fandom.com/wiki/Mango_Juice",
+  "file": "goods/mango-juice.webp"
  },
  {
   "name": "Flower pendant",
@@ -9022,7 +9228,8 @@
   "perBoatCrate": "N/A",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/ae/Flower_Pendant.png/revision/latest?cb=20240208162301",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/ae/Flower_Pendant.png/revision/latest/scale-to-width-down/100?cb=20240208162301",
-  "wiki": "https://hayday.fandom.com/wiki/Flower_Pendant"
+  "wiki": "https://hayday.fandom.com/wiki/Flower_Pendant",
+  "file": "goods/flower-pendant.webp"
  },
  {
   "name": "Chili poppers",
@@ -9054,7 +9261,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/8f/Chili_Poppers.png/revision/latest?cb=20240212130039",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/8f/Chili_Poppers.png/revision/latest/scale-to-width-down/100?cb=20240212130039",
-  "wiki": "https://hayday.fandom.com/wiki/Chili_Poppers"
+  "wiki": "https://hayday.fandom.com/wiki/Chili_Poppers",
+  "file": "goods/chili-poppers.webp"
  },
  {
   "name": "Falafel",
@@ -9086,7 +9294,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/5/5c/Falafel.png/revision/latest?cb=20240411150353",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/5/5c/Falafel.png/revision/latest/scale-to-width-down/100?cb=20240411150353",
-  "wiki": "https://hayday.fandom.com/wiki/Falafel"
+  "wiki": "https://hayday.fandom.com/wiki/Falafel",
+  "file": "goods/falafel.webp"
  },
  {
   "name": "Kimchi",
@@ -9118,7 +9327,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/43/Kimchi.png/revision/latest?cb=20240411151034",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/43/Kimchi.png/revision/latest/scale-to-width-down/100?cb=20240411151034",
-  "wiki": "https://hayday.fandom.com/wiki/Kimchi"
+  "wiki": "https://hayday.fandom.com/wiki/Kimchi",
+  "file": "goods/kimchi.webp"
  },
  {
   "name": "Eggplant parmesan",
@@ -9146,7 +9356,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/73/Eggplant_Parmesan.png/revision/latest?cb=20240207145953",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/73/Eggplant_Parmesan.png/revision/latest/scale-to-width-down/100?cb=20240207145953",
-  "wiki": "https://hayday.fandom.com/wiki/Eggplant_Parmesan"
+  "wiki": "https://hayday.fandom.com/wiki/Eggplant_Parmesan",
+  "file": "goods/eggplant-parmesan.webp"
  },
  {
   "name": "Honey face mask",
@@ -9174,7 +9385,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/f/f1/Honey_Face_Mask.png/revision/latest?cb=20240411150933",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/f/f1/Honey_Face_Mask.png/revision/latest/scale-to-width-down/100?cb=20240411150933",
-  "wiki": "https://hayday.fandom.com/wiki/Honey_Face_Mask"
+  "wiki": "https://hayday.fandom.com/wiki/Honey_Face_Mask",
+  "file": "goods/honey-face-mask.webp"
  },
  {
   "name": "Clay mug",
@@ -9202,7 +9414,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/f/f1/Clay_Mug.png/revision/latest?cb=20240212142657",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/f/f1/Clay_Mug.png/revision/latest/scale-to-width-down/100?cb=20240212142657",
-  "wiki": "https://hayday.fandom.com/wiki/Clay_Mug"
+  "wiki": "https://hayday.fandom.com/wiki/Clay_Mug",
+  "file": "goods/clay-mug.webp"
  },
  {
   "name": "Rich fudge",
@@ -9230,7 +9443,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/2e/Rich_Fudge.png/revision/latest?cb=20240212143940",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/2e/Rich_Fudge.png/revision/latest/scale-to-width-down/100?cb=20240212143940",
-  "wiki": "https://hayday.fandom.com/wiki/Rich_Fudge"
+  "wiki": "https://hayday.fandom.com/wiki/Rich_Fudge",
+  "file": "goods/rich-fudge.webp"
  },
  {
   "name": "Cocoa smoothie",
@@ -9398,7 +9612,8 @@
   "perBoatCrate": "2-3",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/2d/Mushroom_Pasta.png/revision/latest?cb=20240211175832",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/2d/Mushroom_Pasta.png/revision/latest/scale-to-width-down/100?cb=20240211175832",
-  "wiki": "https://hayday.fandom.com/wiki/Mushroom_Pasta"
+  "wiki": "https://hayday.fandom.com/wiki/Mushroom_Pasta",
+  "file": "goods/mushroom-pasta.webp"
  },
  {
   "name": "Coconut",
@@ -9413,7 +9628,8 @@
   "perBoatCrate": "4-5",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/2f/Coconut.png/revision/latest?cb=20240219032853",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/2f/Coconut.png/revision/latest/scale-to-width-down/100?cb=20240219032853",
-  "wiki": "https://hayday.fandom.com/wiki/Coconut"
+  "wiki": "https://hayday.fandom.com/wiki/Coconut",
+  "file": "goods/coconut.webp"
  },
  {
   "name": "Macaroon",
@@ -9441,7 +9657,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/d/d0/Macaroon.png/revision/latest?cb=20240303134131",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/d0/Macaroon.png/revision/latest/scale-to-width-down/100?cb=20240303134131",
-  "wiki": "https://hayday.fandom.com/wiki/Macaroon"
+  "wiki": "https://hayday.fandom.com/wiki/Macaroon",
+  "file": "goods/macaroon.webp"
  },
  {
   "name": "Plum smoothie",
@@ -9473,7 +9690,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/c5/Plum_Smoothie.png/revision/latest?cb=20240211171753",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/c5/Plum_Smoothie.png/revision/latest/scale-to-width-down/100?cb=20240211171753",
-  "wiki": "https://hayday.fandom.com/wiki/Plum_Smoothie"
+  "wiki": "https://hayday.fandom.com/wiki/Plum_Smoothie",
+  "file": "goods/plum-smoothie.webp"
  },
  {
   "name": "Dried fruit",
@@ -9505,7 +9723,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/66/Dried_Fruit.png/revision/latest?cb=20240411150308",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/66/Dried_Fruit.png/revision/latest/scale-to-width-down/100?cb=20240411150308",
-  "wiki": "https://hayday.fandom.com/wiki/Dried_Fruit"
+  "wiki": "https://hayday.fandom.com/wiki/Dried_Fruit",
+  "file": "goods/dried-fruit.webp"
  },
  {
   "name": "Mint fudge",
@@ -9537,7 +9756,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/4/40/Mint_Fudge.png/revision/latest?cb=20240212150535",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/4/40/Mint_Fudge.png/revision/latest/scale-to-width-down/100?cb=20240212150535",
-  "wiki": "https://hayday.fandom.com/wiki/Mint_Fudge"
+  "wiki": "https://hayday.fandom.com/wiki/Mint_Fudge",
+  "file": "goods/mint-fudge.webp"
  },
  {
   "name": "Coconut ice cream",
@@ -9561,7 +9781,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/d/d9/Coconut_Ice_Cream.png/revision/latest?cb=20240411150138",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/d9/Coconut_Ice_Cream.png/revision/latest/scale-to-width-down/100?cb=20240411150138",
-  "wiki": "https://hayday.fandom.com/wiki/Coconut_Ice_Cream"
+  "wiki": "https://hayday.fandom.com/wiki/Coconut_Ice_Cream",
+  "file": "goods/coconut-ice-cream.webp"
  },
  {
   "name": "Samosa",
@@ -9593,7 +9814,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b5/Samosa.png/revision/latest?cb=20240212130830",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b5/Samosa.png/revision/latest/scale-to-width-down/100?cb=20240212130830",
-  "wiki": "https://hayday.fandom.com/wiki/Samosa"
+  "wiki": "https://hayday.fandom.com/wiki/Samosa",
+  "file": "goods/samosa.webp"
  },
  {
   "name": "Plain yogurt",
@@ -9898,7 +10120,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b9/Fruit_Sorbet.png/revision/latest?cb=20240411150614",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b9/Fruit_Sorbet.png/revision/latest/scale-to-width-down/100?cb=20240411150614",
-  "wiki": "https://hayday.fandom.com/wiki/Fruit_Sorbet"
+  "wiki": "https://hayday.fandom.com/wiki/Fruit_Sorbet",
+  "file": "goods/fruit-sorbet.webp"
  },
  {
   "name": "Pomegranate",
@@ -9913,7 +10136,8 @@
   "perBoatCrate": "4-6",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/1b/Pomegranate.png/revision/latest?cb=20240219033910",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/1b/Pomegranate.png/revision/latest/scale-to-width-down/100?cb=20240219033910",
-  "wiki": "https://hayday.fandom.com/wiki/Pomegranate"
+  "wiki": "https://hayday.fandom.com/wiki/Pomegranate",
+  "file": "goods/pomegranate.webp"
  },
  {
   "name": "Pomegranate tea",
@@ -9937,7 +10161,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/f/f1/Pomegranate_Tea.png/revision/latest?cb=20240212113036",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/f/f1/Pomegranate_Tea.png/revision/latest/scale-to-width-down/100?cb=20240212113036",
-  "wiki": "https://hayday.fandom.com/wiki/Pomegranate_Tea"
+  "wiki": "https://hayday.fandom.com/wiki/Pomegranate_Tea",
+  "file": "goods/pomegranate-tea.webp"
  },
  {
   "name": "Lemon fudge",
@@ -9969,7 +10194,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/d/d2/Lemon_Fudge.png/revision/latest?cb=20240212150239",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/d2/Lemon_Fudge.png/revision/latest/scale-to-width-down/100?cb=20240212150239",
-  "wiki": "https://hayday.fandom.com/wiki/Lemon_Fudge"
+  "wiki": "https://hayday.fandom.com/wiki/Lemon_Fudge",
+  "file": "goods/lemon-fudge.webp"
  },
  {
   "name": "Pomegranate cake",
@@ -10001,7 +10227,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/9d/Pomegranate_Cake.png/revision/latest?cb=20240223074926",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/9d/Pomegranate_Cake.png/revision/latest/scale-to-width-down/100?cb=20240223074926",
-  "wiki": "https://hayday.fandom.com/wiki/Pomegranate_Cake"
+  "wiki": "https://hayday.fandom.com/wiki/Pomegranate_Cake",
+  "file": "goods/pomegranate-cake.webp"
  },
  {
   "name": "Hummus wrap",
@@ -10029,7 +10256,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/3/31/Hummus_Wrap.png/revision/latest?cb=20240211165850",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/3/31/Hummus_Wrap.png/revision/latest/scale-to-width-down/100?cb=20240211165850",
-  "wiki": "https://hayday.fandom.com/wiki/Hummus_Wrap"
+  "wiki": "https://hayday.fandom.com/wiki/Hummus_Wrap",
+  "file": "goods/hummus-wrap.webp"
  },
  {
   "name": "Tropical yogurt",
@@ -10061,7 +10289,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/cc/Tropical_Yogurt.png/revision/latest?cb=20240215045547",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/cc/Tropical_Yogurt.png/revision/latest/scale-to-width-down/100?cb=20240215045547",
-  "wiki": "https://hayday.fandom.com/wiki/Tropical_Yogurt"
+  "wiki": "https://hayday.fandom.com/wiki/Tropical_Yogurt",
+  "file": "goods/tropical-yogurt.webp"
  },
  {
   "name": "Chili stew",
@@ -10093,7 +10322,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/c6/Chili_Stew.png/revision/latest?cb=20240411150019",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/c6/Chili_Stew.png/revision/latest/scale-to-width-down/100?cb=20240411150019",
-  "wiki": "https://hayday.fandom.com/wiki/Chili_Stew"
+  "wiki": "https://hayday.fandom.com/wiki/Chili_Stew",
+  "file": "goods/chili-stew.webp"
  },
  {
   "name": "Plain cupcake",
@@ -10125,7 +10355,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/ce/Plain_Cupcake.png/revision/latest?cb=20240411151308",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/ce/Plain_Cupcake.png/revision/latest/scale-to-width-down/100?cb=20240411151308",
-  "wiki": "https://hayday.fandom.com/wiki/Plain_Cupcake"
+  "wiki": "https://hayday.fandom.com/wiki/Plain_Cupcake",
+  "file": "goods/plain-cupcake.webp"
  },
  {
   "name": "Guava cupcake",
@@ -10153,7 +10384,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/9e/Guava_Cupcake.png/revision/latest?cb=20240411150749",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/9e/Guava_Cupcake.png/revision/latest/scale-to-width-down/100?cb=20240411150749",
-  "wiki": "https://hayday.fandom.com/wiki/Guava_Cupcake"
+  "wiki": "https://hayday.fandom.com/wiki/Guava_Cupcake",
+  "file": "goods/guava-cupcake.webp"
  },
  {
   "name": "Rice ball",
@@ -10181,7 +10413,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/1/1d/Rice_Ball.png/revision/latest?cb=20210907213244",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/1/1d/Rice_Ball.png/revision/latest/scale-to-width-down/100?cb=20210907213244",
-  "wiki": "https://hayday.fandom.com/wiki/Rice_Ball"
+  "wiki": "https://hayday.fandom.com/wiki/Rice_Ball",
+  "file": "goods/rice-ball.webp"
  },
  {
   "name": "Fresh diffuser",
@@ -10205,7 +10438,8 @@
   "perBoatCrate": "??",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/2f/Fresh_Diffuser.png/revision/latest?cb=20241209194636",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/2f/Fresh_Diffuser.png/revision/latest/scale-to-width-down/100?cb=20241209194636",
-  "wiki": "https://hayday.fandom.com/wiki/Fresh_Diffuser"
+  "wiki": "https://hayday.fandom.com/wiki/Fresh_Diffuser",
+  "file": "goods/fresh-diffuser.webp"
  },
  {
   "name": "Peanut fudge",
@@ -10237,7 +10471,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/2d/Peanut_Fudge.png/revision/latest?cb=20220428150457",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/2d/Peanut_Fudge.png/revision/latest/scale-to-width-down/100?cb=20220428150457",
-  "wiki": "https://hayday.fandom.com/wiki/Peanut_Fudge"
+  "wiki": "https://hayday.fandom.com/wiki/Peanut_Fudge",
+  "file": "goods/peanut-fudge.webp"
  },
  {
   "name": "Tropical cupcake",
@@ -10265,7 +10500,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/9b/Tropical_Cupcake.png/revision/latest?cb=20240411151452",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/9b/Tropical_Cupcake.png/revision/latest/scale-to-width-down/100?cb=20240411151452",
-  "wiki": "https://hayday.fandom.com/wiki/Tropical_Cupcake"
+  "wiki": "https://hayday.fandom.com/wiki/Tropical_Cupcake",
+  "file": "goods/tropical-cupcake.webp"
  },
  {
   "name": "Winter stew",
@@ -10297,7 +10533,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/e/e3/Winter_Stew.png/revision/latest?cb=20240411151558",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/e/e3/Winter_Stew.png/revision/latest/scale-to-width-down/100?cb=20240411151558",
-  "wiki": "https://hayday.fandom.com/wiki/Winter_Stew"
+  "wiki": "https://hayday.fandom.com/wiki/Winter_Stew",
+  "file": "goods/winter-stew.webp"
  },
  {
   "name": "Zesty perfume",
@@ -10321,7 +10558,8 @@
   "perBoatCrate": "??",
   "image": "https://static.wikia.nocookie.net/hayday/images/a/ac/Zesty_Perfume.png/revision/latest?cb=20241209193805",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/a/ac/Zesty_Perfume.png/revision/latest/scale-to-width-down/100?cb=20241209193805",
-  "wiki": "https://hayday.fandom.com/wiki/Zesty_Perfume"
+  "wiki": "https://hayday.fandom.com/wiki/Zesty_Perfume",
+  "file": "goods/zesty-perfume.webp"
  },
  {
   "name": "Cookie cupcake",
@@ -10353,7 +10591,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/8/86/Cookie_Cupcake.png/revision/latest?cb=20250112061229",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/86/Cookie_Cupcake.png/revision/latest/scale-to-width-down/100?cb=20250112061229",
-  "wiki": "https://hayday.fandom.com/wiki/Cookie_Cupcake"
+  "wiki": "https://hayday.fandom.com/wiki/Cookie_Cupcake",
+  "file": "goods/cookie-cupcake.webp"
  },
  {
   "name": "Plain waffles",
@@ -10381,7 +10620,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/66/Plain_Waffles.png/revision/latest?cb=20240217133029",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/66/Plain_Waffles.png/revision/latest/scale-to-width-down/100?cb=20240217133029",
-  "wiki": "https://hayday.fandom.com/wiki/Plain_Waffles"
+  "wiki": "https://hayday.fandom.com/wiki/Plain_Waffles",
+  "file": "goods/plain-waffles.webp"
  },
  {
   "name": "Berry waffles",
@@ -10413,7 +10653,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/2/29/Berry_Waffles.png/revision/latest?cb=20240217133201",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/2/29/Berry_Waffles.png/revision/latest/scale-to-width-down/100?cb=20240217133201",
-  "wiki": "https://hayday.fandom.com/wiki/Berry_Waffles"
+  "wiki": "https://hayday.fandom.com/wiki/Berry_Waffles",
+  "file": "goods/berry-waffles.webp"
  },
  {
   "name": "Calming diffuser",
