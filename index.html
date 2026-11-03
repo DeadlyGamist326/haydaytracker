@@ -3718,7 +3718,17 @@ function reqStepName(body, prefill){
   };
   const choose=it=>{ reqEdState.item=it; reqStepQty(body); };
   inp.addEventListener('input',()=>{ hits=reqSearch(inp.value); on=0; draw(); });
+  let bsEmpty=0;
   inp.addEventListener('keydown',e=>{
+    if(e.key==='Backspace'){
+      if(inp.value===''){
+        bsEmpty++;
+        if(bsEmpty>=3 && reqEdState && reqGet(reqEdState.a,reqEdState.b,reqEdState.i)){
+          e.preventDefault(); const s=reqEdState; reqSet(s.a,s.b,s.i,null,0); s.item=null; reqRenderSlot(s.slot);
+          reqStepName(body,''); return;
+        }
+      } else bsEmpty=0;
+    } else if(e.key!=='Shift' && e.key!=='Control' && e.key!=='Alt' && e.key!=='Meta') bsEmpty=0;
     if(e.key==='ArrowDown'){ e.preventDefault(); if(hits.length){ on=(on+1)%hits.length; draw(); } }
     else if(e.key==='ArrowUp'){ e.preventDefault(); if(hits.length){ on=(on-1+hits.length)%hits.length; draw(); } }
     else if(e.key==='Enter'){
