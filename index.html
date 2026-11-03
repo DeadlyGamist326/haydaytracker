@@ -3511,7 +3511,12 @@ function buildReqGrid(){
         el.dataset.acct=ac.id; el.dataset.board=b; el.dataset.i=i;
         el.style.cssText='left:'+s.x+'%;top:'+s.y+'%;width:'+s.w+'%;height:'+s.h+'%;';
         el.addEventListener('click',()=>reqOpenEd(el,'name'));
-        el.addEventListener('contextmenu',e=>{ e.preventDefault(); if(reqGet(ac.id,b,i)) reqSet(ac.id,b,i,null,0), reqRenderSlot(el); });
+        el.addEventListener('contextmenu',e=>{
+          e.preventDefault(); e.stopPropagation();
+          if(reqEdState) reqCloseEd();
+          document.getElementById('upgTip').classList.remove('show');
+          if(reqGet(ac.id,b,i)){ reqSet(ac.id,b,i,null,0); reqRenderSlot(el); }
+        });
         el.addEventListener('dragstart',e=>{
           if(!reqGet(ac.id,b,i)){ e.preventDefault(); return; }
           e.dataTransfer.setData('text/plain','req:'+ac.id+':'+b+':'+i); e.dataTransfer.effectAllowed='copy'; reqDragSrc={a:ac.id,b:b,i:i};
