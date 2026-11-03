@@ -7330,7 +7330,8 @@
   "perBoatCrate": "1",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b2/Rice_Omelet.png/revision/latest?cb=20240212104100",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b2/Rice_Omelet.png/revision/latest/scale-to-width-down/100?cb=20240212104100",
-  "wiki": "https://hayday.fandom.com/wiki/Rice_Omelet"
+  "wiki": "https://hayday.fandom.com/wiki/Rice_Omelet",
+  "file": "goods/rice-omelet.webp"
  },
  {
   "name": "Summer salad",
@@ -7943,7 +7944,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/ca/Potato_Omelet.png/revision/latest?cb=20240212103708",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/ca/Potato_Omelet.png/revision/latest/scale-to-width-down/100?cb=20240212103708",
-  "wiki": "https://hayday.fandom.com/wiki/Potato_Omelet"
+  "wiki": "https://hayday.fandom.com/wiki/Potato_Omelet",
+  "file": "goods/potato-omelet.webp"
  },
  {
   "name": "Mixed smoothie",
@@ -7971,7 +7973,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/6b/Mixed_Smoothie.png/revision/latest?cb=20240211171601",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/6b/Mixed_Smoothie.png/revision/latest/scale-to-width-down/100?cb=20240211171601",
-  "wiki": "https://hayday.fandom.com/wiki/Mixed_Smoothie"
+  "wiki": "https://hayday.fandom.com/wiki/Mixed_Smoothie",
+  "file": "goods/mixed-smoothie.webp"
  },
  {
   "name": "Banana",
@@ -7986,7 +7989,8 @@
   "perBoatCrate": "4-6",
   "image": "https://static.wikia.nocookie.net/hayday/images/6/69/Banana.png/revision/latest?cb=20240219032506",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/6/69/Banana.png/revision/latest/scale-to-width-down/100?cb=20240219032506",
-  "wiki": "https://hayday.fandom.com/wiki/Banana"
+  "wiki": "https://hayday.fandom.com/wiki/Banana",
+  "file": "goods/banana.webp"
  },
  {
   "name": "Iced banana latte",
@@ -8014,7 +8018,8 @@
   "perBoatCrate": "2",
   "image": "https://static.wikia.nocookie.net/hayday/images/b/b0/Iced_Banana_Latte.png/revision/latest?cb=20240209013217",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/b/b0/Iced_Banana_Latte.png/revision/latest/scale-to-width-down/100?cb=20240209013217",
-  "wiki": "https://hayday.fandom.com/wiki/Iced_Banana_Latte"
+  "wiki": "https://hayday.fandom.com/wiki/Iced_Banana_Latte",
+  "file": "goods/iced-banana-latte.webp"
  },
  {
   "name": "Apple ginger tea",
@@ -9472,7 +9477,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/c/c4/Cocoa_Smoothie.png/revision/latest?cb=20240303131238",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/c4/Cocoa_Smoothie.png/revision/latest/scale-to-width-down/100?cb=20240303131238",
-  "wiki": "https://hayday.fandom.com/wiki/Cocoa_Smoothie"
+  "wiki": "https://hayday.fandom.com/wiki/Cocoa_Smoothie",
+  "file": "goods/cocoa-smoothie.webp"
  },
  {
   "name": "Fried candy bar",
@@ -9500,7 +9506,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/96/Fried_Candy_Bar.png/revision/latest?cb=20240411150432",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/96/Fried_Candy_Bar.png/revision/latest/scale-to-width-down/100?cb=20240411150432",
-  "wiki": "https://hayday.fandom.com/wiki/Fried_Candy_Bar"
+  "wiki": "https://hayday.fandom.com/wiki/Fried_Candy_Bar",
+  "file": "goods/fried-candy-bar.webp"
  },
  {
   "name": "Tart dressing",
@@ -9528,7 +9535,8 @@
   "perBoatCrate": "2-4",
   "image": "https://static.wikia.nocookie.net/hayday/images/9/98/Tart_Dressing.png/revision/latest?cb=20240210060010",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/9/98/Tart_Dressing.png/revision/latest/scale-to-width-down/100?cb=20240210060010",
-  "wiki": "https://hayday.fandom.com/wiki/Tart_Dressing"
+  "wiki": "https://hayday.fandom.com/wiki/Tart_Dressing",
+  "file": "goods/tart-dressing.webp"
  },
  {
   "name": "Tropical fondue",
@@ -9560,7 +9568,8 @@
   "perBoatCrate": "1-2",
   "image": "https://static.wikia.nocookie.net/hayday/images/f/f8/Tropical_Fondue.png/revision/latest?cb=20240212120747",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/f/f8/Tropical_Fondue.png/revision/latest/scale-to-width-down/100?cb=20240212120747",
-  "wiki": "https://hayday.fandom.com/wiki/Tropical_Fondue"
+  "wiki": "https://hayday.fandom.com/wiki/Tropical_Fondue",
+  "file": "goods/tropical-fondue.webp"
  },
  {
   "name": "Chamomile tea",
@@ -9584,7 +9593,8 @@
   "perBoatCrate": "5",
   "image": "https://static.wikia.nocookie.net/hayday/images/7/7e/Chamomile_Tea.png/revision/latest?cb=20241209181932",
   "thumb": "https://static.wikia.nocookie.net/hayday/images/7/7e/Chamomile_Tea.png/revision/latest/scale-to-width-down/100?cb=20241209181932",
-  "wiki": "https://hayday.fandom.com/wiki/Chamomile_Tea"
+  "wiki": "https://hayday.fandom.com/wiki/Chamomile_Tea",
+  "file": "goods/chamomile-tea.webp"
  },
  {
   "name": "Mushroom pasta",
