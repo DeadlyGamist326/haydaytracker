@@ -3548,10 +3548,11 @@ function reqBindTip(el){
   el.addEventListener('mouseleave',()=>tip.classList.remove('show'));
 }
 function reqFitSigns(){
-  document.querySelectorAll('#reqGrid .req-sign').forEach(sg=>{
-    let fs=Math.max(8,sg.clientHeight*0.62); sg.style.fontSize=fs+'px';
-    let n=0; while(sg.scrollWidth>sg.clientWidth+1 && fs>6 && n++<40){ fs-=0.5; sg.style.fontSize=fs+'px'; }
-  });
+  // every name (table bench + roadside shop sign) gets the same font size: the largest one that fits the longest name
+  const sg=Array.from(document.querySelectorAll('#reqGrid .req-sign')); if(!sg.length) return;
+  const bw=sg[0].parentNode.clientWidth||150;
+  let fs=Math.max(8,bw*0.075); sg.forEach(s=>{ s.style.fontSize=fs+'px'; });
+  let n=0; while(sg.some(s=>s.scrollWidth>s.clientWidth+1) && fs>6 && n++<80){ fs-=0.25; sg.forEach(s=>{ s.style.fontSize=fs+'px'; }); }
 }
 let reqEdState=null;
 function reqCloseEd(){ document.getElementById('reqEd').classList.remove('show'); reqEdState=null; }
