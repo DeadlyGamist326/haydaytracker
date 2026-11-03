@@ -359,6 +359,8 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .req-board.req-shop{background:#c9704a;}
 .req-board>img.req-bg{width:100%;height:auto;display:block;pointer-events:none;}
 .req-slot{position:absolute;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:8%;box-sizing:border-box;}
+.req-board.nomatch{animation:reqShake .3s;}
+.req-board.drag-over{outline:3px dashed #fff;outline-offset:-3px;}
 .req-slot.drag-over{background:rgba(255,255,255,.5);outline:2px dashed #fff;}
 .req-slot[draggable=true]{cursor:grab;}
 .req-slot:hover{background:rgba(255,255,255,.35);outline:2px solid rgba(255,255,255,.9);}
@@ -3512,13 +3514,14 @@ function buildReqGrid(){
         el.addEventListener('contextmenu',e=>{ e.preventDefault(); if(reqGet(ac.id,b,i)) reqSet(ac.id,b,i,null,0), reqRenderSlot(el); });
         el.addEventListener('dragstart',e=>{
           if(!reqGet(ac.id,b,i)){ e.preventDefault(); return; }
-          e.dataTransfer.setData('text/plain','req:'+ac.id+':'+b+':'+i); e.dataTransfer.effectAllowed='copy';
+          e.dataTransfer.setData('text/plain','req:'+ac.id+':'+b+':'+i); e.dataTransfer.effectAllowed='copy'; reqDragSrc={a:ac.id,b:b,i:i};
           document.getElementById('upgTip').classList.remove('show'); reqCloseEd();
         });
         el.addEventListener('dragover',e=>{ e.preventDefault(); e.dataTransfer.dropEffect='copy'; el.classList.add('drag-over'); });
         el.addEventListener('dragleave',()=>el.classList.remove('drag-over'));
         el.addEventListener('drop',e=>{
-          e.preventDefault(); el.classList.remove('drag-over');
+          e.preventDefault(); e.stopPropagation(); el.classList.remove('drag-over');
+          if(b==='t' && reqDragSrc && reqDragSrc.b==='s'){ reqTransfer(el.parentNode); reqDragSrc=null; return; }
           const p=(e.dataTransfer.getData('text/plain')||'').split(':'); if(p[0]!=='req') return;
           const src=reqGet(p[1],p[2],+p[3]); if(!src) return;
           if(p[1]===ac.id && p[2]===b && +p[3]===i) return;
@@ -3530,6 +3533,11 @@ function buildReqGrid(){
         bd.appendChild(el);
       });
       bd.dataset.row=(b==='t'?0:2)+gi;
+      if(b==='t'){
+        bd.addEventListener('dragover',e=>{ if(reqDragSrc && reqDragSrc.b==='s'){ e.preventDefault(); e.dataTransfer.dropEffect='copy'; bd.classList.add('drag-over'); } });
+        bd.addEventListener('dragleave',e=>{ if(!bd.contains(e.relatedTarget)) bd.classList.remove('drag-over'); });
+        bd.addEventListener('drop',e=>{ bd.classList.remove('drag-over'); if(reqDragSrc && reqDragSrc.b==='s'){ e.preventDefault(); reqTransfer(bd); reqDragSrc=null; } });
+      }
       rowsList[(b==='t'?0:2)+gi].push(bd);
     });
   }));
@@ -3540,6 +3548,26 @@ function buildReqGrid(){
   } else rowsList.forEach(arr=>arr.forEach(bd=>g.appendChild(bd)));
   reqApplyL2(true);
   reqFitSigns();
+}
+let reqDragSrc=null;
+document.addEventListener('dragend',()=>{ reqDragSrc=null; document.querySelectorAll('.req-board.drag-over,.req-slot.drag-over').forEach(x=>x.classList.remove('drag-over')); });
+// Dragging a roadside-shop item onto a picnic table: table qty minus shop qty. Whichever reaches 0 is cleared.
+function reqTransfer(board){
+  const s=reqDragSrc; if(!s) return;
+  const src=reqGet(s.a,s.b,s.i); if(!src) return;
+  let left=src.qty; const changes={}; let touched=false;
+  board.querySelectorAll('.req-slot').forEach(el=>{
+    if(left<=0) return;
+    const d=reqGet(el.dataset.acct,'t',+el.dataset.i); if(!d || d.item.s!==src.item.s) return;
+    const use=Math.min(d.qty,left); left-=use; touched=true;
+    const key=reqKey(el.dataset.acct,'t',+el.dataset.i); changes[key]=rawSnapshot(key);
+    writeCheckValue(key, d.qty-use>0 ? d.item.s+'|'+(d.qty-use) : false);
+  });
+  if(!touched){ board.classList.remove('nomatch'); void board.offsetWidth; board.classList.add('nomatch'); setTimeout(()=>board.classList.remove('nomatch'),400); return; }
+  const sk=reqKey(s.a,s.b,s.i); changes[sk]=rawSnapshot(sk);
+  writeCheckValue(sk, left>0 ? src.item.s+'|'+left : false);
+  recordUndo({type:'delta', changes});
+  document.querySelectorAll('#reqGrid .req-slot').forEach(reqRenderSlot);
 }
 function reqBindTip(el){
   const tip=document.getElementById('upgTip');
@@ -3692,8 +3720,9 @@ function reqStepQty(body){
   inp.addEventListener('keydown',e=>{
     if(e.key==='Enter'){
       e.preventDefault();
-      const q=Math.max(1,parseInt(inp.value,10)||1);
-      reqSet(s.a,s.b,s.i,s.item,q); reqRenderSlot(s.slot); if(s.drag) reqCloseEd(); else reqNext();
+      const q=inp.value.trim()===''?1:(parseInt(inp.value,10)||0);
+      if(q<=0) reqSet(s.a,s.b,s.i,null,0); else reqSet(s.a,s.b,s.i,s.item,q);
+      reqRenderSlot(s.slot); if(s.drag) reqCloseEd(); else reqNext();
     } else if(e.key==='Escape'){ e.stopPropagation(); if(s.drag) reqCloseEd(); else reqStepName(body, s.item.n); }
   });
   reqPlace(s.slot, document.getElementById('reqEd'));
