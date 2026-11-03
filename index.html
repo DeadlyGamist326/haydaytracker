@@ -351,9 +351,9 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .gc-name-modal.gc-show{display:flex;}
 
 /* ================= ITEM REQUEST TRACKER ================= */
-.req-card{width:min(98vw,1900px) !important;max-width:none !important;max-height:94vh;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box;padding:14px 16px !important;}
+.req-card{width:min(98vw,1500px) !important;max-width:none !important;max-height:94vh;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box;padding:14px 16px !important;}
 .req-scroll{overflow:auto;min-height:0;margin-top:8px;}
-.req-grid{display:grid;grid-template-columns:repeat(12,minmax(138px,1fr));gap:6px;min-width:max-content;width:100%;}
+.req-grid{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:6px;min-width:max-content;width:100%;}
 .req-grid{min-width:0;}
 .req-board{position:relative;container-type:inline-size;border-radius:10px;overflow:hidden;background:#fff;line-height:0;user-select:none;}
 .req-board.req-shop{background:#c9704a;}
@@ -366,6 +366,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .req-slot img{width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 1px 1px rgba(0,0,0,.35));}
 .req-slot .req-q{position:absolute;right:-2%;bottom:-2%;min-width:9px;padding:0 3px;font:700 clamp(9px,6.2cqw,22px)/1.25 var(--font-display);color:#fff;background:rgba(60,30,5,.82);border-radius:7px;border:1px solid rgba(255,255,255,.7);}
 .req-sign{position:absolute;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.1;white-space:nowrap;overflow:hidden;font-family:var(--font-body),'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-weight:700;color:#4a2a0c;text-shadow:0 1px 0 rgba(255,236,190,.85);padding:0 3%;box-sizing:border-box;}
+.req-sign.req-bench{color:#fff3d6;text-shadow:0 1px 2px rgba(40,18,4,.9);}
 .req-ed{position:fixed;z-index:1100;width:260px;max-width:92vw;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:10px;display:none;line-height:1.3;}
 .req-ed.show{display:block;}
 .req-ed .req-ed-h{font-size:11px;color:var(--ink-soft);margin-bottom:6px;}
@@ -3466,6 +3467,7 @@ const REQ_BY_SLUG={}; REQ_ITEMS.forEach(i=>{REQ_BY_SLUG[i.s]=i;});
 const REQ_TABLE=Array.from({length:6},(_,i)=>{const c=i%3,r=Math.floor(i/3); return {x:(265+240*c)/12, y:(275+240*r)/10.8, w:220/12, h:220/10.8};});
 const REQ_SHOP=Array.from({length:6},(_,i)=>{const c=i%3,r=Math.floor(i/3); return {x:[162,481,796][c]/11.9, y:[320,667][r]/11.27, w:246/11.9, h:240/11.27};});
 const REQ_SIGN={x:60/11.9,y:40/11.27,w:1070/11.9,h:150/11.27};
+const REQ_BENCH={x:90/12,y:48/10.8,w:1040/12,h:150/10.8};
 function reqKey(a,b,i){ return 'req::'+a+'::'+b+(i+1); }
 function reqGet(a,b,i){
   const v=games.checks[reqKey(a,b,i)]; if(typeof v!=='string') return null;
@@ -3488,16 +3490,15 @@ function reqRenderSlot(el){
 }
 function buildReqGrid(){
   const g=document.getElementById('reqGrid'); g.innerHTML='';
-  const acct=GAME_ACCOUNTS;
-  [['t',REQ_TABLE,'RequestTable.webp',''],['s',REQ_SHOP,'RoadsideShop.webp',' req-shop']].forEach(([b,geo,img,cls])=>{
+  const groups=[GAME_ACCOUNTS.slice(0,6),GAME_ACCOUNTS.slice(6,12)];
+  groups.forEach(acct=>[['t',REQ_TABLE,'RequestTable.webp',''],['s',REQ_SHOP,'RoadsideShop.webp',' req-shop']].forEach(([b,geo,img,cls])=>{
     acct.forEach(ac=>{
       const bd=document.createElement('div'); bd.className='req-board'+cls;
       const bg=document.createElement('img'); bg.className='req-bg'; bg.src=REQ_IMG_BASE+img; bg.alt=''; bg.draggable=false; bd.appendChild(bg);
-      if(b==='s'){
-        const sg=document.createElement('div'); sg.className='req-sign'; sg.textContent=ac.label;
-        sg.style.cssText='left:'+REQ_SIGN.x+'%;top:'+REQ_SIGN.y+'%;width:'+REQ_SIGN.w+'%;height:'+REQ_SIGN.h+'%;';
-        bd.appendChild(sg);
-      }
+      const sg=document.createElement('div'); sg.className='req-sign'+(b==='t'?' req-bench':''); sg.textContent=ac.label;
+      const sp=b==='s'?REQ_SIGN:REQ_BENCH;
+      sg.style.cssText='left:'+sp.x+'%;top:'+sp.y+'%;width:'+sp.w+'%;height:'+sp.h+'%;';
+      bd.appendChild(sg);
       geo.forEach((s,i)=>{
         const el=document.createElement('div'); el.className='req-slot empty';
         el.dataset.acct=ac.id; el.dataset.board=b; el.dataset.i=i;
@@ -3525,7 +3526,7 @@ function buildReqGrid(){
       });
       g.appendChild(bd);
     });
-  });
+  }));
   reqFitSigns();
 }
 function reqBindTip(el){
