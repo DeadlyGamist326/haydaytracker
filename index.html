@@ -434,6 +434,11 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .upg-mat-img{width:36px;height:36px;object-fit:contain;display:block;margin:0 auto;}
 .upg-sep{border-left:2px solid var(--line);}
 .upg-input{width:62px;box-sizing:border-box;text-align:center;font:inherit;font-weight:700;color:var(--ink);background:var(--paper-raised);border:1.5px solid var(--line);border-radius:8px;padding:6px 2px;outline:none;transition:border-color .12s,box-shadow .12s;}
+.upg-cellw{display:inline-flex;align-items:center;gap:3px;}
+.upg-add{width:20px;height:20px;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--paper-raised);color:var(--teal);font:700 14px/1 var(--font-body);cursor:pointer;opacity:.55;flex:none;}
+.upg-add:hover{opacity:1;background:var(--teal);color:#fff;}
+.upg-input.adding{border-color:#e08a2e;box-shadow:0 0 0 3px rgba(224,138,46,.25);}
+.upg-input.adding::placeholder{color:#e08a2e;font-weight:700;}
 .upg-input:hover{border-color:var(--teal);}
 .upg-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,115,232,.2);background:var(--paper);}
 .upg-input.zero{color:var(--ink-soft);font-weight:500;}
@@ -3412,7 +3417,7 @@ function buildExpTable(){
       inp.addEventListener('mouseup',e=>e.preventDefault());
       inp.addEventListener('input',()=>{ inp.value=inp.value.replace(/[^0-9]/g,'').slice(0,6); updateExpTotals(); expBumpIdle(); });
       const commit=()=>{
-        const n=upgParse(inp.value);
+        const n=upgEndAdd(inp);
         if(n!==expGet(acct.id,m.id)) expSet(acct.id,m.id,n);
         inp.value=n; inp.classList.toggle('zero', n===0); updateExpTotals();
       };
@@ -3427,7 +3432,8 @@ function buildExpTable(){
         } else if(e.key==='Escape'){ e.stopPropagation(); inp.blur(); }
       });
       bindUpgTip(c, m, acct);
-      c.appendChild(inp); tr.appendChild(c);
+      { const w=document.createElement('span'); w.className='upg-cellw'; w.appendChild(inp); w.appendChild(upgAddBtn(inp)); c.appendChild(w); }
+      tr.appendChild(c);
     });
     tb.appendChild(tr);
   });
@@ -3436,7 +3442,7 @@ function buildExpTable(){
 }
 function updateExpTotals(){
   const sums={};
-  document.querySelectorAll('#expTable .exp-input').forEach(inp=>{ const m=inp.getAttribute('data-mat'); sums[m]=(sums[m]||0)+upgParse(inp.value); });
+  document.querySelectorAll('#expTable .exp-input').forEach(inp=>{ const m=inp.getAttribute('data-mat'); sums[m]=(sums[m]||0)+upgEff(inp); });
   document.querySelectorAll('#expTable .exp-total-cell').forEach(c=>{ c.textContent=(sums[c.getAttribute('data-mat')]||0).toLocaleString(); });
 }
 function refreshExpMenu(){
@@ -3812,6 +3818,22 @@ function upgSet(acctId,matId,n){
   writeCheckValue(key, n>0 ? n : false);
   recordUndo({type:'delta', changes:{[key]:prev}});
 }
+// "+" button on a cell: remember the current number, type an amount, Enter -> new total = old + amount
+function upgEff(inp){ const v=upgParse(inp.value); return (inp.dataset.base!==undefined) ? Math.min(999999,(parseInt(inp.dataset.base,10)||0)+v) : v; }
+function upgEndAdd(inp){ if(inp.dataset.base===undefined) return upgParse(inp.value); const n=upgEff(inp); delete inp.dataset.base; inp.placeholder=''; inp.classList.remove('adding'); inp.value=n; return n; }
+function upgAddBtn(inp){
+  const b=document.createElement('button'); b.type='button'; b.className='upg-add'; b.textContent='+'; b.title='Dagdag (add) sa kasalukuyang bilang'; b.tabIndex=-1;
+  b.addEventListener('mousedown',e=>e.preventDefault());
+  b.addEventListener('click',e=>{
+    e.stopPropagation();
+    const isExp=inp.classList.contains('exp-input');
+    if(inp.dataset.base!==undefined){ inp.focus(); return; }
+    const base=upgParse(inp.value); inp.dataset.base=String(base);
+    inp.value=''; inp.placeholder=base+' +'; inp.classList.add('adding'); inp.classList.remove('zero');
+    inp.focus(); if(isExp) updateExpTotals(); else updateUpgTotals();
+  });
+  return b;
+}
 function upgParse(str){
   const n=parseInt(String(str).replace(/[^0-9]/g,''),10);
   return isNaN(n) ? 0 : Math.min(n,999999);
@@ -3859,7 +3881,7 @@ function buildUpgradeTable(){
       inp.addEventListener('input',()=>{ inp.value=inp.value.replace(/[^0-9]/g,'').slice(0,6); updateUpgTotals(); upgBumpIdle(); });
       inp.addEventListener('focus',upgBumpIdle);
       const commit=()=>{
-        const n=upgParse(inp.value);
+        const n=upgEndAdd(inp);
         if(n!==upgGet(acct.id,m.id)) upgSet(acct.id,m.id,n);
         inp.value=n; inp.classList.toggle('zero', n===0); updateUpgTotals();
       };
@@ -3878,7 +3900,8 @@ function buildUpgradeTable(){
         }
       });
       bindUpgTip(c, m, acct);
-      c.appendChild(inp); tr.appendChild(c);
+      { const w=document.createElement('span'); w.className='upg-cellw'; w.appendChild(inp); w.appendChild(upgAddBtn(inp)); c.appendChild(w); }
+      tr.appendChild(c);
     });
     tb.appendChild(tr);
   });
@@ -3887,7 +3910,7 @@ function buildUpgradeTable(){
 }
 function updateUpgTotals(){
   const sums={};
-  document.querySelectorAll('#upgTable .upg-input').forEach(inp=>{ const m=inp.getAttribute('data-mat'); sums[m]=(sums[m]||0)+upgParse(inp.value); });
+  document.querySelectorAll('#upgTable .upg-input').forEach(inp=>{ const m=inp.getAttribute('data-mat'); sums[m]=(sums[m]||0)+upgEff(inp); });
   document.querySelectorAll('#upgTable .upg-total-cell').forEach(c=>{ c.textContent=(sums[c.getAttribute('data-mat')]||0).toLocaleString(); });
 }
 function bindUpgTip(el, mat, acct){
