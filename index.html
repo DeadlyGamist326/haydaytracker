@@ -692,13 +692,12 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
   <div class="gc-name-card x2-card">
     <div class="x2-head">
       <div style="flex:1;min-width:220px;"><div class="x2-title" id="x2Title">x2 Coins Event</div><div class="x2-sub" id="x2Sub"></div></div>
-      <button class="x2-btn pri" id="x2Start">▶ Start (ngayon)</button>
       <button class="x2-btn" id="x2Reset" title="Burahin lahat ng progress">Reset</button>
       <button class="gc-name-ok" id="x2Close" style="background:var(--ink-soft);padding:4px 12px;">✕</button>
     </div>
     <div class="x2-bar"><i id="x2Fill"></i></div>
     <div class="x2-sub" id="x2Prog"></div>
-    <div class="x2-tabs"><button class="x2-tab on" data-t="tl">Timeline</button><button class="x2-tab" data-t="farm">Farm / Prerequisites</button><button class="x2-tab" data-t="sum">Buod</button></div>
+    <div class="x2-tabs"><button class="x2-tab on" data-t="tl">Gawin</button><button class="x2-tab" data-t="farm">Farm</button><button class="x2-tab" data-t="sum">Buod</button></div>
     <div class="x2-body" id="x2Body"></div>
   </div>
 </div>
@@ -3865,7 +3864,8 @@ document.addEventListener('keydown',e=>{
 /* ================= x2 Coins Event (Naia) ================= */
 const X2_PLAN={"hours":22,"total":62631,"lines":[{"id":"roasted-tomatoes","kind":"machine","machine":"BBQ Grill","name":"Roasted tomatoes","qty":3,"sold":3,"price":118.0,"unitMin":90.833,"start":0.0,"end":272.5,"needs":[["Tomato",6,"field"]]},{"id":"bread","kind":"machine","machine":"Bakery","name":"Bread","qty":194,"sold":194,"price":21.0,"unitMin":5.833,"start":0.0,"end":1131.7,"needs":[["Wheat",582,"field"]]},{"id":"red-berry-cake","kind":"machine","machine":"Cake Oven","name":"Red berry cake","qty":4,"sold":4,"price":255.0,"unitMin":60.833,"start":0.0,"end":243.3,"needs":[["Cherry",8,"tree"],["Egg",4,"animal"],["Milk",4,"animal"],["Raspberry",4,"tree"]]},{"id":"butter","kind":"machine","machine":"Dairy","name":"Butter","qty":25,"sold":0,"price":82.0,"unitMin":30.833,"start":0.0,"end":770.8,"needs":[["Milk",50,"animal"]]},{"id":"chicken-feed","kind":"machine","machine":"Feed Mill","name":"Chicken feed","qty":87,"sold":0,"price":7.0,"unitMin":5.833,"start":0.0,"end":507.5,"needs":[["Corn",87,"field"],["Wheat",174,"field"]]},{"id":"rustic-bouquet","kind":"machine","machine":"Flower Shop","name":"Rustic bouquet","qty":28,"sold":28,"price":208.0,"unitMin":45.833,"start":0.0,"end":1283.3,"needs":[["Wheat",140,"field"],["Indigo",84,"field"],["Cotton",84,"field"]]},{"id":"honey","kind":"machine","machine":"Honey Extractor","name":"Honey","qty":63,"sold":47,"price":154.0,"unitMin":20.833,"start":0.0,"end":1312.5,"needs":[["Honeycomb",126,"tree"]]},{"id":"apple-jam","kind":"machine","machine":"Jam Maker","name":"Apple jam","qty":2,"sold":2,"price":219.0,"unitMin":360.833,"start":0.0,"end":721.7,"needs":[["Apple",6,"tree"]]},{"id":"carrot-juice","kind":"machine","machine":"Juice Press","name":"Carrot juice","qty":41,"sold":41,"price":46.0,"unitMin":30.833,"start":0.0,"end":1264.2,"needs":[["Carrot",123,"field"]]},{"id":"cotton-fabric","kind":"machine","machine":"Loom","name":"Cotton fabric","qty":42,"sold":0,"price":108.0,"unitMin":30.833,"start":0.0,"end":1295.0,"needs":[["Cotton",126,"field"]]},{"id":"carrot-pie","kind":"machine","machine":"Pie Oven","name":"Carrot pie","qty":21,"sold":21,"price":82.0,"unitMin":60.833,"start":0.0,"end":1277.5,"needs":[["Carrot",63,"field"],["Egg",21,"animal"],["Wheat",42,"field"]]},{"id":"popcorn","kind":"machine","machine":"Popcorn Pot","name":"Popcorn","qty":42,"sold":42,"price":32.0,"unitMin":30.833,"start":0.0,"end":1295.0,"needs":[["Corn",84,"field"]]},{"id":"bean-salad","kind":"machine","machine":"Salad Bar","name":"Bean salad","qty":21,"sold":21,"price":169.0,"unitMin":60.833,"start":0.0,"end":1277.5,"needs":[["Black bean",63,"field"],["Tomato",21,"field"],["Lettuce",42,"field"],["Corn",21,"field"]]},{"id":"bean-dip","kind":"machine","machine":"Sauce Maker","name":"Bean dip","qty":32,"sold":32,"price":453.0,"unitMin":40.833,"start":0.0,"end":1306.7,"needs":[["Black bean",96,"field"],["Tomato",32,"field"],["Chili pepper",32,"field"]]},{"id":"white-sugar","kind":"machine","machine":"Sugar Mill","name":"White sugar","qty":17,"sold":0,"price":50.0,"unitMin":40.833,"start":0.0,"end":694.2,"needs":[["Sugarcane",34,"field"]]},{"id":"pumpkin-soup","kind":"machine","machine":"Soup Kitchen","name":"Pumpkin soup","qty":10,"sold":10,"price":392.0,"unitMin":120.833,"start":30.8,"end":1239.2,"needs":[["Butter",10,"machine"],["Carrot",20,"field"],["Honey",10,"machine"],["Pumpkin",30,"field"]]},{"id":"toffee","kind":"machine","machine":"Candy Machine","name":"Toffee","qty":14,"sold":14,"price":176.0,"unitMin":90.833,"start":40.8,"end":1312.5,"needs":[["Butter",14,"machine"],["Wheat",14,"field"],["White sugar",14,"machine"]]},{"id":"soothing-pad","kind":"machine","machine":"Sewing Machine","name":"Soothing pad","qty":20,"sold":20,"price":324.0,"unitMin":60.833,"start":61.7,"end":1278.3,"needs":[["Cotton fabric",40,"machine"],["Wheat",100,"field"],["Chamomile",100,"field"]]},{"id":"honey-apple-cake","kind":"machine","machine":"Cake Oven","name":"Honey apple cake","qty":3,"sold":3,"price":482.0,"unitMin":200.833,"start":243.3,"end":845.8,"needs":[["Apple",6,"tree"],["Egg",6,"animal"],["Honey",6,"machine"],["Wheat",6,"field"]]},{"id":"cow-feed","kind":"machine","machine":"Feed Mill","name":"Cow feed","qty":75,"sold":0,"price":14.0,"unitMin":10.833,"start":507.5,"end":1320.0,"needs":[["Corn",75,"field"],["Soybean",150,"field"]]},{"id":"brown-sugar","kind":"machine","machine":"Sugar Mill","name":"Brown sugar","qty":30,"sold":3,"price":32.0,"unitMin":20.833,"start":694.2,"end":1319.2,"needs":[["Sugarcane",30,"field"]]},{"id":"pancake","kind":"machine","machine":"BBQ Grill","name":"Pancake","qty":16,"sold":16,"price":108.0,"unitMin":30.833,"start":715.0,"end":1208.3,"needs":[["Brown sugar",16,"machine"],["Egg",48,"animal"]]},{"id":"blackberry-jam","kind":"machine","machine":"Jam Maker","name":"Blackberry jam","qty":1,"sold":1,"price":388.0,"unitMin":480.833,"start":721.7,"end":1202.5,"needs":[["Blackberry",3,"tree"]]},{"id":"cream","kind":"machine","machine":"Dairy","name":"Cream","qty":20,"sold":2,"price":50.0,"unitMin":20.833,"start":770.8,"end":1187.5,"needs":[["Milk",20,"animal"]]},{"id":"raspberry-mocha","kind":"machine","machine":"Coffee Kiosk","name":"Raspberry mocha","qty":6,"sold":6,"price":259.0,"unitMin":30.833,"start":791.7,"end":976.7,"needs":[["Cacao",6,"tree"],["Coffee bean",6,"tree"],["Cream",6,"machine"],["Raspberry",6,"tree"]]},{"id":"sesame-ice-cream","kind":"machine","machine":"Ice Cream Maker","name":"Sesame ice cream","qty":4,"sold":4,"price":176.0,"unitMin":120.833,"start":791.7,"end":1275.0,"needs":[["Cream",4,"machine"],["Sesame",12,"field"],["Brown sugar",4,"machine"]]},{"id":"cream-cake","kind":"machine","machine":"Cake Oven","name":"Cream cake","qty":2,"sold":2,"price":219.0,"unitMin":180.833,"start":845.8,"end":1207.5,"needs":[["Cream",2,"machine"],["White sugar",2,"machine"],["Wheat",10,"field"]]},{"id":"caff-latte","kind":"machine","machine":"Coffee Kiosk","name":"Caffè latte","qty":1,"sold":1,"price":219.0,"unitMin":10.833,"start":976.7,"end":987.5,"needs":[["Coffee bean",2,"tree"],["Milk",1,"animal"],["White sugar",1,"machine"]]},{"id":"blueberry-muffin","kind":"machine","machine":"Bakery","name":"Blueberry muffin","qty":3,"sold":3,"price":230.0,"unitMin":45.833,"start":1131.7,"end":1269.2,"needs":[["Wheat",3,"field"],["Egg",6,"animal"],["Blueberries",6,"tree"]]},{"id":"carrot-cake","kind":"machine","machine":"Cake Oven","name":"Carrot cake","qty":1,"sold":1,"price":165.0,"unitMin":90.833,"start":1207.5,"end":1298.3,"needs":[["Brown sugar",1,"machine"],["Butter",1,"machine"],["Carrot",2,"field"]]},{"id":"pineapple-juice","kind":"machine","machine":"Juice Press","name":"Pineapple juice","qty":1,"sold":1,"price":68.0,"unitMin":45.833,"start":1264.2,"end":1310.0,"needs":[["Pineapple",3,"field"]]},{"id":"blackberry-muffin","kind":"machine","machine":"Bakery","name":"Blackberry muffin","qty":1,"sold":1,"price":226.0,"unitMin":45.833,"start":1269.2,"end":1315.0,"needs":[["Blackberry",2,"tree"],["Egg",2,"animal"],["Wheat",1,"field"]]}],"farm":[{"id":"f-wheat","kind":"farm","group":"Field","name":"Wheat","cycles":1077,"yield":2.0,"units":2154,"cycleMin":7.0,"needs":[]},{"id":"f-egg","kind":"farm","group":"Chicken","name":"Egg","cycles":87,"yield":1.0,"units":87,"cycleMin":25.0,"needs":[["Chicken feed",87,"machine"]]},{"id":"f-corn","kind":"farm","group":"Field","name":"Corn","cycles":267,"yield":2.0,"units":534,"cycleMin":10.0,"needs":[]},{"id":"f-soybean","kind":"farm","group":"Field","name":"Soybean","cycles":150,"yield":2.0,"units":300,"cycleMin":25.0,"needs":[]},{"id":"f-milk","kind":"farm","group":"Cow","name":"Milk","cycles":75,"yield":1.0,"units":75,"cycleMin":65.0,"needs":[["Cow feed",75,"machine"]]},{"id":"f-sugarcane","kind":"farm","group":"Field","name":"Sugarcane","cycles":64,"yield":2.0,"units":128,"cycleMin":35.0,"needs":[]},{"id":"f-carrot","kind":"farm","group":"Field","name":"Carrot","cycles":208,"yield":2.0,"units":416,"cycleMin":15.0,"needs":[]},{"id":"f-indigo","kind":"farm","group":"Field","name":"Indigo","cycles":84,"yield":2.0,"units":168,"cycleMin":125.0,"needs":[]},{"id":"f-pumpkin","kind":"farm","group":"Field","name":"Pumpkin","cycles":30,"yield":2.0,"units":60,"cycleMin":185.0,"needs":[]},{"id":"f-apple","kind":"farm","group":"Puno / Bush","name":"Apple","cycles":12,"yield":1.0,"units":12,"cycleMin":965.0,"needs":[]},{"id":"f-cotton","kind":"farm","group":"Field","name":"Cotton","cycles":210,"yield":2.0,"units":420,"cycleMin":155.0,"needs":[]},{"id":"f-raspberry","kind":"farm","group":"Puno / Bush","name":"Raspberry","cycles":10,"yield":1.0,"units":10,"cycleMin":1085.0,"needs":[]},{"id":"f-cherry","kind":"farm","group":"Puno / Bush","name":"Cherry","cycles":8,"yield":1.0,"units":8,"cycleMin":1625.0,"needs":[]},{"id":"f-chili-pepper","kind":"farm","group":"Field","name":"Chili pepper","cycles":32,"yield":2.0,"units":64,"cycleMin":245.0,"needs":[]},{"id":"f-black-bean","kind":"farm","group":"Field","name":"Black bean","cycles":159,"yield":2.0,"units":318,"cycleMin":15.0,"needs":[]},{"id":"f-blackberry","kind":"farm","group":"Puno / Bush","name":"Blackberry","cycles":5,"yield":1.0,"units":5,"cycleMin":1925.0,"needs":[]},{"id":"f-tomato","kind":"farm","group":"Field","name":"Tomato","cycles":59,"yield":2.0,"units":118,"cycleMin":365.0,"needs":[]},{"id":"f-blueberries","kind":"farm","group":"Puno / Bush","name":"Blueberries","cycles":6,"yield":1.0,"units":6,"cycleMin":2045.0,"needs":[]},{"id":"f-cacao","kind":"farm","group":"Puno / Bush","name":"Cacao","cycles":6,"yield":1.0,"units":6,"cycleMin":2045.0,"needs":[]},{"id":"f-honeycomb","kind":"farm","group":"Puno / Bush","name":"Honeycomb","cycles":42,"yield":3.0,"units":126,"cycleMin":35.0,"needs":[]},{"id":"f-coffee-bean","kind":"farm","group":"Puno / Bush","name":"Coffee bean","cycles":8,"yield":1.0,"units":8,"cycleMin":1505.0,"needs":[]},{"id":"f-chamomile","kind":"farm","group":"Field","name":"Chamomile","cycles":105,"yield":2.0,"units":210,"cycleMin":25.0,"needs":[]},{"id":"f-sesame","kind":"farm","group":"Field","name":"Sesame","cycles":30,"yield":2.0,"units":60,"cycleMin":65.0,"needs":[]},{"id":"f-pineapple","kind":"farm","group":"Field","name":"Pineapple","cycles":3,"yield":2.0,"units":6,"cycleMin":35.0,"needs":[]},{"id":"f-lettuce","kind":"farm","group":"Field","name":"Lettuce","cycles":42,"yield":2.0,"units":84,"cycleMin":215.0,"needs":[]}],"plots":86,"delayMin":5.0};
 const X2_ACCT='naia';
-let x2Tab='tl';
+const X2_BATCH=6;
+let x2Tab='tl', x2ShowAll=false, x2ShowLocked=false, x2ShowDone=false;
 function x2Key(id){ return 'x2::'+X2_ACCT+'::'+id; }
 function x2Get(id){ const v=games.checks[x2Key(id)]; return (typeof v==='number')?v:0; }
 function x2Set(id,n){
@@ -3926,8 +3926,7 @@ function x2Render(){
   const ac=GAME_ACCOUNTS.find(a=>a.id===X2_ACCT);
   document.getElementById('x2Title').textContent='⚡ x2 Coins Event · '+(ac?ac.label:'Naia');
   const st=x2Start();
-  document.getElementById('x2Sub').textContent='Walang mastery · '+X2_PLAN.hours+' oras · target '+X2_PLAN.total.toLocaleString()+' coins'+(st?(' · nagsimula '+new Date(st).toLocaleString([], {weekday:'short',hour:'numeric',minute:'2-digit'})):' · hindi pa nasisimulan');
-  document.getElementById('x2Start').textContent=st?'↻ Ulitin ang start':'▶ Start (ngayon)';
+  document.getElementById('x2Sub').textContent='Walang mastery · '+X2_PLAN.hours+' oras · target '+X2_PLAN.total.toLocaleString()+' coins';
   const earned=x2Earned(), pct=Math.min(100,earned/X2_PLAN.total*100);
   document.getElementById('x2Fill').style.width=pct+'%';
   const doneL=X2_PLAN.lines.filter(l=>x2Get(l.id)>=l.qty).length, doneF=X2_PLAN.farm.filter(f=>x2Get(f.id)>=f.cycles).length;
@@ -3936,15 +3935,51 @@ function x2Render(){
   const body=document.getElementById('x2Body'); const keep=body.scrollTop; body.innerHTML='';
   const nowMin=st?(Date.now()-st)/60000:-1;
   if(x2Tab==='tl'){
-    let lastH=-1;
-    X2_PLAN.lines.slice().sort((a,b)=>a.start-b.start||a.machine.localeCompare(b.machine)).forEach(l=>{
-      const hb=Math.floor(l.start/60);
-      if(hb!==lastH){ lastH=hb; const hd=document.createElement('div'); hd.className='x2-hour'; hd.textContent='Oras '+hb+':00'+(st?(' · '+x2Clock(hb*60)):''); body.appendChild(hd); }
-      const meta=x2Fmt(l.start)+' → '+x2Fmt(l.end)+(l.sold?(' · ibenta ×'+l.sold+' (~'+Math.round(l.sold*l.price).toLocaleString()+')'):' · ingredient')+(st?(' · '+x2Clock(l.start)):'');
-      const row=x2Row(l.id,l.machine,l.name,l.qty,meta,l.needs.filter(n=>true),null);
-      if(nowMin>=l.start&&nowMin<=l.end&&x2Get(l.id)<l.qty) row.classList.add('active');
-      body.appendChild(row);
+    const L=X2_PLAN.lines.slice().sort((a,b)=>a.start-b.start||a.machine.localeCompare(b.machine));
+    const prod=n=>L.find(p=>p.name===n);
+    const isDone=l=>x2Get(l.id)>=l.qty;
+    // a task is ready when every machine-made ingredient it needs is in stock (producer made enough, or its task is checked)
+    const waiting=l=>l.needs.filter(n=>n[2]==='machine').map(n=>{ const p=prod(n[0]); return p?{p,need:Math.min(n[1],p.qty)}:null; }).filter(w=>w && !(isDone(w.p)||x2Get(w.p.id)>=w.need));
+    const stamp=l=>x2Get('_t_'+l.id);
+    const open=L.filter(l=>!isDone(l)&&!waiting(l).length).sort((a,b)=>stamp(a)-stamp(b)||L.indexOf(a)-L.indexOf(b)), locked=L.filter(l=>!isDone(l)&&waiting(l).length), done=L.filter(isDone);
+    const sec=(t,sub)=>{ const d=document.createElement('div'); d.className='x2-grp'; d.textContent=t; if(sub){ const s2=document.createElement('span'); s2.style.cssText='font-weight:400;margin-left:6px;'; s2.textContent=sub; d.appendChild(s2);} body.appendChild(d); };
+    const fa=document.createElement('div'); fa.className='x2-row'; fa.style.cursor='pointer';
+    const fdone=X2_PLAN.farm.filter(f=>x2Get(f.id)>=f.cycles).length;
+    fa.innerHTML='<div class="x2-line1"><span class="x2-mach">Farm</span><span class="x2-name"></span><span class="x2-meta">buksan →</span></div>';
+    fa.querySelector('.x2-name').textContent='Farm prep: '+fdone+'/'+X2_PLAN.farm.length+' tapos (mga tanim, hayop, feed)';
+    fa.onclick=()=>{ x2Tab='farm'; x2Render(); };
+    body.appendChild(fa);
+    sec('Gawin na ngayon','('+open.length+') · isang batch = hanggang '+X2_BATCH+' piraso');
+    if(!open.length){ const e1=document.createElement('div'); e1.className='x2-sub'; e1.textContent=locked.length?'Walang pwedeng gawin ngayon — hinihintay ang mga ingredient.':'Tapos na lahat! 🎉'; body.appendChild(e1); }
+    const lim=x2ShowAll?open.length:6;
+    open.slice(0,lim).forEach(l=>{
+      const unl=L.filter(c=>c!==l&&c.needs.some(n=>n[0]===l.name&&n[2]==='machine')).map(c=>c.name);
+      const meta=(l.sold?('ibenta ×'+l.sold+' · ~'+Math.round(l.sold*l.price).toLocaleString()+' coins'):'ingredient')+' · ~'+x2Fmt(l.end-l.start)+' oras';
+      const ex=document.createElement('div'); ex.style.cssText='display:flex;align-items:center;gap:8px;flex-wrap:wrap;';
+      const made0=x2Get(l.id), bs=Math.min(X2_BATCH,l.qty-made0);
+      const bb=document.createElement('button'); bb.className='x2-btn pri'; bb.textContent='✓ Tapos na ang batch (+'+bs+')';
+      bb.onclick=()=>{
+        const k=x2Key('_t_'+l.id), kp=rawSnapshot(k), k2=x2Key(l.id), kp2=rawSnapshot(k2);
+        writeCheckValue(k2,made0+bs); writeCheckValue(k,Date.now());
+        recordUndo({type:'delta',changes:{[k]:kp,[k2]:kp2}}); x2Render();
+      };
+      ex.appendChild(bb);
+      const hint=document.createElement('span'); hint.className='x2-sub'; hint.textContent='Mapupunta sa dulo ng listahan, babalik pagkatapos ng iba.'; ex.appendChild(hint);
+      if(unl.length){ const u=document.createElement('div'); u.className='x2-sub'; u.style.width='100%'; u.textContent='↳ magbubukas pagkatapos: '+unl.join(', '); ex.appendChild(u); }
+      body.appendChild(x2Row(l.id,l.machine,l.name,l.qty,meta,l.needs,ex));
     });
+    if(open.length>6){ const b=document.createElement('button'); b.className='x2-btn'; b.style.margin='6px 0'; b.textContent=x2ShowAll?'Ipakita ang una lang':('Ipakita pa ang '+(open.length-6)+' na iba'); b.onclick=()=>{ x2ShowAll=!x2ShowAll; x2Render(); }; body.appendChild(b); }
+    if(locked.length){
+      const b=document.createElement('button'); b.className='x2-btn'; b.style.cssText='display:block;margin:10px 0 4px;'; b.textContent=(x2ShowLocked?'▾':'▸')+' Naka-lock ('+locked.length+')'; b.onclick=()=>{ x2ShowLocked=!x2ShowLocked; x2Render(); }; body.appendChild(b);
+      if(x2ShowLocked) locked.forEach(l=>{ const r=document.createElement('div'); r.className='x2-row'; r.style.opacity='.6';
+        const w=waiting(l).map(w=>w.p.name+' '+Math.min(x2Get(w.p.id),w.need)+'/'+w.need).join(', ');
+        r.innerHTML='<div class="x2-line1"><span class="x2-mach"></span><span class="x2-name"></span><span class="x2-meta"></span></div>';
+        r.querySelector('.x2-mach').textContent=l.machine; r.querySelector('.x2-name').textContent=l.name+' ×'+l.qty; r.querySelector('.x2-meta').textContent='hinihintay: '+w; body.appendChild(r); });
+    }
+    if(done.length){
+      const b=document.createElement('button'); b.className='x2-btn'; b.style.cssText='display:block;margin:10px 0 4px;'; b.textContent=(x2ShowDone?'▾':'▸')+' Tapos na ('+done.length+')'; b.onclick=()=>{ x2ShowDone=!x2ShowDone; x2Render(); }; body.appendChild(b);
+      if(x2ShowDone) done.forEach(l=>body.appendChild(x2Row(l.id,l.machine,l.name,l.qty,'tapos na',[],null)));
+    }
   } else if(x2Tab==='farm'){
     const note=document.createElement('div'); note.className='x2-sub'; note.style.margin='4px 0'; note.textContent='Field: '+X2_PLAN.plots+' plots · bawat pagtatanim = 2 ani (1 buto ang nauubos). Ang bilang ay kung ilang beses magtatanim / mag-collect.';
     body.appendChild(note);
@@ -3979,10 +4014,9 @@ function refreshX2(){ const m=document.getElementById('x2Modal'); if(m&&m.classL
 document.getElementById('x2Btn').onclick=openX2;
 document.getElementById('x2Close').onclick=closeX2;
 document.getElementById('x2Modal').addEventListener('mousedown',e=>{ if(e.target.id==='x2Modal') closeX2(); });
-document.getElementById('x2Start').onclick=()=>{ const st=x2Start(); if(st && !confirm('Ulitin ang start time ngayon? (Hindi mabubura ang progress)')) return; x2Set('_start',Date.now()); x2Render(); };
 document.getElementById('x2Reset').onclick=()=>{
   if(!confirm('Burahin ang lahat ng progress at start time ng x2 event?')) return;
-  const ids=['_start'].concat(X2_PLAN.lines.map(l=>l.id),X2_PLAN.farm.map(f=>f.id));
+  const ids=['_start'].concat(X2_PLAN.lines.map(l=>l.id),X2_PLAN.lines.map(l=>'_t_'+l.id),X2_PLAN.farm.map(f=>f.id));
   const changes={}; ids.forEach(id=>{ const k=x2Key(id); changes[k]=rawSnapshot(k); writeCheckValue(k,false); });
   recordUndo({type:'delta',changes}); x2Render();
 };
