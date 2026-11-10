@@ -4069,7 +4069,7 @@ function upgCapUpdate(inp){
   const ml=td.querySelector('.upg-max'); if(ml) ml.textContent='/ '+(max>0?max:'—');
   const warn=max>0 && (max-cur)<=30;
   td.classList.toggle('upg-cap-warn',warn);
-  td.title=warn?('⚠ '+(cur>=max?'Puno na':'Konti na lang ang espasyo')+' ('+cur+' / '+max+')'):'';
+  td.title=warn?('⚠ '+(cur>=max?'Full':'Almost full')+' ('+cur+' / '+max+')'):'';
 }
 function buildUpgradeTable(){
   const t=document.getElementById('upgTable'); t.innerHTML='';
@@ -4085,7 +4085,7 @@ function buildUpgradeTable(){
   const r2=document.createElement('tr');
   upgCols().forEach((m,i)=>{
     const th=document.createElement('th'); if(i===4) th.className='upg-sep';
-    if(m.cap){ th.classList.add('upg-cap-hd'); th.innerHTML='Laman<small>ngayon / max</small>'; th.title=(m.cap==='barn'?'Barn':'Silo')+': ilan ang laman ngayon kumpara sa Max Capacity. Magiging pula kapag 30 o mas kaunti na ang natitirang espasyo.'; r2.appendChild(th); return; }
+    if(m.cap){ th.classList.add('upg-cap-hd'); th.innerHTML='Current<small>stored / max</small>'; th.title=(m.cap==='barn'?'Barn':'Silo')+': how many items are stored now vs. Max Capacity. Turns red when 30 or less space is left.'; r2.appendChild(th); return; }
     const im=document.createElement('img'); im.className='upg-mat-img'; im.src=m.img; im.alt=m.label;
     th.appendChild(im);
     bindUpgTip(th, m, null);
