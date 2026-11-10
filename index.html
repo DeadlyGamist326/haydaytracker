@@ -1406,12 +1406,12 @@ const BARN_ICONS=[
   'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage5.png',
   'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage6.png'
 ];
-function getBarnStage(value){
+function getBarnStage(value){   // shared table (Barn = basis): 1: <=25 | 2: <=50 | 3: <=125 | 4: <=275 | 5: <=850 | 6: 875+
   if(value<=25) return 1;
   if(value<=50) return 2;
   if(value<=125) return 3;
   if(value<=275) return 4;
-  if(value<=775) return 5;
+  if(value<875) return 5;
   return 6;
 }
 function getBarnKey(acctId){ return 'barn::'+acctId; }
@@ -1536,13 +1536,7 @@ const SILO_ICONS=[
   'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/SiloStage5.png',
   'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/SiloStage6.png'
 ];
-function getSiloStage(value){   // 1st: 0 | 2nd: 50 | 3rd: 75-125 | 4th: 150-275 | 5th: 300+
-  if(value<=0) return 1;
-  if(value<=50) return 2;
-  if(value<=125) return 3;
-  if(value<=275) return 4;
-  return 5;
-}
+function getSiloStage(value){ return getBarnStage(value); }   // same table as the Barn
 function getSiloKey(acctId){ return 'silo::'+acctId; }
 function getSiloValue(acctId){ return games.checks[getSiloKey(acctId)] || 0; }
 
