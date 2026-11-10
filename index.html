@@ -4067,6 +4067,11 @@ function upgStartAdd(inp){
   inp.value=''; inp.placeholder=base+' +'; inp.classList.add('adding'); inp.classList.remove('zero');
   inp.focus(); if(isExp) updateExpTotals(); else updateUpgTotals();
 }
+// no drag-and-drop of text into/out of the number cells
+['dragstart','dragover','dragenter','drop'].forEach(ev=>document.addEventListener(ev,e=>{
+  const t=e.target; if(t&&t.classList&&t.classList.contains('upg-input')){ e.preventDeny=1; e.preventDefault(); if(e.dataTransfer) e.dataTransfer.dropEffect='none'; }
+},true));
+document.addEventListener('drop',e=>{ const t=e.target; if(t&&t.classList&&t.classList.contains('upg-input')) e.stopPropagation(); },true);
 // keyboard "+" (main row or numpad) = same as clicking the + button on the focused cell
 document.addEventListener('keydown',e=>{
   const t=e.target;
