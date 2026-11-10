@@ -4056,16 +4056,22 @@ function upgEndAdd(inp){ if(inp.dataset.base===undefined) return upgParse(inp.va
 function upgAddBtn(inp){
   const b=document.createElement('button'); b.type='button'; b.className='upg-add'; b.textContent='+'; b.title='Dagdag (add) sa kasalukuyang bilang'; b.tabIndex=-1;
   b.addEventListener('mousedown',e=>e.preventDefault());
-  b.addEventListener('click',e=>{
-    e.stopPropagation();
-    const isExp=inp.classList.contains('exp-input');
-    if(inp.dataset.base!==undefined){ inp.focus(); return; }
-    const base=upgParse(inp.value); inp.dataset.base=String(base);
-    inp.value=''; inp.placeholder=base+' +'; inp.classList.add('adding'); inp.classList.remove('zero');
-    inp.focus(); if(isExp) updateExpTotals(); else updateUpgTotals();
-  });
+  b.addEventListener('click',e=>{ e.stopPropagation(); upgStartAdd(inp); });
   return b;
 }
+function upgStartAdd(inp){
+  const isExp=inp.classList.contains('exp-input');
+  if(inp.dataset.base!==undefined){ inp.focus(); return; }
+  const base=upgParse(inp.value); inp.dataset.base=String(base);
+  inp.value=''; inp.placeholder=base+' +'; inp.classList.add('adding'); inp.classList.remove('zero');
+  inp.focus(); if(isExp) updateExpTotals(); else updateUpgTotals();
+}
+// keyboard "+" (main row or numpad) = same as clicking the + button on the focused cell
+document.addEventListener('keydown',e=>{
+  const t=e.target;
+  if(!(t&&t.classList&&t.classList.contains('upg-input'))||t.classList.contains('lvl-input')) return;
+  if(e.key==='+'||e.code==='NumpadAdd'){ e.preventDefault(); e.stopPropagation(); upgStartAdd(t); }
+},true);
 function upgParse(str){
   const n=parseInt(String(str).replace(/[^0-9]/g,''),10);
   return isNaN(n) ? 0 : Math.min(n,999999);
