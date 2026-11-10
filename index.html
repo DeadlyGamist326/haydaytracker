@@ -479,11 +479,12 @@ td.upg-cap-ok .upg-max{color:#1a7f37;}
 td.upg-cap-mid{background:rgba(240,140,20,.22) !important;}
 td.upg-cap-mid .upg-input{border-color:#e08a2e;color:#b45f06;}
 td.upg-cap-mid .upg-max{color:#b45f06;}
-td.upg-cap-over{background:#e00000 !important;animation:upgGlow .6s ease-in-out infinite alternate;}
-td.upg-cap-over .upg-input{background:#fff3f3;border-color:#fff;color:#c00000;font-weight:900;}
-td.upg-cap-over .upg-max{color:#fff;font-weight:900;}
-@keyframes upgBlink{0%,100%{background-color:rgba(214,40,40,.08);}50%{background-color:rgba(214,40,40,.55);}}
-@keyframes upgGlow{from{box-shadow:inset 0 0 6px 2px rgba(255,255,255,.35),0 0 6px 1px rgba(255,0,0,.6);}to{box-shadow:inset 0 0 14px 4px rgba(255,255,255,.7),0 0 18px 6px rgba(255,0,0,.95);}}
+td.upg-cap-mega{background:#e00000 !important;animation:upgMega .35s steps(2,end) infinite,upgShake .5s linear infinite;position:relative;}
+td.upg-cap-mega .upg-input{background:#fff3f3;border-color:#fff;color:#c00000;font-weight:900;}
+td.upg-cap-mega .upg-max{color:#fff;font-weight:900;}
+td.upg-cap-mega .upg-max::before{content:'🚨 ';}
+@keyframes upgMega{0%{background-color:#e00000;box-shadow:inset 0 0 8px 2px rgba(255,255,255,.4),0 0 8px 2px rgba(255,0,0,.7);}100%{background-color:#7a0000;box-shadow:inset 0 0 18px 6px rgba(255,255,255,.9),0 0 22px 8px rgba(255,0,0,1);}}
+@keyframes upgShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-1px);}75%{transform:translateX(1px);}}
 td.upg-cap-warn .upg-input{border-color:#d62828;color:#d62828;}
 td.upg-cap-warn .upg-max{color:#d62828;}
 .upg-input{width:62px;box-sizing:border-box;text-align:center;font:inherit;font-weight:700;color:var(--ink);background:var(--paper-raised);border:1.5px solid var(--line);border-radius:8px;padding:6px 2px;outline:none;transition:border-color .12s,box-shadow .12s;}
@@ -4085,11 +4086,11 @@ function upgCapUpdate(inp){
   const max=cap==='barn'?getBarnValue(acct):getSiloValue(acct), cur=upgEff(inp), td=inp.closest('td');
   const ml=td.querySelector('.upg-max'); if(ml) ml.textContent='/ '+(max>0?max:'—');
   const warn=max>0 && (max-cur)<=30;
-  const over=max>0 && cur>max;
+  const over=max>0 && cur>max, mega=max>0 && (max-cur)<=10;
   const gap=max-cur;
   td.classList.toggle('upg-cap-ok',max>0&&gap>50); td.classList.toggle('upg-cap-mid',max>0&&gap>30&&gap<=50);
-  td.classList.toggle('upg-cap-warn',warn&&!over); td.classList.toggle('upg-cap-over',over);
-  td.title=warn?('⚠ '+(over?'OVER CAPACITY':cur>=max?'Full':'Almost full')+' ('+cur+' / '+max+')'):'';
+  td.classList.toggle('upg-cap-warn',warn&&!mega); td.classList.toggle('upg-cap-mega',mega);
+  td.title=warn?('⚠ '+(over?'OVER CAPACITY':mega?'CRITICAL — almost full':cur>=max?'Full':'Almost full')+' ('+cur+' / '+max+')'):'';
 }
 function buildUpgradeTable(){
   const t=document.getElementById('upgTable'); t.innerHTML='';
