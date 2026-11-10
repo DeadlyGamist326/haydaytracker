@@ -4086,7 +4086,7 @@ function upgCapUpdate(inp){
   const max=cap==='barn'?getBarnValue(acct):getSiloValue(acct), cur=upgEff(inp), td=inp.closest('td');
   const ml=td.querySelector('.upg-max'); if(ml) ml.textContent='/ '+(max>0?max:'—');
   const warn=max>0 && (max-cur)<=30;
-  const over=max>0 && cur>max, mega=max>0 && (max-cur)<=10;
+  const over=max>0 && cur>max, mega=max>0 && (max-cur)<=15;
   const gap=max-cur;
   td.classList.toggle('upg-cap-ok',max>0&&gap>50); td.classList.toggle('upg-cap-mid',max>0&&gap>30&&gap<=50);
   td.classList.toggle('upg-cap-warn',warn&&!mega); td.classList.toggle('upg-cap-mega',mega);
