@@ -458,7 +458,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .upg-btn:active{transform:scale(.9);}
 .upg-btn img{height:28px;width:auto;display:block;pointer-events:none;}
 .mvui-group-header .upg-btn img,.barn-mobile-label .upg-btn img{height:24px;}
-.gc-name-card.upg-card{max-width:min(96vw,820px) !important;width:min(96vw,820px) !important;max-height:92vh;overflow:auto;box-sizing:border-box;}
+.gc-name-card.upg-card{max-width:min(96vw,1010px) !important;width:min(96vw,1010px) !important;max-height:92vh;overflow:auto;box-sizing:border-box;}
 .upg-table{border-collapse:separate;border-spacing:0;width:100%;margin-top:12px;font-size:13px;color:var(--ink);}
 .upg-table th,.upg-table td{padding:5px 6px;text-align:center;border-bottom:1px solid var(--line);}
 .upg-table thead th{position:sticky;top:0;background:var(--paper);z-index:2;}
@@ -469,6 +469,12 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .upg-table th.upg-acct{z-index:3;}
 .upg-mat-img{width:36px;height:36px;object-fit:contain;display:block;margin:0 auto;}
 .upg-sep{border-left:2px solid var(--line);}
+.upg-capw{display:inline-flex;flex-direction:column;align-items:center;gap:1px;}
+.upg-max{font-size:10px;font-weight:700;color:var(--ink-soft);line-height:1;}
+.upg-cap-hd small{display:block;font-size:10px;font-weight:600;opacity:.75;}
+td.upg-cap-warn{background:rgba(214,40,40,.16) !important;}
+td.upg-cap-warn .upg-input{border-color:#d62828;color:#d62828;}
+td.upg-cap-warn .upg-max{color:#d62828;}
 .upg-input{width:62px;box-sizing:border-box;text-align:center;font:inherit;font-weight:700;color:var(--ink);background:var(--paper-raised);border:1.5px solid var(--line);border-radius:8px;padding:6px 2px;outline:none;transition:border-color .12s,box-shadow .12s;}
 .upg-cellw{display:inline-flex;align-items:center;gap:3px;}
 .upg-add{width:20px;height:20px;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--paper-raised);color:var(--teal);font:700 14px/1 var(--font-body);cursor:pointer;opacity:.55;flex:none;}
@@ -4053,20 +4059,33 @@ function upgParse(str){
   const n=parseInt(String(str).replace(/[^0-9]/g,''),10);
   return isNaN(n) ? 0 : Math.min(n,999999);
 }
+function upgCols(){
+  const b=UPGRADE_MATS.slice(0,3), s=UPGRADE_MATS.slice(3);
+  return b.concat([{id:'_bnow',cap:'barn'}],s,[{id:'_snow',cap:'silo'}]);
+}
+function upgCapUpdate(inp){
+  const cap=inp.getAttribute('data-mat')==='_bnow'?'barn':'silo', acct=inp.getAttribute('data-acct');
+  const max=cap==='barn'?getBarnValue(acct):getSiloValue(acct), cur=upgEff(inp), td=inp.closest('td');
+  const ml=td.querySelector('.upg-max'); if(ml) ml.textContent='/ '+(max>0?max:'—');
+  const warn=max>0 && (max-cur)<=30;
+  td.classList.toggle('upg-cap-warn',warn);
+  td.title=warn?('⚠ '+(cur>=max?'Puno na':'Konti na lang ang espasyo')+' ('+cur+' / '+max+')'):'';
+}
 function buildUpgradeTable(){
   const t=document.getElementById('upgTable'); t.innerHTML='';
   const thead=document.createElement('thead');
   const r1=document.createElement('tr');
   const a=document.createElement('th'); a.className='upg-acct'; a.rowSpan=3; a.textContent='Account'; r1.appendChild(a);
-  const um=document.createElement('th'); um.colSpan=6; um.className='upg-grp'; um.textContent='Upgrade Materials';
+  const um=document.createElement('th'); um.colSpan=8; um.className='upg-grp'; um.textContent='Upgrade Materials';
   r1.appendChild(um); thead.appendChild(r1);
   const rg=document.createElement('tr');
-  const gb=document.createElement('th'); gb.colSpan=3; gb.className='upg-grp barn'; gb.textContent='🏚️ Barn';
-  const gs=document.createElement('th'); gs.colSpan=3; gs.className='upg-grp silo upg-sep'; gs.textContent='🌾 Silo';
+  const gb=document.createElement('th'); gb.colSpan=4; gb.className='upg-grp barn'; gb.textContent='🏚️ Barn';
+  const gs=document.createElement('th'); gs.colSpan=4; gs.className='upg-grp silo upg-sep'; gs.textContent='🌾 Silo';
   rg.appendChild(gb); rg.appendChild(gs); thead.appendChild(rg);
   const r2=document.createElement('tr');
-  UPGRADE_MATS.forEach((m,i)=>{
-    const th=document.createElement('th'); if(i===3) th.className='upg-sep';
+  upgCols().forEach((m,i)=>{
+    const th=document.createElement('th'); if(i===4) th.className='upg-sep';
+    if(m.cap){ th.classList.add('upg-cap-hd'); th.innerHTML='Laman<small>ngayon / max</small>'; th.title=(m.cap==='barn'?'Barn':'Silo')+': ilan ang laman ngayon kumpara sa Max Capacity. Magiging pula kapag 30 o mas kaunti na ang natitirang espasyo.'; r2.appendChild(th); return; }
     const im=document.createElement('img'); im.className='upg-mat-img'; im.src=m.img; im.alt=m.label;
     th.appendChild(im);
     bindUpgTip(th, m, null);
@@ -4078,16 +4097,17 @@ function buildUpgradeTable(){
   const tb=document.createElement('tbody');
   const trT=document.createElement('tr'); trT.className='upg-total';
   const tdT=document.createElement('td'); tdT.className='upg-acct'; tdT.textContent='Total'; trT.appendChild(tdT);
-  UPGRADE_MATS.forEach((m,i)=>{
-    const c=document.createElement('td'); c.className=(i===3?'upg-sep ':'')+'upg-total-cell'; c.setAttribute('data-mat',m.id); c.textContent='0';
+  upgCols().forEach((m,i)=>{
+    if(m.cap){ const e=document.createElement('td'); e.className=(i===4?'upg-sep':''); trT.appendChild(e); return; }
+    const c=document.createElement('td'); c.className=(i===4?'upg-sep ':'')+'upg-total-cell'; c.setAttribute('data-mat',m.id); c.textContent='0';
     trT.appendChild(c);
   });
   tb.appendChild(trT);
   GAME_ACCOUNTS.forEach(acct=>{
     const tr=document.createElement('tr');
     const td=document.createElement('td'); td.className='upg-acct'; td.textContent=acct.label; tr.appendChild(td);
-    UPGRADE_MATS.forEach((m,i)=>{
-      const c=document.createElement('td'); if(i===3) c.className='upg-sep';
+    upgCols().forEach((m,i)=>{
+      const c=document.createElement('td'); if(i===4) c.className='upg-sep';
       const inp=document.createElement('input'); inp.type='text'; inp.inputMode='numeric'; inp.autocomplete='off';
       inp.className='upg-input'; inp.setAttribute('data-acct',acct.id); inp.setAttribute('data-mat',m.id);
       inp.value=upgGet(acct.id,m.id); inp.classList.toggle('zero', inp.value==='0');
@@ -4114,8 +4134,10 @@ function buildUpgradeTable(){
           inp.blur();
         }
       });
-      bindUpgTip(c, m, acct);
-      { const w=document.createElement('span'); w.className='upg-cellw'; w.appendChild(inp); w.appendChild(upgAddBtn(inp)); c.appendChild(w); }
+      if(!m.cap) bindUpgTip(c, m, acct);
+      { const w=document.createElement('span'); w.className='upg-cellw'; w.appendChild(inp); w.appendChild(upgAddBtn(inp));
+        if(m.cap){ const cw=document.createElement('span'); cw.className='upg-capw'; cw.appendChild(w); const ml=document.createElement('span'); ml.className='upg-max'; cw.appendChild(ml); c.appendChild(cw); }
+        else c.appendChild(w); }
       tr.appendChild(c);
     });
     tb.appendChild(tr);
@@ -4126,6 +4148,7 @@ function buildUpgradeTable(){
 function updateUpgTotals(){
   const sums={};
   document.querySelectorAll('#upgTable .upg-input').forEach(inp=>{ const m=inp.getAttribute('data-mat'); sums[m]=(sums[m]||0)+upgEff(inp); });
+  document.querySelectorAll('#upgTable .upg-input[data-mat="_bnow"],#upgTable .upg-input[data-mat="_snow"]').forEach(upgCapUpdate);
   document.querySelectorAll('#upgTable .upg-total-cell').forEach(c=>{ c.textContent=(sums[c.getAttribute('data-mat')]||0).toLocaleString(); });
 }
 function bindUpgTip(el, mat, acct){
