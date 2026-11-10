@@ -1536,13 +1536,12 @@ const SILO_ICONS=[
   'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/SiloStage5.png',
   'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/SiloStage6.png'
 ];
-function getSiloStage(value){
-  if(value<=25) return 1;
+function getSiloStage(value){   // 1st: 0 | 2nd: 50 | 3rd: 75-125 | 4th: 150-275 | 5th: 300+
+  if(value<=0) return 1;
   if(value<=50) return 2;
   if(value<=125) return 3;
   if(value<=275) return 4;
-  if(value<=775) return 5;
-  return 6;
+  return 5;
 }
 function getSiloKey(acctId){ return 'silo::'+acctId; }
 function getSiloValue(acctId){ return games.checks[getSiloKey(acctId)] || 0; }
