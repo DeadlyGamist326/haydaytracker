@@ -1406,12 +1406,12 @@ const BARN_ICONS=[
   'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage5.png',
   'https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/BarnStage6.png'
 ];
-function getBarnStage(value){   // shared table (Barn = basis): 1: <=25 | 2: <=50 | 3: <=125 | 4: <=275 | 5: <=850 | 6: 875+
+function getBarnStage(value){   // shared table (Barn = basis): 1: <=25 | 2: <=50 | 3: <=125 | 4: <=275 | 5: <=875 | 6: 876+
   if(value<=25) return 1;
   if(value<=50) return 2;
   if(value<=125) return 3;
   if(value<=275) return 4;
-  if(value<875) return 5;
+  if(value<=875) return 5;
   return 6;
 }
 function getBarnKey(acctId){ return 'barn::'+acctId; }
