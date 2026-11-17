@@ -128,6 +128,9 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .hp-act{flex:1;margin:0;padding:0;list-style:none;}
 .hp-act li{position:relative;padding:0 0 0 14px;margin:0 0 clamp(5px,1.1vh,10px);font-size:clamp(11.5px,1.75vh,13.5px);line-height:1.35;color:#ece7dc;word-break:break-word;}
 .hp-d{color:#f0cf8e;font-weight:700;}
+.hp-hard{color:#c9a6ff;font-weight:700;text-shadow:0 0 6px rgba(170,120,255,.45);}
+.hp-max{color:#ff6b6b;font-weight:800;text-shadow:0 0 8px rgba(255,70,70,.6);}
+.hp-event{color:#ffb8dc;font-weight:600;}
 .hp-ago{color:#8fd0ff;font-weight:700;}
 .hp-t.act{color:#7fe6d8;text-shadow:0 0 8px rgba(80,230,210,.45);}
 .hp-t.act::before{color:#7fe6d8;}
@@ -4257,8 +4260,11 @@ function hsrAct(t){
   let s=hsrEsc(t);
   if(/^Obtained the new 5-Star Character/.test(t)){
     s=s.replace(/5-Star/,'<span class="hp-gold">5-Star</span>').replace(/(\u201c)(.+?)(\u201d)/,'$1<span class="hp-rb">$2</span>$3');
+    return s;
   }
-  return s;
+  // colour by content type: hardest end-game > hard end-game > events
+  const cls=/Anomaly Arbitration/.test(t)?'hp-max':/Forgotten Hall|Pure Fiction|Apocalyptic Shadow/.test(t)?'hp-hard':/\bEvent\b/.test(t)?'hp-event':'';
+  return cls?'<span class="'+cls+'">'+s+'</span>':s;
 }
 function hsrProfile(){
   const A=HSR_ACCTS[hsrCur], P=A.profile;
