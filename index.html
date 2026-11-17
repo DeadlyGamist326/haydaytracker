@@ -85,6 +85,11 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .gc-neb.n2{background:#2fb5d9;right:0;opacity:.12;animation:gcNebB 64s linear infinite;}
 .gc-train{position:absolute;top:50%;left:0;height:12px;margin-top:-6px;transform:translateX(-220px);animation:gcTrain 24s linear infinite;will-change:transform;}
 .gc-train{pointer-events:auto;cursor:pointer;outline:none;}
+.gc-train:not(.naia) img{animation:gcCyan 2.2s ease-in-out infinite;filter:drop-shadow(0 0 4px rgba(176,255,254,.9)) drop-shadow(0 0 9px rgba(176,255,254,.6));}
+.gc-train:not(.naia) .gc-tail{background:linear-gradient(270deg,rgba(176,255,254,.8),rgba(176,255,254,0));}
+.gc-train:not(.naia) .gc-beam{background:linear-gradient(90deg,rgba(176,255,254,.6),rgba(176,255,254,0));}
+@keyframes gcCyan{0%,100%{filter:drop-shadow(0 0 3px rgba(176,255,254,.7)) drop-shadow(0 0 6px rgba(176,255,254,.4));}50%{filter:drop-shadow(0 0 6px rgba(176,255,254,1)) drop-shadow(0 0 14px rgba(176,255,254,.8));}}
+@media(prefers-reduced-motion:reduce){.gc-train:not(.naia) img{animation:none;}}
 .gc-train.naia{animation-delay:-12s;}
 .gc-train.naia img{animation:gcPink 2.2s ease-in-out infinite;filter:drop-shadow(0 0 4px rgba(255,90,190,.9)) drop-shadow(0 0 9px rgba(255,90,190,.65));}
 .gc-train.naia .gc-tail{background:linear-gradient(270deg,rgba(255,110,200,.8),rgba(255,110,200,0));height:5px;margin-top:-2.5px;}
