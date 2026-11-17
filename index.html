@@ -73,7 +73,9 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .gc-presence-pill:hover{border-color:var(--teal);}
 /* ---- Online bar: night sky + Astral Express (only the train is solid; stars/lights are faint) ---- */
 .gc-sky-wrap{position:relative;overflow:hidden;min-height:26px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0a0e2c,#131a44 55%,#0d1233);}
-.gc-sky{position:absolute;inset:0;pointer-events:none;overflow:hidden;container-type:inline-size;z-index:0;}
+.gc-sky,.gc-lane{position:absolute;inset:0;pointer-events:none;overflow:hidden;container-type:inline-size;}
+.gc-sky{z-index:0;}
+.gc-lane{z-index:2;}
 .gc-stars{position:absolute;inset:0;background-size:520px 100%;background-repeat:repeat-x;opacity:.55;animation:gcTwinkle 3.6s ease-in-out infinite;
   background-image:radial-gradient(1px 1px at 38px 7px,rgba(255,255,255,.85),transparent),radial-gradient(1px 1px at 211px 19px,rgba(255,255,255,.7),transparent),radial-gradient(1.2px 1.2px at 402px 11px,rgba(255,255,255,.8),transparent);}
 .gc-stars.s2{background-size:790px 100%;opacity:.4;animation-duration:5.2s;animation-delay:-2s;
@@ -82,14 +84,67 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .gc-neb.n1{background:#7a5cff;left:0;animation:gcNebA 48s linear infinite;}
 .gc-neb.n2{background:#2fb5d9;right:0;opacity:.12;animation:gcNebB 64s linear infinite;}
 .gc-train{position:absolute;top:50%;left:0;height:12px;margin-top:-6px;transform:translateX(-220px);animation:gcTrain 24s linear infinite;will-change:transform;}
+.gc-train{pointer-events:auto;cursor:pointer;outline:none;}
+.gc-train::after{content:'';position:absolute;inset:-9px -6px;}
+.gc-train:hover{animation-play-state:paused;}
 .gc-train img{display:block;height:12px;width:auto;user-select:none;-webkit-user-drag:none;}
 .gc-beam{position:absolute;left:100%;top:50%;width:64px;height:7px;margin-top:-3.5px;opacity:.55;background:linear-gradient(90deg,rgba(255,250,225,.55),rgba(255,250,225,0));clip-path:polygon(0 38%,100% 0,100% 100%,0 62%);}
 .gc-tail{position:absolute;right:100%;top:50%;width:54px;height:4px;margin-top:-2px;opacity:.6;background:linear-gradient(270deg,rgba(130,195,255,.7),rgba(130,195,255,0));filter:blur(.8px);}
 @keyframes gcTrain{0%{transform:translateX(-220px);}42%{transform:translateX(calc(100cqw + 90px));}100%{transform:translateX(calc(100cqw + 90px));}}
+
+/* ---- Lotus Reward Progress (read-only floating cards, opened by clicking the train) ---- */
+.hsr-modal{position:fixed;inset:0;z-index:2500;display:none;background:rgba(6,10,34,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}
+.hsr-modal.hsr-show{display:block;}
+.hsr-scroll{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;padding:22px 12px 70px;scrollbar-width:thin;}
+.hsr-col{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:10px;}
+.hsr-acct{align-self:flex-start;background:rgba(15,20,55,.78);color:#e8ecff;border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:700;letter-spacing:.3px;box-shadow:0 4px 14px rgba(0,0,0,.35);}
+.hsr-acct b{color:#ffd27a;}
+.hsr-card{background:rgba(250,251,255,.94);color:#22262f;border-radius:10px;box-shadow:0 10px 26px rgba(0,0,0,.38);overflow:hidden;animation:hsrIn .35s ease both;}
+@keyframes hsrIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.hsr-sec{border-radius:8px;padding:5px 12px;font-size:13px;font-weight:700;color:#fff;letter-spacing:.4px;box-shadow:0 6px 16px rgba(0,0,0,.32);margin-top:6px;}
+.hsr-sec::before{content:'';display:inline-block;width:3px;height:12px;background:#fff;margin-right:8px;vertical-align:-1px;}
+.hsr-sec.or{background:linear-gradient(90deg,#f08d1e,#f7b44f);}
+.hsr-sec.bl{background:linear-gradient(90deg,#3f8fe0,#6db0ee);}
+.hsr-sec.dk{background:linear-gradient(90deg,#252a3a,#3b4258);}
+.hsr-sum{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.hsr-sum>div{display:flex;align-items:center;gap:12px;padding:12px 16px;}
+.hsr-sum>div+div{border-left:1px solid #dde0e8;}
+.hsr-sum img{width:58px;height:58px;flex-shrink:0;}
+.hsr-sum .nm{font-weight:700;font-size:14px;}
+.hsr-sum .bx{flex:1;min-width:0;}
+.hsr-sum .tp{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+.hsr-big{font-size:26px;font-weight:700;color:#f08d1e;line-height:1;}
+.hsr-big small{font-size:17px;color:#2b2f3a;}
+.hsr-bar{height:5px;background:#b4b7be;border-radius:3px;overflow:hidden;margin-top:5px;}
+.hsr-bar i{display:block;height:100%;background:#f9b012;border-radius:3px;}
+.hsr-row{display:grid;grid-template-columns:116px 1fr 46px 150px;align-items:center;gap:14px;padding:10px 14px;}
+.hsr-row.soon{background:rgba(228,231,240,.92);}
+.hsr-row .th{width:116px;height:42px;object-fit:cover;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,.3);display:block;}
+.hsr-row .ti{font-weight:700;font-size:15px;line-height:1.25;}
+.hsr-pill{display:inline-flex;align-items:center;gap:5px;margin-top:4px;background:#2a2a32;color:#ffd7a0;border-radius:12px;padding:1px 9px 1px 6px;font-size:12px;font-weight:700;}
+.hsr-pill svg{width:12px;height:12px;}
+.hsr-pill.end{background:#6b6f7a;color:#e8e8ea;}
+.hsr-tag{display:inline-block;margin-top:4px;background:#181818;color:#f7c400;border:2px solid #f7c400;padding:0 8px;font-size:12px;font-weight:700;}
+.hsr-cd{margin-top:4px;color:#7b8090;font-size:12.5px;font-weight:600;}
+.hsr-dl{margin-top:3px;font-size:11px;color:#8a8f9e;font-weight:600;}
+.hsr-rw{width:44px;height:44px;border-radius:50%;display:block;}
+.hsr-rw.dim{filter:sepia(.75) brightness(.62) saturate(.8);}
+.hsr-pg .l{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;font-weight:700;}
+.hsr-pg .n{font-size:18px;font-weight:700;color:#f08d1e;}
+.hsr-pg .n small{font-size:13px;color:#2b2f3a;}
+.hsr-ok{position:relative;}
+.hsr-ok svg{position:absolute;right:-6px;top:-18px;width:36px;height:30px;opacity:.9;}
+@media(max-width:620px){
+  .hsr-sum{grid-template-columns:1fr;} .hsr-sum>div+div{border-left:0;border-top:1px solid #dde0e8;}
+  .hsr-row{grid-template-columns:84px 1fr 38px;gap:10px;padding:9px 10px;}
+  .hsr-row .th{width:84px;height:31px;} .hsr-rw{width:36px;height:36px;} .hsr-row .ti{font-size:13px;}
+  .hsr-pg{grid-column:1/-1;}
+}
+@media(prefers-reduced-motion:reduce){.hsr-card{animation:none;}}
 @keyframes gcTwinkle{0%,100%{opacity:.25;}50%{opacity:.7;}}
 @keyframes gcNebA{from{transform:translateX(-200px);}to{transform:translateX(100cqw);}}
 @keyframes gcNebB{from{transform:translateX(200px);}to{transform:translateX(calc(-100cqw));}}
-@media (prefers-reduced-motion:reduce){.gc-train{display:none;}.gc-stars,.gc-neb{animation:none;}}
+@media (prefers-reduced-motion:reduce){.gc-train{animation:none;transform:translateX(14px);}.gc-stars,.gc-neb{animation:none;}}
 
 .gc-presence-dot{width:7px;height:7px;border-radius:50%;background:#34A853;flex-shrink:0;animation:gcPulse 1.6s ease-in-out infinite;}
 @keyframes gcPulse{0%,100%{opacity:1;}50%{opacity:.45;}}
@@ -726,6 +781,7 @@ td.upg-cap-warn .upg-max{color:#d62828;}
     <div style="overflow:auto;"><table class="upg-table" id="expTable"></table></div>
   </div>
 </div>
+<div class="hsr-modal" id="hsrModal" aria-hidden="true"><div class="hsr-scroll" id="hsrScroll"><div class="hsr-col" id="hsrCol"></div></div></div>
 <div class="gc-name-modal" id="x2Modal">
   <div class="gc-name-card x2-card">
     <div class="x2-head">
@@ -798,7 +854,9 @@ td.upg-cap-warn .upg-max{color:#d62828;}
     <div class="gc-sky" aria-hidden="true">
       <i class="gc-neb n1"></i><i class="gc-neb n2"></i>
       <i class="gc-stars"></i><i class="gc-stars s2"></i>
-      <div class="gc-train"><span class="gc-tail"></span><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/AstralExpress.png" alt="" draggable="false"><span class="gc-beam"></span></div>
+    </div>
+    <div class="gc-lane">
+      <div class="gc-train" id="hsrTrain" role="button" tabindex="0" title="Lotus · Reward Progress"><span class="gc-tail"></span><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/AstralExpress.png" alt="Astral Express" draggable="false"><span class="gc-beam"></span></div>
     </div>
     <div id="presenceBar" style="position:relative;z-index:1;display:flex;align-items:center;gap:6px;padding:5px 16px;font-size:11px;color:#b8c4f0;overflow-x:auto;white-space:nowrap;"></div>
   </div>
@@ -4046,6 +4104,73 @@ function x2Render(){
   }
   body.scrollTop=keep;
 }
+
+// ===== Lotus Reward Progress (static, read-only tracker; opened by clicking the train) =====
+const HSR_IMG='https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/hsr/';
+const HSR_LOTUS={
+  summary:[{ic:'ic-jade-big',name:'Stellar Jade',cur:280,max:6380},{ic:'ic-pass-big',name:'Star Rail Special Pass',cur:12,max:20}],
+  // deadlines are PH time (UTC+8). 1h-countdown events end 4:00 AM, the 3h one ends 6:00 AM, Aptitude Showcase starts 12:00 PM.
+  progress:[
+    {t:'Aha Reckons You Need This',img:'th-aha',rw:'ic-pass',cur:12,max:20,end:'2026-12-23T06:00:00+08:00'},
+    {t:'The Fluffy Movie: Overheated',img:'th-fluffy',rw:'ic-jade',cur:0,max:1200,end:'2026-12-23T04:00:00+08:00'},
+    {t:'Interastral Peace Gala: Road to Fame',img:'th-gala',rw:'ic-jade',cur:200,max:500,end:'2026-12-23T04:00:00+08:00'},
+    {t:'Now, Lay Laughter to All Stars',img:'th-laughter',rw:'ic-jade',cur:0,max:490,tag:'Trailblaze Mission Available'},
+    {t:'Apocalyptic Shadow • Navigator’s Netherveil',img:'th-apocalyptic',rw:'ic-jade',cur:0,max:900,end:'2026-12-28T04:00:00+08:00'},
+    {t:'Accumulated Point Rewards',img:'th-accumulated',rw:'ic-jade',cur:0,max:225,end:'2026-11-23T04:00:00+08:00'}],
+  soon:[
+    {t:'Accumulated Point Rewards',img:'th-accumulated2',rw:'ic-jade',cur:0,max:1125,start:'2026-11-23T04:00:00+08:00'},
+    {t:'Pure Fiction • Fiction Made Truth',img:'th-pure-fiction',rw:'ic-jade',cur:0,max:900,start:'2026-11-30T04:00:00+08:00'},
+    {t:'Aptitude Showcase',img:'th-aptitude',rw:'ic-jade',cur:0,max:60,start:'2026-12-02T12:00:00+08:00'},
+    {t:'Memory of Chaos • Echo of Darkness',img:'th-moc',rw:'ic-jade',cur:0,max:900,start:'2026-12-14T04:00:00+08:00'}],
+  done:[
+    {t:'Aptitude Showcase',img:'th-done-aptitude1',rw:'ic-jade',cur:20,max:20},
+    {t:'Aptitude Showcase',img:'th-done-aptitude2',rw:'ic-jade',cur:60,max:60}]
+};
+function hsrEsc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function hsrDur(ms){ if(ms<=0) return null; const m=Math.floor(ms/60000), d=Math.floor(m/1440), hr=Math.floor((m%1440)/60), mi=m%60;
+  return d>0 ? d+'d '+hr+'h' : hr>0 ? hr+'h '+mi+'m' : Math.max(mi,1)+'m'; }
+function hsrWhen(iso){ const dt=new Date(iso);
+  const dd=dt.toLocaleDateString('en-US',{timeZone:'Asia/Manila',month:'short',day:'numeric'});
+  const tt=dt.toLocaleTimeString('en-US',{timeZone:'Asia/Manila',hour:'numeric',minute:'2-digit'});
+  return dd+' · '+tt+' PH'; }
+function hsrBar(c,m){ return '<div class="hsr-bar"><i style="width:'+Math.min(100,m?c/m*100:0)+'%"></i></div>'; }
+const HSR_CLOCK='<svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.2V8l2.6 1.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+function hsrRow(e,kind){
+  const done=kind==='done';
+  let mid='<div class="ti">'+hsrEsc(e.t)+'</div>';
+  if(e.tag) mid+='<div class="hsr-tag">✦ '+hsrEsc(e.tag)+'</div>';
+  else if(kind==='progress'&&e.end) mid+='<div class="hsr-pill" data-hsr="end" data-ts="'+e.end+'">'+HSR_CLOCK+'<span></span></div><div class="hsr-dl">Ends '+hsrWhen(e.end)+'</div>';
+  else if(kind==='soon') mid+='<div class="hsr-cd" data-hsr="start" data-ts="'+e.start+'">Initiating countdown: <span></span></div><div class="hsr-dl">Starts '+hsrWhen(e.start)+'</div>';
+  const tick=done?'<svg viewBox="0 0 36 30"><path d="M3 15l10 11L33 3" fill="none" stroke="#5fd0c8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>':'';
+  return '<div class="hsr-card"><div class="hsr-row'+(kind==='soon'?' soon':'')+'"><img class="th" src="'+HSR_IMG+e.img+'.webp" alt="" loading="lazy" draggable="false"><div>'+mid+'</div>'+
+    '<img class="hsr-rw'+(done?' dim':'')+'" src="'+HSR_IMG+e.rw+'.webp" alt="" loading="lazy" draggable="false">'+
+    '<div class="hsr-pg"><div class="l"><span>Progress:</span><span class="n'+(done?' hsr-ok':'')+'">'+e.cur+'<small>/'+e.max+'</small>'+tick+'</span></div>'+hsrBar(e.cur,e.max)+'</div></div></div>';
+}
+function hsrBuild(){
+  const D=HSR_LOTUS; let o='<div class="hsr-acct">Account: <b>Lotus</b> · Reward Progress</div>';
+  o+='<div class="hsr-card"><div class="hsr-sec or" style="border-radius:0;box-shadow:none;margin:0;">This Period’s Reward Progress</div><div class="hsr-sum">'+
+    D.summary.map(s=>'<div><img src="'+HSR_IMG+s.ic+'.webp" alt="" draggable="false"><div class="bx"><div class="tp"><span class="nm">'+hsrEsc(s.name)+'</span><span class="hsr-big">'+s.cur+'<small>/'+s.max+'</small></span></div>'+hsrBar(s.cur,s.max)+'</div></div>').join('')+'</div></div>';
+  o+='<div class="hsr-sec bl">In Progress</div>'+D.progress.map(e=>hsrRow(e,'progress')).join('');
+  o+='<div class="hsr-sec dk">Coming Soon</div>'+D.soon.map(e=>hsrRow(e,'soon')).join('');
+  o+='<div class="hsr-sec dk">Completed</div>'+D.done.map(e=>hsrRow(e,'done')).join('');
+  document.getElementById('hsrCol').innerHTML=o; hsrTick();
+}
+function hsrTick(){
+  const now=Date.now();
+  document.querySelectorAll('#hsrCol [data-hsr]').forEach(el=>{
+    const left=hsrDur(new Date(el.dataset.ts).getTime()-now), sp=el.querySelector('span');
+    if(el.dataset.hsr==='end'){ sp.textContent=left||'Ended'; el.classList.toggle('end',!left); }
+    else sp.textContent=left||'Started';
+  });
+}
+let hsrTimer=null;
+function openHsr(){ const m=document.getElementById('hsrModal'); hsrBuild(); m.classList.add('hsr-show'); m.setAttribute('aria-hidden','false'); document.getElementById('hsrScroll').scrollTop=0; clearInterval(hsrTimer); hsrTimer=setInterval(hsrTick,30000); }
+function closeHsr(){ const m=document.getElementById('hsrModal'); m.classList.remove('hsr-show'); m.setAttribute('aria-hidden','true'); clearInterval(hsrTimer); }
+(function(){
+  const tr=document.getElementById('hsrTrain'); if(tr){ tr.addEventListener('click',e=>{ e.stopPropagation(); openHsr(); }); tr.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openHsr(); } }); }
+  document.getElementById('hsrScroll').addEventListener('click',e=>{ if(e.target.id==='hsrScroll'||e.target.id==='hsrCol') closeHsr(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && document.getElementById('hsrModal').classList.contains('hsr-show')) closeHsr(); });
+})();
 function openX2(){ document.getElementById('x2Modal').classList.add('gc-show'); x2Render(); }
 function closeX2(){ document.getElementById('x2Modal').classList.remove('gc-show'); }
 function refreshX2(){ const m=document.getElementById('x2Modal'); if(m&&m.classList.contains('gc-show')&&!(document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#x2Modal input'))) x2Render(); }
