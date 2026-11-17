@@ -104,7 +104,23 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 /* ---- Lotus Reward Progress (read-only floating cards, opened by clicking the train) ---- */
 .hsr-modal{position:fixed;inset:0;z-index:2500;display:none;background:rgba(6,10,34,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}
 .hsr-modal.hsr-show{display:block;}
-.hsr-scroll{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;padding:22px 12px 70px;scrollbar-width:thin;}
+.hsr-scroll{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;padding:22px 46px 70px;scrollbar-width:none;-ms-overflow-style:none;}
+.hsr-scroll::-webkit-scrollbar{display:none;width:0;height:0;}
+.hsr-edge{position:absolute;top:0;bottom:0;width:30px;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;color:#fff;user-select:none;-webkit-tap-highlight-color:transparent;transition:width .18s ease,background .18s ease;--ec:#b0fffe;}
+.hsr-edge.l{left:0;}
+.hsr-edge.r{right:0;}
+.hsr-edge::before{content:'';position:absolute;inset:0;pointer-events:none;animation:hsrEdgeGlow 2.4s ease-in-out infinite;}
+.hsr-edge.l::before{background:linear-gradient(90deg,color-mix(in srgb,var(--ec) 62%,transparent),transparent);box-shadow:inset 3px 0 12px -2px var(--ec);}
+.hsr-edge.r::before{background:linear-gradient(270deg,color-mix(in srgb,var(--ec) 62%,transparent),transparent);box-shadow:inset -3px 0 12px -2px var(--ec);}
+@keyframes hsrEdgeGlow{0%,100%{opacity:.45;}50%{opacity:1;}}
+.hsr-edge>*{position:relative;}
+.hsr-edge:hover{width:44px;}
+.hsr-edge .arr{font-size:26px;line-height:1;text-shadow:0 0 10px var(--ec);color:var(--ec);animation:hsrNudge 1.8s ease-in-out infinite;}
+.hsr-edge.l .arr{animation-name:hsrNudgeL;}
+.hsr-edge .nm{writing-mode:vertical-rl;font-size:12px;font-weight:700;letter-spacing:2px;color:#fff;text-shadow:0 0 8px var(--ec);opacity:.85;}
+@keyframes hsrNudge{0%,100%{transform:translateX(0);}50%{transform:translateX(3px);}}
+@keyframes hsrNudgeL{0%,100%{transform:translateX(0);}50%{transform:translateX(-3px);}}
+@media(max-width:620px){.hsr-scroll{padding-left:22px;padding-right:22px;}.hsr-edge{width:18px;}.hsr-edge .nm{display:none;}.hsr-edge:hover{width:18px;}}
 .hsr-lay{max-width:1250px;margin:0 auto;display:flex;gap:14px;align-items:flex-start;}
 .hsr-col{flex:1;min-width:0;max-width:880px;display:flex;flex-direction:column;gap:10px;}
 .hsr-profslot{flex:0 0 330px;width:330px;}
@@ -199,7 +215,7 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
   .hsr-row .th{width:84px;height:31px;} .hsr-rw{width:36px;height:36px;} .hsr-row .ti{font-size:13px;}
   .hsr-pg{grid-column:1/-1;}
 }
-@media(prefers-reduced-motion:reduce){.hsr-card{animation:none;}}
+@media(prefers-reduced-motion:reduce){.hsr-card{animation:none;}.hsr-edge::before,.hsr-edge .arr{animation:none;}}
 @keyframes gcTwinkle{0%,100%{opacity:.25;}50%{opacity:.7;}}
 @keyframes gcNebA{from{transform:translateX(-200px);}to{transform:translateX(100cqw);}}
 @keyframes gcNebB{from{transform:translateX(200px);}to{transform:translateX(calc(-100cqw));}}
@@ -840,7 +856,7 @@ td.upg-cap-warn .upg-max{color:#d62828;}
     <div style="overflow:auto;"><table class="upg-table" id="expTable"></table></div>
   </div>
 </div>
-<div class="hsr-modal" id="hsrModal" aria-hidden="true"><div class="hsr-scroll" id="hsrScroll"><div class="hsr-lay" id="hsrLay"><div class="hsr-profslot" id="hsrProfSlot"><aside class="hsr-prof" id="hsrProf"></aside></div><div class="hsr-col" id="hsrCol"></div></div></div></div>
+<div class="hsr-modal" id="hsrModal" aria-hidden="true"><div class="hsr-edge l" id="hsrEdgeL" role="button" aria-label="Switch account"></div><div class="hsr-edge r" id="hsrEdgeR" role="button" aria-label="Switch account"></div><div class="hsr-scroll" id="hsrScroll"><div class="hsr-lay" id="hsrLay"><div class="hsr-profslot" id="hsrProfSlot"><aside class="hsr-prof" id="hsrProf"></aside></div><div class="hsr-col" id="hsrCol"></div></div></div></div>
 <div class="gc-name-modal" id="x2Modal">
   <div class="gc-name-card x2-card">
     <div class="x2-head">
@@ -4306,11 +4322,36 @@ function hsrTick(){
     else sp.textContent=left||'Started';
   });
 }
+const HSR_ORDER=['lotus','naia'], HSR_EC={lotus:'#b0fffe',naia:'#ff8fd0'};
+function hsrEdges(){
+  const nx=HSR_ORDER[(HSR_ORDER.indexOf(hsrCur)+1)%HSR_ORDER.length], a=HSR_ACCTS[nx].label;
+  // the edges glow in the colour of the account you are currently on; the label names the one you will slide to
+  [['hsrEdgeL','\u2039'],['hsrEdgeR','\u203a']].forEach(([id,ar])=>{ const e=document.getElementById(id); e.style.setProperty('--ec',HSR_EC[hsrCur]); e.innerHTML='<span class="arr">'+ar+'</span><span class="nm">'+a+'</span>'; e.title='Switch to '+a; });
+}
+let hsrBusy=false;
+function hsrSwitch(dir){   // dir=+1: new account slides in from the right, -1: from the left
+  if(hsrBusy||!document.getElementById('hsrModal').classList.contains('hsr-show')) return;
+  hsrBusy=true; const col=document.getElementById('hsrCol'), prof=document.getElementById('hsrProf');
+  const out=[col,prof].map(e=>e.animate([{transform:'none',opacity:1},{transform:'translateX('+(-dir*70)+'px)',opacity:0}],{duration:170,easing:'ease-in',fill:'forwards'}));
+  out[0].finished.then(()=>{
+    hsrCur=HSR_ORDER[(HSR_ORDER.indexOf(hsrCur)+(dir>0?1:HSR_ORDER.length-1))%HSR_ORDER.length];
+    document.getElementById('hsrModal').dataset.acct=hsrCur; hsrBuild(); hsrPlace(); hsrEdges(); document.getElementById('hsrScroll').scrollTop=0;
+    out.forEach(a=>a.cancel());
+    const inn=[document.getElementById('hsrCol'),document.getElementById('hsrProf')].map(e=>e.animate([{transform:'translateX('+(dir*70)+'px)',opacity:0},{transform:'none',opacity:1}],{duration:230,easing:'ease-out'}));
+    inn[0].finished.then(()=>{hsrBusy=false;}).catch(()=>{hsrBusy=false;});
+  }).catch(()=>{hsrBusy=false;});
+}
 let hsrTimer=null;
-function openHsr(a){ hsrCur=HSR_ACCTS[a]?a:'lotus'; const m=document.getElementById('hsrModal'); m.dataset.acct=hsrCur; hsrBuild(); m.classList.add('hsr-show'); m.setAttribute('aria-hidden','false'); hsrPlace(); document.getElementById('hsrScroll').scrollTop=0; clearInterval(hsrTimer); hsrTimer=setInterval(hsrTick,30000); }
+function openHsr(a){ hsrCur=HSR_ACCTS[a]?a:'lotus'; const m=document.getElementById('hsrModal'); m.dataset.acct=hsrCur; hsrBuild(); m.classList.add('hsr-show'); m.setAttribute('aria-hidden','false'); hsrPlace(); hsrEdges(); document.getElementById('hsrScroll').scrollTop=0; clearInterval(hsrTimer); hsrTimer=setInterval(hsrTick,30000); }
 function closeHsr(){ const m=document.getElementById('hsrModal'); m.classList.remove('hsr-show'); m.setAttribute('aria-hidden','true'); clearInterval(hsrTimer); }
 (function(){
   [['hsrTrain','lotus'],['hsrTrainN','naia']].forEach(([id,a])=>{ const tr=document.getElementById(id); if(tr){ tr.addEventListener('click',e=>{ e.stopPropagation(); openHsr(a); }); tr.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openHsr(a); } }); } });
+  document.getElementById('hsrEdgeL').addEventListener('click',()=>hsrSwitch(-1));
+  document.getElementById('hsrEdgeR').addEventListener('click',()=>hsrSwitch(1));
+  document.addEventListener('keydown',e=>{ if(!document.getElementById('hsrModal').classList.contains('hsr-show')) return; if(e.key==='ArrowRight') hsrSwitch(1); else if(e.key==='ArrowLeft') hsrSwitch(-1); });
+  let tx=0,ty=0; const sc=document.getElementById('hsrScroll');
+  sc.addEventListener('touchstart',e=>{ tx=e.touches[0].clientX; ty=e.touches[0].clientY; },{passive:true});
+  sc.addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty; if(Math.abs(dx)>70&&Math.abs(dx)>1.6*Math.abs(dy)) hsrSwitch(dx<0?1:-1); },{passive:true});
   document.getElementById('hsrScroll').addEventListener('click',e=>{ if(e.target.id==='hsrScroll'||e.target.id==='hsrCol'||e.target.id==='hsrLay') closeHsr(); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape' && document.getElementById('hsrModal').classList.contains('hsr-show')) closeHsr(); });
 })();
