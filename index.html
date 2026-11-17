@@ -83,21 +83,19 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .gc-neb{position:absolute;top:-8px;width:170px;height:44px;border-radius:50%;filter:blur(14px);opacity:.16;}
 .gc-neb.n1{background:#7a5cff;left:0;animation:gcNebA 48s linear infinite;}
 .gc-neb.n2{background:#2fb5d9;right:0;opacity:.12;animation:gcNebB 64s linear infinite;}
-.gc-train{position:absolute;top:50%;left:0;height:12px;margin-top:-6px;transform:translateX(-220px);animation:gcTrain 24s linear infinite;will-change:transform;}
+.gc-train{position:absolute;top:50%;left:0;height:12px;margin-top:-6px;transform:translateX(-220px);will-change:transform;}
 .gc-train{pointer-events:auto;cursor:pointer;outline:none;}
 .gc-train:not(.naia) img{animation:gcCyan 2.2s ease-in-out infinite;filter:drop-shadow(0 0 4px rgba(176,255,254,.9)) drop-shadow(0 0 9px rgba(176,255,254,.6));}
 .gc-train:not(.naia) .gc-tail{background:linear-gradient(270deg,rgba(176,255,254,.8),rgba(176,255,254,0));}
 .gc-train:not(.naia) .gc-beam{background:linear-gradient(90deg,rgba(176,255,254,.6),rgba(176,255,254,0));}
 @keyframes gcCyan{0%,100%{filter:drop-shadow(0 0 3px rgba(176,255,254,.7)) drop-shadow(0 0 6px rgba(176,255,254,.4));}50%{filter:drop-shadow(0 0 6px rgba(176,255,254,1)) drop-shadow(0 0 14px rgba(176,255,254,.8));}}
 @media(prefers-reduced-motion:reduce){.gc-train:not(.naia) img{animation:none;}}
-.gc-train.naia{animation-delay:-12s;}
 .gc-train.naia img{animation:gcPink 2.2s ease-in-out infinite;filter:drop-shadow(0 0 4px rgba(255,90,190,.9)) drop-shadow(0 0 9px rgba(255,90,190,.65));}
 .gc-train.naia .gc-tail{background:linear-gradient(270deg,rgba(255,110,200,.8),rgba(255,110,200,0));height:5px;margin-top:-2.5px;}
 .gc-train.naia .gc-beam{background:linear-gradient(90deg,rgba(255,200,235,.6),rgba(255,200,235,0));}
 @keyframes gcPink{0%,100%{filter:drop-shadow(0 0 3px rgba(255,90,190,.7)) drop-shadow(0 0 6px rgba(255,90,190,.4));}50%{filter:drop-shadow(0 0 6px rgba(255,110,200,1)) drop-shadow(0 0 14px rgba(255,90,190,.85));}}
 @media(prefers-reduced-motion:reduce){.gc-train.naia{transform:translateX(190px);}.gc-train.naia img{animation:none;}}
 .gc-train::after{content:'';position:absolute;inset:-9px -6px;}
-.gc-train:hover{animation-play-state:paused;}
 .gc-train img{display:block;height:12px;width:auto;user-select:none;-webkit-user-drag:none;}
 .gc-beam{position:absolute;left:100%;top:50%;width:64px;height:7px;margin-top:-3.5px;opacity:.55;background:linear-gradient(90deg,rgba(255,250,225,.55),rgba(255,250,225,0));clip-path:polygon(0 38%,100% 0,100% 100%,0 62%);}
 .gc-tail{position:absolute;right:100%;top:50%;width:54px;height:4px;margin-top:-2px;opacity:.6;background:linear-gradient(270deg,rgba(130,195,255,.7),rgba(130,195,255,0));filter:blur(.8px);}
@@ -4296,6 +4294,25 @@ function closeHsr(){ const m=document.getElementById('hsrModal'); m.classList.re
   [['hsrTrain','lotus'],['hsrTrainN','naia']].forEach(([id,a])=>{ const tr=document.getElementById(id); if(tr){ tr.addEventListener('click',e=>{ e.stopPropagation(); openHsr(a); }); tr.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openHsr(a); } }); } });
   document.getElementById('hsrScroll').addEventListener('click',e=>{ if(e.target.id==='hsrScroll'||e.target.id==='hsrCol'||e.target.id==='hsrLay') closeHsr(); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape' && document.getElementById('hsrModal').classList.contains('hsr-show')) closeHsr(); });
+})();
+
+// Online-bar trains: they travel together as a pair; the gap between them is 20-30% of the bar width,
+// Naia (pink) leads 2 out of 3 passes, Lotus (cyan) leads the rest. Hover pauses both so they're easy to click.
+(function(){
+  const L=document.getElementById('hsrTrain'), N=document.getElementById('hsrTrainN'); if(!L||!N) return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const lane=L.parentElement, SPEED=110; let anims=[], timer=null, paused=false;
+  function run(){
+    const W=lane.clientWidth||600, from=-220, to=W+90, T=(to-from)/SPEED*1000;
+    const gap=(0.2+Math.random()*0.1)*W/SPEED*1000;          // 20-30% of the bar width, as time offset
+    const lead=Math.random()<0.66?N:L, follow=lead===N?L:N;
+    const kf=[{transform:'translateX('+from+'px)'},{transform:'translateX('+to+'px)'}];
+    anims=[lead.animate(kf,{duration:T,easing:'linear',fill:'both'}), follow.animate(kf,{duration:T,delay:gap,easing:'linear',fill:'both'})];
+    if(paused) anims.forEach(a=>a.pause());
+    Promise.all(anims.map(a=>a.finished)).then(()=>{ anims.forEach(a=>a.cancel()); anims=[]; timer=setTimeout(run,6000+Math.random()*5000); }).catch(()=>{});
+  }
+  [L,N].forEach(t=>{ t.addEventListener('mouseenter',()=>{ paused=true; anims.forEach(a=>a.pause()); }); t.addEventListener('mouseleave',()=>{ paused=false; anims.forEach(a=>a.play()); }); });
+  timer=setTimeout(run,1200);
 })();
 function openX2(){ document.getElementById('x2Modal').classList.add('gc-show'); x2Render(); }
 function closeX2(){ document.getElementById('x2Modal').classList.remove('gc-show'); }
