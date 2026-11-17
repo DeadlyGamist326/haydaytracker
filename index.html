@@ -4326,7 +4326,7 @@ const HSR_ORDER=['lotus','naia'], HSR_EC={lotus:'#b0fffe',naia:'#ff8fd0'};
 function hsrEdges(){
   const nx=HSR_ORDER[(HSR_ORDER.indexOf(hsrCur)+1)%HSR_ORDER.length], a=HSR_ACCTS[nx].label;
   // the edges glow in the colour of the account you are currently on; the label names the one you will slide to
-  [['hsrEdgeL','\u2039'],['hsrEdgeR','\u203a']].forEach(([id,ar])=>{ const e=document.getElementById(id); e.style.setProperty('--ec',HSR_EC[hsrCur]); e.innerHTML='<span class="arr">'+ar+'</span><span class="nm">'+a+'</span>'; e.title='Switch to '+a; });
+  [['hsrEdgeL','\u2039'],['hsrEdgeR','\u203a']].forEach(([id,ar])=>{ const e=document.getElementById(id); e.style.setProperty('--ec',HSR_EC[hsrCur]); e.innerHTML='<span class="arr">'+ar+'</span>'; e.title='Switch to '+a; });
 }
 let hsrBusy=false;
 function hsrSwitch(dir){   // dir=+1: new account slides in from the right, -1: from the left
