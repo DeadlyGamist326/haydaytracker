@@ -136,6 +136,7 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 @keyframes hpRb{from{background-position:0 0;}to{background-position:200% 0;}}
 @media(prefers-reduced-motion:reduce){.hp-rb{animation:none;}}
 .hp-act li::before{content:'';position:absolute;left:2px;top:.55em;width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.55);}
+@media(min-width:941px) and (max-height:780px){.hp-sig{min-height:0;padding:6px 10px;margin-bottom:8px;}.hp-body{padding-top:8px;}.hp-banner{aspect-ratio:400/140;}.hp-t{margin-bottom:5px;}}
 @media(max-width:940px){
   .hsr-lay{flex-direction:column;align-items:stretch;}
   .hsr-profslot{flex:0 0 auto;width:100%;}
@@ -4204,7 +4205,14 @@ const HSR_NAIA_PROFILE={
   signature:'For Lotus only~',
   activity:[
     {d:'2026-11-12',t:'Completed the Love, Ghosts & Robots Event'},
-    {d:'2026-11-12',t:'Advanced to Rank Amethyst Gold 1 in “Currency Wars”'}]
+    {d:'2026-11-12',t:'Advanced to Rank Amethyst Gold 1 in “Currency Wars”'},
+    {d:'2026-11-12',t:'Completed “Currency Wars: Standard Gambit Ice Titanium 1”'},
+    {d:'2026-11-12',t:'Obtained the new 5-Star Character “Acheron”'},
+    {d:'2026-11-11',t:'Completed Forgotten Hall: Survival of the Fittest (XI)'},
+    {d:'2026-11-11',t:'Completed Apocalyptic Shadow: Starward Mode'},
+    {d:'2026-11-11',t:'Completed the Astral Imagea Park Event'},
+    {d:'2026-11-09',t:'Completed Anomaly Arbitration: Return to Roots'},
+    {d:'2026-11-06',t:'Completed the Interastral Peace Gala: One Take Event'}]
 };
 function hsrEsc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function hsrDur(ms){ if(ms<=0) return null; const m=Math.floor(ms/60000), d=Math.floor(m/1440), hr=Math.floor((m%1440)/60), mi=m%60;
