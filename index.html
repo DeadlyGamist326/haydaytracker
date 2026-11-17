@@ -98,7 +98,7 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .hsr-scroll{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;padding:22px 12px 70px;scrollbar-width:thin;}
 .hsr-lay{max-width:1250px;margin:0 auto;display:flex;gap:14px;align-items:flex-start;}
 .hsr-col{flex:1;min-width:0;max-width:880px;display:flex;flex-direction:column;gap:10px;}
-.hsr-prof{flex:0 0 330px;position:sticky;top:22px;height:calc(100vh - 44px);min-height:420px;display:flex;flex-direction:column;border-radius:14px;overflow:hidden;background:rgba(78,73,68,.985);border:2px solid rgba(214,184,132,.6);box-shadow:0 12px 30px rgba(0,0,0,.45);color:#f3efe8;animation:hsrIn .35s ease both;}
+.hsr-prof{flex:0 0 330px;position:sticky;top:22px;min-height:calc(100vh - 44px);align-self:flex-start;display:flex;flex-direction:column;border-radius:14px;overflow:hidden;background:rgba(78,73,68,.985);border:2px solid rgba(214,184,132,.6);box-shadow:0 12px 30px rgba(0,0,0,.45);color:#f3efe8;animation:hsrIn .35s ease both;}
 .hp-banner{position:relative;flex:0 0 auto;aspect-ratio:400/192;background:#c9a7f2 url('https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/hsr/hp-banner.webp') center/cover no-repeat;image-rendering:pixelated;}
 .hp-av{position:absolute;left:11px;top:9px;width:62px;height:62px;}
 .hp-av img{width:100%;height:100%;border-radius:50%;box-shadow:0 0 0 2px rgba(255,255,255,.75);display:block;}
@@ -111,18 +111,24 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .hp-ft{position:absolute;left:10px;bottom:8px;}
 .hp-bday{font-size:12.5px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(40,20,80,.8);}
 .hp-uid{display:inline-block;margin-top:3px;background:rgba(40,35,70,.55);border-radius:12px;padding:1px 10px;font-size:12px;font-weight:600;color:#f1ecff;}
-.hp-body{flex:1;min-height:0;display:flex;flex-direction:column;padding:12px 14px 14px;}
+.hp-body{flex:1;display:flex;flex-direction:column;padding:12px 14px 14px;}
 .hp-t{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:#f6f1e6;margin:0 0 7px;}
 .hp-t::before{content:'\2726';color:#e7dcc4;font-size:15px;}
 .hp-sig{background:rgba(0,0,0,.26);border-radius:8px;padding:10px 12px;min-height:56px;font-size:14px;line-height:1.35;margin-bottom:14px;white-space:pre-wrap;word-break:break-word;}
-.hp-act{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;margin:0;padding:0 8px 0 0;list-style:none;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.5) transparent;}
+.hp-act{flex:1;margin:0;padding:0;list-style:none;}
 .hp-act li{position:relative;padding:0 0 0 14px;margin:0 0 10px;font-size:13.5px;line-height:1.35;color:#ece7dc;word-break:break-word;}
 .hp-d{color:#f0cf8e;font-weight:700;}
+.hp-ago{color:#8fd0ff;font-weight:700;}
+.hp-t.act{color:#7fe6d8;text-shadow:0 0 8px rgba(80,230,210,.45);}
+.hp-t.act::before{color:#7fe6d8;}
+.hp-gold{white-space:nowrap;font-weight:800;color:#ffd24a;text-shadow:0 0 6px rgba(255,190,40,.55);}
+.hp-rb{font-weight:800;background:linear-gradient(90deg,#ff4b4b,#ff9a3c,#ffe14a,#4be07a,#3cc8ff,#7a6bff,#d86bff,#ff4b4b);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:hpRb 4s linear infinite;}
+@keyframes hpRb{from{background-position:0 0;}to{background-position:200% 0;}}
+@media(prefers-reduced-motion:reduce){.hp-rb{animation:none;}}
 .hp-act li::before{content:'';position:absolute;left:2px;top:.55em;width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.55);}
 @media(max-width:940px){
   .hsr-lay{flex-direction:column;align-items:stretch;}
-  .hsr-prof{flex:0 0 auto;position:relative;height:auto;min-height:0;max-width:520px;width:100%;margin:0 auto;}
-  .hp-act{max-height:44vh;}
+  .hsr-prof{flex:0 0 auto;position:relative;height:auto;min-height:0;max-width:520px;width:100%;margin:0 auto;min-height:0;}
 }
 .hsr-acct{align-self:flex-start;background:rgba(15,20,55,.78);color:#e8ecff;border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:700;letter-spacing:.3px;box-shadow:0 4px 14px rgba(0,0,0,.35);}
 .hsr-acct b{color:#ffd27a;}
@@ -151,6 +157,14 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .hsr-pill{display:inline-flex;align-items:center;gap:5px;margin-top:4px;background:#2a2a32;color:#ffd7a0;border-radius:12px;padding:1px 9px 1px 6px;font-size:12px;font-weight:700;}
 .hsr-pill svg{width:12px;height:12px;}
 .hsr-pill.end{background:#6b6f7a;color:#e8e8ea;}
+.hsr-pill.alarm{background:#d61f1f;color:#fff;animation:hsrBlink .8s steps(2,jump-none) infinite;}
+.hsr-pill.alarm::before{content:'\26A0';font-size:12px;}
+.hsr-card.hsr-alarm{outline:2px solid #ff3b3b;animation:hsrAlarm 1.3s ease-in-out infinite;}
+.hsr-card.hsr-alarm2{animation-duration:.6s;outline-width:3px;}
+.hsr-card.hsr-alarm .hsr-dl{color:#d61f1f;font-weight:800;}
+@keyframes hsrAlarm{0%,100%{box-shadow:0 10px 26px rgba(0,0,0,.38),0 0 6px 1px rgba(255,40,40,.45);background:rgba(250,251,255,.94);}50%{box-shadow:0 10px 26px rgba(0,0,0,.38),0 0 22px 6px rgba(255,40,40,.95);background:rgba(255,226,226,.96);}}
+@keyframes hsrBlink{0%{opacity:1;}100%{opacity:.45;}}
+@media(prefers-reduced-motion:reduce){.hsr-card.hsr-alarm,.hsr-pill.alarm{animation:none;}}
 .hsr-tag{display:inline-block;margin-top:4px;background:#181818;color:#f7c400;border:2px solid #f7c400;padding:0 8px;font-size:12px;font-weight:700;}
 .hsr-cd{margin-top:4px;color:#7b8090;font-size:12.5px;font-weight:600;}
 .hsr-dl{margin-top:3px;font-size:11px;color:#8a8f9e;font-weight:600;}
@@ -4166,7 +4180,7 @@ function hsrRow(e,kind){
   const done=kind==='done';
   let mid='<div class="ti">'+hsrEsc(e.t)+'</div>';
   if(e.tag) mid+='<div class="hsr-tag">✦ '+hsrEsc(e.tag)+'</div>';
-  else if(kind==='progress'&&e.end) mid+='<div class="hsr-pill" data-hsr="end" data-ts="'+e.end+'">'+HSR_CLOCK+'<span></span></div><div class="hsr-dl">Ends '+hsrWhen(e.end)+'</div>';
+  else if(kind==='progress'&&e.end) mid+='<div class="hsr-pill" data-hsr="end" data-ts="'+e.end+'"'+(e.cur>=e.max?' data-done="1"':'')+'>'+HSR_CLOCK+'<span></span></div><div class="hsr-dl">Ends '+hsrWhen(e.end)+'</div>';
   else if(kind==='soon') mid+='<div class="hsr-cd" data-hsr="start" data-ts="'+e.start+'">Initiating countdown: <span></span></div><div class="hsr-dl">Starts '+hsrWhen(e.start)+'</div>';
   const tick=done?'<svg viewBox="0 0 36 30"><path d="M3 15l10 11L33 3" fill="none" stroke="#5fd0c8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>':'';
   return '<div class="hsr-card"><div class="hsr-row'+(kind==='soon'?' soon':'')+'"><img class="th" src="'+HSR_IMG+e.img+'.webp" alt="" loading="lazy" draggable="false"><div>'+mid+'</div>'+
@@ -4187,6 +4201,13 @@ const HSR_PROFILE={ // placeholder text from the sample video — to be replaced
     {d:'2026-10-24',t:'Completed Apocalyptic Shadow: Dominance of Oblivion: Difficulty 03'}]
 };function hsrAgo(d){ const td=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Manila'}); const n=Math.round((Date.parse(td)-Date.parse(d))/864e5); return (n<=0?'Today':n+' day(s) ago')+':'; }
 function hsrDay(d){ return new Date(d+'T12:00:00Z').toLocaleDateString('en-US',{timeZone:'UTC',month:'short',day:'numeric'})+' \u00b7'; }
+function hsrAct(t){
+  let s=hsrEsc(t);
+  if(/^Obtained the new 5-Star Character/.test(t)){
+    s=s.replace(/5-Star/,'<span class="hp-gold">5-Star</span>').replace(/(\u201c)(.+?)(\u201d)/,'$1<span class="hp-rb">$2</span>$3');
+  }
+  return s;
+}
 function hsrProfile(){
   const P=HSR_PROFILE;
   document.getElementById('hsrProf').innerHTML=
@@ -4194,7 +4215,7 @@ function hsrProfile(){
     '<div class="hp-nm"><b>'+hsrEsc(P.name)+'</b><span class="hp-bd">'+P.badges.map(b=>'<span>'+hsrEsc(b)+'</span>').join('')+'</span></div>'+
     '<div class="hp-ft"><div class="hp-bday">'+hsrEsc(P.birthday)+'</div><span class="hp-uid">'+hsrEsc(P.uid)+'</span></div></div>'+
     '<div class="hp-body"><div class="hp-t">Signature</div><div class="hp-sig">'+hsrEsc(P.signature)+'</div>'+
-    '<div class="hp-t">Trailblaze Activity</div><ul class="hp-act">'+P.activity.map(a=>'<li>'+hsrAgo(a.d)+' <b class="hp-d">'+hsrDay(a.d)+'</b> '+hsrEsc(a.t)+'</li>').join('')+'</ul></div>';
+    '<div class="hp-t act">Trailblaze Activity</div><ul class="hp-act">'+P.activity.map(a=>'<li><span class="hp-ago">'+hsrAgo(a.d)+'</span> <b class="hp-d">'+hsrDay(a.d)+'</b> '+hsrAct(a.t)+'</li>').join('')+'</ul></div>';
 }
 function hsrBuild(){
   hsrProfile();
@@ -4210,7 +4231,9 @@ function hsrTick(){
   const now=Date.now();
   document.querySelectorAll('#hsrCol [data-hsr]').forEach(el=>{
     const left=hsrDur(new Date(el.dataset.ts).getTime()-now), sp=el.querySelector('span');
-    if(el.dataset.hsr==='end'){ sp.textContent=left||'Ended'; el.classList.toggle('end',!left); }
+    if(el.dataset.hsr==='end'){ sp.textContent=left||'Ended'; el.classList.toggle('end',!left);
+      const ms=new Date(el.dataset.ts).getTime()-now, card=el.closest('.hsr-card'), danger=ms>0&&ms<=24*36e5&&!el.dataset.done;
+      el.classList.toggle('alarm',danger); if(card){ card.classList.toggle('hsr-alarm',danger); card.classList.toggle('hsr-alarm2',danger&&ms<=3*36e5); } }
     else sp.textContent=left||'Started';
   });
 }
