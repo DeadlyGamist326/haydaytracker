@@ -4263,12 +4263,13 @@ function hsrAct(t){
     s=s.replace(/5-Star/,'<span class="hp-gold">5-Star</span>').replace(/(\u201c)(.+?)(\u201d)/,'$1<span class="hp-rb">$2</span>$3');
     return s;
   }
-  if(/Currency Wars/.test(t)) return s.replace(/(\u201c)(.+?)(\u201d)/,'$1<span class="hp-cw">$2</span>$3');
-  // colour by content type: hardest end-game > hard end-game > events
-  const cls=/Anomaly Arbitration/.test(t)?'hp-max':/Forgotten Hall|Pure Fiction|Apocalyptic Shadow/.test(t)?'hp-hard':/\bEvent\b/.test(t)?'hp-event':'';
-  if(!cls) return s;
-  const m=s.match(/^(Completed (?:the )?)(.+)$/);   // colour only the content name (event names keep the word "Event")
-  return m ? m[1]+'<span class="'+cls+'">'+m[2]+'</span>' : '<span class="'+cls+'">'+s+'</span>';
+  // colour only the key term: Currency Wars / Anomaly Arbitration / Forgotten Hall / Pure Fiction / Apocalyptic Shadow; events = whole name incl. "Event"
+  const term=(re,c)=>s.replace(re,'<span class="'+c+'">$&</span>');
+  if(/Currency Wars/.test(t)) return term(/Currency Wars/,'hp-cw');
+  if(/Anomaly Arbitration/.test(t)) return term(/Anomaly Arbitration/,'hp-max');
+  if(/Forgotten Hall|Pure Fiction|Apocalyptic Shadow/.test(t)) return term(/Forgotten Hall|Pure Fiction|Apocalyptic Shadow/,'hp-hard');
+  if(/\bEvent\b/.test(t)){ const m=s.match(/^(Completed (?:the )?)(.+)$/); return m ? m[1]+'<span class="hp-event">'+m[2]+'</span>' : '<span class="hp-event">'+s+'</span>'; }
+  return s;
 }
 function hsrProfile(){
   const A=HSR_ACCTS[hsrCur], P=A.profile;
