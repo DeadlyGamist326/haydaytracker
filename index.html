@@ -4264,7 +4264,9 @@ function hsrAct(t){
   }
   // colour by content type: hardest end-game > hard end-game > events
   const cls=/Anomaly Arbitration/.test(t)?'hp-max':/Forgotten Hall|Pure Fiction|Apocalyptic Shadow/.test(t)?'hp-hard':/\bEvent\b/.test(t)?'hp-event':'';
-  return cls?'<span class="'+cls+'">'+s+'</span>':s;
+  if(!cls) return s;
+  const m=s.match(/^(Completed (?:the )?)(.+)$/);   // colour only the content name (event names keep the word "Event")
+  return m ? m[1]+'<span class="'+cls+'">'+m[2]+'</span>' : '<span class="'+cls+'">'+s+'</span>';
 }
 function hsrProfile(){
   const A=HSR_ACCTS[hsrCur], P=A.profile;
