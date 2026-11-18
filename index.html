@@ -90,12 +90,9 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .gc-train:not(.naia) .gc-beam{background:linear-gradient(90deg,rgba(176,255,254,.6),rgba(176,255,254,0));}
 @keyframes gcCyan{0%,100%{filter:drop-shadow(0 0 3px rgba(176,255,254,.7)) drop-shadow(0 0 6px rgba(176,255,254,.4));}50%{filter:drop-shadow(0 0 6px rgba(176,255,254,1)) drop-shadow(0 0 14px rgba(176,255,254,.8));}}
 @media(prefers-reduced-motion:reduce){.gc-train:not(.naia) img{animation:none;}}
-.gc-train.alarm:not(.naia) img{animation:gcAlarm .85s ease-in-out infinite;filter:drop-shadow(0 0 4px rgba(255,40,60,.95)) drop-shadow(0 0 10px rgba(255,40,60,.7));}
-.gc-train.alarm:not(.naia) .gc-tail{background:linear-gradient(270deg,rgba(255,50,70,.9),rgba(255,50,70,0));animation:gcAlarmT .85s ease-in-out infinite;}
-.gc-train.alarm:not(.naia) .gc-beam{background:linear-gradient(90deg,rgba(255,90,100,.7),rgba(255,90,100,0));}
-@keyframes gcAlarm{0%,100%{filter:drop-shadow(0 0 2px rgba(255,40,60,.7)) drop-shadow(0 0 5px rgba(255,40,60,.45));}50%{filter:drop-shadow(0 0 5px rgba(255,50,70,1)) drop-shadow(0 0 14px rgba(255,30,50,.95)) drop-shadow(0 0 24px rgba(255,30,50,.6));}}
-@keyframes gcAlarmT{0%,100%{opacity:.35;}50%{opacity:1;}}
-@media(prefers-reduced-motion:reduce){.gc-train.alarm img,.gc-train.alarm .gc-tail{animation:none;}}
+.gc-train.alarm:not(.naia) img{animation:gcAlarm .9s ease-in-out infinite;}
+@keyframes gcAlarm{0%,100%{filter:drop-shadow(0 0 3px rgba(255,255,255,.95)) drop-shadow(0 0 8px rgba(255,235,235,.75));}50%{filter:drop-shadow(0 0 4px rgba(255,50,60,1)) drop-shadow(0 0 11px rgba(255,40,55,.95)) drop-shadow(0 0 20px rgba(255,30,50,.55));}}
+@media(prefers-reduced-motion:reduce){.gc-train.alarm img{animation:none;}}
 .gc-train.naia img{animation:gcPink 2.2s ease-in-out infinite;filter:drop-shadow(0 0 4px rgba(255,90,190,.9)) drop-shadow(0 0 9px rgba(255,90,190,.65));}
 .gc-train.naia .gc-tail{background:linear-gradient(270deg,rgba(255,110,200,.8),rgba(255,110,200,0));height:5px;margin-top:-2.5px;}
 .gc-train.naia .gc-beam{background:linear-gradient(90deg,rgba(255,200,235,.6),rgba(255,200,235,0));}
@@ -4349,7 +4346,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261118-032545';
+const APP_BUILD='20261118-032724';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
