@@ -129,6 +129,8 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .hsr-edge.l .arr{animation-name:hsrNudgeL;}
 .hsr-edge.alarm::before{animation:hsrEdgeAlarmGlow .5s steps(2,end) infinite;}
 .hsr-edge.alarm{width:44px;}
+.hsr-edge.alarm.l::before{background:linear-gradient(90deg,rgba(255,40,60,.75),transparent);box-shadow:inset 3px 0 12px -2px #ff2a45;}
+.hsr-edge.alarm.r::before{background:linear-gradient(270deg,rgba(255,40,60,.75),transparent);box-shadow:inset -3px 0 12px -2px #ff2a45;}
 @keyframes hsrEdgeAlarmGlow{0%{opacity:.35;filter:brightness(1);}100%{opacity:1;filter:brightness(1.6) saturate(1.3);}}
 .hsr-edge.alarm .arr{color:#ff3347;text-shadow:0 0 6px var(--ec),0 0 12px var(--ec),0 0 20px var(--ec);animation:hsrArrAlarm .38s linear infinite;}
 @keyframes hsrArrAlarm{0%,100%{transform:translate(0,0);color:#ff3347;}20%{transform:translate(-2px,1px);}40%{transform:translate(2px,-1px);color:#fff;}60%{transform:translate(-2px,-1px);color:#ff3347;}80%{transform:translate(2px,1px);}}
@@ -4391,7 +4393,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261118-042039';
+const APP_BUILD='20261118-042243';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
