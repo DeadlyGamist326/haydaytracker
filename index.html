@@ -127,6 +127,8 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .hsr-edge:hover{width:44px;}
 .hsr-edge .arr{font-size:26px;line-height:1;text-shadow:0 0 10px var(--ec);color:var(--ec);animation:hsrNudge 1.8s ease-in-out infinite;}
 .hsr-edge.l .arr{animation-name:hsrNudgeL;}
+.hsr-edge.alarm .arr{color:#ff3347;text-shadow:0 0 10px #ff1f3a,0 0 18px rgba(255,30,60,.8);animation:hsrArrAlarm .38s linear infinite;}
+@keyframes hsrArrAlarm{0%,100%{transform:translate(0,0);color:#ff3347;}20%{transform:translate(-2px,1px);}40%{transform:translate(2px,-1px);color:#fff;}60%{transform:translate(-2px,-1px);color:#ff3347;}80%{transform:translate(2px,1px);}}
 .hsr-edge .nm{writing-mode:vertical-rl;font-size:12px;font-weight:700;letter-spacing:2px;color:#fff;text-shadow:0 0 8px var(--ec);opacity:.85;}
 @keyframes hsrNudge{0%,100%{transform:translateX(0);}50%{transform:translateX(3px);}}
 @keyframes hsrNudgeL{0%,100%{transform:translateX(0);}50%{transform:translateX(-3px);}}
@@ -301,7 +303,7 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
   .hsr-row .th{width:84px;height:31px;} .hsr-rw{width:36px;height:36px;} .hsr-row .ti{font-size:13px;}
   .hsr-pg{grid-column:1/-1;}
 }
-@media(prefers-reduced-motion:reduce){.hsr-card{animation:none;}.hsr-edge::before,.hsr-edge .arr{animation:none;}}
+@media(prefers-reduced-motion:reduce){.hsr-edge.alarm .arr{animation:none;}.hsr-card{animation:none;}.hsr-edge::before,.hsr-edge .arr{animation:none;}}
 @keyframes gcTwinkle{0%,100%{opacity:.25;}50%{opacity:.7;}}
 @keyframes gcNebA{from{transform:translateX(-200px);}to{transform:translateX(100cqw);}}
 @keyframes gcNebB{from{transform:translateX(200px);}to{transform:translateX(calc(-100cqw));}}
@@ -4386,7 +4388,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261118-034226';
+const APP_BUILD='20261118-041716';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4425,12 +4427,15 @@ function hdHTML(a){
 
 /* train alarm: an account's train strobes red/white + shakes while its Daily Training is not fully claimed and <=12h remain before the 04:00 PH reset */
 function trainAlarms(){
-  const left=hdNextReset()-Date.now();
+  const left=hdNextReset()-Date.now(); let anyOpen=false;
   [['hsrTrain','lotus'],['hsrTrainN','naia']].forEach(([id,a])=>{
     const tr=document.getElementById(id); if(!tr) return;
     const c=hdClaimed(a), done=HD_PTS.every(n=>!n||c[n]);
     tr.classList.toggle('alarm',!done&&left<=12*36e5);
+    if(!done) anyOpen=true;
   });
+  // the side arrows of the Reward Progress menu alarm when either account still has Daily Training open (same 12h window)
+  ['hsrEdgeL','hsrEdgeR'].forEach(id=>{ const e=document.getElementById(id); if(e) e.classList.toggle('alarm',anyOpen&&left<=12*36e5); });
 }
 setInterval(trainAlarms,30000); setTimeout(trainAlarms,1500);
 
