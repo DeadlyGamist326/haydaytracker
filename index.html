@@ -123,6 +123,17 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 @media(max-width:620px){.hsr-scroll{padding-left:22px;padding-right:22px;}.hsr-edge{width:18px;}.hsr-edge .nm{display:none;}.hsr-edge:hover{width:18px;}}
 
 /* ===== Daily Training (sticky, interactive) ===== */
+
+/* ===== update notice (bottom-left) ===== */
+#updBox{position:fixed;left:max(14px,env(safe-area-inset-left,0px));bottom:max(14px,env(safe-area-inset-bottom,0px));z-index:3000;display:none;align-items:center;gap:10px;padding:9px 10px 9px 14px;border-radius:999px;background:rgba(18,24,52,.94);color:#fff;font:600 13px/1.2 system-ui,sans-serif;border:1px solid rgba(143,208,255,.55);box-shadow:0 6px 22px rgba(0,0,0,.45),0 0 14px rgba(111,160,255,.35);animation:updIn .35s ease-out;}
+#updBox.show{display:flex;}
+#updBox .dot{width:9px;height:9px;border-radius:50%;background:#4dd6ff;box-shadow:0 0 8px #4dd6ff;animation:updPulse 1.6s ease-in-out infinite;}
+#updBox button{font:inherit;cursor:pointer;color:#0b1020;background:#8fd0ff;border:0;border-radius:999px;padding:6px 13px;}
+#updBox button:hover{background:#b6e2ff;}
+#updBox .x{background:transparent;color:#cfe6ff;padding:4px 7px;}
+@keyframes updIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@keyframes updPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+@media(prefers-reduced-motion:reduce){#updBox,#updBox .dot{animation:none;}}
 .hd-slot{aspect-ratio:2576/724;margin:0 0 14px;}
 .hd-host{position:fixed;top:22px;z-index:4;pointer-events:none;}
 .hd-wrap{position:relative;pointer-events:none;container-type:inline-size;aspect-ratio:2576/724;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35));user-select:none;-webkit-user-select:none;}
@@ -888,6 +899,7 @@ td.upg-cap-warn .upg-max{color:#d62828;}
     <div style="overflow:auto;"><table class="upg-table" id="expTable"></table></div>
   </div>
 </div>
+<div id="updBox" role="status" aria-live="polite"><span class="dot"></span><span>New update available</span><button type="button" id="updGo">Refresh</button><button type="button" class="x" id="updX" aria-label="Dismiss">✕</button></div>
 <div class="hsr-modal" id="hsrModal" aria-hidden="true"><div class="hsr-edge l" id="hsrEdgeL" role="button" aria-label="Switch account"></div><div class="hsr-edge r" id="hsrEdgeR" role="button" aria-label="Switch account"></div><div class="hd-host" id="hdHost"></div><div class="hsr-scroll" id="hsrScroll"><div class="hsr-lay" id="hsrLay"><div class="hsr-profslot" id="hsrProfSlot"><aside class="hsr-prof" id="hsrProf"></aside></div><div class="hsr-col" id="hsrCol"></div></div></div></div>
 <div class="gc-name-modal" id="x2Modal">
   <div class="gc-name-card x2-card">
@@ -4329,6 +4341,25 @@ function hsrProfile(){
     '<div class="hp-t act">Trailblaze Activity</div><ul class="hp-act">'+P.activity.map(a=>'<li><span class="hp-ago">'+hsrAgo(a.d)+'</span> <b class="hp-d">'+hsrDay(a.d)+'</b> '+hsrAct(a.t)+'</li>').join('')+'</ul></div>';
 }
 
+
+/* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
+const APP_BUILD='20261118-031850';
+(function(){
+  let shown=false, dismissed='', latest='';
+  function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
+  async function check(){
+    if(location.protocol==='file:') return;
+    try{
+      const r=await fetch(location.pathname+'?_u='+Date.now(),{cache:'no-store'}); if(!r.ok) return;
+      const m=(await r.text()).match(/const APP_BUILD='20261118-031850']+)'/);
+      if(m&&m[1]!==APP_BUILD){ latest=m[1]; show(m[1]); }
+    }catch(e){}
+  }
+  document.getElementById('updGo').addEventListener('click',()=>{ location.href=location.pathname+'?v='+Date.now()+location.hash; });
+  document.getElementById('updX').addEventListener('click',()=>{ document.getElementById('updBox').classList.remove('show'); shown=false; dismissed=latest; });
+  setTimeout(check,8000); setInterval(check,60000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) check(); });
+})();
 /* ---------- Daily Training: claim gifts, resets 04:00 PH ---------- */
 const HD_PTS=[0,100,200,300,400,500], HD_X=[461,790,1162,1537,1916,2307];
 let hdState={};
