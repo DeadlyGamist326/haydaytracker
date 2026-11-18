@@ -175,8 +175,40 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .hd-or{left:92.4%;top:37.3%;width:7.6%;}
 @media(prefers-reduced-motion:reduce){.hd-gift.rdy,.hd-gift.got:hover{filter:brightness(1.06);}
 .hd-gift.pop{animation:none;}}
-.hsr-lay{max-width:1250px;margin:0 auto;display:flex;gap:14px;align-items:flex-start;}
+.hsr-lay{max-width:1500px;margin:0 auto;display:flex;gap:14px;align-items:flex-start;}
 .hsr-col{flex:1;min-width:0;max-width:880px;display:flex;flex-direction:column;gap:10px;}
+
+/* ===== Daily Training calendar (right floater) ===== */
+.hsr-calslot{flex:0 0 236px;width:236px;}
+.hsr-cal{position:fixed;top:22px;width:236px;z-index:4;border-radius:14px;overflow:hidden;background:rgba(26,30,60,.97);border:2px solid color-mix(in srgb,var(--ec,#b0fffe) 65%,transparent);box-shadow:0 12px 30px rgba(0,0,0,.45),0 0 16px color-mix(in srgb,var(--ec,#b0fffe) 30%,transparent);color:#eef2ff;font-family:system-ui,sans-serif;user-select:none;-webkit-user-select:none;animation:hsrIn .35s ease both;}
+.hc-h{display:flex;align-items:center;gap:6px;padding:9px 10px 7px;background:linear-gradient(90deg,color-mix(in srgb,var(--ec,#b0fffe) 28%,transparent),transparent);}
+.hc-t{flex:1;min-width:0;font-weight:800;font-size:13px;letter-spacing:.2px;line-height:1.15;}
+.hc-t small{display:block;font-weight:600;font-size:10.5px;color:#aab4d8;letter-spacing:.3px;}
+.hc-nav{width:24px;height:24px;border-radius:7px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);color:#fff;font:700 14px/1 system-ui;cursor:pointer;padding:0;}
+.hc-nav:disabled{opacity:.3;cursor:default;}
+.hc-nav:not(:disabled):hover{background:rgba(255,255,255,.18);}
+.hc-g{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;padding:2px 10px 8px;}
+.hc-w{text-align:center;font-size:9.5px;font-weight:700;color:#8e99c2;padding:2px 0;}
+.hc-d{position:relative;aspect-ratio:1;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;color:#cdd5f2;border:1px solid transparent;padding:0;background:rgba(255,255,255,.04);font-family:inherit;}
+.hc-d.e{visibility:hidden;}
+.hc-d.fut{color:#6f7aa3;background:transparent;}
+.hc-d.done{background:rgba(70,200,120,.22);color:#b9f5cf;border-color:rgba(90,220,140,.35);}
+.hc-d.lock{background:rgba(70,200,120,.12);color:#8fcfa8;border-color:transparent;}
+.hc-d.miss{background:rgba(255,60,80,.28);color:#ffd0d6;border-color:rgba(255,90,110,.7);}
+.hc-d.can{cursor:pointer;}
+.hc-d.can:hover{filter:brightness(1.25);outline:1px solid rgba(255,255,255,.5);}
+.hc-d.today{outline:2px solid var(--ec,#b0fffe);outline-offset:1px;}
+.hc-d.today:not(.done){background:rgba(255,200,70,.2);color:#ffe9a8;}
+.hc-d.done::after{content:'✓';position:absolute;right:2px;bottom:-1px;font-size:8px;color:#7ff0aa;}
+.hc-d.miss::after{content:'✕';position:absolute;right:2px;bottom:-1px;font-size:8px;color:#ff8a9a;}
+.hc-f{padding:7px 10px 10px;border-top:1px solid rgba(255,255,255,.12);font-size:11px;color:#c3cbea;display:flex;flex-direction:column;gap:5px;}
+.hc-f b{color:#fff;}
+.hc-f .bad b{color:#ff8a9a;}
+.hc-lg{display:flex;flex-wrap:wrap;gap:3px 9px;font-size:9.5px;color:#9aa5cc;}
+.hc-lg i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:3px;vertical-align:-1px;}
+#hcBtn{display:none;position:fixed;right:max(14px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:5;width:44px;height:44px;border-radius:50%;border:2px solid var(--ec,#b0fffe);background:rgba(26,30,60,.96);color:#fff;font-size:20px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.45);padding:0;}
+@media(max-width:1179px){.hsr-calslot{display:none;}#hcBtn{display:block;}.hsr-cal{display:none;}.hsr-cal.open{display:block;right:12px;}}
+@media(prefers-reduced-motion:reduce){.hsr-cal{animation:none;}}
 .hsr-profslot{flex:0 0 330px;width:330px;}
 .hsr-prof{position:fixed;top:22px;left:12px;width:330px;max-height:calc(100vh - 44px);display:flex;flex-direction:column;border-radius:14px;overflow:hidden;background:rgba(78,73,68,.985);border:2px solid rgba(214,184,132,.6);box-shadow:0 12px 30px rgba(0,0,0,.45);color:#f3efe8;animation:hsrIn .35s ease both;}
 .hp-banner{position:relative;flex:0 0 auto;aspect-ratio:400/192;background:#c9a7f2 url('https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/hsr/hp-banner.webp') center/cover no-repeat;image-rendering:pixelated;}
@@ -910,7 +942,7 @@ td.upg-cap-warn .upg-max{color:#d62828;}
     <div style="overflow:auto;"><table class="upg-table" id="expTable"></table></div>
   </div>
 </div>
-<div class="hsr-modal" id="hsrModal" aria-hidden="true"><div class="hsr-edge l" id="hsrEdgeL" role="button" aria-label="Switch account"></div><div class="hsr-edge r" id="hsrEdgeR" role="button" aria-label="Switch account"></div><div class="hd-host" id="hdHost"></div><div class="hsr-scroll" id="hsrScroll"><div class="hsr-lay" id="hsrLay"><div class="hsr-profslot" id="hsrProfSlot"><aside class="hsr-prof" id="hsrProf"></aside></div><div class="hsr-col" id="hsrCol"></div></div></div></div>
+<div class="hsr-modal" id="hsrModal" aria-hidden="true"><div class="hsr-edge l" id="hsrEdgeL" role="button" aria-label="Switch account"></div><div class="hsr-edge r" id="hsrEdgeR" role="button" aria-label="Switch account"></div><div class="hd-host" id="hdHost"></div><aside class="hsr-cal" id="hsrCal" aria-label="Daily Training calendar"></aside><button type="button" id="hcBtn" aria-label="Daily Training calendar" title="Daily Training calendar">📅</button><div class="hsr-scroll" id="hsrScroll"><div class="hsr-lay" id="hsrLay"><div class="hsr-profslot" id="hsrProfSlot"><aside class="hsr-prof" id="hsrProf"></aside></div><div class="hsr-col" id="hsrCol"></div><div class="hsr-calslot" id="hsrCalSlot"></div></div></div></div>
 <div class="gc-name-modal" id="x2Modal">
   <div class="gc-name-card x2-card">
     <div class="x2-head">
@@ -4354,7 +4386,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261118-033738';
+const APP_BUILD='20261118-034226';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4401,20 +4433,66 @@ function trainAlarms(){
   });
 }
 setInterval(trainAlarms,30000); setTimeout(trainAlarms,1500);
+
+/* ---------- Daily Training calendar: Nov 2026 - Jan 2027, days before Nov 18 count as done ---------- */
+const HC_START='2026-11-18', HC_MAX=2;
+let hcMonth=0, hcOpen=false;
+const HC_MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function hcDone(a,key){
+  if(key<HC_START) return true;
+  const e=hdState[a]||{}; if(e.done&&e.done[key]) return true;
+  if(key===hdDay()){ const c=hdClaimed(a); return HD_PTS.every(n=>!n||c[n]); }
+  return false;
+}
+function hcHTML(a){
+  const idx=10+hcMonth, y=2026+Math.floor(idx/12), mo=idx%12, first=new Date(Date.UTC(y,mo,1)).getUTCDay(), dim=new Date(Date.UTC(y,mo+1,0)).getUTCDate(), today=hdDay();
+  let o='<div class="hc-h"><button type="button" class="hc-nav" data-hc="-1" aria-label="Previous month"'+(hcMonth<=0?' disabled':'')+'>‹</button><div class="hc-t">'+HC_MN[mo]+' '+y+'<small>Daily Training log · '+HSR_ACCTS[a].label+'</small></div><button type="button" class="hc-nav" data-hc="1" aria-label="Next month"'+(hcMonth>=HC_MAX?' disabled':'')+'>›</button></div><div class="hc-g">';
+  ['S','M','T','W','T','F','S'].forEach(w=>o+='<div class="hc-w">'+w+'</div>');
+  for(let i=0;i<first;i++) o+='<div class="hc-d e"></div>';
+  for(let d=1;d<=dim;d++){
+    const key=y+'-'+String(mo+1).padStart(2,'0')+'-'+String(d).padStart(2,'0'), isT=key===today, done=hcDone(a,key);
+    let cls='hc-d';
+    if(key>today) cls+=' fut'; else if(key<HC_START) cls+=' lock done'; else if(done) cls+=' done'; else if(!isT) cls+=' miss';
+    if(isT) cls+=' today';
+    const can=key>=HC_START&&key<today;
+    o+='<'+(can?'button type="button" data-day="'+key+'"':'div')+' class="'+cls+(can?' can':'')+'"'+(can?' title="'+(done?'Mark as skipped':'Mark as done')+'"':'')+'>'+d+'</'+(can?'button':'div')+'>';
+  }
+  o+='</div>';
+  let miss=0,total=0; for(let t=Date.UTC(2026,10,18);;t+=864e5){ const k=new Date(t).toISOString().slice(0,10); if(k>=today) break; total++; if(!hcDone(a,k)) miss++; }
+  o+='<div class="hc-f"><div class="'+(miss?'bad':'')+'">Skipped days: <b>'+miss+'</b>'+(total?' <span style="color:#8e99c2">of '+total+' since Nov 18</span>':'')+'</div><div class="hc-lg"><span><i style="background:rgba(70,200,120,.7)"></i>Done</span><span><i style="background:rgba(255,60,80,.8)"></i>Skipped</span><span><i style="background:rgba(255,200,70,.7)"></i>Today</span></div></div>';
+  return o;
+}
+function hcRender(){ const c=document.getElementById('hsrCal'); if(!c) return; c.style.setProperty('--ec',HSR_EC[hsrCur]); document.getElementById('hcBtn').style.setProperty('--ec',HSR_EC[hsrCur]); c.innerHTML=hcHTML(hsrCur); }
+function hcPlace(){
+  const c=document.getElementById('hsrCal'), sl=document.getElementById('hsrCalSlot'); if(!c||!sl) return;
+  if(window.innerWidth>=1180){ const r=sl.getBoundingClientRect(); c.style.left=r.left+'px'; c.style.right='auto'; c.style.width=r.width+'px'; }
+  else { c.style.left='auto'; c.style.right='12px'; c.style.width='236px'; }
+}
+document.addEventListener('click',e=>{
+  const nav=e.target.closest&&e.target.closest('.hc-nav'), dy=e.target.closest&&e.target.closest('.hc-d.can'), bt=e.target.closest&&e.target.closest('#hcBtn');
+  if(nav&&!nav.disabled){ hcMonth=Math.max(0,Math.min(HC_MAX,hcMonth+ +nav.dataset.hc)); hcRender(); }
+  else if(dy){ const k=dy.dataset.day, prev=hdState[hsrCur]||{}, dn=Object.assign({},prev.done||{}); if(hcDone(hsrCur,k)) delete dn[k]; else dn[k]=1;
+    hdState[hsrCur]=Object.assign({},prev,{day:prev.day||hdDay(),c:prev.c||{},done:dn});
+    try{ localStorage.setItem('hd-daily',JSON.stringify(hdState)); }catch(err){}
+    try{ db.ref('hsrDaily/'+hsrCur).set(hdState[hsrCur]); }catch(err){}
+    hcRender(); }
+  else if(bt){ hcOpen=!hcOpen; document.getElementById('hsrCal').classList.toggle('open',hcOpen); }
+});
 function hdRender(){ const h=document.getElementById('hdHost'); if(h) h.innerHTML=hdHTML(hsrCur); }
 function hdClaim(pt){   // all rewards are claimed together; tapping a check clears them all again
   const all=!hdClaimed(hsrCur)[pt], c={}; if(all) HD_PTS.forEach(n=>{ if(n) c[n]=1; });
-  hdState[hsrCur]={day:hdDay(),c:c};
+  const prev=hdState[hsrCur]||{}, dn=Object.assign({},prev.done||{}), dk=hdDay(); if(all) dn[dk]=1; else delete dn[dk];
+  hdState[hsrCur]={day:dk,c:c,done:dn};
   try{ localStorage.setItem('hd-daily',JSON.stringify(hdState)); }catch(e){}
   try{ db.ref('hsrDaily/'+hsrCur).set(hdState[hsrCur]); }catch(e){}
-  trainAlarms(); hdRender(); if(all) document.querySelectorAll('.hd-gift').forEach(b=>b.classList.add('pop'));
+  trainAlarms(); hcRender(); hdRender(); if(all) document.querySelectorAll('.hd-gift').forEach(b=>b.classList.add('pop'));
 }
 document.addEventListener('click',e=>{ const b=e.target.closest&&e.target.closest('.hd-gift'); if(b){ e.preventDefault(); hdClaim(+b.dataset.pt); } });
-try{ db.ref('hsrDaily').on('value',sn=>{ const v=sn.val(); if(v){ hdState=v; try{localStorage.setItem('hd-daily',JSON.stringify(v));}catch(e){} } trainAlarms(); if(document.getElementById('hsrModal').classList.contains('hsr-show')) hdRender(); }); }catch(e){}
+try{ db.ref('hsrDaily').on('value',sn=>{ const v=sn.val(); if(v){ hdState=v; try{localStorage.setItem('hd-daily',JSON.stringify(v));}catch(e){} } trainAlarms(); if(document.getElementById('hsrModal').classList.contains('hsr-show')){ hdRender(); hcRender(); } }); }catch(e){}
 function hdTick(){ const w=document.getElementById('hdWrap'); if(!w) return; const l=document.getElementById('hdLeft'); if(l) l.textContent=hdLeft(); const day=hdDay(); if(w.dataset.day!==undefined&&w.dataset.day!==day) hdRender(); }
 function hsrBuild(){
   hsrProfile();
-  const D=HSR_ACCTS[hsrCur].data; let o='<div class="hd-slot"></div>'; document.getElementById('hdHost').innerHTML=hdHTML(hsrCur);
+  const D=HSR_ACCTS[hsrCur].data; let o='<div class="hd-slot"></div>'; document.getElementById('hdHost').innerHTML=hdHTML(hsrCur); hcRender();
   o+='<div class="hsr-card"><div class="hsr-sec or" style="border-radius:0;box-shadow:none;margin:0;">This Period’s Reward Progress</div><div class="hsr-sum">'+
     D.summary.map(s=>'<div><img src="'+HSR_IMG+s.ic+'.webp" alt="" draggable="false"><div class="bx"><div class="tp"><span class="nm">'+hsrEsc(s.name)+'</span><span class="hsr-big">'+s.cur+'<small>/'+s.max+'</small></span></div>'+hsrBar(s.cur,s.max)+'</div></div>').join('')+'</div></div>';
   o+='<div class="hsr-sec bl">In Progress</div>'+D.progress.map(e=>hsrRow(e,'progress')).join('');
@@ -4423,7 +4501,7 @@ function hsrBuild(){
   document.getElementById('hsrCol').innerHTML=o; hsrTick();
 }
 function hsrPlace(){
-  hdPlace();
+  hdPlace(); hcPlace();
   const p=document.getElementById('hsrProf'), s=document.getElementById('hsrProfSlot'); if(!p||!s) return;
   if(window.innerWidth<=940){ p.style.left=''; p.style.width=''; return; }
   const r=s.getBoundingClientRect(); p.style.left=r.left+'px'; p.style.width=r.width+'px';
@@ -4450,12 +4528,13 @@ let hsrBusy=false;
 function hsrSwitch(dir){   // dir=+1: new account slides in from the right, -1: from the left
   if(hsrBusy||!document.getElementById('hsrModal').classList.contains('hsr-show')) return;
   hsrBusy=true; const col=document.getElementById('hsrCol'), prof=document.getElementById('hsrProf');
-  const out=[col,prof,document.getElementById('hdHost')].map(e=>e.animate([{transform:'none',opacity:1},{transform:'translateX('+(-dir*70)+'px)',opacity:0}],{duration:170,easing:'ease-in',fill:'forwards'}));
+  const out=[col,prof,document.getElementById('hdHost'),document.getElementById('hsrCal')].map(e=>e.animate([{transform:'none',opacity:1},{transform:'translateX('+(-dir*70)+'px)',opacity:0}],{duration:170,easing:'ease-in',fill:'forwards'}));
   out[0].finished.then(()=>{
     hsrCur=HSR_ORDER[(HSR_ORDER.indexOf(hsrCur)+(dir>0?1:HSR_ORDER.length-1))%HSR_ORDER.length];
     document.getElementById('hsrModal').dataset.acct=hsrCur; hsrBuild(); hsrPlace(); hsrEdges(); document.getElementById('hsrScroll').scrollTop=0;
     out.forEach(a=>a.cancel());
-    const inn=[document.getElementById('hsrCol'),document.getElementById('hsrProf'),document.getElementById('hdHost')].map(e=>e.animate([{transform:'translateX('+(dir*70)+'px)',opacity:0},{transform:'none',opacity:1}],{duration:230,easing:'ease-out'}));
+    hsrPlace();   // measure again now that the old slide-out transform is gone (the slot lives inside the translated column)
+    const inn=[document.getElementById('hsrCol'),document.getElementById('hsrProf'),document.getElementById('hdHost'),document.getElementById('hsrCal')].map(e=>e.animate([{transform:'translateX('+(dir*70)+'px)',opacity:0},{transform:'none',opacity:1}],{duration:230,easing:'ease-out'}));
     inn[0].finished.then(()=>{hsrBusy=false;}).catch(()=>{hsrBusy=false;});
   }).catch(()=>{hsrBusy=false;});
 }
