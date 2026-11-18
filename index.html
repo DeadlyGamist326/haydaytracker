@@ -127,7 +127,7 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .hsr-edge:hover{width:44px;}
 .hsr-edge .arr{font-size:26px;line-height:1;text-shadow:0 0 10px var(--ec);color:var(--ec);animation:hsrNudge 1.8s ease-in-out infinite;}
 .hsr-edge.l .arr{animation-name:hsrNudgeL;}
-.hsr-edge.alarm .arr{color:#ff3347;text-shadow:0 0 10px #ff1f3a,0 0 18px rgba(255,30,60,.8);animation:hsrArrAlarm .38s linear infinite;}
+.hsr-edge.alarm .arr{color:#ff3347;text-shadow:0 0 6px var(--ec),0 0 12px var(--ec),0 0 20px var(--ec);animation:hsrArrAlarm .38s linear infinite;}
 @keyframes hsrArrAlarm{0%,100%{transform:translate(0,0);color:#ff3347;}20%{transform:translate(-2px,1px);}40%{transform:translate(2px,-1px);color:#fff;}60%{transform:translate(-2px,-1px);color:#ff3347;}80%{transform:translate(2px,1px);}}
 .hsr-edge .nm{writing-mode:vertical-rl;font-size:12px;font-weight:700;letter-spacing:2px;color:#fff;text-shadow:0 0 8px var(--ec);opacity:.85;}
 @keyframes hsrNudge{0%,100%{transform:translateX(0);}50%{transform:translateX(3px);}}
@@ -4388,7 +4388,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261118-041729';
+const APP_BUILD='20261118-041929';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
