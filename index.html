@@ -135,13 +135,14 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 /* ===== Daily Training (sticky, interactive) ===== */
 
 /* ===== update notice (bottom-left) ===== */
-#updBox{position:fixed;left:max(14px,env(safe-area-inset-left,0px));bottom:max(14px,env(safe-area-inset-bottom,0px));z-index:3000;display:none;align-items:center;gap:10px;padding:9px 10px 9px 14px;border-radius:999px;background:rgba(18,24,52,.94);color:#fff;font:600 13px/1.2 system-ui,sans-serif;border:1px solid rgba(143,208,255,.55);box-shadow:0 6px 22px rgba(0,0,0,.45),0 0 14px rgba(111,160,255,.35);animation:updIn .35s ease-out;}
-#updBox.show{display:flex;}
-#updBox .dot{width:9px;height:9px;border-radius:50%;background:#4dd6ff;box-shadow:0 0 8px #4dd6ff;animation:updPulse 1.6s ease-in-out infinite;}
-#updBox button{font:inherit;cursor:pointer;color:#0b1020;background:#8fd0ff;border:0;border-radius:999px;padding:6px 13px;}
+#updBox{display:none;flex-shrink:0;align-items:center;gap:7px;padding:2px 3px 2px 10px;border-radius:999px;background:#12183a;color:#fff;font:700 11px/1.2 system-ui,sans-serif;border:1px solid rgba(143,208,255,.6);box-shadow:0 0 10px rgba(111,160,255,.4);white-space:nowrap;animation:updIn .35s ease-out;}
+#updBox.show{display:inline-flex;}
+#updBox .dot{width:8px;height:8px;border-radius:50%;background:#4dd6ff;box-shadow:0 0 7px #4dd6ff;animation:updPulse 1.6s ease-in-out infinite;}
+#updBox button{font:inherit;cursor:pointer;color:#0b1020;background:#8fd0ff;border:0;border-radius:999px;padding:4px 10px;}
 #updBox button:hover{background:#b6e2ff;}
-#updBox .x{background:transparent;color:#cfe6ff;padding:4px 7px;}
-@keyframes updIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+#updBox .x{background:transparent;color:#cfe6ff;padding:3px 6px;}
+@media(max-width:560px){#updBox .t{display:none;}#updBox{padding-left:8px;}}
+@keyframes updIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:none;}}
 @keyframes updPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
 @media(prefers-reduced-motion:reduce){#updBox,#updBox .dot{animation:none;}}
 .hd-slot{aspect-ratio:2576/724;margin:0 0 14px;}
@@ -909,7 +910,6 @@ td.upg-cap-warn .upg-max{color:#d62828;}
     <div style="overflow:auto;"><table class="upg-table" id="expTable"></table></div>
   </div>
 </div>
-<div id="updBox" role="status" aria-live="polite"><span class="dot"></span><span>New update available</span><button type="button" id="updGo">Refresh</button><button type="button" class="x" id="updX" aria-label="Dismiss">✕</button></div>
 <div class="hsr-modal" id="hsrModal" aria-hidden="true"><div class="hsr-edge l" id="hsrEdgeL" role="button" aria-label="Switch account"></div><div class="hsr-edge r" id="hsrEdgeR" role="button" aria-label="Switch account"></div><div class="hd-host" id="hdHost"></div><div class="hsr-scroll" id="hsrScroll"><div class="hsr-lay" id="hsrLay"><div class="hsr-profslot" id="hsrProfSlot"><aside class="hsr-prof" id="hsrProf"></aside></div><div class="hsr-col" id="hsrCol"></div></div></div></div>
 <div class="gc-name-modal" id="x2Modal">
   <div class="gc-name-card x2-card">
@@ -956,6 +956,7 @@ td.upg-cap-warn .upg-max{color:#d62828;}
   <div class="games-panel-head">
     <div class="games-title"><img src="https://store.supercell.com/public/logo-RHOJMJ47.png" alt="Hay Day logo"> Hayday Tracker</div>
     <div id="liveClock" title="Philippines time (server-synced) — same time every reset check uses" style="font-size:12px;font-weight:700;color:var(--ink);padding:4px 10px;border:1px solid var(--line);border-radius:20px;background:var(--paper);flex-shrink:0;white-space:nowrap;">--:--:-- --</div>
+    <div id="updBox" role="status" aria-live="polite"><span class="dot"></span><span class="t">Update available</span><button type="button" id="updGo">Refresh</button><button type="button" class="x" id="updX" aria-label="Dismiss">✕</button></div>
     <div class="gc-header-btn-scroll" style="display:flex;gap:6px;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;min-width:0;flex:1;justify-content:flex-end;">
       <button class="icon-btn" id="darkModeToggle" title="Toggle dark mode">☀️ Light Mode</button>
       <div id="syncBadge" title="I-click para palitan ang pangalan mo" style="cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-soft);padding:4px 8px;border:1px solid var(--line);border-radius:20px;background:var(--paper);flex-shrink:0;">
@@ -4353,7 +4354,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261118-033506';
+const APP_BUILD='20261118-033703';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
