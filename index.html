@@ -96,6 +96,10 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 100%{filter:brightness(1.2) sepia(1) saturate(12) hue-rotate(-58deg) drop-shadow(0 0 4px rgba(176,255,254,.95)) drop-shadow(0 0 10px rgba(176,255,254,.65));}}
 @keyframes gcAlarmShake{0%,100%{transform:translate(0,0);}20%{transform:translate(-1px,.4px);}40%{transform:translate(1px,-.4px);}60%{transform:translate(-1px,-.3px);}80%{transform:translate(1px,.3px);}}
 @media(prefers-reduced-motion:reduce){.gc-train.alarm img{animation:none;}}
+.gc-train.alarm.naia img{animation:gcAlarmTintN .5s steps(2,end) infinite,gcAlarmShake .38s linear infinite;}
+@keyframes gcAlarmTintN{
+0%{filter:brightness(2.1) sepia(0) saturate(1) hue-rotate(0deg) drop-shadow(0 0 4px rgba(255,90,190,.95)) drop-shadow(0 0 10px rgba(255,90,190,.7));}
+100%{filter:brightness(1.2) sepia(1) saturate(12) hue-rotate(-58deg) drop-shadow(0 0 4px rgba(255,90,190,.95)) drop-shadow(0 0 10px rgba(255,90,190,.7));}}
 .gc-train.naia img{animation:gcPink 2.2s ease-in-out infinite;filter:drop-shadow(0 0 4px rgba(255,90,190,.9)) drop-shadow(0 0 9px rgba(255,90,190,.65));}
 .gc-train.naia .gc-tail{background:linear-gradient(270deg,rgba(255,110,200,.8),rgba(255,110,200,0));height:5px;margin-top:-2.5px;}
 .gc-train.naia .gc-beam{background:linear-gradient(90deg,rgba(255,200,235,.6),rgba(255,200,235,0));}
@@ -981,7 +985,7 @@ td.upg-cap-warn .upg-max{color:#d62828;}
       <i class="gc-stars"></i><i class="gc-stars s2"></i>
     </div>
     <div class="gc-lane">
-      <div class="gc-train alarm" id="hsrTrain" role="button" tabindex="0" title="Lotus · Reward Progress"><span class="gc-tail"></span><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/AstralExpress.png" alt="Astral Express" draggable="false"><span class="gc-beam"></span></div>
+      <div class="gc-train" id="hsrTrain" role="button" tabindex="0" title="Lotus · Reward Progress"><span class="gc-tail"></span><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/AstralExpress.png" alt="Astral Express" draggable="false"><span class="gc-beam"></span></div>
       <div class="gc-train naia" id="hsrTrainN" role="button" tabindex="0" title="Naia · Reward Progress"><span class="gc-tail"></span><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/AstralExpressPink.png" alt="Pink Astral Express" draggable="false"><span class="gc-beam"></span></div>
     </div>
     <div id="presenceBar" style="position:relative;z-index:1;display:flex;align-items:center;gap:6px;padding:5px 16px;font-size:11px;color:#b8c4f0;overflow-x:auto;white-space:nowrap;"></div>
@@ -4349,7 +4353,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261118-033159';
+const APP_BUILD='20261118-033449';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4385,16 +4389,27 @@ function hdHTML(a){
   o+='<div class="hd-ref"><svg viewBox="0 0 24 24" fill="none" stroke="#262525" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6.5l4 2"/></svg><span>Refreshes in <b id="hdLeft">'+hdLeft()+'</b></span></div></div>';
   return o;
 }
+
+/* train alarm: an account's train strobes red/white + shakes while its Daily Training is not fully claimed and <=12h remain before the 04:00 PH reset */
+function trainAlarms(){
+  const left=hdNextReset()-Date.now();
+  [['hsrTrain','lotus'],['hsrTrainN','naia']].forEach(([id,a])=>{
+    const tr=document.getElementById(id); if(!tr) return;
+    const c=hdClaimed(a), done=HD_PTS.every(n=>!n||c[n]);
+    tr.classList.toggle('alarm',!done&&left<=12*36e5);
+  });
+}
+setInterval(trainAlarms,30000); setTimeout(trainAlarms,1500);
 function hdRender(){ const h=document.getElementById('hdHost'); if(h) h.innerHTML=hdHTML(hsrCur); }
 function hdClaim(pt){   // all rewards are claimed together; tapping a check clears them all again
   const all=!hdClaimed(hsrCur)[pt], c={}; if(all) HD_PTS.forEach(n=>{ if(n) c[n]=1; });
   hdState[hsrCur]={day:hdDay(),c:c};
   try{ localStorage.setItem('hd-daily',JSON.stringify(hdState)); }catch(e){}
   try{ db.ref('hsrDaily/'+hsrCur).set(hdState[hsrCur]); }catch(e){}
-  hdRender(); if(all) document.querySelectorAll('.hd-gift').forEach(b=>b.classList.add('pop'));
+  trainAlarms(); hdRender(); if(all) document.querySelectorAll('.hd-gift').forEach(b=>b.classList.add('pop'));
 }
 document.addEventListener('click',e=>{ const b=e.target.closest&&e.target.closest('.hd-gift'); if(b){ e.preventDefault(); hdClaim(+b.dataset.pt); } });
-try{ db.ref('hsrDaily').on('value',sn=>{ const v=sn.val(); if(v){ hdState=v; try{localStorage.setItem('hd-daily',JSON.stringify(v));}catch(e){} } if(document.getElementById('hsrModal').classList.contains('hsr-show')) hdRender(); }); }catch(e){}
+try{ db.ref('hsrDaily').on('value',sn=>{ const v=sn.val(); if(v){ hdState=v; try{localStorage.setItem('hd-daily',JSON.stringify(v));}catch(e){} } trainAlarms(); if(document.getElementById('hsrModal').classList.contains('hsr-show')) hdRender(); }); }catch(e){}
 function hdTick(){ const w=document.getElementById('hdWrap'); if(!w) return; const l=document.getElementById('hdLeft'); if(l) l.textContent=hdLeft(); const day=hdDay(); if(w.dataset.day!==undefined&&w.dataset.day!==day) hdRender(); }
 function hsrBuild(){
   hsrProfile();
