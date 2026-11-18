@@ -4388,7 +4388,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261118-041716';
+const APP_BUILD='20261118-041729';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4426,16 +4426,17 @@ function hdHTML(a){
 }
 
 /* train alarm: an account's train strobes red/white + shakes while its Daily Training is not fully claimed and <=12h remain before the 04:00 PH reset */
+const TRAIN_ALARM_TEST=true;   // TEMP test switch: forces train + arrow alarms on; remove when approved
 function trainAlarms(){
   const left=hdNextReset()-Date.now(); let anyOpen=false;
   [['hsrTrain','lotus'],['hsrTrainN','naia']].forEach(([id,a])=>{
     const tr=document.getElementById(id); if(!tr) return;
     const c=hdClaimed(a), done=HD_PTS.every(n=>!n||c[n]);
-    tr.classList.toggle('alarm',!done&&left<=12*36e5);
+    tr.classList.toggle('alarm',TRAIN_ALARM_TEST||(!done&&left<=12*36e5));
     if(!done) anyOpen=true;
   });
   // the side arrows of the Reward Progress menu alarm when either account still has Daily Training open (same 12h window)
-  ['hsrEdgeL','hsrEdgeR'].forEach(id=>{ const e=document.getElementById(id); if(e) e.classList.toggle('alarm',anyOpen&&left<=12*36e5); });
+  ['hsrEdgeL','hsrEdgeR'].forEach(id=>{ const e=document.getElementById(id); if(e) e.classList.toggle('alarm',TRAIN_ALARM_TEST||(anyOpen&&left<=12*36e5)); });
 }
 setInterval(trainAlarms,30000); setTimeout(trainAlarms,1500);
 
