@@ -4343,7 +4343,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261118-031850';
+const APP_BUILD='20261118-032317';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4351,7 +4351,7 @@ const APP_BUILD='20261118-031850';
     if(location.protocol==='file:') return;
     try{
       const r=await fetch(location.pathname+'?_u='+Date.now(),{cache:'no-store'}); if(!r.ok) return;
-      const m=(await r.text()).match(/const APP_BUILD='20261118-031850']+)'/);
+      const m=(await r.text()).match(/APP_BUILD\s*=\s*'(\d{8}-\d{6})'/);
       if(m&&m[1]!==APP_BUILD){ latest=m[1]; show(m[1]); }
     }catch(e){}
   }
