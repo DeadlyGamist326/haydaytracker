@@ -128,6 +128,7 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .hd-wrap{position:relative;pointer-events:none;container-type:inline-size;aspect-ratio:2576/724;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35));user-select:none;-webkit-user-select:none;}
 .hd-wrap>*{position:absolute;}
 .hd-wrap img{display:block;pointer-events:none;-webkit-user-drag:none;}
+.hd-card{left:0;top:0;width:100%;}
 .hd-back{left:3.1%;width:91.8%;top:0;bottom:.8%;background:#1b1b1d;border-radius:2.4cqw;}
 .hd-inner{left:4.08%;width:90.05%;top:40.3%;bottom:2.1%;background:#dedcdd;border-radius:0 0 1.2cqw 1.2cqw;}
 .hd-panel{left:14.56%;width:78%;top:42.8%;height:29%;background:#e8e6e7;border-radius:0 3cqw 3cqw 0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);}
@@ -4337,20 +4338,16 @@ function hdNextReset(t){ t=t||Date.now(); return (Math.floor((t+4*36e5)/864e5)+1
 function hdClaimed(a){ const e=hdState[a]; return (e&&e.day===hdDay()&&e.c)?e.c:{}; }
 function hdLeft(){ const m=Math.max(0,Math.floor((hdNextReset()-Date.now())/6e4)), h=Math.floor(m/60); return m<1?'<1m':(h?h+'h ':'')+(m%60)+'m'; }
 function hdHTML(a){
-  const c=hdClaimed(a), I=HSR_IMG+'dt-';
-  let o='<div class="hd-wrap" id="hdWrap" data-day="'+hdDay()+'"><div class="hd-back"></div><div class="hd-inner"></div><div class="hd-panel"></div>'+
-    '<img class="hd-flame" src="'+I+'flame.webp?v=2" alt="" draggable="false"><img class="hd-top" src="'+I+'top.webp?v=2" alt="" draggable="false"><div class="hd-line"></div>';
+  const c=hdClaimed(a), I=HSR_IMG+'dt-', V='.webp?v=3';
+  let o='<div class="hd-wrap" id="hdWrap" data-day="'+hdDay()+'"><img class="hd-card" src="'+I+'card'+V+'" alt="" draggable="false">';
   HD_PTS.forEach((n,i)=>{
-    o+='<span class="hd-lbl" style="left:'+(HD_X[i]/2576*100)+'%">'+n+'</span>';
     if(!i) return;
     const got=!!c[n];
-    o+='<button type="button" class="hd-gift '+(got?'got':'rdy')+'" data-pt="'+n+'" style="left:'+(HD_X[i]/2576*100)+'%" aria-label="'+(got?'Claimed '+n:'Claim '+n+' reward')+'"'+'><img src="'+I+(got?'check':'gift')+'.webp?v=2" alt="" draggable="false"></button>';
+    o+='<button type="button" class="hd-gift '+(got?'got':'rdy')+'" data-pt="'+n+'" style="left:'+(HD_X[i]/2576*100)+'%" aria-label="'+(got?'Claimed '+n:'Claim '+n+' reward')+'"><img src="'+I+(got?'check':'gift')+'.webp?v=2" alt="" draggable="false"></button>';
   });
-  o+='<div class="hd-ref"><svg viewBox="0 0 24 24" fill="none" stroke="#262525" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6.5l4 2"/></svg><span>Refreshes in <b id="hdLeft">'+hdLeft()+'</b></span></div>'+
-    '<img class="hd-orn hd-ol" src="'+I+'ornL.webp?v=2" alt="" draggable="false"><img class="hd-orn hd-or" src="'+I+'ornR.webp?v=2" alt="" draggable="false"></div>';
+  o+='<div class="hd-ref"><svg viewBox="0 0 24 24" fill="none" stroke="#262525" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6.5l4 2"/></svg><span>Refreshes in <b id="hdLeft">'+hdLeft()+'</b></span></div></div>';
   return o;
 }
-document.addEventListener('wheel',e=>{ const h=e.target.closest&&e.target.closest('#hdHost'); if(h){ document.getElementById('hsrScroll').scrollTop+=e.deltaY; e.preventDefault(); } },{passive:false});
 function hdRender(){ const h=document.getElementById('hdHost'); if(h) h.innerHTML=hdHTML(hsrCur); }
 function hdClaim(pt){   // all rewards are claimed together; tapping a check clears them all again
   const all=!hdClaimed(hsrCur)[pt], c={}; if(all) HD_PTS.forEach(n=>{ if(n) c[n]=1; });
