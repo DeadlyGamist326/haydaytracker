@@ -4339,15 +4339,15 @@ function hdLeft(){ const m=Math.max(0,Math.floor((hdNextReset()-Date.now())/6e4)
 function hdHTML(a){
   const c=hdClaimed(a), I=HSR_IMG+'dt-';
   let o='<div class="hd-wrap" id="hdWrap" data-day="'+hdDay()+'"><div class="hd-back"></div><div class="hd-inner"></div><div class="hd-panel"></div>'+
-    '<img class="hd-flame" src="'+I+'flame.webp" alt="" draggable="false"><img class="hd-top" src="'+I+'top.webp" alt="" draggable="false"><div class="hd-line"></div>';
+    '<img class="hd-flame" src="'+I+'flame.webp?v=2" alt="" draggable="false"><img class="hd-top" src="'+I+'top.webp?v=2" alt="" draggable="false"><div class="hd-line"></div>';
   HD_PTS.forEach((n,i)=>{
     o+='<span class="hd-lbl" style="left:'+(HD_X[i]/2576*100)+'%">'+n+'</span>';
     if(!i) return;
     const got=!!c[n];
-    o+='<button type="button" class="hd-gift '+(got?'got':'rdy')+'" data-pt="'+n+'" style="left:'+(HD_X[i]/2576*100)+'%" aria-label="'+(got?'Claimed '+n:'Claim '+n+' reward')+'"'+'><img src="'+I+(got?'check':'gift')+'.webp" alt="" draggable="false"></button>';
+    o+='<button type="button" class="hd-gift '+(got?'got':'rdy')+'" data-pt="'+n+'" style="left:'+(HD_X[i]/2576*100)+'%" aria-label="'+(got?'Claimed '+n:'Claim '+n+' reward')+'"'+'><img src="'+I+(got?'check':'gift')+'.webp?v=2" alt="" draggable="false"></button>';
   });
   o+='<div class="hd-ref"><svg viewBox="0 0 24 24" fill="none" stroke="#262525" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6.5l4 2"/></svg><span>Refreshes in <b id="hdLeft">'+hdLeft()+'</b></span></div>'+
-    '<img class="hd-orn hd-ol" src="'+I+'ornL.webp" alt="" draggable="false"><img class="hd-orn hd-or" src="'+I+'ornR.webp" alt="" draggable="false"></div>';
+    '<img class="hd-orn hd-ol" src="'+I+'ornL.webp?v=2" alt="" draggable="false"><img class="hd-orn hd-or" src="'+I+'ornR.webp?v=2" alt="" draggable="false"></div>';
   return o;
 }
 function hdRender(){ const h=document.getElementById('hdHost'); if(h) h.innerHTML=hdHTML(hsrCur); }
