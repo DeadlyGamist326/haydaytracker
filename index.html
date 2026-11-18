@@ -4338,7 +4338,7 @@ function hdNextReset(t){ t=t||Date.now(); return (Math.floor((t+4*36e5)/864e5)+1
 function hdClaimed(a){ const e=hdState[a]; return (e&&e.day===hdDay()&&e.c)?e.c:{}; }
 function hdLeft(){ const m=Math.max(0,Math.floor((hdNextReset()-Date.now())/6e4)), h=Math.floor(m/60); return m<1?'<1m':(h?h+'h ':'')+(m%60)+'m'; }
 function hdHTML(a){
-  const c=hdClaimed(a), I=HSR_IMG+'dt-', V='.webp?v=5';
+  const c=hdClaimed(a), I=HSR_IMG+'dt-', V='.webp?v=6';
   let o='<div class="hd-wrap" id="hdWrap" data-day="'+hdDay()+'"><img class="hd-card" src="'+I+'card'+V+'" alt="" draggable="false">';
   HD_PTS.forEach((n,i)=>{
     if(!i) return;
