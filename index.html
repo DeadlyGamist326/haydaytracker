@@ -142,6 +142,8 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 /* ===== Daily Training (sticky, interactive) ===== */
 
 /* ===== update notice (bottom-left) ===== */
+#logoBack{flex-shrink:0;font-size:13px;line-height:1;padding:4px 8px;border:1px solid var(--line);border-radius:20px;background:var(--paper);color:var(--ink);cursor:pointer;animation:updIn .35s ease-out;}
+#logoBack:hover{filter:brightness(1.08);box-shadow:0 0 8px rgba(255,200,90,.7);}
 #updBox{display:none;flex-shrink:0;align-items:center;gap:7px;padding:2px 3px 2px 10px;border-radius:999px;background:#12183a;color:#fff;font:700 11px/1.2 system-ui,sans-serif;border:1px solid rgba(143,208,255,.6);box-shadow:0 0 10px rgba(111,160,255,.4);white-space:nowrap;animation:updIn .35s ease-out;}
 #updBox.show{display:inline-flex;}
 #updBox .dot{width:8px;height:8px;border-radius:50%;background:#4dd6ff;box-shadow:0 0 7px #4dd6ff;animation:updPulse 1.6s ease-in-out infinite;}
@@ -1004,6 +1006,7 @@ td.upg-cap-warn .upg-max{color:#d62828;}
     <div class="games-title"><img src="https://store.supercell.com/public/logo-RHOJMJ47.png" alt="Hay Day logo"> Hayday Tracker</div>
     <div id="liveClock" title="Philippines time (server-synced) — same time every reset check uses" style="font-size:12px;font-weight:700;color:var(--ink);padding:4px 10px;border:1px solid var(--line);border-radius:20px;background:var(--paper);flex-shrink:0;white-space:nowrap;">--:--:-- --</div>
     <div id="updBox" role="status" aria-live="polite"><span class="dot"></span><span class="t">Update available</span><button type="button" id="updGo">Refresh</button><button type="button" class="x" id="updX" aria-label="Dismiss">✕</button></div>
+    <button type="button" id="logoBack" hidden title="Show the corner logos again" aria-label="Show the corner logos again">✨</button>
     <div class="gc-header-btn-scroll" style="display:flex;gap:6px;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;min-width:0;flex:1;justify-content:flex-end;">
       <button class="icon-btn" id="darkModeToggle" title="Toggle dark mode">☀️ Light Mode</button>
       <div id="syncBadge" title="I-click para palitan ang pangalan mo" style="cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-soft);padding:4px 8px;border:1px solid var(--line);border-radius:20px;background:var(--paper);flex-shrink:0;">
@@ -4401,7 +4404,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261121-162104';
+const APP_BUILD='20261121-162607';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4427,7 +4430,7 @@ const APP_BUILD='20261121-162104';
   let timer=0;
   function hiddenToday(){ try{ return localStorage.getItem(KEY)===phDay(); }catch(e){ return false; } }
   function apply(){
-    const h=hiddenToday(); logos.forEach(l=>l.classList.toggle('hid',h));
+    const h=hiddenToday(); logos.forEach(l=>l.classList.toggle('hid',h)); const lb=document.getElementById('logoBack'); if(lb) lb.hidden=!h;   // the sparkle button only exists while the logos are hidden
     clearTimeout(timer); timer=setTimeout(apply,Math.max(1000,nextMidnight()-Date.now()+500));   // comes back at 12:00 AM sharp
   }
   // 80x60 bitmap of where the string is drawn (union of every frame), so a click on the empty part of the box still reaches the page
@@ -4447,6 +4450,7 @@ const APP_BUILD='20261121-162104';
       apply(); e.preventDefault(); e.stopPropagation();
     }
   },true);
+  document.getElementById('logoBack').addEventListener('click',()=>{ try{ localStorage.removeItem(KEY); }catch(e){} apply(); });
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) apply(); });
   apply();
 })();
