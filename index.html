@@ -152,6 +152,13 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 @keyframes updIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:none;}}
 @keyframes updPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
 @media(prefers-reduced-motion:reduce){#updBox,#updBox .dot{animation:none;}}
+
+/* ===== corner logo strings (main tracker page only) ===== */
+.gc-corner{--lw:clamp(84px,10vw,140px);position:fixed;top:calc(var(--lw)*-.1);width:var(--lw);height:auto;z-index:60;pointer-events:none;user-select:none;-webkit-user-drag:none;}
+.gc-corner.l{left:calc(var(--lw)*-.2);}
+.gc-corner.r{right:calc(var(--lw)*-.2);transform:scaleX(-1);}
+body:has(.hsr-modal.hsr-show) .gc-corner{display:none;}
+@media(prefers-reduced-motion:reduce){.gc-corner{display:none;}}
 .hd-slot{aspect-ratio:2576/724;margin:0 0 14px;}
 .hd-host{position:fixed;top:22px;z-index:4;pointer-events:none;}
 .hd-wrap{position:relative;pointer-events:none;container-type:inline-size;aspect-ratio:2576/724;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35));user-select:none;-webkit-user-select:none;}
@@ -991,6 +998,7 @@ td.upg-cap-warn .upg-max{color:#d62828;}
   <div class="gc-hover-task" id="gcHoverTask"></div>
 </div>
 
+<img class="gc-corner l" src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/logo-cyan.webp?v=1" alt="" aria-hidden="true" draggable="false"><img class="gc-corner r" src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/logo-pink.webp?v=1" alt="" aria-hidden="true" draggable="false">
 <div class="games-panel">
   <div class="games-panel-head">
     <div class="games-title"><img src="https://store.supercell.com/public/logo-RHOJMJ47.png" alt="Hay Day logo"> Hayday Tracker</div>
@@ -4393,7 +4401,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261119-051902';
+const APP_BUILD='20261121-161753';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
