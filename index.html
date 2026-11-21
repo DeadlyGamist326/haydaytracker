@@ -4405,7 +4405,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261121-165950';
+const APP_BUILD='20261121-171522';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4459,7 +4459,7 @@ const LW=1000,LH=600;                       // logical stage
   const P0='#c800ff',P1='#ff2d8f',P2='#ff9a3c';// purple -> pink -> orange (right string)
   const T_F=3.6,T_H=2.4,T_B=1.7,T_HOLD=1.4,T_EXIT=1.5,TOTAL=T_F+T_H+T_B+T_HOLD+T_EXIT;
   const HC={x:500,y:300},S=9;                 // heart centre + scale
-  let curK=1,curZoom=1,seed=1,spdMul=1,t0=0,raf=0,parts=[],lastT=0,cv=null,ctx=null;
+  const GQ=.25; let gcv=null,gctx=null,gcv2=null,gctx2=null,curK=1,curZoom=1,seed=1,spdMul=1,t0=0,raf=0,parts=[],lastT=0,cv=null,ctx=null;
   function rng(){ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; }
   const lerp=(a,b,t)=>a+(b-a)*t, clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
   const sstep=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
@@ -4529,29 +4529,19 @@ const LW=1000,LH=600;                       // logical stage
     if(kind==='c') return mix(C0,C1,u);
     return u<.5?mix(P0,P1,u*2):mix(P1,P2,(u-.5)*2);
   }
-  function drawString(p,kind,s,width,alpha){
-    const Lvis=lerp(720,p.sEnd-p.sF,sstep((s-p.sF)/(p.sEnd-p.sF)))*1;
+  function drawString(c,p,kind,s,width,alpha,glow){
+    const Lvis=lerp(720,p.sEnd-p.sF,sstep((s-p.sF)/(p.sEnd-p.sF)));
     const s0=Math.max(0,s-Lvis); if(s<=1) return;
-    // find indices
     let i1=0; while(i1<p.cum.length-1&&p.cum[i1+1]<s) i1++;
     let i0=0; while(i0<p.cum.length-1&&p.cum[i0+1]<s0) i0++;
-    ctx.lineCap='round'; ctx.lineJoin='round';
-    // glow = two wide soft passes (cheap) instead of per-segment shadowBlur, which made it stutter
-    const passes=[[3.4,.10,0],[1.9,.22,0],[1,1,2]];
-    ctx.shadowBlur=0;
-    for(const [wm,am,st0] of passes){
-      ctx.globalCompositeOperation=wm>1?'lighter':'source-over'; ctx.lineCap=wm>1?'butt':'round';
-      // soft passes: ~8 single polylines (no overlapping round caps -> no beads); core: short segments
-      const st=st0||Math.max(2,Math.ceil((i1-i0)/8));
-      for(let i=i0;i<i1;i+=st){ const j=Math.min(i+st,i1); const u=clamp((p.cum[j]-s0)/Math.max(1,(s-s0)),0,1);
-        const taper=.35+.65*Math.min(1,u*5);
-        ctx.beginPath(); ctx.moveTo(p.pts[i][0],p.pts[i][1]); for(let q=i+1;q<=j;q++) ctx.lineTo(p.pts[q][0],p.pts[q][1]);
-        ctx.strokeStyle=colAt(kind,u); ctx.globalAlpha=alpha*am; ctx.lineWidth=width*taper*wm; ctx.stroke(); }
-    }
-    ctx.globalCompositeOperation='source-over';
-    ctx.shadowBlur=0;
-    ctx.globalAlpha=1;
-    const h=p.pts[i1]; return h;
+    c.lineCap='round'; c.lineJoin='round'; c.globalAlpha=alpha;
+    const st=glow?3:1, wm=glow?3.6:1;
+    for(let i=i0;i<i1;i+=st){ const j=Math.min(i+st,i1); const u=clamp((p.cum[j]-s0)/Math.max(1,(s-s0)),0,1);
+      const taper=.35+.65*Math.min(1,u*5);
+      c.beginPath(); c.moveTo(p.pts[i][0],p.pts[i][1]); c.lineTo(p.pts[j][0],p.pts[j][1]);
+      c.strokeStyle=colAt(kind,u); c.lineWidth=width*taper*wm; c.stroke(); }
+    c.globalAlpha=1;
+    return p.pts[i1];
   }
   function spark(x,y,col){ for(let k=0;k<2;k++) parts.push({x,y,vx:(rng()-.5)*70,vy:(rng()-.5)*70,l:0,m:.6+rng()*.5,r:1.5+rng()*2.5,c:col}); }
   function burst(x,y){ for(let k=0;k<46;k++){ const a=rng()*6.28,v=60+rng()*220; parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:0,m:.7+rng()*.7,r:2+rng()*3,c:rng()<.5?'#5cffd0':'#ff7ac0'}); } }
@@ -4569,7 +4559,15 @@ const LW=1000,LH=600;                       // logical stage
     curZoom=zoom*dpr/dpr;
     ctx.setTransform(dpr*k*zoom,0,0,dpr*k*zoom,dpr*(W/2-k*zoom*HC.x),dpr*(H/2-k*zoom*(HC.y+14)));
     const al=fade*fin, wdt=17, sA=sAt(A,t), sB=sAt(B,t);
-    const hA=drawString(A,'c',sA,wdt,al), hB=drawString(B,'p',sB,wdt,al);
+    // soft glow: thick strokes on a quarter-size canvas, blurred while scaled up (one cheap blur per frame, no seams)
+    const q=GQ, ma=dpr*k*zoom, mx=dpr*(W/2-k*zoom*HC.x), my=dpr*(H/2-k*zoom*(HC.y+14));
+    gctx.setTransform(1,0,0,1,0,0); gctx.clearRect(0,0,gcv.width,gcv.height); gctx.setTransform(ma*q,0,0,ma*q,mx*q,my*q);
+    drawString(gctx,A,'c',sA,wdt,1,true); drawString(gctx,B,'p',sB,wdt,1,true);
+    ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=.34*al;
+    ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+    gctx2.clearRect(0,0,gcv2.width,gcv2.height); if('filter' in gctx2) gctx2.filter='blur(2px)'; gctx2.drawImage(gcv,0,0);   // blur at quarter size = cheap
+    ctx.drawImage(gcv2,0,0,cv.width,cv.height); ctx.restore();
+    const hA=drawString(ctx,A,'c',sA,wdt,al), hB=drawString(ctx,B,'p',sB,wdt,al);
     ctx.globalAlpha=1;
     if(t<T_F+T_H+T_B){ if(hA) spark(hA[0],hA[1],'#6ff'); if(hB) spark(hB[0],hB[1],'#ff9ad0'); }
     if(t>=T_F+T_H+T_B&&!burstDone){ burstDone=true; burst(HC.x,HC.y-5*S); }
@@ -4583,7 +4581,7 @@ const LW=1000,LH=600;                       // logical stage
   function heartPlay(){
     if(busy||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)) return; busy=true;
     cv=document.createElement('canvas'); cv.className='gc-heart-cv'; document.body.appendChild(cv);
-    const dpr=Math.min(1.5,window.devicePixelRatio||1); cv.width=Math.round(innerWidth*dpr); cv.height=Math.round(innerHeight*dpr); ctx=cv.getContext('2d');
+    const dpr=Math.min(1.5,window.devicePixelRatio||1); cv.width=Math.round(innerWidth*dpr); cv.height=Math.round(innerHeight*dpr); ctx=cv.getContext('2d'); gcv=document.createElement('canvas'); gcv.width=Math.ceil(cv.width*GQ); gcv.height=Math.ceil(cv.height*GQ); gctx=gcv.getContext('2d'); gcv2=document.createElement('canvas'); gcv2.width=gcv.width; gcv2.height=gcv.height; gctx2=gcv2.getContext('2d');
     seed=(Math.random()*4e9)>>>0; spdMul=1; parts=[]; burstDone=false;
     A=build('c',true); B=build('p',false);
     t0=performance.now(); lastT=t0; raf=requestAnimationFrame(frame);
