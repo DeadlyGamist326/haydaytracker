@@ -160,6 +160,7 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .gc-corner.l{left:calc(var(--lw)*-.2);}
 .gc-corner.r{right:calc(var(--lw)*-.2);transform:scaleX(-1);}
 body:has(.hsr-modal.hsr-show) .gc-corner,.gc-corner.hid{display:none;}
+.gc-heart-cv{position:fixed;inset:0;width:100vw;height:100vh;z-index:3500;pointer-events:none;}
 @media(prefers-reduced-motion:reduce){.gc-corner{display:none;}}
 .hd-slot{aspect-ratio:2576/724;margin:0 0 14px;}
 .hd-host{position:fixed;top:22px;z-index:4;pointer-events:none;}
@@ -4404,7 +4405,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261121-162607';
+const APP_BUILD='20261121-163754';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4427,10 +4428,138 @@ const APP_BUILD='20261121-162607';
   const logos=[...document.querySelectorAll('.gc-corner')]; if(!logos.length) return;
   const KEY='gc-logo-hid', phDay=()=>new Date(Date.now()+8*36e5).toISOString().slice(0,10);
   const nextMidnight=()=>(Math.floor((Date.now()+8*36e5)/864e5)+1)*864e5-8*36e5;
-  let timer=0;
+  let timer=0, playing=false;
+  const IMG='https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/', RUN_MS=3860;
+  const LOOP={l:'logo-cyan.webp?v=1',r:'logo-pink.webp?v=1'}, RUN={l:'logo-cyan-run.webp',r:'logo-pink-run.webp'};
+  const side=l=>l.classList.contains('r')?'r':'l';
+const LW=1000,LH=600;                       // logical stage
+  const C0='#00b8ff',C1='#00ffa6';            // cyan-green (left string)
+  const P0='#c800ff',P1='#ff2d8f',P2='#ff9a3c';// purple -> pink -> orange (right string)
+  const T_F=3.6,T_H=2.4,T_B=1.7,T_HOLD=1.4,T_EXIT=1.5,TOTAL=T_F+T_H+T_B+T_HOLD+T_EXIT;
+  const HC={x:500,y:300},S=9;                 // heart centre + scale
+  let curK=1,curZoom=1,seed=1,spdMul=1,t0=0,raf=0,parts=[],lastT=0,cv=null,ctx=null;
+  function rng(){ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; }
+  const lerp=(a,b,t)=>a+(b-a)*t, clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
+  const sstep=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
+  const easeOutC=t=>1-Math.pow(1-clamp(t,0,1),3), easeIO=t=>{t=clamp(t,0,1);return .5-.5*Math.cos(Math.PI*t);};
+  
+  /* ---- path building ---- */
+  function catmull(pts,step){
+    const out=[]; const P=[pts[0],...pts,pts[pts.length-1]];
+    for(let i=1;i<P.length-2;i++){
+      const p0=P[i-1],p1=P[i],p2=P[i+1],p3=P[i+2], n=Math.max(8,Math.ceil(Math.hypot(p2[0]-p1[0],p2[1]-p1[1])/step));
+      for(let k=0;k<n;k++){ const u=k/n,u2=u*u,u3=u2*u;
+        out.push([.5*((2*p1[0])+(-p0[0]+p2[0])*u+(2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*u2+(-p0[0]+3*p1[0]-3*p2[0]+p3[0])*u3),
+                  .5*((2*p1[1])+(-p0[1]+p2[1])*u+(2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*u2+(-p0[1]+3*p1[1]-3*p2[1]+p3[1])*u3)]); }
+    }
+    out.push(pts[pts.length-1]); return out;
+  }
+  function flight(fromLeft){
+    const sx=fromLeft?-1:1, jit=()=> (rng()-.5)*90;
+    const W=[ [fromLeft?-90:LW+90, fromLeft?140+jit():430+jit()],
+              [fromLeft?240+jit():760+jit(), fromLeft?500+jit():110+jit()],
+              [fromLeft?720+jit():260+jit(), fromLeft?90+jit():480+jit()],
+              [fromLeft?160+jit():840+jit(), fromLeft?330+jit():250+jit()],
+              [fromLeft?860+jit():140+jit(), fromLeft?500+jit():120+jit()],
+              [fromLeft?330+jit():670+jit(), fromLeft?560+jit():560+jit()],
+              [500, 540], [500, HC.y+17*S+4] ];
+    const base=catmull(W,6), n=base.length, out=[];
+    const w=Math.PI*2*(4.5+rng()*1.5), ph=rng()*6.28, R=64+rng()*18;
+    for(let i=0;i<n;i++){ const u=i/(n-1), env=Math.pow(Math.sin(Math.PI*clamp(u*1.04,0,1)),.9)*(u>.86?clamp((1-u)/.14,0,1):1);
+      out.push([base[i][0]+Math.cos(w*u*2+ph)*R*env, base[i][1]+Math.sin(w*u*2+ph)*R*env]); }
+    return out;
+  }
+  function heartHalf(side){   // side -1: left half, +1: right half; bottom point -> top dip
+    const out=[]; for(let k=0;k<=160;k++){ const th=Math.PI*(1-k/160);
+      const x=16*Math.pow(Math.sin(th),3), y=13*Math.cos(th)-5*Math.cos(2*th)-2*Math.cos(3*th)-Math.cos(4*th);
+      out.push([HC.x+side*x*S, HC.y-y*S]); }
+    return out;
+  }
+  function bow(side){          // loop on the right (+1) or left (-1) of the knot; starts and ends at the knot, then a short tail
+    const c=[HC.x,HC.y-5*S], out=[], rx=64, ry=27, tilt=-.28, cx=c[0]+rx, cy=c[1]-6;
+    for(let k=0;k<=70;k++){ const ph=Math.PI-(2*Math.PI)*(k/70);          // left vertex, over the top, round the bottom, back
+      const ex=Math.cos(ph)*rx, ey=-Math.sin(ph)*ry;
+      out.push([cx+ex*Math.cos(tilt)-ey*Math.sin(tilt), cy+ex*Math.sin(tilt)+ey*Math.cos(tilt)]); }
+    for(let k=1;k<=24;k++){ const u=k/24; out.push([c[0]+10+u*62+Math.sin(u*3)*6, c[1]+u*u*34+u*70]); }
+    if(side<0) for(const p of out) p[0]=2*c[0]-p[0];
+    return out;
+  }
+  function build(str,fromLeft){
+    const side=fromLeft?-1:1;                      // cyan traces the LEFT half, pink the RIGHT half
+    const F=flight(fromLeft), H=heartHalf(side), B=bow(-side);   // bow loop crosses over to the opposite side
+    const pts=F.concat(H.slice(1),B.slice(1));
+    const cum=[0]; for(let i=1;i<pts.length;i++) cum.push(cum[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]));
+      const iF=F.length-1, iH=F.length-1+H.length-1;
+    return {pts,cum,sF:cum[iF],sH:cum[iH],sEnd:cum[cum.length-1]};
+  }
+  let A,B;
+  function sAt(p,P0,tb){          // head distance along the path at time since start
+    const t=P0;
+    if(t<T_F) return p.sF*easeOutC(t/T_F);
+    if(t<T_F+T_H) return lerp(p.sF,p.sH,easeIO((t-T_F)/T_H));
+    if(t<T_F+T_H+T_B) return lerp(p.sH,p.sEnd,easeIO((t-T_F-T_H)/T_B));
+    return p.sEnd;
+  }
+  function colAt(kind,u){   // u 0 (tail) .. 1 (head)
+    const mix=(a,b,t)=>{const A=[1,3,5].map(i=>parseInt(a.substr(i,2),16)),B=[1,3,5].map(i=>parseInt(b.substr(i,2),16));return 'rgb('+A.map((v,i)=>Math.round(lerp(v,B[i],t))).join(',')+')';};
+    if(kind==='c') return mix(C0,C1,u);
+    return u<.5?mix(P0,P1,u*2):mix(P1,P2,(u-.5)*2);
+  }
+  function drawString(p,kind,s,width,alpha){
+    const Lvis=lerp(720,p.sEnd-p.sF,sstep((s-p.sF)/(p.sEnd-p.sF)))*1;
+    const s0=Math.max(0,s-Lvis); if(s<=1) return;
+    // find indices
+    let i1=0; while(i1<p.cum.length-1&&p.cum[i1+1]<s) i1++;
+    let i0=0; while(i0<p.cum.length-1&&p.cum[i0+1]<s0) i0++;
+    ctx.lineCap='round'; ctx.lineJoin='round';
+    const sb=18*curK*curZoom;   // glow radius follows the zoom
+    for(let i=i0;i<i1;i+=2){ const j=Math.min(i+2,i1); const u=clamp((p.cum[j]-s0)/Math.max(1,(s-s0)),0,1);
+      const taper=.35+.65*Math.min(1,u*5), col=colAt(kind,u);
+      ctx.beginPath(); ctx.moveTo(p.pts[i][0],p.pts[i][1]); ctx.lineTo(p.pts[j][0],p.pts[j][1]);
+      ctx.strokeStyle=col; ctx.shadowColor=col; ctx.shadowBlur=sb; ctx.globalAlpha=alpha; ctx.lineWidth=width*taper; ctx.stroke(); }
+    ctx.shadowBlur=0;
+    ctx.globalAlpha=1;
+    const h=p.pts[i1]; return h;
+  }
+  function spark(x,y,col){ for(let k=0;k<2;k++) parts.push({x,y,vx:(rng()-.5)*70,vy:(rng()-.5)*70,l:0,m:.6+rng()*.5,r:1.5+rng()*2.5,c:col}); }
+  function burst(x,y){ for(let k=0;k<46;k++){ const a=rng()*6.28,v=60+rng()*220; parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:0,m:.7+rng()*.7,r:2+rng()*3,c:rng()<.5?'#5cffd0':'#ff7ac0'}); } }
+  let burstDone=false;
+  
+  function frame(now){
+    const t=Math.min(TOTAL,((now-t0)/1000)*spdMul), dt=Math.min(.05,(now-lastT)/1000||.016); lastT=now;
+    const dpr=cv.width/cv.clientWidth, W=cv.clientWidth, H=cv.clientHeight, k=Math.min(W/640,H/600); curK=k*dpr;
+    ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,cv.width,cv.height);
+    const tx=t-(T_F+T_H+T_B+T_HOLD);
+    let zoom=1,fade=1; if(tx>0){ const e=clamp(tx/T_EXIT,0,1); zoom=1+4.2*e*e*e; fade=1-sstep((e-.35)/.65); }
+    else if(t>T_F+T_H+T_B) zoom=1+.018*Math.sin((t-(T_F+T_H+T_B))*3.2);
+    const fin=sstep(t/.4);
+    ctx.fillStyle='rgba(6,8,24,'+(.5*fade*fin)+')'; ctx.fillRect(0,0,cv.width,cv.height);   // soft dim so the strings glow on a light page
+    curZoom=zoom*dpr/dpr;
+    ctx.setTransform(dpr*k*zoom,0,0,dpr*k*zoom,dpr*(W/2-k*zoom*HC.x),dpr*(H/2-k*zoom*(HC.y+14)));
+    const al=fade*fin, wdt=17, sA=sAt(A,t), sB=sAt(B,t);
+    const hA=drawString(A,'c',sA,wdt,al), hB=drawString(B,'p',sB,wdt,al);
+    ctx.globalAlpha=1;
+    if(t<T_F+T_H+T_B){ if(hA) spark(hA[0],hA[1],'#6ff'); if(hB) spark(hB[0],hB[1],'#ff9ad0'); }
+    if(t>=T_F+T_H+T_B&&!burstDone){ burstDone=true; burst(HC.x,HC.y-5*S); }
+    for(const [h,c] of [[hA,'#7fffe6'],[hB,'#ffb1dd']]) if(h&&t<T_F+T_H+T_B){ const g=ctx.createRadialGradient(h[0],h[1],0,h[0],h[1],26); g.addColorStop(0,c); g.addColorStop(1,'rgba(255,255,255,0)'); ctx.globalAlpha=.7*al; ctx.fillStyle=g; ctx.beginPath(); ctx.arc(h[0],h[1],26,0,6.3); ctx.fill(); ctx.globalAlpha=1; }
+    parts=parts.filter(q=>(q.l+=dt)<q.m);
+    for(const q of parts){ q.x+=q.vx*dt; q.y+=q.vy*dt; const a=1-q.l/q.m; ctx.globalAlpha=a*al; ctx.fillStyle=q.c; ctx.beginPath(); ctx.arc(q.x,q.y,q.r*a+.4,0,6.3); ctx.fill(); }
+    ctx.globalAlpha=1;
+    if(t<TOTAL) raf=requestAnimationFrame(frame); else { cv.remove(); cv=null; busy=false; }
+  }
+  let busy=false;
+  function heartPlay(){
+    if(busy||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)) return; busy=true;
+    cv=document.createElement('canvas'); cv.className='gc-heart-cv'; document.body.appendChild(cv);
+    const dpr=Math.min(2,window.devicePixelRatio||1); cv.width=Math.round(innerWidth*dpr); cv.height=Math.round(innerHeight*dpr); ctx=cv.getContext('2d');
+    seed=(Math.random()*4e9)>>>0; spdMul=1; parts=[]; burstDone=false;
+    A=build('c',true); B=build('p',false);
+    t0=performance.now(); lastT=t0; raf=requestAnimationFrame(frame);
+  }
+  
   function hiddenToday(){ try{ return localStorage.getItem(KEY)===phDay(); }catch(e){ return false; } }
   function apply(){
-    const h=hiddenToday(); logos.forEach(l=>l.classList.toggle('hid',h)); const lb=document.getElementById('logoBack'); if(lb) lb.hidden=!h;   // the sparkle button only exists while the logos are hidden
+    if(!playing){ const h=hiddenToday(); logos.forEach(l=>l.classList.toggle('hid',h)); const lb=document.getElementById('logoBack'); if(lb) lb.hidden=!h; }   // the sparkle button only exists while the logos are hidden
     clearTimeout(timer); timer=setTimeout(apply,Math.max(1000,nextMidnight()-Date.now()+500));   // comes back at 12:00 AM sharp
   }
   // 80x60 bitmap of where the string is drawn (union of every frame), so a click on the empty part of the box still reaches the page
@@ -4444,13 +4573,16 @@ const APP_BUILD='20261121-162607';
     return false;
   }
   document.addEventListener('click',e=>{
-    if(hiddenToday()) return;
+    if(hiddenToday()||playing) return;
     if(logos.some(l=>!l.classList.contains('hid')&&onString(l,e.clientX,e.clientY))){
       try{ localStorage.setItem(KEY,phDay()); }catch(err){}
-      apply(); e.preventDefault(); e.stopPropagation();
+      e.preventDefault(); e.stopPropagation();
+      // both logos play straight through (no pause) and exit, then the heart animation takes over the screen
+      playing=true; logos.forEach(l=>{ l.src=IMG+RUN[side(l)]+'?r='+Date.now(); });
+      setTimeout(()=>{ playing=false; apply(); heartPlay(); },RUN_MS+150);
     }
   },true);
-  document.getElementById('logoBack').addEventListener('click',()=>{ try{ localStorage.removeItem(KEY); }catch(e){} apply(); });
+  document.getElementById('logoBack').addEventListener('click',()=>{ try{ localStorage.removeItem(KEY); }catch(e){} logos.forEach(l=>{ l.src=IMG+LOOP[side(l)]; }); apply(); });
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) apply(); });
   apply();
 })();
