@@ -157,7 +157,7 @@ body{margin:0;background:var(--paper-raised);color:var(--ink);font-family:var(--
 .gc-corner{--lw:clamp(84px,10vw,140px);position:fixed;top:calc(var(--lw)*-.1);width:var(--lw);height:auto;z-index:60;pointer-events:none;user-select:none;-webkit-user-drag:none;}
 .gc-corner.l{left:calc(var(--lw)*-.2);}
 .gc-corner.r{right:calc(var(--lw)*-.2);transform:scaleX(-1);}
-body:has(.hsr-modal.hsr-show) .gc-corner{display:none;}
+body:has(.hsr-modal.hsr-show) .gc-corner,.gc-corner.hid{display:none;}
 @media(prefers-reduced-motion:reduce){.gc-corner{display:none;}}
 .hd-slot{aspect-ratio:2576/724;margin:0 0 14px;}
 .hd-host{position:fixed;top:22px;z-index:4;pointer-events:none;}
@@ -4401,7 +4401,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261121-161753';
+const APP_BUILD='20261121-162104';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4417,6 +4417,38 @@ const APP_BUILD='20261121-161753';
   document.getElementById('updX').addEventListener('click',()=>{ document.getElementById('updBox').classList.remove('show'); shown=false; dismissed=latest; });
   setTimeout(check,8000); setInterval(check,60000);
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) check(); });
+})();
+
+/* ---------- corner logos: click the drawn string to hide both until 12:00 AM PH ---------- */
+(function(){
+  const logos=[...document.querySelectorAll('.gc-corner')]; if(!logos.length) return;
+  const KEY='gc-logo-hid', phDay=()=>new Date(Date.now()+8*36e5).toISOString().slice(0,10);
+  const nextMidnight=()=>(Math.floor((Date.now()+8*36e5)/864e5)+1)*864e5-8*36e5;
+  let timer=0;
+  function hiddenToday(){ try{ return localStorage.getItem(KEY)===phDay(); }catch(e){ return false; } }
+  function apply(){
+    const h=hiddenToday(); logos.forEach(l=>l.classList.toggle('hid',h));
+    clearTimeout(timer); timer=setTimeout(apply,Math.max(1000,nextMidnight()-Date.now()+500));   // comes back at 12:00 AM sharp
+  }
+  // 80x60 bitmap of where the string is drawn (union of every frame), so a click on the empty part of the box still reaches the page
+  const MW=80,MH=60,MB=atob('AAAAAAAAAAAAAAAAAAA/wAAAAAAAAAAB//gAAAAAAAAAA//+AAAAAAAAAA///wAAAAAAAAAf//+AAAAAAAAAH///wAAAHAAAAD///+AAA/wAAAB////wAD/8AAAAf///+AA//AAAAP////gAP/4AAAD////8AD/+AAAA/////AA//gAAAf////4AP/4AAAH/+P/+AD/+AAAB//B//wA//gAAAf/wP/8AP/4AAAH/8D//AD/+AAAB//Af/wA//n4AAf/wH/+Af/x/8AH/8A//gH/8f/wB//gP/4B//H/8AP/4D/+A//x//AD//Af/wP/4f/wA//wH/8H/+H/8AP/+B//D//h//AB//4f/x//wf/wAf//H/9//8H/8AD///////+B//AA////////gf/wAH///////wH/8AA///////8B//gAP//////+AP/4AB///////AD/+AAP//////gA//wAB//////wAP/8AAH/////4AB//gAA/////4AAf/4AAD////4AAH//AAAP///4AAA//4AAA///4AAAP/+AAAD//gAAAB//wAAB//wAAAAf//AAA//4AAAAD//4AAf/+AAAAA///wA///AAAAAH///////wAAAAA///////4AAAAAH//////8AAAAAB///////AAAAAAP//////gAAAAAB//////wAAAAAAH/////4AAAAAAA/////8AAAAAAAH////8AAAAAAAAf///+AAAAAAAAB///+AAAAAAAAAD//8AAAAAAAAAAH/4AAAAAAAAAAAAAAAAAAAA');
+  const bit=(i,j)=>i>=0&&j>=0&&i<MW&&j<MH&&(MB.charCodeAt((j*MW+i)>>3)>>(7-((j*MW+i)&7))&1);
+  function onString(l,x,y){
+    const r=l.getBoundingClientRect(); if(x<r.left||x>r.right||y<r.top||y>r.bottom) return false;
+    let u=(x-r.left)/r.width; const v=(y-r.top)/r.height; if(l.classList.contains('r')) u=1-u;   // right one is mirrored
+    const i=Math.floor(u*MW), j=Math.floor(v*MH);
+    for(let di=-1;di<=1;di++) for(let dj=-1;dj<=1;dj++) if(bit(i+di,j+dj)) return true;
+    return false;
+  }
+  document.addEventListener('click',e=>{
+    if(hiddenToday()) return;
+    if(logos.some(l=>!l.classList.contains('hid')&&onString(l,e.clientX,e.clientY))){
+      try{ localStorage.setItem(KEY,phDay()); }catch(err){}
+      apply(); e.preventDefault(); e.stopPropagation();
+    }
+  },true);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) apply(); });
+  apply();
 })();
 /* ---------- Daily Training: claim gifts, resets 04:00 PH ---------- */
 const HD_PTS=[0,100,200,300,400,500], HD_X=[461,790,1162,1537,1916,2307];
