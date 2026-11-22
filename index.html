@@ -4405,7 +4405,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261121-171522';
+const APP_BUILD='20261122-145411';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4708,13 +4708,17 @@ function hdClaim(pt){   // all rewards are claimed together; tapping a check cle
 document.addEventListener('click',e=>{ const b=e.target.closest&&e.target.closest('.hd-gift'); if(b){ e.preventDefault(); hdClaim(+b.dataset.pt); } });
 try{ db.ref('hsrDaily').on('value',sn=>{ const v=sn.val(); if(v){ hdState=v; try{localStorage.setItem('hd-daily',JSON.stringify(v));}catch(e){} } trainAlarms(); if(document.getElementById('hsrModal').classList.contains('hsr-show')){ hdRender(); hcRender(); } }); }catch(e){}
 function hdTick(){ const w=document.getElementById('hdWrap'); if(!w) return; const l=document.getElementById('hdLeft'); if(l) l.textContent=hdLeft(); const day=hdDay(); if(w.dataset.day!==undefined&&w.dataset.day!==day) hdRender(); }
+// ordering: In Progress = soonest-to-expire first (no deadline last); Coming Soon = soonest-to-start first
+const hsrT=v=>v?new Date(v).getTime():Infinity;
+function hsrByEnd(l){ return l.map((e,i)=>[e,i]).sort((a,b)=>(hsrT(a[0].end)-hsrT(b[0].end))||(a[1]-b[1])).map(x=>x[0]); }
+function hsrByStart(l){ return l.map((e,i)=>[e,i]).sort((a,b)=>(hsrT(a[0].start)-hsrT(b[0].start))||(a[1]-b[1])).map(x=>x[0]); }
 function hsrBuild(){
   hsrProfile();
   const D=HSR_ACCTS[hsrCur].data; let o='<div class="hd-slot"></div>'; document.getElementById('hdHost').innerHTML=hdHTML(hsrCur); hcRender();
   o+='<div class="hsr-card"><div class="hsr-sec or" style="border-radius:0;box-shadow:none;margin:0;">This Period’s Reward Progress</div><div class="hsr-sum">'+
     D.summary.map(s=>'<div><img src="'+HSR_IMG+s.ic+'.webp" alt="" draggable="false"><div class="bx"><div class="tp"><span class="nm">'+hsrEsc(s.name)+'</span><span class="hsr-big">'+s.cur+'<small>/'+s.max+'</small></span></div>'+hsrBar(s.cur,s.max)+'</div></div>').join('')+'</div></div>';
-  o+='<div class="hsr-sec bl">In Progress</div>'+D.progress.map(e=>hsrRow(e,'progress')).join('');
-  o+='<div class="hsr-sec dk">Coming Soon</div>'+D.soon.map(e=>hsrRow(e,'soon')).join('');
+  o+='<div class="hsr-sec bl">In Progress</div>'+hsrByEnd(D.progress).map(e=>hsrRow(e,'progress')).join('');
+  o+='<div class="hsr-sec dk">Coming Soon</div>'+hsrByStart(D.soon).map(e=>hsrRow(e,'soon')).join('');
   o+='<div class="hsr-sec dk">Completed</div>'+D.done.map(e=>hsrRow(e,'done')).join('');
   document.getElementById('hsrCol').innerHTML=o; hsrTick();
 }
