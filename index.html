@@ -699,6 +699,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 #levelBtn img{height:18px;width:18px;object-fit:contain;display:block;}
 .gc-name-card.lvl-card{max-width:min(94vw,360px) !important;width:min(94vw,360px) !important;max-height:92vh;overflow:auto;box-sizing:border-box;}
 
+.hsr-card.hsr-ended{filter:grayscale(.85) brightness(.72);opacity:.9}
 /* ===== Upgrade Materials menu ===== */
 .upg-btn{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;margin-left:6px;padding:2px 3px;background:transparent;border:0;border-radius:8px;cursor:pointer;vertical-align:middle;transition:transform .15s cubic-bezier(.34,1.56,.64,1);}
 .upg-btn{pointer-events:auto;}
@@ -4291,23 +4292,24 @@ function x2Render(){
 // ===== Lotus Reward Progress (static, read-only tracker; opened by clicking the train) =====
 const HSR_IMG='https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/hsr/';
 const HSR_LOTUS={
-  summary:[{ic:'ic-jade-big',name:'Stellar Jade',cur:280,max:6380},{ic:'ic-pass-big',name:'Star Rail Special Pass',cur:12,max:20}],
-  // deadlines are PH time (UTC+8). 1h-countdown events end 4:00 AM, the 3h one ends 6:00 AM, Aptitude Showcase starts 12:00 PM.
+  summary:[{ic:'ic-jade-big',name:'Stellar Jade',cur:1040,max:6380},{ic:'ic-pass-big',name:'Star Rail Special Pass',cur:20,max:20}],
+  // deadlines are PH time (UTC+8). 1h-countdown events end 4:00 AM, Aptitude Showcase starts 12:00 PM.
   progress:[
-    {t:'Aha Reckons You Need This',img:'th-aha',rw:'ic-pass',cur:12,max:20,end:'2026-12-23T06:00:00+08:00'},
     {t:'The Fluffy Movie: Overheated',img:'th-fluffy',rw:'ic-jade',cur:0,max:1200,end:'2026-12-23T04:00:00+08:00'},
-    {t:'Interastral Peace Gala: Road to Fame',img:'th-gala',rw:'ic-jade',cur:200,max:500,end:'2026-12-23T04:00:00+08:00'},
+    {t:'Interastral Peace Gala: Road to Fame',img:'th-gala',rw:'ic-jade',cur:400,max:500,end:'2026-12-23T04:00:00+08:00'},
     {t:'Now, Lay Laughter to All Stars',img:'th-laughter',rw:'ic-jade',cur:0,max:490,tag:'Trailblaze Mission Available'},
-    {t:'Apocalyptic Shadow • Navigator’s Netherveil',img:'th-apocalyptic',rw:'ic-jade',cur:0,max:900,end:'2026-12-28T04:00:00+08:00'},
-    {t:'Accumulated Point Rewards',img:'th-accumulated',rw:'ic-jade',cur:0,max:225,end:'2026-11-23T04:00:00+08:00'}],
+    {t:'Apocalyptic Shadow • Navigator’s Netherveil',img:'th-apocalyptic',rw:'ic-jade',cur:560,max:900,end:'2026-12-28T04:00:00+08:00'},
+    {t:'Accumulated Point Rewards',img:'th-accumulated',rw:'ic-jade',cur:0,max:225,end:'2026-11-30T04:00:00+08:00'}],
   soon:[
-    {t:'Accumulated Point Rewards',img:'th-accumulated2',rw:'ic-jade',cur:0,max:1125,start:'2026-11-23T04:00:00+08:00'},
     {t:'Pure Fiction • Fiction Made Truth',img:'th-pure-fiction',rw:'ic-jade',cur:0,max:900,start:'2026-11-30T04:00:00+08:00'},
+    {t:'Accumulated Point Rewards',img:'th-accumulated2',rw:'ic-jade',cur:0,max:900,start:'2026-11-30T04:00:00+08:00'},
     {t:'Aptitude Showcase',img:'th-aptitude',rw:'ic-jade',cur:0,max:60,start:'2026-12-02T12:00:00+08:00'},
     {t:'Memory of Chaos • Echo of Darkness',img:'th-moc',rw:'ic-jade',cur:0,max:900,start:'2026-12-14T04:00:00+08:00'}],
   done:[
+    {t:'Aha Reckons You Need This',img:'th-aha',rw:'ic-pass',cur:20,max:20},
     {t:'Aptitude Showcase',img:'th-done-aptitude1',rw:'ic-jade',cur:20,max:20},
-    {t:'Aptitude Showcase',img:'th-done-aptitude2',rw:'ic-jade',cur:60,max:60}]
+    {t:'Aptitude Showcase',img:'th-done-aptitude2',rw:'ic-jade',cur:60,max:60}],
+  ended:[{t:'Accumulated Point Rewards',img:'th-accumulated',rw:'ic-jade',cur:0,max:225}]
 };
 
 const HSR_NAIA={
@@ -4351,13 +4353,13 @@ function hsrWhen(iso){ const dt=new Date(iso);
 function hsrBar(c,m){ return '<div class="hsr-bar"><i style="width:'+Math.min(100,m?c/m*100:0)+'%"></i></div>'; }
 const HSR_CLOCK='<svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.2V8l2.6 1.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
 function hsrRow(e,kind){
-  const done=kind==='done';
+  const done=kind==='done', ended=kind==='ended';
   let mid='<div class="ti">'+hsrEsc(e.t)+'</div>';
   if(e.tag) mid+='<div class="hsr-tag">✦ '+hsrEsc(e.tag)+'</div>';
   else if(kind==='progress'&&e.end) mid+='<div class="hsr-pill" data-hsr="end" data-ts="'+e.end+'"'+(e.cur>=e.max?' data-done="1"':'')+'>'+HSR_CLOCK+'<span></span></div><div class="hsr-dl">Ends '+hsrWhen(e.end)+'</div>';
   else if(kind==='soon') mid+='<div class="hsr-cd" data-hsr="start" data-ts="'+e.start+'">Initiating countdown: <span></span></div><div class="hsr-dl">Starts '+hsrWhen(e.start)+'</div>';
   const tick=done?'<svg viewBox="0 0 36 30"><path d="M3 15l10 11L33 3" fill="none" stroke="#5fd0c8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>':'';
-  return '<div class="hsr-card"><div class="hsr-row'+(kind==='soon'?' soon':'')+'"><img class="th" src="'+HSR_IMG+e.img+'.webp" alt="" loading="lazy" draggable="false"><div>'+mid+'</div>'+
+  return '<div class="hsr-card'+(ended?' hsr-ended':'')+'"><div class="hsr-row'+(kind==='soon'?' soon':'')+'"><img class="th" src="'+HSR_IMG+e.img+'.webp" alt="" loading="lazy" draggable="false"><div>'+mid+'</div>'+
     '<img class="hsr-rw'+(done?' dim':'')+'" src="'+HSR_IMG+e.rw+'.webp" alt="" loading="lazy" draggable="false">'+
     '<div class="hsr-pg"><div class="l"><span>Progress:</span><span class="n'+(done?' hsr-ok':'')+'">'+e.cur+'<small>/'+e.max+'</small>'+tick+'</span></div>'+hsrBar(e.cur,e.max)+'</div></div></div>';
 }
@@ -4406,7 +4408,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261123-064825';
+const APP_BUILD='20261123-112313';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4721,6 +4723,7 @@ function hsrBuild(){
   o+='<div class="hsr-sec bl">In Progress</div>'+hsrByEnd(D.progress).map(e=>hsrRow(e,'progress')).join('');
   o+='<div class="hsr-sec dk">Coming Soon</div>'+hsrByStart(D.soon).map(e=>hsrRow(e,'soon')).join('');
   o+='<div class="hsr-sec dk">Completed</div>'+D.done.map(e=>hsrRow(e,'done')).join('');
+  if(D.ended&&D.ended.length) o+='<div class="hsr-sec dk">Ended</div>'+D.ended.map(e=>hsrRow(e,'ended')).join('');
   document.getElementById('hsrCol').innerHTML=o; hsrTick();
 }
 function hsrPlace(){
