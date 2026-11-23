@@ -4368,6 +4368,12 @@ const HSR_PROFILE={ // placeholder text from the sample video — to be replaced
   name:'Lotus', level:70, badges:['A4-1','X3'], birthday:'Birthday 3/26', uid:'UID 800593541',
   signature:'For Naia only~',
   activity:[ // d = real date (PH); the "N day(s) ago" part is computed from it
+    {d:'2026-11-20',t:'Completed Apocalyptic Shadow: Navigator\u2019s Netherveil: Difficulty 3'},
+    {d:'2026-11-20',t:'Completed Forgotten Hall: Starward Mode'},
+    {d:'2026-11-19',t:'Completed Pure Fiction: Starward Mode'},
+    {d:'2026-11-18',t:'Obtained the new 5-Star Character \u201cAeon \u2605 Aha\u201d'},
+    {d:'2026-11-15',t:'Completed \u201cCurrency Wars: Standard Gambit Cobalt Silver 1\u201d'},
+    {d:'2026-11-15',t:'Advanced to Rank Ice Titanium 1 in \u201cCurrency Wars\u201d'},
     {d:'2026-11-05',t:'Completed Anomaly Arbitration: Return to Roots'},
     {d:'2026-11-01',t:'Completed Forgotten Hall: Starward Mode'},
     {d:'2026-11-01',t:'Obtained the new 5-Star Character \u201cPearl\u201d'},
@@ -4408,7 +4414,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261123-112313';
+const APP_BUILD='20261123-112457';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
