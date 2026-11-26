@@ -4336,7 +4336,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-151544';
+const APP_BUILD='20261126-152255';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5017,7 +5017,7 @@ function prodFit(){
     const body=box.querySelector('.prod-body'), n=body.children.length; if(!n) return;
     const W=box.clientWidth-16, H=box.clientHeight-22, gap=5;
     // all of an account's buildings sit in ONE row (no wrapping, no scrollbars): the tile is as big as the width and height allow
-    const bc=n, best=Math.max(30,Math.min((W-gap*(n-1))/n, (H-34)/1.39, 320));
+    const bc=n, best=Math.max(52,Math.min((W-gap*(n-1))/n, (H-34)/1.39, 170));   // never bigger than 170px; it only shrinks when needed, and never below 52px
     body.style.setProperty('--cols',bc); body.style.setProperty('--tw',Math.floor(best)+'px');
     box.style.setProperty('--hf',Math.round(Math.max(15,Math.min(34,46-best*.22)))+'px');   // the smaller the tiles, the bigger the account name
   });
