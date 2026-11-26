@@ -4350,7 +4350,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-163628';
+const APP_BUILD='20261126-163720';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4946,7 +4946,7 @@ function prodEditCount(t,a,e){
   t.replaceWith(wrap); inp.focus(); inp.select(); let done=false;
   const finish=ok=>{ if(done) return; done=true; qDragging=false;
     if(ok&&inp.value!==''){ let v=Math.min(100,parseInt(inp.value,10)||0), prog;
-      if(v>=100) prog=100; else { v=Math.floor(v/3)*3; prog=Math.min(v+1.5,v>=99?99.5:100); }   // a typed number counts as halfway through its step of 3
+      if(v>=100) prog=100; else { v=Math.floor(v/3)*3; prog=v>=99?v+1/3:v+1; }   // a typed number counts as one third of the way through its step of 3
       prodSave(a,e.i,e.b,e.items,Date.now()-prog/100*T*60000); }
     prodRender(); };
   inp.addEventListener('input',()=>{ inp.value=inp.value.replace(/\D/g,'').slice(0,3); });
