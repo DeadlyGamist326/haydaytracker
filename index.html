@@ -668,8 +668,8 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-iw{position:relative;width:100%;}
 .prod-bld.crop .prod-iw{aspect-ratio:1;}
 .prod-bld.crop .prod-img{position:absolute;left:25%;top:25%;width:50%;}
-.prod-q.crop-q{display:flex;justify-content:center;margin-bottom:6%;}
-.prod-cnt{pointer-events:auto;cursor:text;font:normal clamp(10px,17cqw,40px)/1.1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;text-shadow:0 .06em .08em rgba(0,0,0,.5);white-space:nowrap;letter-spacing:.02em;text-align:center;}
+.prod-q.crop-q{display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:6%;}
+.prod-cnt{pointer-events:auto;cursor:text;font:normal clamp(9px,12cqw,28px)/1.1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;text-shadow:0 .06em .08em rgba(0,0,0,.5);white-space:nowrap;letter-spacing:.02em;text-align:center;}
 .prod-cnt.ready{cursor:pointer;color:#8dff6e;font-size:clamp(9px,12cqw,26px);animation:prodShakeS .5s linear infinite;}
 .prod-q.crop-q .prod-qt{font:normal clamp(10px,17cqw,40px)/1.1 var(--font-display);text-align:center;}
 .prod-stack{position:absolute;left:10%;width:80%;bottom:2%;display:flex;flex-direction:column;z-index:5;pointer-events:none;}
@@ -4350,7 +4350,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-163247';
+const APP_BUILD='20261126-163628';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5072,6 +5072,7 @@ function prodRender(){
           if(md.className) iw.appendChild(md); }
         if(e.b.crop){      // a crop: one slot, one countdown (centered), nothing can be added; collecting it removes it
           if(e.b.counter){ const sl=document.createElement('div'); sl.className='prod-q crop-q';
+            if(!rdy){ const q=document.createElement('div'); q.className='prod-qt'; q.style.cursor='default'; q.dataset.st=e.start||''; q.dataset.m=e.b.i[0][3]; q.textContent=prodFmtLong(e.start+e.b.i[0][3]*60000-Date.now()); sl.appendChild(q); }   // live countdown stays, the count is under it
             const t=document.createElement('div'); t.className='prod-cnt'+(rdy?' ready':''); t.dataset.st=e.start||''; t.dataset.m=e.b.i[0][3]; t.dataset.ready=rdy?'1':''; if(!rdy&&e.start) t.innerHTML='<span class="n">'+prodCount(e.start,e.b.i[0][3],Date.now())+'</span>/100';
             if(rdy){ t.textContent='Ready to Collect'; t.title='Click to collect: the count goes back to 0'; t.onclick=ev=>{ ev.stopPropagation(); prodSave(ac.id,e.i,e.b,e.items,Date.now()); prodRender(); }; }
             else { t.title='Click to set the count (multiples of 3)'; t.onclick=ev=>{ ev.stopPropagation(); prodEditCount(t,ac.id,e); }; }
