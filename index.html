@@ -662,7 +662,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-h{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;white-space:nowrap;text-align:center;line-height:1.1;font:700 40px var(--font-display);color:var(--ink);opacity:.8;pointer-events:none;z-index:0;}
 .prod-box.has .prod-h{opacity:.2;}
 .prod-body{position:relative;z-index:1;}
-.prod-body{display:grid;grid-template-columns:repeat(var(--cols,1),minmax(0,1fr));gap:3px 5px;align-items:start;justify-items:center;}
+.prod-body{display:grid;grid-template-columns:repeat(var(--cols,1),minmax(0,1fr));gap:3px 5px;align-items:center;align-content:center;justify-items:center;flex:1 1 auto;min-height:0;}   /* everything sits in the vertical middle of its box */
 .prod-bld{container-type:inline-size;position:relative;width:var(--tw,120px);max-width:100%;text-align:center;}
 .prod-img{width:100%;aspect-ratio:1;object-fit:contain;display:block;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25));}
 .prod-iw{position:relative;width:100%;}
@@ -4350,7 +4350,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-163720';
+const APP_BUILD='20261126-163802';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
