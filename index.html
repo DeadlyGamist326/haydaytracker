@@ -649,7 +649,10 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .gc-name-card.exp-card{max-width:min(96vw,520px) !important;width:min(96vw,520px) !important;max-height:92vh;overflow:auto;box-sizing:border-box;}
 
 /* ================= Production tracker ================= */
-#prodModal .prod-card{width:98vw !important;max-width:none !important;height:94vh;max-height:94vh;display:flex;flex-direction:column;box-sizing:border-box;padding:12px 14px !important;}
+#prodNow{position:absolute;left:50%;top:2px;transform:translateX(-50%);z-index:20;pointer-events:none;white-space:nowrap;font:700 42px/1 var(--font-display);color:#fff;-webkit-text-stroke:.14em #000;paint-order:stroke fill;letter-spacing:.03em;text-shadow:0 .06em .1em rgba(0,0,0,.4);}
+#prodNow small{font-size:.5em;margin-left:.15em;}
+#prodTip{position:fixed;z-index:3800;display:none;pointer-events:none;padding:4px 12px;border-radius:999px;background:rgba(20,22,30,.92);color:#fff;font:700 18px/1.2 var(--font-display);letter-spacing:.03em;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.4);transform:translate(-50%,-130%);}
+#prodModal .prod-card{position:relative;width:98vw !important;max-width:none !important;height:94vh;max-height:94vh;display:flex;flex-direction:column;box-sizing:border-box;padding:12px 14px !important;}
 .prod-grid{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;margin-top:8px;}
 .prod-row{display:flex;gap:10px;min-height:calc((100% - 20px) / 3);transition:flex-grow .35s ease;}
 @media(max-width:900px){.prod-grid{overflow:auto;}.prod-row{flex-wrap:wrap;}.prod-box{flex:1 1 45% !important;}}
@@ -1037,6 +1040,7 @@ td.upg-cap-warn .upg-max{color:#d62828;}
       <button class="gc-name-ok" id="prodUndo" title="Undo (Ctrl+Z)" style="background:var(--ink-soft);padding:4px 12px;">↶ Undo</button>
       <button class="gc-name-ok" id="prodRedo" title="Redo (Ctrl+Y)" style="background:var(--ink-soft);padding:4px 12px;">↷ Redo</button>
       <button class="gc-name-ok" id="prodClose" style="background:var(--ink-soft);padding:4px 12px;">✕</button></div>
+    <div id="prodNow" aria-label="Current time"></div>
     <div class="prod-grid" id="prodGrid"></div>
   </div>
 </div>
@@ -4352,7 +4356,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-164108';
+const APP_BUILD='20261126-165258';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4955,7 +4959,18 @@ function prodEditCount(t,a,e){
   inp.addEventListener('keydown',ev=>{ ev.stopPropagation(); if(ev.key==='Enter'){ ev.preventDefault(); finish(true); } else if(ev.key==='Escape'){ ev.preventDefault(); finish(false); } });
   inp.addEventListener('blur',()=>finish(true)); wrap.addEventListener('click',ev=>ev.stopPropagation());
 }
+function prodNowTick(){ const n=document.getElementById('prodNow'); if(!n) return; const d=new Date(), h=d.getHours()%12||12, p=v=>String(v).padStart(2,'0');
+  n.innerHTML=h+':'+p(d.getMinutes())+':'+p(d.getSeconds())+'<small>'+(d.getHours()<12?'AM':'PM')+'</small>'; }
+let prodTipEl=null, prodTipXY=[0,0];
+function prodTipUpdate(){ const tip=document.getElementById('prodTip'); if(!prodTipEl||!document.body.contains(prodTipEl)){ prodTipEl=null; tip.style.display='none'; return; }
+  const st=+prodTipEl.dataset.st, tot=+prodTipEl.dataset.tot, left=st+tot*60000-Date.now();
+  tip.textContent=left>0?prodFmtLong(left)+' left':'done'; tip.style.display='block'; tip.style.left=prodTipXY[0]+'px'; tip.style.top=prodTipXY[1]+'px'; }
+document.addEventListener('mousemove',e=>{ if(!document.getElementById('prodModal').classList.contains('gc-show')) return;
+  prodTipXY=[e.clientX,e.clientY]; let hit=null;
+  document.querySelectorAll('#prodGrid .prod-qmid.wait').forEach(m=>{ const r=m.getBoundingClientRect(); if(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom) hit=m; });
+  prodTipEl=hit; prodTipUpdate(); });
 function prodTick(){
+  prodNowTick(); prodTipUpdate();
   if(qDragging) return;
   { let flip=false; document.querySelectorAll('#prodGrid .prod-cnt').forEach(c=>{ const st=+c.dataset.st, m=+c.dataset.m, rdy=Date.now()>=st+m*60000;
       if(rdy!==(c.dataset.ready==='1')) flip=true; else if(!rdy) c.innerHTML='<span class="n">'+prodCount(st,m,Date.now())+'</span>/100'; });
@@ -5544,5 +5559,6 @@ window.addEventListener('focus', ()=>{ checkGamesReset(); checkWeeklyReset(); })
   setTimeout(hideSplash, 3000);
 })();
 </script>
+<div id="prodTip"></div>
 </body>
 </html>
