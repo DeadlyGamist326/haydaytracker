@@ -4317,7 +4317,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-124039';
+const APP_BUILD='20261126-124228';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4939,6 +4939,7 @@ function prodWheelData(e,a){
   const nxt=rest.length?rest[0][1]:0, gray=rest.filter(x=>x[1]===nxt);   // next unlock level group, shown greyed
   return open.map(x=>({it:x,lock:false})).concat(gray.map(x=>({it:x,lock:true})));
 }
+const PW_SCALE=0.5;   // wheel size (1 = the calibrated size); smaller number = smaller wheel
 const PW_PAGER={left:{x:80.6,y:631.4,s:88.5},right:{x:426.6,y:631.4,s:88.5},dots:{x:253.6,y:619.5,s:48,g:8.5},text:{x:253.6,y:696.5,s:44}};   // calibrated in the 5-slot stage space
 const PW_LAY={"2":{"st":[534,462],"w":[72.6,84.7,444.8,375.9],"b":[505,355,210],"it":[[343.9,154.9,179.5],[167.8,322.4,170.5]]},"3":{"st":[657,630],"w":[75.9,44.4,507,545.5],"b":[600,380,210],"it":[[462.2,157.7,154.5],[248.3,236.1,142.5],[160.8,431.7,143.5]]},"4":{"st":[693,655],"w":[59,16,630.5,631.5],"b":[525,440,250],"it":[[543.2,131.8,185],[368.6,220.6,204],[217.4,347,131.5],[182.3,511.6,186.5]]},"5":{"st":[719,616],"w":[38.3,80.8,637.5,515],"b":[700,495,230],"it":[[575.7,337.2,175.5],[383.2,459.7,200],[500.8,138.6,207.5],[274.6,262.2,204],[163.5,475.6,194]]}};
 function prodWheelPlace(){
@@ -4952,7 +4953,7 @@ function prodWheelPlace(){
   const lk=pages>1?5:Math.min(5,Math.max(2,n)), L=PW_LAY[lk], [wx,wy,ww,wh]=L.w, [bx,by,bs]=L.b;
   // the wheel spawns on the building itself: the building picture in the box is the anchor
   const r=im.getBoundingClientRect(), vw=innerWidth, vh=innerHeight;
-  const bpx=Math.min(r.width,r.height), sc=Math.max(.42,Math.min(1.25,bpx/bs));
+  const sc=PW_SCALE;   // fixed size: the wheel no longer changes size when the building tile resizes
   let ox=r.left+r.width/2-bx*sc, oy=r.top+r.height/2-by*sc;
   // keep the whole fan on screen
   const pgx=pages>1?[PW_PAGER.left.x-PW_PAGER.left.s/2,PW_PAGER.right.x+PW_PAGER.right.s/2]:[1e9,-1e9];
