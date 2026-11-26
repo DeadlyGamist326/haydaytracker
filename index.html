@@ -4348,7 +4348,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-161550';
+const APP_BUILD='20261126-161744';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4767,7 +4767,7 @@ function prodBellCheck(){
   if(typeof GAME_ACCOUNTS==='undefined'||typeof games==='undefined'||!games.checks) return;
   const now=Date.now(); let ring=false;
   GAME_ACCOUNTS.forEach(ac=>{ prodList(ac.id).forEach(e=>{
-    if(!e.items.length||!e.start) return; const m=prodMins(e.b,e.items[0]); if(!m) return;
+    if(!e.items.length||!e.start) return; const m=prodGroup(e.b,e.items).mins; if(!m) return;
     const left=e.start+m*60000-now, key=ac.id+'|'+e.i+'|'+e.start+'|'+e.items[0];
     if(left>-90000&&left<=60000&&!bellSeen.has(key)){ bellSeen.add(key); if(bellInit) ring=true; }   // also catches a minute a throttled background tab skipped
   }); });
@@ -4824,7 +4824,7 @@ function prodSettle(){
   GAME_ACCOUNTS.forEach(ac=>{ prodList(ac.id).forEach(e=>{
     if(!e.items.length||!e.start) return;
     let items=e.items.slice(), done=e.done.slice(), st=e.start, mv=false;
-    while(items.length){ const m=prodMins(e.b,items[0]); if(!m||st+m*60000>now) break; done.push(items.shift()); st+=m*60000; mv=true; }
+    while(items.length){ const G=prodGroup(e.b,items); if(!G.mins||st+G.mins*60000>now) break; for(let q=0;q<G.n;q++) done.push(items.shift()); st+=G.mins*60000; mv=true; }
     if(mv){ writeCheckValue(prodKey(ac.id,e.i), prodVal(e.b,items,items.length?st:0,done,st)); changed=true; }   // st = when the last one finished
   }); });
   return changed;
@@ -4859,7 +4859,7 @@ function prodParseDH(buf,dur){      // trees: "# D ## H" (first digit is the day
   let h=parseInt(d.slice(i,i+2).join('')||'0',10); if(h>23) h=23;
   const tot=Math.min(dd*24+h,Math.floor(dur/60)); return {d:Math.floor(tot/24),h:tot%24}; }
 function prodEditTimer(t,a,e){
-  const dur=prodMins(e.b,e.items[0]); if(!dur||!e.start) return;
+  const dur=prodGroup(e.b,e.items).mins; if(!dur||!e.start) return;
   const tree=!!e.b.crop&&dur>=1440, PARSE=tree?prodParseDH:prodParseTime;
   qDragging=true;
   const wrap=document.createElement('div'); wrap.className='prod-qed';
@@ -4917,6 +4917,8 @@ function prodQDrag(btn,k,a,e,qg){
   });
 }
 function prodItem(b,file){ return b.i.find(x=>x[2]===file); }
+// the products at the front of the queue that are the SAME item form one group: the alarm, the countdown and "done" are for the END of that group
+function prodGroup(b,items){ let g=0; while(g<items.length&&items[g]===items[0]) g++; return {n:g,mins:g*(prodMins(b,items[0])||0)}; }
 function prodMins(b,file){ const it=prodItem(b,file); return it?it[3]:0; }
 function prodFmt(ms){ const m=Math.ceil(ms/60000); if(m<=0) return '\u2713'; const d=Math.floor(m/1440), h=Math.floor(m%1440/60), mm=m%60; return d?d+'d '+h+'h':(h?h+'h '+(mm?mm+'m':''):mm+'m'); }
 function prodFmtLong(ms){ const s=Math.max(0,Math.ceil(ms/1000)), d=Math.floor(s/86400), h=Math.floor(s%86400/3600), m=Math.floor(s%3600/60), x=s%60, p=v=>String(v).padStart(2,'0');
@@ -5039,7 +5041,7 @@ function prodRender(){
           if(md.className) iw.appendChild(md); }
         if(e.b.crop){      // a crop: one slot, one countdown (centered), nothing can be added; collecting it removes it
           if(e.items.length){ const sl=document.createElement('div'); sl.className='prod-q crop-q';
-            const t=document.createElement('div'); t.className='prod-qt'; t.title='Click to edit the time left'; t.dataset.st=e.start||''; t.dataset.m=prodMins(e.b,e.items[0])||''; t.onclick=ev=>{ ev.stopPropagation(); prodEditTimer(t,ac.id,e); }; sl.appendChild(t); stack.appendChild(sl); }
+            const t=document.createElement('div'); t.className='prod-qt'; t.title='Click to edit the time left'; t.dataset.st=e.start||''; t.dataset.m=prodGroup(e.b,e.items).mins||''; t.onclick=ev=>{ ev.stopPropagation(); prodEditTimer(t,ac.id,e); }; sl.appendChild(t); stack.appendChild(sl); }
           const x=document.createElement('button'); x.className='prod-x'; x.textContent='\u2715'; x.title='Remove'; x.onclick=ev=>{ ev.stopPropagation(); prodSave(ac.id,e.i,null,[]); prodRender(); }; c.appendChild(x);
           c.addEventListener('contextmenu',ev=>{ ev.preventDefault(); prodSave(ac.id,e.i,null,[]); prodRender(); });
           body.appendChild(c); return; }
@@ -5047,7 +5049,7 @@ function prodRender(){
         const nSl=qrows===1?5:Math.max(PROD_SLOTS,e.items.length);
         const sl=document.createElement('div'); sl.className='prod-q'; sl.style.setProperty('--rows',qrows); if(!e.items.length) sl.style.display='none';   // nothing queued yet: no empty slots shown
         if(e.items.length){ const hd=document.createElement('div'); hd.className='prod-qh';
-          const t=document.createElement('div'); t.className='prod-qt'; t.title='Click to edit the time left'; t.dataset.st=e.start||''; t.dataset.m=prodMins(e.b,e.items[0])||''; t.onclick=ev=>{ ev.stopPropagation(); prodEditTimer(t,ac.id,e); }; hd.appendChild(t); sl.appendChild(hd); }
+          const t=document.createElement('div'); t.className='prod-qt'; t.title='Click to edit the time left'; t.dataset.st=e.start||''; t.dataset.m=prodGroup(e.b,e.items).mins||''; t.onclick=ev=>{ ev.stopPropagation(); prodEditTimer(t,ac.id,e); }; hd.appendChild(t); sl.appendChild(hd); }
         const qg=document.createElement('div'); qg.className='prod-qg'; qg.style.height=qrows===1?'calc(var(--u) * 1.27)':'calc('+qrows+' * var(--u) + '+(qrows-1)+' * 3px)'; sl.appendChild(qg);
         for(let k=0;k<nSl;k++){ const cc=document.createElement('div'); cc.className='prod-qc'; qSet(cc,k); qg.appendChild(cc); }
         e.items.forEach((f,k)=>{ const q=document.createElement('button'); q.className='prod-qs'+(k===0?' first':''); q.title=(prodItem(e.b,f)||[f])[0]+' \u2014 click to remove, hold and drag to move';
