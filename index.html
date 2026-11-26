@@ -659,6 +659,9 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-box:not(.has){justify-content:center;align-items:center;overflow:hidden;}
 .prod-box:not(.has) .prod-h{margin:0;white-space:nowrap;text-align:center;line-height:1.1;opacity:.8;font-size:40px;max-width:100%;}
 .prod-h{font:700 14px var(--font-display);color:var(--ink);margin-bottom:4px;}
+.prod-box.has{position:relative;}
+.prod-box.has .prod-h{position:absolute;left:6px;top:4px;z-index:8;margin:0;padding:1px 9px;border-radius:10px;background:rgba(255,255,255,.86);box-shadow:0 1px 5px rgba(0,0,0,.28);font-size:var(--hf,15px);line-height:1.15;pointer-events:none;max-width:calc(100% - 12px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.prod-box.has .prod-body{padding-top:calc(var(--hf,15px) * .55);}
 .prod-body{display:grid;grid-template-columns:repeat(var(--cols,1),minmax(0,1fr));gap:3px 5px;align-items:start;justify-items:center;}
 .prod-bld{container-type:inline-size;position:relative;width:var(--tw,120px);max-width:100%;text-align:center;}
 .prod-img{width:100%;aspect-ratio:1;object-fit:contain;display:block;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25));}
@@ -4325,7 +4328,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-144203';
+const APP_BUILD='20261126-144505';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4959,10 +4962,11 @@ function prodFit(){
   document.querySelectorAll('#prodGrid .prod-box').forEach(box=>{
     if(!box.classList.contains('has')){ const h=box.querySelector('.prod-h'); if(h){ h.style.fontSize='100px'; const cw=box.clientWidth-20, ch=box.clientHeight-16, k=Math.min(cw/Math.max(1,h.scrollWidth), ch/Math.max(1,h.scrollHeight)); h.style.fontSize=Math.max(10,Math.floor(100*k))+'px'; } return; }
     const body=box.querySelector('.prod-body'), n=body.children.length; if(!n) return;
-    const W=box.clientWidth-16, H=box.clientHeight-box.querySelector('.prod-h').offsetHeight-14, gap=5;
+    const W=box.clientWidth-16, H=box.clientHeight-22, gap=5;
     let best=60, bc=1;
     for(let c=1;c<=n;c++){ const r=Math.ceil(n/c); const w=Math.min((W-gap*(c-1))/c, ((H-gap*(r-1))/r-34)/1.39, 170); if(w>best||c===1&&w>0){ if(w>=best||c===1){ best=Math.max(w,40); bc=c; } } }
     body.style.setProperty('--cols',bc); body.style.setProperty('--tw',Math.floor(best)+'px');
+    box.style.setProperty('--hf',Math.round(Math.max(15,Math.min(34,46-best*.22)))+'px');   // the smaller the tiles, the bigger the account name
   });
 }
 let prodFitT=0; function prodFitSoon(){ requestAnimationFrame(prodFit); clearTimeout(prodFitT); prodFitT=setTimeout(prodFit,420); }
