@@ -650,14 +650,16 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 
 /* ================= Production tracker ================= */
 #prodModal .prod-card{width:98vw !important;max-width:none !important;height:94vh;max-height:94vh;display:flex;flex-direction:column;box-sizing:border-box;padding:12px 14px !important;}
-.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(18%,auto);gap:10px;flex:1;min-height:0;overflow:auto;margin-top:8px;align-content:stretch;}
-@media(max-width:900px){.prod-grid{grid-template-columns:repeat(2,1fr);}}
-.prod-box{border:1.5px dashed var(--line);border-radius:12px;background:var(--paper-raised);padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;min-height:0;transition:border-color .15s,background .15s;}
+.prod-grid{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;margin-top:8px;}
+.prod-row{display:flex;gap:10px;min-height:0;transition:flex-grow .35s ease;}
+@media(max-width:900px){.prod-grid{overflow:auto;}.prod-row{flex-wrap:wrap;}.prod-box{flex:1 1 45% !important;}}
+.prod-box{border:1.5px dashed var(--line);border-radius:12px;background:var(--paper-raised);padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:auto;transition:flex-grow .35s ease,border-color .15s,background .15s;}
 .prod-box:hover{border-color:var(--teal);}
 .prod-box.has{border-style:solid;}
+.prod-box:not(.has) .prod-h{font-size:12px;opacity:.75;}
 .prod-h{font:700 14px var(--font-display);color:var(--ink);margin-bottom:4px;}
-.prod-body{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:flex-start;}
-.prod-bld{position:relative;width:clamp(96px,9vw,132px);text-align:center;}
+.prod-body{display:grid;grid-template-columns:repeat(var(--cols,1),minmax(0,1fr));gap:8px 10px;align-items:start;justify-items:center;}
+.prod-bld{position:relative;width:var(--tw,120px);max-width:100%;text-align:center;}
 .prod-img{width:100%;aspect-ratio:1;object-fit:contain;display:block;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25));}
 .prod-nm{font:700 11px var(--font-body);color:var(--ink);line-height:1.15;}
 .prod-slots{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin-top:3px;min-height:4px;}
@@ -4258,7 +4260,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-080100';
+const APP_BUILD='20261126-080400';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4726,32 +4728,49 @@ function prodOpenEd(box,a){
   inp.focus();
 }
 function prodRender(){
-  const g=document.getElementById('prodGrid'); if(!g) return; const keep=g.scrollTop; g.innerHTML='';
-  GAME_ACCOUNTS.forEach(ac=>{
-    const L=prodList(ac.id);
-    const box=document.createElement('div'); box.className='prod-box'+(L.length?' has':'');
-    const h=document.createElement('div'); h.className='prod-h'; h.textContent=ac.label; box.appendChild(h);
-    const body=document.createElement('div'); body.className='prod-body'; box.appendChild(body);
-    L.forEach(e=>{
-      const c=document.createElement('div'); c.className='prod-bld'; c.title=e.b.name||e.b.n;
-      const im=document.createElement('img'); im.className='prod-img'; im.src=PROD_IMG+e.b.s+'.webp'; im.alt=e.b.n; im.draggable=false; c.appendChild(im);
-      const nm=document.createElement('div'); nm.className='prod-nm'; nm.textContent=e.b.n; c.appendChild(nm);
-      const sl=document.createElement('div'); sl.className='prod-slots';
-      e.items.forEach((f,k)=>{ const s=document.createElement('button'); s.className='prod-it'; s.title='Click to remove'; const m=document.createElement('img'); m.src=REQ_IMG_BASE+'goods/'+f+'.webp'; m.alt=''; s.appendChild(m);
-        s.onclick=ev=>{ ev.stopPropagation(); const n=e.items.slice(); n.splice(k,1); prodSave(ac.id,e.i,e.b,n); prodRender(); }; sl.appendChild(s); });
-      c.appendChild(sl);
-      const x=document.createElement('button'); x.className='prod-x'; x.textContent='✕'; x.title='Remove building';
-      x.onclick=ev=>{ ev.stopPropagation(); prodSave(ac.id,e.i,null,[]); prodRender(); }; c.appendChild(x);
-      c.addEventListener('contextmenu',ev=>{ ev.preventDefault(); prodSave(ac.id,e.i,null,[]); prodRender(); });
-      body.appendChild(c);
+  const g=document.getElementById('prodGrid'); if(!g) return; g.innerHTML='';
+  const W=n=>n?1+0.5*Math.min(n-1,5):0.5;          // box weight: empty boxes step aside, boxes with more buildings take more room
+  const per=4, rows=[];
+  for(let r=0;r<GAME_ACCOUNTS.length;r+=per){
+    const row=document.createElement('div'); row.className='prod-row'; let rw=0.5;
+    GAME_ACCOUNTS.slice(r,r+per).forEach(ac=>{
+      const L=prodList(ac.id); const w=W(L.length); rw=Math.max(rw,w);
+      const box=document.createElement('div'); box.className='prod-box'+(L.length?' has':''); box.style.flex=w+' 1 0';
+      const h=document.createElement('div'); h.className='prod-h'; h.textContent=ac.label; box.appendChild(h);
+      const body=document.createElement('div'); body.className='prod-body'; body.style.setProperty('--cols',Math.max(1,Math.min(L.length,Math.round(Math.sqrt(L.length*1.6))))); box.appendChild(body);
+      L.forEach(e=>{
+        const c=document.createElement('div'); c.className='prod-bld'; c.title=e.b.n;
+        const im=document.createElement('img'); im.className='prod-img'; im.src=PROD_IMG+e.b.s+'.webp'; im.alt=e.b.n; im.draggable=false; c.appendChild(im);
+        const nm=document.createElement('div'); nm.className='prod-nm'; nm.textContent=e.b.n; c.appendChild(nm);
+        const sl=document.createElement('div'); sl.className='prod-slots';
+        e.items.forEach((f,k)=>{ const s=document.createElement('button'); s.className='prod-it'; s.title='Click to remove'; const m=document.createElement('img'); m.src=REQ_IMG_BASE+'goods/'+f+'.webp'; m.alt=''; s.appendChild(m);
+          s.onclick=ev=>{ ev.stopPropagation(); const n=e.items.slice(); n.splice(k,1); prodSave(ac.id,e.i,e.b,n); prodRender(); }; sl.appendChild(s); });
+        c.appendChild(sl);
+        const x=document.createElement('button'); x.className='prod-x'; x.textContent='✕'; x.title='Remove building';
+        x.onclick=ev=>{ ev.stopPropagation(); prodSave(ac.id,e.i,null,[]); prodRender(); }; c.appendChild(x);
+        c.addEventListener('contextmenu',ev=>{ ev.preventDefault(); prodSave(ac.id,e.i,null,[]); prodRender(); });
+        body.appendChild(c);
+      });
+      box.addEventListener('click',ev=>{ if(ev.target.closest('.prod-it,.prod-x')) return; prodOpenEd(box,ac.id); });
+      row.appendChild(box);
     });
-    box.addEventListener('click',ev=>{ if(ev.target.closest('.prod-it,.prod-x')) return; prodOpenEd(box,ac.id); });
-    g.appendChild(box);
-  });
-  g.scrollTop=keep;
+    row.style.flex=rw+' 1 0'; g.appendChild(row);
+  }
+  prodFitSoon();
 }
+function prodFit(){
+  document.querySelectorAll('#prodGrid .prod-box').forEach(box=>{
+    const body=box.querySelector('.prod-body'), n=body.children.length; if(!n) return;
+    const W=box.clientWidth-20, H=box.clientHeight-box.querySelector('.prod-h').offsetHeight-20, gap=10;
+    let best=60, bc=1;
+    for(let c=1;c<=n;c++){ const r=Math.ceil(n/c); const w=Math.min((W-gap*(c-1))/c, (H-gap*(r-1))/r-46, 170); if(w>best||c===1&&w>0){ if(w>=best||c===1){ best=Math.max(w,40); bc=c; } } }
+    body.style.setProperty('--cols',bc); body.style.setProperty('--tw',Math.floor(best)+'px');
+  });
+}
+let prodFitT=0; function prodFitSoon(){ requestAnimationFrame(prodFit); clearTimeout(prodFitT); prodFitT=setTimeout(prodFit,420); }
+window.addEventListener('resize',()=>{ if(document.getElementById('prodModal').classList.contains('gc-show')) prodFitSoon(); });
 function refreshProd(){ const m=document.getElementById('prodModal'); if(m&&m.classList.contains('gc-show')&&!prodEd) prodRender(); }
-function openProd(){ prodRender(); document.getElementById('prodModal').classList.add('gc-show'); }
+function openProd(){ prodRender(); document.getElementById('prodModal').classList.add('gc-show'); prodFitSoon(); }
 function closeProd(){ prodCloseEd(); document.getElementById('prodModal').classList.remove('gc-show'); }
 document.getElementById('prodBtn').onclick=openProd;
 document.getElementById('prodClose').onclick=closeProd;
