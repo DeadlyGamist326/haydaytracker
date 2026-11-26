@@ -4290,7 +4290,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-100907';
+const APP_BUILD='20261126-101307';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4815,7 +4815,7 @@ window.addEventListener('resize',()=>{ if(document.getElementById('prodModal').c
 const PW={R:190,ICON:68};
 let prodW=null;   // {a,i,tile,off}
 function prodWheelClose(){ prodW=null; const w=document.getElementById('prodWheel'); w.classList.remove('show'); w.innerHTML=''; }
-function prodWheelToggle(a,i,tile){ if(prodW&&prodW.a===a&&prodW.i===i){ prodWheelClose(); return; } prodCloseEd(); prodW={a,i,tile,off:null}; prodWheelPlace(); }
+function prodWheelToggle(a,i,tile){ if(prodW&&prodW.a===a&&prodW.i===i){ prodWheelClose(); return; } prodCloseEd(); prodW={a,i,tile,pg:0}; prodWheelPlace(); }
 function prodWheelData(e,a){
   const lv=lvlGet(a), all=e.b.i;
   const open=all.filter(x=>!lv||x[1]<=lv), rest=all.filter(x=>lv&&x[1]>lv);
@@ -4828,15 +4828,14 @@ function prodWheelPlace(){
   const {a,i}=prodW; const e=prodList(a).find(x=>x.i===i);
   if(!e){ prodWheelClose(); return; }
   const slots=prodWheelData(e,a), N=5, total=slots.length;
-  const maxOff=Math.max(0,total-N); if(prodW.off==null) prodW.off=maxOff; prodW.off=Math.min(Math.max(0,prodW.off),maxOff);
-  const view=slots.slice(prodW.off,prodW.off+N), n=view.length;
+  const pages=Math.max(1,Math.ceil(total/N)); prodW.pg=Math.min(Math.max(0,prodW.pg||0),pages-1);
+  const view=slots.slice(prodW.pg*N,prodW.pg*N+N), n=view.length;
   const L=PW_LAY[Math.min(5,Math.max(2,n))], [SW,SH]=L.st, [wx,wy,ww,wh]=L.w, [bx,by,bs]=L.b;
   const QW=5*60, vw=innerWidth, vh=innerHeight;
   const sc=Math.max(.3,Math.min((vw*.96-(e.items.length?QW+16:0))/Math.max(SW,bx+bs/2),vh*.86/SH,1.7));
   const totW=Math.max(SW,bx+bs/2)*sc+(e.items.length?QW+16:0);
   const ox=(vw-totW)/2, oy=(vh-SH*sc)/2+10;
   const X=v=>ox+v*sc, Y=v=>oy+v*sc;
-  const q=prodList(a).filter(x=>x.b===e.b).reduce((m,x)=>{ x.items.forEach(f=>{ m[f]=(m[f]||0)+1; }); return m; },{});
   w.innerHTML=''; w.classList.add('show');
   const ac=GAME_ACCOUNTS.find(x=>x.id===a);
   const hd=document.createElement('div'); hd.className='pw-title'; hd.textContent=e.b.n+' \u00b7 '+(ac?ac.label:a); w.appendChild(hd);
@@ -4855,12 +4854,10 @@ function prodWheelPlace(){
       if(cur.items.length>=PROD_SLOTS){ el.classList.remove('full'); void el.offsetWidth; el.classList.add('full'); return; }
       prodSave(a,i,cur.b,cur.items.concat(sl.it[2]),cur.items.length?cur.start:Date.now()); prodRender(); };
     w.appendChild(el);
-    const bb=document.createElement('div'); bb.className='pw-cnt'; bb.textContent=q[sl.it[2]]||0;
-    bb.style.cssText='left:'+(px-.52*s)+'px;top:'+(py-.34*s)+'px;font-size:'+Math.max(16,28*sc)+'px;'; w.appendChild(bb);
   });
-  if(total>N){ [['\u25B2',-1,wx+ww*0.96,wy],['\u25BC',1,wx+ww*0.02,wy+wh]].forEach(([t,d,nx,ny])=>{ const b=document.createElement('button'); b.className='pw-nav'; b.textContent=t;
-    b.style.cssText='left:'+X(nx)+'px;top:'+Y(ny)+'px;';
-    b.onclick=ev=>{ ev.stopPropagation(); prodW.off+=d; prodWheelPlace(); }; w.appendChild(b); }); }
+  if(pages>1){ [['\u25B2',-1,wx+ww*0.96,wy,prodW.pg>0],['\u25BC',1,wx+ww*0.02,wy+wh,prodW.pg<pages-1]].forEach(([t,d,nx,ny,on])=>{ if(!on) return; const b=document.createElement('button'); b.className='pw-nav'; b.textContent=t;
+    b.title=d<0?'Previous 5':'Next 5'; b.style.cssText='left:'+X(nx)+'px;top:'+Y(ny)+'px;';
+    b.onclick=ev=>{ ev.stopPropagation(); prodW.pg+=d; prodWheelPlace(); }; w.appendChild(b); }); }
   // the queue: 5 + 5, a box only appears once something is being made; the left-most one carries the timer
   const qd=document.createElement('div'); qd.className='pw-queue'; qd.style.cssText='left:'+(X(bx)+bs*sc/2+12)+'px;top:'+(Y(by)-60)+'px;--qs:54px;';
   e.items.forEach((f,k)=>{ const c=document.createElement('button'); c.className='prod-qs'+(k===0?' first':''); c.title=(prodItem(e.b,f)||[f])[0]+' \u2014 click to remove';
