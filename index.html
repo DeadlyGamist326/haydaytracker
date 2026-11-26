@@ -4350,7 +4350,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-163004';
+const APP_BUILD='20261126-163247';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4802,7 +4802,13 @@ function prodCollect(a,i,k,z,pile){
 // sort the buildings of every account: ones with finished products first (oldest finish first), then by when their queue ends; empty ones last
 function prodCropCollect(a,i,z,c){
   if(pileBusy) return; pileBusy=true; z.classList.add('collect'); c.classList.add('wipe');
-  setTimeout(()=>{ prodSave(a,i,null,[]); pileBusy=Object.keys(pileState).length>0; prodRender(); },750);
+  c.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.82)'}],{duration:450,delay:380,easing:'ease-in',fill:'forwards'});   // then the whole tile fades out and the others slide over
+  setTimeout(()=>{ prodSave(a,i,null,[]); pileBusy=Object.keys(pileState).length>0; prodRender(); },850);
+}
+function prodFadeRemove(a,i,c){
+  if(pileBusy||!c) { prodSave(a,i,null,[]); prodRender(); return; } pileBusy=true;
+  c.style.pointerEvents='none'; c.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.82)'}],{duration:380,easing:'ease-in',fill:'forwards'});
+  setTimeout(()=>{ prodSave(a,i,null,[]); pileBusy=Object.keys(pileState).length>0; prodRender(); },400);
 }
 function prodSortAll(){
   prodWheelClose(); prodSettle();
@@ -5072,8 +5078,8 @@ function prodRender(){
             sl.appendChild(t); stack.appendChild(sl); }
           else if(e.items.length){ const sl=document.createElement('div'); sl.className='prod-q crop-q';
             const t=document.createElement('div'); t.className='prod-qt'; t.title='Click to edit the time left'; t.dataset.st=e.start||''; t.dataset.m=prodGroup(e.b,e.items).mins||''; t.onclick=ev=>{ ev.stopPropagation(); prodEditTimer(t,ac.id,e); }; sl.appendChild(t); stack.appendChild(sl); }
-          const x=document.createElement('button'); x.className='prod-x'; x.textContent='\u2715'; x.title='Remove'; x.onclick=ev=>{ ev.stopPropagation(); prodSave(ac.id,e.i,null,[]); prodRender(); }; c.appendChild(x);
-          c.addEventListener('contextmenu',ev=>{ ev.preventDefault(); prodSave(ac.id,e.i,null,[]); prodRender(); });
+          const x=document.createElement('button'); x.className='prod-x'; x.textContent='\u2715'; x.title='Remove'; x.onclick=ev=>{ ev.stopPropagation(); prodFadeRemove(ac.id,e.i,c); }; c.appendChild(x);
+          c.addEventListener('contextmenu',ev=>{ ev.preventDefault(); prodFadeRemove(ac.id,e.i,c); });
           body.appendChild(c); return; }
         const qrows=e.items.length>=6||e.items.length>9?Math.max(2,Math.ceil((e.items.length-1)/4)):1;      // the 2nd row of slots only appears once something is in it
         const nSl=qrows===1?5:Math.max(PROD_SLOTS,e.items.length);
@@ -5088,8 +5094,8 @@ function prodRender(){
         stack.appendChild(sl);
         im.style.cursor='pointer'; im.onclick=ev=>{ ev.stopPropagation(); prodWheelToggle(ac.id,e.i,c); };
         const x=document.createElement('button'); x.className='prod-x'; x.textContent='✕'; x.title='Remove building';
-        x.onclick=ev=>{ ev.stopPropagation(); prodSave(ac.id,e.i,null,[]); prodRender(); }; c.appendChild(x);
-        c.addEventListener('contextmenu',ev=>{ ev.preventDefault(); prodSave(ac.id,e.i,null,[]); prodRender(); });
+        x.onclick=ev=>{ ev.stopPropagation(); prodFadeRemove(ac.id,e.i,c); }; c.appendChild(x);
+        c.addEventListener('contextmenu',ev=>{ ev.preventDefault(); prodFadeRemove(ac.id,e.i,c); });
         body.appendChild(c);
       });
       box.addEventListener('click',ev=>{ if(ev.target.closest('.prod-qs,.prod-x,.prod-img,.prod-pp,.prod-qt,.prod-qin')) return; prodOpenEd(box,ac.id); });
