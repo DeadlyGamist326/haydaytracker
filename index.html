@@ -4348,7 +4348,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-161744';
+const APP_BUILD='20261126-162015';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4781,11 +4781,14 @@ const pileState={}; let pileBusy=false;
 function prodCollect(a,i,k,z,pile){
   const key=a+'|'+i, st=pileState[key]||(pileState[key]={pend:[],t:0,settling:false}); if(st.settling||st.pend.includes(k)) return;
   const e=prodList(a).find(x=>x.i===i); if(!e) return;
-  const idx=k-st.pend.filter(x=>x<k).length;                       // where it is in the saved list right now
+  const avail=[...pile.children].map(el=>+el.dataset.k).filter(x=>!st.pend.includes(x)).sort((x,y)=>x-y);   // pile spots still shown, in saved order
+  const idx=avail.indexOf(k);                                       // where it is in the saved list right now
   if(idx<0||idx>=e.done.length) return;
-  pileBusy=true; st.pend.push(k);
-  const d=e.done.slice(); d.splice(idx,1); prodSave(a,i,e.b,e.items,e.start,d);
-  z.classList.add('collect');
+  let lo=idx, hi=idx; while(lo>0&&e.done[lo-1]===e.done[idx]) lo--; while(hi<e.done.length-1&&e.done[hi+1]===e.done[idx]) hi++;   // collect the whole group of adjacent same products
+  const ks=avail.slice(lo,hi+1);
+  pileBusy=true; ks.forEach(x=>st.pend.push(x));
+  const d=e.done.slice(); d.splice(lo,hi-lo+1); prodSave(a,i,e.b,e.items,e.start,d);
+  [...pile.children].forEach(el=>{ if(ks.includes(+el.dataset.k)) el.classList.add('collect'); });
   if(!d.length){ const bl=pile.closest('.prod-bld'); if(bl) bl.classList.add('wipe'); }   // pile is empty: the green alarm is wiped away downwards
   clearTimeout(st.t); st.t=setTimeout(()=>{
     st.settling=true; const col=st.pend.slice();
