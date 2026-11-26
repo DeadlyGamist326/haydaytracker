@@ -4348,7 +4348,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-160923';
+const APP_BUILD='20261126-161550';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5101,15 +5101,23 @@ function prodFlip(g,o){
     [{filter:'none',color:''},{filter:'drop-shadow(0 0 .12em #3dff3d) brightness(1.3)',color:'#3dff3d'},{filter:'none',color:''}],{duration:520,iterations:3,easing:'ease-in-out'})); },map?560:0);
 }
 function prodFit(){
+  // 1) every row: all of its buildings get the SAME size, boxes are only as wide as their buildings need (no loose spacing)
+  document.querySelectorAll('#prodGrid .prod-row').forEach(row=>{
+    const boxes=[...row.querySelectorAll('.prod-box')], has=boxes.filter(b=>b.classList.contains('has')); if(!has.length) return;
+    const cg=parseFloat(getComputedStyle(row).columnGap)||0, EMPTY=120, gap=5, pad=16;
+    const ns=has.map(b=>b.querySelector('.prod-body').children.length), sum=ns.reduce((t,x)=>t+x,0), empties=boxes.length-has.length;
+    const H=has[0].clientHeight-22;
+    const avail=row.clientWidth-cg*(boxes.length-1)-empties*EMPTY-ns.reduce((t,n)=>t+pad+gap*(n-1),0);
+    const T=Math.floor(Math.max(52,Math.min(avail/sum,H-4,360)));
+    boxes.forEach(b=>{ if(!b.classList.contains('has')){ b.style.flex='1 1 '+EMPTY+'px'; return; } });
+    has.forEach((b,k)=>{ const n=ns[k], body=b.querySelector('.prod-body'), w=Math.ceil(n*T+gap*(n-1)+pad);
+      b.style.flex=(empties?'0 0 ':'1 1 ')+w+'px'; body.style.setProperty('--cols',n); body.style.setProperty('--tw',T+'px'); });
+  });
+  // 2) names and headers fit their (now final) boxes
   document.querySelectorAll('#prodGrid .prod-box').forEach(box=>{
     { const h=box.querySelector('.prod-h'); if(h){ h.style.fontSize='100px'; const cw=box.clientWidth-20, ch=box.clientHeight-16, k=Math.min(cw/Math.max(1,h.scrollWidth), ch/Math.max(1,h.scrollHeight)); h.style.fontSize=Math.max(10,Math.floor(100*k))+'px'; } }
     if(!box.classList.contains('has')) return;
-    const body=box.querySelector('.prod-body'), n=body.children.length; if(!n) return;
-    const W=box.clientWidth-16, H=box.clientHeight-22, gap=5;
-    // all of an account's buildings sit in ONE row (no wrapping, no scrollbars): the tile is as big as the width and height allow
-    const bc=n, best=Math.max(52,Math.min((W-gap*(n-1))/n, (H-4), 360));   // as big as the box allows (fills the height), never below 52px
-    body.style.setProperty('--cols',bc); body.style.setProperty('--tw',Math.floor(best)+'px');
-    body.querySelectorAll('.prod-bld').forEach(c=>{ const nm=c.querySelector('.prod-nm'); if(!nm) return; nm.style.fontSize=''; const cw=c.clientWidth*.96, sw=nm.scrollWidth; if(sw>cw){ nm.style.fontSize=(parseFloat(getComputedStyle(nm).fontSize)*cw/sw)+'px'; } });   // building name never wider than its picture
+    box.querySelectorAll('.prod-bld').forEach(c=>{ const nm=c.querySelector('.prod-nm'); if(!nm) return; nm.style.fontSize=''; const cw=c.clientWidth*.96, sw=nm.scrollWidth; if(sw>cw){ nm.style.fontSize=(parseFloat(getComputedStyle(nm).fontSize)*cw/sw)+'px'; } });   // building name never wider than its picture
   });
   if(typeof prodW!=='undefined'&&prodW) prodWheelPlace();   // tiles may have moved/resized: keep the wheel on its building
 }
