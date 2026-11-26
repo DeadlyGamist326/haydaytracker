@@ -4285,7 +4285,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-102240';
+const APP_BUILD='20261126-103028';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4826,7 +4826,7 @@ function prodWheelPlace(){
   const slots=prodWheelData(e,a), N=5, total=slots.length;
   const pages=Math.max(1,Math.ceil(total/N)); prodW.pg=Math.min(Math.max(0,prodW.pg||0),pages-1);
   const view=slots.slice(prodW.pg*N,prodW.pg*N+N), n=view.length;
-  const L=PW_LAY[Math.min(5,Math.max(2,n))], [wx,wy,ww,wh]=L.w, [bx,by,bs]=L.b;
+  const lk=pages>1?5:Math.min(5,Math.max(2,n)), L=PW_LAY[lk], [wx,wy,ww,wh]=L.w, [bx,by,bs]=L.b;
   // the wheel spawns on the building itself: the building picture in the box is the anchor
   const r=im.getBoundingClientRect(), vw=innerWidth, vh=innerHeight;
   const bpx=Math.min(r.width,r.height), sc=Math.max(.42,Math.min(1.25,bpx/bs));
@@ -4838,7 +4838,7 @@ function prodWheelPlace(){
   if(to<6) oy+=6-to; else if(bo>vh-6) oy-=bo-(vh-6);
   const X=v=>ox+v*sc, Y=v=>oy+v*sc;
   w.innerHTML=''; w.classList.add('show');
-  const wi=document.createElement('img'); wi.className='pw-wedge'; wi.src=REQ_IMG_BASE+'wheel/wheel-'+Math.min(5,Math.max(2,n))+'.png'; wi.draggable=false; wi.alt='';
+  const wi=document.createElement('img'); wi.className='pw-wedge'; wi.src=REQ_IMG_BASE+'wheel/wheel-'+lk+'.png'; wi.draggable=false; wi.alt='';
   wi.style.cssText='left:'+X(wx)+'px;top:'+Y(wy)+'px;width:'+(ww*sc)+'px;height:'+(wh*sc)+'px;'; w.appendChild(wi);
   view.forEach((sl,k)=>{
     const p=L.it[Math.min(k,L.it.length-1)], s=p[2]*sc, px=X(p[0]), py=Y(p[1]);
