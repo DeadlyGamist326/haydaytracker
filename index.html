@@ -687,14 +687,9 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-qs.done{box-shadow:0 0 0 2px #3fb36b;}
 .prod-qs.done .prod-qt{background:#2f9e5a;}
 .prod-slots{display:none;}
-#prodWheel{position:fixed;inset:0;z-index:3650;background:rgba(10,14,30,.38);display:none;}
+#prodWheel{position:fixed;inset:0;z-index:3650;pointer-events:none;display:none;}
 #prodWheel.show{display:block;}
-#prodWheel .pw-wedge{position:absolute;pointer-events:none;}
-#prodWheel .pw-title{position:absolute;left:0;right:0;top:14px;text-align:center;font:700 22px var(--font-display);color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.6);pointer-events:none;}
-#prodWheel .pw-bld{position:absolute;object-fit:contain;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(0,0,0,.35));}
-#prodWheel .pw-queue{position:absolute;display:grid;grid-template-columns:repeat(5,var(--qs));gap:6px;}
-#prodWheel .pw-queue .prod-qs{width:var(--qs);height:var(--qs);}
-#prodWheel .pw-queue .prod-qt{font-size:12px;}
+#prodWheel .pw-wedge{position:absolute;pointer-events:none;filter:drop-shadow(0 0 8px rgba(40,55,100,.5)) drop-shadow(0 3px 5px rgba(0,0,0,.25));}
 #prodWheel .pw-item{position:absolute;transform:translate(-50%,-50%);padding:0;border:none;background:none;cursor:pointer;pointer-events:auto;filter:drop-shadow(0 3px 3px rgba(0,0,0,.35));transition:transform .12s;}
 #prodWheel .pw-item:hover{transform:translate(-50%,-50%) scale(1.1);}
 #prodWheel .pw-item img{width:100%;height:100%;object-fit:contain;display:block;}
@@ -4290,7 +4285,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-101949';
+const APP_BUILD='20261126-102240';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4797,7 +4792,7 @@ function prodRender(){
     });
     row.style.flex=rw+' 1 0'; g.appendChild(row);
   }
-  prodFitSoon(); prodTick(); prodWheelPlace();
+  prodFitSoon(); prodTick(); prodWheelPlace(); if(prodW) setTimeout(()=>{ if(prodW) prodWheelPlace(); },380);
 }
 function prodFit(){
   document.querySelectorAll('#prodGrid .prod-box').forEach(box=>{
@@ -4826,21 +4821,23 @@ const PW_LAY={"2":{"st":[534,462],"w":[72.6,84.7,444.8,375.9],"b":[505,355,210],
 function prodWheelPlace(){
   const w=document.getElementById('prodWheel'); if(!prodW){ w.classList.remove('show'); return; }
   const {a,i}=prodW; const e=prodList(a).find(x=>x.i===i);
-  if(!e){ prodWheelClose(); return; }
+  const im=document.querySelector('.prod-bld[data-a="'+a+'"][data-i="'+i+'"] .prod-img');
+  if(!e||!im){ prodWheelClose(); return; }
   const slots=prodWheelData(e,a), N=5, total=slots.length;
   const pages=Math.max(1,Math.ceil(total/N)); prodW.pg=Math.min(Math.max(0,prodW.pg||0),pages-1);
   const view=slots.slice(prodW.pg*N,prodW.pg*N+N), n=view.length;
-  const L=PW_LAY[Math.min(5,Math.max(2,n))], [SW,SH]=L.st, [wx,wy,ww,wh]=L.w, [bx,by,bs]=L.b;
-  const QW=5*60, vw=innerWidth, vh=innerHeight;
-  const sc=Math.max(.3,Math.min((vw*.96-(e.items.length?QW+16:0))/Math.max(SW,bx+bs/2),vh*.86/SH,1.7));
-  const totW=Math.max(SW,bx+bs/2)*sc+(e.items.length?QW+16:0);
-  const ox=(vw-totW)/2, oy=(vh-SH*sc)/2+10;
+  const L=PW_LAY[Math.min(5,Math.max(2,n))], [wx,wy,ww,wh]=L.w, [bx,by,bs]=L.b;
+  // the wheel spawns on the building itself: the building picture in the box is the anchor
+  const r=im.getBoundingClientRect(), vw=innerWidth, vh=innerHeight;
+  const bpx=Math.min(r.width,r.height), sc=Math.max(.42,Math.min(1.25,bpx/bs));
+  let ox=r.left+r.width/2-bx*sc, oy=r.top+r.height/2-by*sc;
+  // keep the whole fan on screen
+  const lo=ox+Math.min(wx,...L.it.map(p=>p[0]-p[2]/2))*sc, hi=ox+Math.max(wx+ww,...L.it.map(p=>p[0]+p[2]/2))*sc;
+  const to=oy+Math.min(wy,...L.it.map(p=>p[1]-p[2]/2))*sc, bo=oy+Math.max(wy+wh,...L.it.map(p=>p[1]+p[2]/2))*sc;
+  if(lo<6) ox+=6-lo; else if(hi>vw-6) ox-=hi-(vw-6);
+  if(to<6) oy+=6-to; else if(bo>vh-6) oy-=bo-(vh-6);
   const X=v=>ox+v*sc, Y=v=>oy+v*sc;
   w.innerHTML=''; w.classList.add('show');
-  const ac=GAME_ACCOUNTS.find(x=>x.id===a);
-  const hd=document.createElement('div'); hd.className='pw-title'; hd.textContent=e.b.n+' \u00b7 '+(ac?ac.label:a); w.appendChild(hd);
-  const bi=document.createElement('img'); bi.className='pw-bld'; bi.src=PROD_IMG+e.b.s+'.webp'; bi.alt=e.b.n; bi.draggable=false;
-  bi.style.cssText='left:'+(X(bx)-bs*sc/2)+'px;top:'+(Y(by)-bs*sc/2)+'px;width:'+(bs*sc)+'px;height:'+(bs*sc)+'px;'; w.appendChild(bi);
   const wi=document.createElement('img'); wi.className='pw-wedge'; wi.src=REQ_IMG_BASE+'wheel/wheel-'+Math.min(5,Math.max(2,n))+'.png'; wi.draggable=false; wi.alt='';
   wi.style.cssText='left:'+X(wx)+'px;top:'+Y(wy)+'px;width:'+(ww*sc)+'px;height:'+(wh*sc)+'px;'; w.appendChild(wi);
   view.forEach((sl,k)=>{
@@ -4858,13 +4855,6 @@ function prodWheelPlace(){
   if(pages>1){ [['\u25B2',-1,wx+ww*0.96,wy,prodW.pg>0],['\u25BC',1,wx+ww*0.02,wy+wh,prodW.pg<pages-1]].forEach(([t,d,nx,ny,on])=>{ if(!on) return; const b=document.createElement('button'); b.className='pw-nav'; b.textContent=t;
     b.title=d<0?'Previous 5':'Next 5'; b.style.cssText='left:'+X(nx)+'px;top:'+Y(ny)+'px;';
     b.onclick=ev=>{ ev.stopPropagation(); prodW.pg+=d; prodWheelPlace(); }; w.appendChild(b); }); }
-  // the queue: 5 + 5, a box only appears once something is being made; the left-most one carries the timer
-  const qd=document.createElement('div'); qd.className='pw-queue'; qd.style.cssText='left:'+(X(bx)+bs*sc/2+12)+'px;top:'+(Y(by)-60)+'px;--qs:54px;';
-  e.items.forEach((f,k)=>{ const c=document.createElement('button'); c.className='prod-qs'+(k===0?' first':''); c.title=(prodItem(e.b,f)||[f])[0]+' \u2014 click to remove';
-    c.innerHTML='<img src="'+REQ_IMG_BASE+'goods/'+f+'.webp" alt="">'+(k===0?'<span class="prod-qt" data-st="'+(e.start||'')+'" data-m="'+(prodMins(e.b,f)||'')+'"></span>':'');
-    c.onclick=ev=>{ ev.stopPropagation(); const nn=e.items.slice(); nn.splice(k,1); prodSave(a,i,e.b,nn,k===0?Date.now():e.start); prodRender(); }; qd.appendChild(c); });
-  w.appendChild(qd);
-  prodTick();
 }
 function refreshProd(){ const m=document.getElementById('prodModal'); if(m&&m.classList.contains('gc-show')&&!prodEd) prodRender(); }
 window.addEventListener('resize',()=>{ if(prodW) prodWheelPlace(); });
