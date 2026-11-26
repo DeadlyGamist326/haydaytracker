@@ -4329,7 +4329,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-144558';
+const APP_BUILD='20261126-145406';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4891,7 +4891,7 @@ function prodOpenEd(box,a){
   const pick=row=>{ if(!row) return;
     const idx=row.item? prodAddItem(a,row.b,row.item[2]) : prodAddBuilding(a,row.b);
     prodRender(); inp.value=''; rows=[]; list.innerHTML=''; prodCloseEd();
-    if(idx>=0){ prodW={a,i:idx,tile:null,pg:0}; prodWheelPlace(); } };      // the wheel opens right after entering
+    if(idx>=0){ prodW={a,i:idx,tile:null,pg:0}; prodFit(); prodWheelPlace(); [120,260,460,700].forEach(t=>setTimeout(()=>{ if(prodW&&prodW.a===a&&prodW.i===idx) prodWheelPlace(); },t)); } };      // the wheel opens right after entering, then follows the building while the grid settles
   const mark=()=>{ [...list.children].forEach((o,k)=>o.classList.toggle('on',k===on)); };
   const draw=()=>{
     list.innerHTML='';
@@ -4988,6 +4988,7 @@ function prodFit(){
     body.style.setProperty('--cols',bc); body.style.setProperty('--tw',Math.floor(best)+'px');
     box.style.setProperty('--hf',Math.round(Math.max(15,Math.min(34,46-best*.22)))+'px');   // the smaller the tiles, the bigger the account name
   });
+  if(typeof prodW!=='undefined'&&prodW) prodWheelPlace();   // tiles may have moved/resized: keep the wheel on its building
 }
 let prodFitT=0; function prodFitSoon(){ requestAnimationFrame(prodFit); clearTimeout(prodFitT); prodFitT=setTimeout(prodFit,420); }
 window.addEventListener('resize',()=>{ if(document.getElementById('prodModal').classList.contains('gc-show')) prodFitSoon(); });
