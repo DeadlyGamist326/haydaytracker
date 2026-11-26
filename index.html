@@ -4302,7 +4302,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-123721';
+const APP_BUILD='20261126-123906';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4820,6 +4820,7 @@ function prodOpenEd(box,a){
   const pick=row=>{ if(!row) return;
     if(row.item) prodAddItem(a,row.b,row.item[2]); else prodAddBuilding(a,row.b);
     prodRender(); inp.value=''; rows=[]; list.innerHTML=''; prodCloseEd(); };
+  const mark=()=>{ [...list.children].forEach((o,k)=>o.classList.toggle('on',k===on)); };
   const draw=()=>{
     list.innerHTML='';
     rows.forEach((row,k)=>{
@@ -4828,16 +4829,27 @@ function prodOpenEd(box,a){
       const t=document.createElement('span'); t.textContent=row.item?row.item[0]:row.b.n; if(!row.item) t.style.fontWeight='700'; o.appendChild(t);
       const lv=document.createElement('span'); lv.className='req-lv'; lv.textContent='Lv '+(row.item?row.item[1]:row.b.l); o.appendChild(lv);
       o.onmousedown=e=>{ e.preventDefault(); pick(row); };
+      o.onmousemove=()=>{ if(on!==k){ on=k; mark(); } };   // real mouse movement can select anything (a resting mouse never steals the keyboard choice)
       list.appendChild(o);
     });
   };
   inp.addEventListener('input',()=>{
     rows=[]; prodSearch(a,inp.value).forEach(h=>{ rows.push({b:h.b}); h.items.forEach(it=>rows.push({b:h.b,item:it})); });
-    on=0; draw();
+    { const q=inp.value.trim().toLowerCase(); let best=-1,bs=9;                           // typing lands on the closest ITEM, not the building
+      rows.forEach((r,k)=>{ if(!r.item) return; const n=r.item[0].toLowerCase(), sc=n.startsWith(q)?0:(n.split(/[\s']+/).some(w=>w.startsWith(q))?1:2); if(sc<bs){ bs=sc; best=k; } });
+      on=best>=0?best:0; }
+    draw();
   });
   inp.addEventListener('keydown',e=>{
-    if(e.key==='ArrowDown'){ e.preventDefault(); if(rows.length){ on=(on+1)%rows.length; draw(); list.children[on]&&list.children[on].scrollIntoView({block:'nearest'}); } }
-    else if(e.key==='ArrowUp'){ e.preventDefault(); if(rows.length){ on=(on-1+rows.length)%rows.length; draw(); list.children[on]&&list.children[on].scrollIntoView({block:'nearest'}); } }
+    const go=k=>{ on=k; mark(); list.children[on]&&list.children[on].scrollIntoView({block:'nearest'}); };
+    if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); if(!rows.length) return;      // up/down walk the items
+      let pool=rows.map((r,k)=>r.item?k:-1).filter(k=>k>=0); if(!pool.length) pool=rows.map((r,k)=>k);
+      const d=e.key==='ArrowDown'?1:-1; let p=pool.indexOf(on); if(p<0) p=d>0?-1:0;
+      go(pool[(p+d+pool.length)%pool.length]); }
+    else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){                                              // left/right jump between buildings
+      const g=rows.map((r,k)=>r.item?-1:k).filter(k=>k>=0); if(g.length<2) return;
+      e.preventDefault(); const d=e.key==='ArrowRight'?1:-1; let gi=0; g.forEach((k,ix)=>{ if(k<=on) gi=ix; });
+      const ng=g[(gi+d+g.length)%g.length]; go(rows[ng+1]&&rows[ng+1].item?ng+1:ng); }
     else if(e.key==='Enter'){ e.preventDefault(); pick(rows[on]); }
     else if(e.key==='Escape'){ e.stopPropagation(); prodCloseEd(); }
   });
