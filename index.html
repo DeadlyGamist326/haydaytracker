@@ -705,6 +705,10 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
   font:700 clamp(15px,34.5cqw,60px)/.9 var(--font-display);color:#fff;-webkit-text-stroke:.13em #000;paint-order:stroke fill;letter-spacing:.02em;text-shadow:0 .05em .1em rgba(0,0,0,.45);}
 .prod-qmid small{font-size:.4em;font-weight:700;margin-top:.04em;}
 .prod-qmid.done{color:#8dff6e;animation:prodShake .5s linear infinite;}
+.prod-bld.wipe .prod-qmid.done{animation:prodWipeMid .8s ease-in forwards;}
+.prod-bld.wipe .prod-qtop .prod-qdone{animation:prodWipeTop .8s ease-in forwards;}
+@keyframes prodWipeMid{0%{transform:translate(-50%,-50%);opacity:1;filter:blur(0)}100%{transform:translate(-50%,calc(-50% + 70%));opacity:0;filter:blur(4px)}}
+@keyframes prodWipeTop{0%{transform:translateY(0);opacity:1;filter:blur(0)}100%{transform:translateY(80%);opacity:0;filter:blur(3px)}}
 @keyframes prodShake{0%,100%{transform:translate(-50%,-50%) rotate(0);text-shadow:0 0 6px #3dff3d,0 0 16px #1fd01f}12%{transform:translate(calc(-50% - 3px),calc(-50% + 1px)) rotate(-4deg)}25%{transform:translate(calc(-50% + 3px),calc(-50% - 2px)) rotate(4deg);text-shadow:0 0 12px #7dff7d,0 0 26px #2cff2c}37%{transform:translate(calc(-50% - 2px),calc(-50% - 1px)) rotate(-3deg)}50%{transform:translate(calc(-50% + 3px),calc(-50% + 2px)) rotate(3deg)}62%{transform:translate(calc(-50% - 3px),calc(-50% - 1px)) rotate(-4deg);text-shadow:0 0 12px #7dff7d,0 0 26px #2cff2c}75%{transform:translate(calc(-50% + 2px),calc(-50% + 1px)) rotate(4deg)}88%{transform:translate(calc(-50% - 1px),calc(-50% + 2px)) rotate(-2deg)}}
 @keyframes prodShakeS{0%,100%{transform:translateX(0) rotate(0)}20%{transform:translateX(-2px) rotate(-3deg)}40%{transform:translateX(2px) rotate(3deg)}60%{transform:translateX(-2px) rotate(-2deg)}80%{transform:translateX(2px) rotate(2deg)}}
 .prod-qg{position:relative;height:calc(var(--rows,2) * var(--u) + (var(--rows,2) - 1) * 3px);}
@@ -4336,7 +4340,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-152939';
+const APP_BUILD='20261126-153320';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4770,6 +4774,7 @@ function prodCollect(a,i,k,z,pile){
   pileBusy=true; st.pend.push(k);
   const d=e.done.slice(); d.splice(idx,1); prodSave(a,i,e.b,e.items,e.start,d);
   z.classList.add('collect');
+  if(!d.length){ const bl=pile.closest('.prod-bld'); if(bl) bl.classList.add('wipe'); }   // pile is empty: the green alarm is wiped away downwards
   clearTimeout(st.t); st.t=setTimeout(()=>{
     st.settling=true; const col=st.pend.slice();
     [...pile.children].forEach(el=>{ const kk=+el.dataset.k; if(col.includes(kk)) return; const nk=kk-col.filter(x=>x<kk).length; if(nk>8) return;
