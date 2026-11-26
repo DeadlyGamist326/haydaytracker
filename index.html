@@ -687,7 +687,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 
 .prod-q{container-type:inline-size;--u:calc((100cqw - 12px) / 5.27);margin-top:4px;width:100%;}
 .prod-qh{display:flex;flex-direction:column;align-items:flex-start;gap:1px;margin-bottom:2px;text-align:left;}
-.prod-qt,.prod-qwait{font:700 clamp(8px,6.4cqw,13px)/1.1 var(--font-body);color:#fff;-webkit-text-stroke:.16em #000;paint-order:stroke fill;text-shadow:0 .06em .08em rgba(0,0,0,.5);white-space:nowrap;letter-spacing:.02em;}
+.prod-qt,.prod-qwait{font:normal clamp(10px,8.6cqw,17px)/1.1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;text-shadow:0 .06em .08em rgba(0,0,0,.5);white-space:nowrap;letter-spacing:.02em;}
 .prod-qwait{padding-left:calc(var(--u) * 1.27 + 3px);}
 .prod-qg{position:relative;height:calc(var(--rows,2) * var(--u) + (var(--rows,2) - 1) * 3px);}
 .prod-qc{position:absolute;box-sizing:border-box;border:1.5px solid rgba(128,128,128,.45);border-radius:8px;background:rgba(120,120,120,.10);transition:border-color .12s,background .12s;}
@@ -716,7 +716,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 #prodWheel .pw-pgbtn.off{opacity:.38;cursor:default;filter:grayscale(.6);}
 #prodWheel .pw-dots{position:absolute;display:flex;pointer-events:none;}
 #prodWheel .pw-dots img{flex:none;display:block;pointer-events:auto;cursor:pointer;}
-#prodWheel .pw-pgtxt{position:absolute;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;line-height:1;font-family:var(--font-body);font-weight:700;color:#fff;-webkit-text-stroke:.16em #000;paint-order:stroke fill;text-shadow:0 .06em .08em rgba(0,0,0,.55);}
+#prodWheel .pw-pgtxt{position:absolute;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;line-height:1;font-family:var(--font-display);font-weight:normal;color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;text-shadow:0 .06em .08em rgba(0,0,0,.55);}
 
 /* ===== Account Level badge ===== */
 .lvl-badge{--bs:30px;position:absolute;top:-2px;left:calc(50% - var(--bs)/2);width:var(--bs);height:var(--bs);display:flex;align-items:center;justify-content:center;background:center/contain no-repeat url("https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/LevelStar.png");color:#fff;font-family:var(--font-display);font-weight:normal;line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.65),0 0 3px rgba(0,30,90,.8);cursor:pointer;user-select:none;box-sizing:border-box;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));transition:transform .15s cubic-bezier(.34,1.56,.64,1);z-index:2;}
@@ -999,6 +999,8 @@ td.upg-cap-warn .upg-max{color:#d62828;}
 <div class="gc-name-modal" id="prodModal">
   <div class="gc-name-card prod-card">
     <div style="display:flex;align-items:center;gap:10px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/buildings/bakery.webp" alt="" style="height:36px;width:36px;object-fit:contain;"><div class="gc-name-title" style="margin:0;flex:1;text-align:left;">Production</div>
+      <button class="gc-name-ok" id="prodUndo" title="Undo (Ctrl+Z)" style="background:var(--ink-soft);padding:4px 12px;">↶ Undo</button>
+      <button class="gc-name-ok" id="prodRedo" title="Redo (Ctrl+Y)" style="background:var(--ink-soft);padding:4px 12px;">↷ Redo</button>
       <button class="gc-name-ok" id="prodClose" style="background:var(--ink-soft);padding:4px 12px;">✕</button></div>
     <div class="prod-grid" id="prodGrid"></div>
   </div>
@@ -1047,7 +1049,8 @@ td.upg-cap-warn .upg-max{color:#d62828;}
         <span id="syncDot" style="width:7px;height:7px;border-radius:50%;background:#9AA0A6;flex-shrink:0;"></span>
         <span id="syncLabel">Connecting…</span>
       </div>
-      <button class="icon-btn" id="undoBtn" title="Undo the last check/uncheck action">↶ Undo</button>
+      <button class="icon-btn" id="undoBtn" title="Undo the last change (Ctrl+Z)">↶ Undo</button>
+      <button class="icon-btn" id="redoBtn" title="Redo (Ctrl+Y)">↷ Redo</button>
       <button class="icon-btn" id="resetBtn" title="Manually reset all checks">↻ Reset all</button>
       <button class="icon-btn" id="levelBtn" title="Edit account levels"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/LevelStar.png" alt="">Levels</button>
       <button class="icon-btn" id="prodBtn" title="Production tracker"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/buildings/bakery.webp" alt="" style="height:20px;width:20px;object-fit:contain;vertical-align:middle;margin-right:4px;">Production</button>
@@ -1559,31 +1562,43 @@ function isUrgentHourWindow(){
 let hoverTaskCellEl=null, hoverHeaderCellEl=null;
 
 /* ---- Undo: reverts the last check/uncheck action (single click, drag-rectangle, or Reset All) ---- */
-let undoStack=[];
+let undoStack=[], redoStack=[];
 function recordUndo(entry){
+  redoStack=[];
   undoStack.push(entry);
   if(undoStack.length>25) undoStack.shift();
   updateUndoButtonState();
 }
+function applyUndoEntry(entry){                         // writes the entry back and returns the opposite entry (for redo / undo again)
+  if(entry.type==='full'){
+    const cur=Object.assign({},games.checks);
+    gamesRef.child('checks').set(Object.keys(entry.data||{}).length ? entry.data : null);
+    return {type:'full',data:cur};
+  }
+  const back={};
+  Object.entries(entry.changes).forEach(([key, prevVal])=>{
+    back[key]=rawSnapshot(key);
+    const writeVal=(prevVal===false || prevVal===undefined || prevVal===null) ? null : prevVal;
+    gamesRef.child('checks/'+key).set(writeVal);
+  });
+  return {type:'delta',changes:back};
+}
 function performUndo(){
   const entry=undoStack.pop();
   if(!entry) return;
-  if(entry.type==='full'){
-    gamesRef.child('checks').set(Object.keys(entry.data||{}).length ? entry.data : null);
-  } else {
-    Object.entries(entry.changes).forEach(([key, prevVal])=>{
-      const writeVal=(prevVal===false || prevVal===undefined || prevVal===null) ? null : prevVal;
-      gamesRef.child('checks/'+key).set(writeVal);
-    });
-  }
+  redoStack.push(applyUndoEntry(entry)); if(redoStack.length>25) redoStack.shift();
+  updateUndoButtonState();
+}
+function performRedo(){
+  const entry=redoStack.pop();
+  if(!entry) return;
+  undoStack.push(applyUndoEntry(entry)); if(undoStack.length>25) undoStack.shift();
   updateUndoButtonState();
 }
 function updateUndoButtonState(){
-  const btn=document.getElementById('undoBtn');
-  if(!btn) return;
-  btn.disabled=undoStack.length===0;
-  btn.style.opacity=undoStack.length===0 ? '.45' : '1';
-  btn.style.cursor=undoStack.length===0 ? 'default' : 'pointer';
+  [['undoBtn',undoStack],['prodUndo',undoStack],['redoBtn',redoStack],['prodRedo',redoStack]].forEach(([id,st])=>{
+    const btn=document.getElementById(id); if(!btn) return;
+    btn.disabled=st.length===0; btn.style.opacity=st.length===0 ? '.45' : '1'; btn.style.cursor=st.length===0 ? 'default' : 'pointer'; });
 }
 
 /* ---- Rectangle drag-select: click-drag always checks/unchecks a rectangular block, never a diagonal/zigzag path ---- */
@@ -4302,7 +4317,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-123906';
+const APP_BUILD='20261126-124039';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5208,6 +5223,18 @@ document.getElementById('mvuiNext').onclick=()=>goMvuiGroup(1);
 })();
 
 document.getElementById('undoBtn').onclick=performUndo;
+document.getElementById('redoBtn').onclick=performRedo;
+document.getElementById('prodUndo').onclick=performUndo;
+document.getElementById('prodRedo').onclick=performRedo;
+// Ctrl+Z = undo, Ctrl+Y or Ctrl+Shift+Z = redo (not while typing in a text box)
+document.addEventListener('keydown',e=>{
+  if(!(e.ctrlKey||e.metaKey)||e.altKey) return;
+  const t=e.target; if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)) return;
+  const k=e.key.toLowerCase();
+  if(k==='z'&&!e.shiftKey){ e.preventDefault(); performUndo(); }
+  else if(k==='y'||(k==='z'&&e.shiftKey)){ e.preventDefault(); performRedo(); }
+});
+updateUndoButtonState();
 
 document.getElementById('syncBadge').onclick=renameSelf;
 
