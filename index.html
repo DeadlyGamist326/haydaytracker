@@ -652,6 +652,17 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 #prodNow{position:absolute;left:50%;top:2px;transform:translateX(-50%);z-index:20;pointer-events:none;white-space:nowrap;font:700 42px/1 var(--font-display);color:#fff;-webkit-text-stroke:.14em #000;paint-order:stroke fill;letter-spacing:.03em;text-shadow:0 .06em .1em rgba(0,0,0,.4);}
 #prodNow small{font-size:.5em;margin-left:.15em;}
 #prodTip{position:fixed;z-index:3800;display:none;pointer-events:none;padding:4px 12px;border-radius:999px;background:rgba(20,22,30,.92);color:#fff;font:700 18px/1.2 var(--font-display);letter-spacing:.03em;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.4);transform:translate(-50%,-130%);}
+@media(max-width:720px){
+  /* mobile: the header rows are one long strip you swipe sideways, so every button can be reached */
+  .prod-hd{overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap !important;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x;padding-bottom:2px;}
+  .prod-hd::-webkit-scrollbar{display:none;}
+  .prod-hd>*{flex:0 0 auto !important;}
+  .prod-hd #prodNow{position:static;transform:none;font-size:26px;margin:0 6px;}
+  .games-panel-head{overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap;gap:10px;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x;}
+  .games-panel-head::-webkit-scrollbar{display:none;}
+  .games-panel-head>*{flex-shrink:0;}
+  .games-panel-head .gc-header-btn-scroll{overflow:visible !important;flex:0 0 auto !important;min-width:auto !important;}
+}
 #prodModal .prod-card{position:relative;width:98vw !important;max-width:none !important;height:94vh;max-height:94vh;display:flex;flex-direction:column;box-sizing:border-box;padding:12px 14px !important;}
 .prod-grid{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;margin-top:8px;}
 .prod-row{display:flex;gap:10px;min-height:calc((100% - 20px) / 3);transition:flex-grow .35s ease;}
@@ -1035,12 +1046,11 @@ td.upg-cap-warn .upg-max{color:#d62828;}
 <div class="hsr-modal" id="hsrModal" aria-hidden="true"><div class="hsr-edge l" id="hsrEdgeL" role="button" aria-label="Switch account"></div><div class="hsr-edge r" id="hsrEdgeR" role="button" aria-label="Switch account"></div><div class="hd-host" id="hdHost"></div><aside class="hsr-cal" id="hsrCal" aria-label="Daily Training calendar"></aside><button type="button" id="hcBtn" aria-label="Daily Training calendar" title="Daily Training calendar">📅</button><div class="hsr-scroll" id="hsrScroll"><div class="hsr-lay" id="hsrLay"><div class="hsr-profslot" id="hsrProfSlot"><aside class="hsr-prof" id="hsrProf"></aside></div><div class="hsr-col" id="hsrCol"></div><div class="hsr-calslot" id="hsrCalSlot"></div></div></div></div>
 <div class="gc-name-modal" id="prodModal">
   <div class="gc-name-card prod-card">
-    <div style="display:flex;align-items:center;gap:10px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/buildings/bakery.webp" alt="" style="height:36px;width:36px;object-fit:contain;"><div class="gc-name-title" style="margin:0;flex:1;text-align:left;">Production</div>
+    <div class="prod-hd" style="display:flex;align-items:center;gap:10px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/buildings/bakery.webp" alt="" style="height:36px;width:36px;object-fit:contain;"><div class="gc-name-title" style="margin:0;flex:1;text-align:left;">Production</div><div id="prodNow" aria-label="Current time"></div>
  <button class="gc-name-ok" id="prodSort" title="Sort every account's buildings by waiting time (finished first, then the soonest to finish)" style="background:var(--teal);padding:4px 12px;">⇅ Sort</button>
       <button class="gc-name-ok" id="prodUndo" title="Undo (Ctrl+Z)" style="background:var(--ink-soft);padding:4px 12px;">↶ Undo</button>
       <button class="gc-name-ok" id="prodRedo" title="Redo (Ctrl+Y)" style="background:var(--ink-soft);padding:4px 12px;">↷ Redo</button>
       <button class="gc-name-ok" id="prodClose" style="background:var(--ink-soft);padding:4px 12px;">✕</button></div>
-    <div id="prodNow" aria-label="Current time"></div>
     <div class="prod-grid" id="prodGrid"></div>
   </div>
 </div>
@@ -4356,7 +4366,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-165258';
+const APP_BUILD='20261126-171957';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
