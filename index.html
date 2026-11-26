@@ -670,6 +670,8 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-bld.crop .prod-img{position:absolute;left:25%;top:25%;width:50%;}
 .prod-q.crop-q{display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:6%;}
 .prod-cnt{pointer-events:auto;cursor:text;font:normal clamp(9px,12cqw,28px)/1.1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;text-shadow:0 .06em .08em rgba(0,0,0,.5);white-space:nowrap;letter-spacing:.02em;text-align:center;}
+.prod-bld.soon .prod-qmid.wait,.prod-bld.soon .prod-qt,.prod-bld.soon .prod-cnt{animation:prodSoon .8s ease-in-out infinite;}
+@keyframes prodSoon{0%,100%{color:#fff;text-shadow:0 .05em .1em rgba(0,0,0,.45)}50%{color:#5dff4a;text-shadow:0 0 .35em #1fd01f,0 0 .7em #1fd01f}}
 .prod-cnt.ready{cursor:pointer;color:#8dff6e;font-size:clamp(9px,12cqw,26px);animation:prodShakeS .5s linear infinite;}
 .prod-q.crop-q .prod-qt{font:normal clamp(10px,17cqw,40px)/1.1 var(--font-display);text-align:center;}
 .prod-stack{position:absolute;left:10%;width:80%;bottom:2%;display:flex;flex-direction:column;z-index:5;pointer-events:none;}
@@ -4350,7 +4352,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-163802';
+const APP_BUILD='20261126-163957';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4960,7 +4962,8 @@ function prodTick(){
     if(flip&&!pileBusy&&document.getElementById('prodModal').classList.contains('gc-show')){ prodRender(); return; } }
   if(!pileBusy&&document.getElementById('prodModal').classList.contains('gc-show')&&!prodEd&&prodSettle()){ prodRender(); return; }
   document.querySelectorAll('#prodGrid .prod-qt').forEach(t=>{ const st=+t.dataset.st, mins=+t.dataset.m; if(!st||!mins){ t.textContent=''; return; }
-    t.textContent=prodFmtLong(st+mins*60000-Date.now()); });
+    const left=st+mins*60000-Date.now(); t.textContent=prodFmtLong(left);
+    const bl=t.closest('.prod-bld'); if(bl) bl.classList.toggle('soon',left>0&&left<=60000); });   // the bell has rung (1 min left): green blinking until it is done
   document.querySelectorAll('#prodGrid .prod-qmid.wait').forEach(t=>{ const st=+t.dataset.st, tot=+t.dataset.tot; t.innerHTML=st&&tot?prodClockHtml(st+tot*60000):''; });
 }
 setInterval(prodTick,1000);
