@@ -4344,7 +4344,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-154852';
+const APP_BUILD='20261126-155019';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5019,7 +5019,7 @@ function prodRender(){
           if(md.className) iw.appendChild(md); }
         const qrows=e.items.length>=6||e.items.length>9?Math.max(2,Math.ceil((e.items.length-1)/4)):1;      // the 2nd row of slots only appears once something is in it
         const nSl=qrows===1?5:Math.max(PROD_SLOTS,e.items.length);
-        const sl=document.createElement('div'); sl.className='prod-q'; sl.style.setProperty('--rows',qrows);
+        const sl=document.createElement('div'); sl.className='prod-q'; sl.style.setProperty('--rows',qrows); if(!e.items.length) sl.style.display='none';   // nothing queued yet: no empty slots shown
         if(e.items.length){ const hd=document.createElement('div'); hd.className='prod-qh';
           const t=document.createElement('div'); t.className='prod-qt'; t.title='Click to edit the time left'; t.dataset.st=e.start||''; t.dataset.m=prodMins(e.b,e.items[0])||''; t.onclick=ev=>{ ev.stopPropagation(); prodEditTimer(t,ac.id,e); }; hd.appendChild(t); sl.appendChild(hd); }
         const qg=document.createElement('div'); qg.className='prod-qg'; qg.style.height=qrows===1?'calc(var(--u) * 1.27)':'calc('+qrows+' * var(--u) + '+(qrows-1)+' * 3px)'; sl.appendChild(qg);
