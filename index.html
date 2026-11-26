@@ -648,6 +648,33 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 
 .gc-name-card.exp-card{max-width:min(96vw,520px) !important;width:min(96vw,520px) !important;max-height:92vh;overflow:auto;box-sizing:border-box;}
 
+/* ================= Production tracker ================= */
+#prodModal .prod-card{width:98vw !important;max-width:none !important;height:94vh;max-height:94vh;display:flex;flex-direction:column;box-sizing:border-box;padding:12px 14px !important;}
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(18%,auto);gap:10px;flex:1;min-height:0;overflow:auto;margin-top:8px;align-content:stretch;}
+@media(max-width:900px){.prod-grid{grid-template-columns:repeat(2,1fr);}}
+.prod-box{border:1.5px dashed var(--line);border-radius:12px;background:var(--paper-raised);padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;min-height:0;transition:border-color .15s,background .15s;}
+.prod-box:hover{border-color:var(--teal);}
+.prod-box.has{border-style:solid;}
+.prod-h{font:700 14px var(--font-display);color:var(--ink);margin-bottom:4px;}
+.prod-body{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:flex-start;}
+.prod-bld{position:relative;width:clamp(96px,9vw,132px);text-align:center;}
+.prod-img{width:100%;aspect-ratio:1;object-fit:contain;display:block;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25));}
+.prod-nm{font:700 11px var(--font-body);color:var(--ink);line-height:1.15;}
+.prod-slots{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin-top:3px;min-height:4px;}
+.prod-it{width:24px;height:24px;padding:1px;border-radius:6px;border:1px solid var(--line);background:var(--paper);cursor:pointer;}
+.prod-it img{width:100%;height:100%;object-fit:contain;display:block;}
+.prod-it:hover{border-color:#c0392b;}
+.prod-x{position:absolute;top:0;right:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:10px;line-height:1;cursor:pointer;display:none;}
+.prod-bld:hover .prod-x{display:block;}
+#prodEd{position:fixed;z-index:3600;width:min(340px,92vw);background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:10px;display:none;}
+#prodEd.show{display:block;}
+#prodEd input{width:100%;box-sizing:border-box;font:600 14px var(--font-body);padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--paper-raised);color:var(--ink);margin-top:4px;}
+#prodEd .prod-list{max-height:min(46vh,380px);overflow:auto;margin-top:6px;}
+.prod-opt.ind{padding-left:26px;}
+.prod-opt.ind img{width:22px;height:22px;}
+.prod-opt.on{background:var(--teal);color:#fff;}
+.prod-opt.on .req-lv{color:#fff;}
+
 /* ===== Account Level badge ===== */
 .lvl-badge{--bs:30px;position:absolute;top:-2px;left:calc(50% - var(--bs)/2);width:var(--bs);height:var(--bs);display:flex;align-items:center;justify-content:center;background:center/contain no-repeat url("https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/LevelStar.png");color:#fff;font-family:var(--font-display);font-weight:normal;line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.65),0 0 3px rgba(0,30,90,.8);cursor:pointer;user-select:none;box-sizing:border-box;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));transition:transform .15s cubic-bezier(.34,1.56,.64,1);z-index:2;}
 .lvl-badge:hover{transform:scale(1.2) rotate(-6deg);}
@@ -927,12 +954,13 @@ td.upg-cap-warn .upg-max{color:#d62828;}
 </div>
 <div class="hsr-modal" id="hsrModal" aria-hidden="true"><div class="hsr-edge l" id="hsrEdgeL" role="button" aria-label="Switch account"></div><div class="hsr-edge r" id="hsrEdgeR" role="button" aria-label="Switch account"></div><div class="hd-host" id="hdHost"></div><aside class="hsr-cal" id="hsrCal" aria-label="Daily Training calendar"></aside><button type="button" id="hcBtn" aria-label="Daily Training calendar" title="Daily Training calendar">📅</button><div class="hsr-scroll" id="hsrScroll"><div class="hsr-lay" id="hsrLay"><div class="hsr-profslot" id="hsrProfSlot"><aside class="hsr-prof" id="hsrProf"></aside></div><div class="hsr-col" id="hsrCol"></div><div class="hsr-calslot" id="hsrCalSlot"></div></div></div></div>
 <div class="gc-name-modal" id="prodModal">
-  <div class="gc-name-card" style="width:min(96vw,1000px);max-width:none;">
+  <div class="gc-name-card prod-card">
     <div style="display:flex;align-items:center;gap:10px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/buildings/bakery.webp" alt="" style="height:36px;width:36px;object-fit:contain;"><div class="gc-name-title" style="margin:0;flex:1;text-align:left;">Production</div>
       <button class="gc-name-ok" id="prodClose" style="background:var(--ink-soft);padding:4px 12px;">✕</button></div>
-    <div id="prodBody" style="padding:24px 4px;color:var(--ink-soft);">Production tracker is being set up.</div>
+    <div class="prod-grid" id="prodGrid"></div>
   </div>
 </div>
+<div id="prodEd"></div>
 <div class="gc-name-modal" id="reqModal">
   <div class="gc-name-card req-card">
     <button class="gc-name-ok" id="reqLayoutBtn" title="Palitan ang layout">Layout 1</button>
@@ -1183,6 +1211,7 @@ gamesRef.on('value', snapshot=>{
   if(typeof refreshLevelMenu==='function') refreshLevelMenu();
   if(typeof refreshExpMenu==='function') refreshExpMenu();
   if(typeof refreshReqMenu==='function') refreshReqMenu();
+  if(typeof refreshProd==='function') refreshProd();
 }, err=>{ setSyncStatus('offline'); });
 
 /* ---- Presence: show who else is online right now ---- */
@@ -4229,7 +4258,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-074706';
+const APP_BUILD='20261126-080100';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4618,13 +4647,116 @@ function closeHsr(){ const m=document.getElementById('hsrModal'); m.classList.re
   [L,N].forEach(t=>{ t.addEventListener('mouseenter',()=>{ paused=true; anims.forEach(a=>a.pause()); }); t.addEventListener('mouseleave',()=>{ paused=false; anims.forEach(a=>a.play()); }); });
   timer=setTimeout(run,1200);
 })();
-// ===== Production tracker (shell; contents coming) =====
-function openProd(){ document.getElementById('prodModal').classList.add('gc-show'); }
-function closeProd(){ document.getElementById('prodModal').classList.remove('gc-show'); }
+const PROD_DATA=[{"s":"bbq_grill","n":"BBQ Grill","l":9,"i":[["Pancake",9,"pancake"],["Bacon and eggs",11,"bacon-and-eggs"],["Hamburger",18,"hamburger"],["Grilled lamb skewer",25,"grilled-lamb-skewer"],["Fish burger",27,"fish-burger"],["Roasted tomatoes",30,"roasted-tomatoes"],["Baked potato",35,"baked-potato"],["Fish and chips",41,"fish-and-chips"],["Lobster skewer",48,"lobster-skewer"],["Garlic bread",60,"garlic-bread"],["Grilled asparagus",67,"grilled-asparagus"],["Grilled onion",68,"grilled-onion"],["Winter veggies",72,"winter-veggies"],["Stuffed peppers",80,"stuffed-peppers"],["Grilled eggplant",90,"grilled-eggplant"],["Banana pancakes",94,"banana-pancakes"],["Fish skewer",96,"fish-skewer"]]},{"s":"bakery","n":"Bakery","l":4,"i":[["Bread",4,"bread"],["Corn bread",7,"corn-bread"],["Cookie",10,"cookie"],["Raspberry muffin",19,"raspberry-muffin"],["Blackberry muffin",26,"blackberry-muffin"],["Pizza",33,"pizza"],["Blueberry muffin",33,"blueberry-muffin"],["Spicy pizza",37,"spicy-pizza"],["Potato bread",39,"potato-bread"],["Frutti di Mare pizza",45,"frutti-di-mare-pizza"],["Gingerbread cookie",86,"gingerbread-cookie"],["Banana bread",91,"banana-bread"],["Macaroon",101,"macaroon"],["Pineapple coconut bars",120,"pineapple-coconut-bars"]]},{"s":"bath_kiosk","n":"Bath Kiosk","l":84,"i":[["Honey soap",84,"honey-soap"],["Lemon lotion",84,"lemon-lotion"],["Exfoliating soap",93,"exfoliating-soap"],["Honey face mask",99,"honey-face-mask"],["Rich soap",121,"rich-soap"]]},{"s":"cake_oven","n":"Cake Oven","l":21,"i":[["Carrot cake",21,"carrot-cake"],["Cream cake",23,"cream-cake"],["Red berry cake",23,"red-berry-cake"],["Cheesecake",24,"cheesecake"],["Blueberry cheesecake",31,"blueberry-cheesecake"],["Strawberry cake",35,"strawberry-cake"],["Chocolate cake",36,"chocolate-cake"],["Potato feta cake",38,"potato-feta-cake"],["Honey apple cake",42,"honey-apple-cake"],["Fancy cake",54,"fancy-cake"],["Pineapple cake",65,"pineapple-cake"],["Lemon cake",68,"lemon-cake"],["Fruit cake",89,"fruit-cake"],["Chocolate roll",95,"chocolate-roll"],["Pomegranate cake",108,"pomegranate-cake"]]},{"s":"candle_maker","n":"Candle Maker","l":48,"i":[["Strawberry candle",48,"strawberry-candle"],["Raspberry candle",52,"raspberry-candle"],["Lemon candle",72,"lemon-candle"],["Colorful candles",84,"colorful-candles"],["Floral candle",95,"floral-candle"]]},{"s":"candy_machine","n":"Candy Machine","l":51,"i":[["Caramel apple",51,"caramel-apple"],["Toffee",52,"toffee"],["Chocolate",54,"chocolate"],["Lollipop",57,"lollipop"],["Jelly beans",60,"jelly-beans"],["Honey peanuts",63,"honey-peanuts"],["Cotton candy",75,"cotton-candy"],["Sesame brittle",78,"sesame-brittle"]]},{"s":"coffee_kiosk","n":"Coffee Kiosk","l":42,"i":[["Espresso",42,"espresso"],["Caffè latte",43,"caff-latte"],["Caffè mocha",45,"caff-mocha"],["Raspberry mocha",46,"raspberry-mocha"],["Hot chocolate",47,"hot-chocolate"],["Caramel latte",62,"caramel-latte"],["Iced banana latte",88,"iced-banana-latte"]]},{"s":"cupcake_maker","n":"Cupcake Maker","l":109,"i":[["Plain cupcake",109,"plain-cupcake"],["Guava cupcake",109,"guava-cupcake"],["Tropical cupcake",112,"tropical-cupcake"],["Cookie cupcake",114,"cookie-cupcake"]]},{"s":"dairy","n":"Dairy","l":6,"i":[["Cream",6,"cream"],["Butter",9,"butter"],["Cheese",12,"cheese"],["Goat cheese",33,"goat-cheese"]]},{"s":"deep_fryer","n":"Deep Fryer","l":87,"i":[["Bacon fries",87,"bacon-fries"],["Hand pies",91,"hand-pies"],["Chili poppers",98,"chili-poppers"],["Falafel",98,"falafel"],["Fried candy bar",100,"fried-candy-bar"],["Samosa",103,"samosa"]]},{"s":"donut_maker","n":"Donut Maker","l":76,"i":[["Plain donut",76,"plain-donut"],["Sprinkled donut",79,"sprinkled-donut"],["Crunchy donut",82,"crunchy-donut"],["Cream donut",86,"cream-donut"],["Bacon donut",88,"bacon-donut"],["Filled donut",93,"filled-donut"]]},{"s":"duck_salon","n":"Duck Salon","l":50,"i":[["Duck feather",50,"duck-feather"]]},{"s":"doner_kebab_stand","n":"Döner Kebab Stand","l":32,"i":[["Lamb döner wrap",32,"lamb-d-ner-wrap"],["Spicy bean döner",32,"spicy-bean-d-ner"],["Tower döner supreme",58,"tower-d-ner-supreme"]]},{"s":"essential_oils_lab","n":"Essential Oils Lab","l":68,"i":[["Lemon essential oil",68,"lemon-essential-oil"],["Chamomile essential oil",74,"chamomile-essential-oil"],["Ginger essential oil",80,"ginger-essential-oil"],["Mint essential oil",85,"mint-essential-oil"]]},{"s":"feed_mill","n":"Feed Mill","l":2,"i":[["Chicken feed",2,"chicken-feed"],["Cow feed",6,"cow-feed"],["Pig feed",10,"pig-feed"],["Sheep feed",16,"sheep-feed"],["Lamb feed",25,"lamb-feed"],["Goat feed",32,"goat-feed"],["Wheat bundle",34,"wheat-bundle"],["Meat bucket",34,"meat-bucket"]]},{"s":"flower_shop","n":"Flower Shop","l":49,"i":[["Rustic bouquet",49,"rustic-bouquet"],["Bright bouquet",65,"bright-bouquet"],["Gracious bouquet",73,"gracious-bouquet"],["Candy bouquet",90,"candy-bouquet"],["Birthday bouquet",92,"birthday-bouquet"],["Soft bouquet",93,"soft-bouquet"],["Veggie bouquet",106,"veggie-bouquet"]]},{"s":"fondue_pot","n":"Fondue Pot","l":81,"i":[["Chocolate fondue",81,"chocolate-fondue"],["Bacon fondue",86,"bacon-fondue"],["Cheese fondue",91,"cheese-fondue"],["Tropical fondue",100,"tropical-fondue"]]},{"s":"fudge_shop","n":"Fudge Shop","l":99,"i":[["Rich fudge",99,"rich-fudge"],["Mint fudge",102,"mint-fudge"],["Chili fudge",104,"chili-fudge"],["Lemon fudge",108,"lemon-fudge"],["Peanut fudge",111,"peanut-fudge"]]},{"s":"hat_maker","n":"Hat Maker","l":70,"i":[["Cloche hat",70,"cloche-hat"],["Top hat",72,"top-hat"],["Sun hat",74,"sun-hat"],["Flower crown",86,"flower-crown"]]},{"s":"honey_extractor","n":"Honey Extractor","l":39,"i":[["Honey",39,"honey"],["Beeswax",48,"beeswax"]]},{"s":"hot_dog_stand","n":"Hot Dog Stand","l":75,"i":[["Hot dog",75,"hot-dog"],["Tofu dog",76,"tofu-dog"],["Corn dog",78,"corn-dog"],["Onion dog",80,"onion-dog"]]},{"s":"ice_cream_maker","n":"Ice Cream Maker","l":29,"i":[["Vanilla ice cream",29,"vanilla-ice-cream"],["Cherry popsicle",33,"cherry-popsicle"],["Strawberry ice cream",34,"strawberry-ice-cream"],["Chocolate ice cream",39,"chocolate-ice-cream"],["Sesame ice cream",50,"sesame-ice-cream"],["Peanut butter milkshake",68,"peanut-butter-milkshake"],["Orange sorbet",78,"orange-sorbet"],["Affogato",78,"affogato"],["Peach ice cream",83,"peach-ice-cream"],["Mint ice cream",85,"mint-ice-cream"],["Banana split",96,"banana-split"],["Coconut ice cream",102,"coconut-ice-cream"],["Fruit sorbet",106,"fruit-sorbet"]]},{"s":"jam_maker","n":"Jam Maker","l":35,"i":[["Apple jam",35,"apple-jam"],["Raspberry jam",36,"raspberry-jam"],["Blackberry jam",37,"blackberry-jam"],["Cherry jam",38,"cherry-jam"],["Strawberry jam",50,"strawberry-jam"],["Blueberry chutney",70,"blueberry-chutney"],["Marmalade",74,"marmalade"],["Peach jam",79,"peach-jam"],["Grape jam",85,"grape-jam"],["Plum jam",94,"plum-jam"],["Passion fruit jam",96,"passion-fruit-jam"]]},{"s":"jeweler","n":"Jeweler","l":38,"i":[["Bracelet",38,"bracelet"],["Necklace",39,"necklace"],["Diamond ring",40,"diamond-ring"],["Iron bracelet",41,"iron-bracelet"],["Flower pendant",98,"flower-pendant"]]},{"s":"juice_press","n":"Juice Press","l":26,"i":[["Carrot juice",26,"carrot-juice"],["Apple juice",28,"apple-juice"],["Cherry juice",30,"cherry-juice"],["Tomato juice",31,"tomato-juice"],["Berry juice",31,"berry-juice"],["Pineapple juice",52,"pineapple-juice"],["Orange juice",71,"orange-juice"],["Grape juice",84,"grape-juice"],["Passion fruit juice",88,"passion-fruit-juice"],["Watermelon juice",92,"watermelon-juice"],["Mango juice",97,"mango-juice"],["Guava juice",104,"guava-juice"]]},{"s":"lobster_pool","n":"Lobster Pool","l":44,"i":[["Lobster tail",44,"lobster-tail"]]},{"s":"loom","n":"Loom","l":17,"i":[["Sweater",17,"sweater"],["Cotton fabric",18,"cotton-fabric"],["Blue woolly hat",19,"blue-woolly-hat"],["Blue sweater",20,"blue-sweater"],["Red scarf",48,"red-scarf"],["Flower shawl",71,"flower-shawl"]]},{"s":"lure_workbench","n":"Lure Workbench","l":27,"i":[["Red lure",27,"red-lure"],["Green lure",27,"green-lure"],["Blue lure",27,"blue-lure"],["Purple lure",27,"purple-lure"],["Gold lure",27,"gold-lure"]]},{"s":"milkshake_bar","n":"Milkshake Bar","l":124,"i":[["Vanilla milkshake",124,"vanilla-milkshake"],["Mocha milkshake",125,"mocha-milkshake"],["Fruity milkshake",126,"fruity-milkshake"]]},{"s":"mine","n":"Mine","l":24,"i":[["Silver ore",24,"silver-ore"],["Gold ore",24,"gold-ore"],["Platinum ore",24,"platinum-ore"],["Coal",33,"coal"],["Iron ore",34,"iron-ore"]]},{"s":"net_maker","n":"Net Maker","l":30,"i":[["Fishing net",30,"fishing-net"],["Mystery net",30,"mystery-net"],["Lobster trap",44,"lobster-trap"],["Duck trap",50,"duck-trap"]]},{"s":"omelet_station","n":"Omelet Station","l":77,"i":[["Colourful omelet",77,"colourful-omelet"],["Spring omelet",77,"spring-omelet"],["Cheese omelet",79,"cheese-omelet"],["Rice omelet",83,"rice-omelet"],["Potato omelet",87,"potato-omelet"]]},{"s":"pasta_kitchen","n":"Pasta Kitchen","l":72,"i":[["Gnocchi",72,"gnocchi"],["Veggie lasagna",74,"veggie-lasagna"],["Lobster pasta",79,"lobster-pasta"],["Pasta carbonara",83,"pasta-carbonara"],["Broccoli pasta",83,"broccoli-pasta"],["Spicy pasta",87,"spicy-pasta"],["Mushroom pasta",101,"mushroom-pasta"]]},{"s":"pasta_maker","n":"Pasta Maker","l":67,"i":[["Fresh pasta",67,"fresh-pasta"],["Rice noodles",73,"rice-noodles"]]},{"s":"perfumerie","n":"Perfumerie","l":110,"i":[["Fresh diffuser",110,"fresh-diffuser"],["Zesty perfume",113,"zesty-perfume"],["Calming diffuser",116,"calming-diffuser"]]},{"s":"pie_oven","n":"Pie Oven","l":14,"i":[["Carrot pie",14,"carrot-pie"],["Pumpkin pie",15,"pumpkin-pie"],["Bacon pie",18,"bacon-pie"],["Apple pie",28,"apple-pie"],["Fish pie",28,"fish-pie"],["Feta pie",34,"feta-pie"],["Casserole",36,"casserole"],["Shepherd's pie",39,"shepherd-s-pie"],["Asparagus quiche",49,"asparagus-quiche"],["Chocolate pie",65,"chocolate-pie"],["Lemon pie",67,"lemon-pie"],["Peach tart",76,"peach-tart"],["Passion fruit pie",92,"passion-fruit-pie"],["Mushroom pot pie",97,"mushroom-pot-pie"],["Eggplant parmesan",99,"eggplant-parmesan"]]},{"s":"popcorn_pot","n":"Popcorn Pot","l":8,"i":[["Popcorn",8,"popcorn"],["Buttered popcorn",16,"buttered-popcorn"],["Chili popcorn",25,"chili-popcorn"],["Honey popcorn",40,"honey-popcorn"],["Chocolate popcorn",44,"chocolate-popcorn"],["Snack mix",64,"snack-mix"]]},{"s":"porridge_bar","n":"Porridge Bar","l":119,"i":[["Apple porridge",119,"apple-porridge"],["Sweet porridge",120,"sweet-porridge"],["Fresh porridge",122,"fresh-porridge"]]},{"s":"pottery_studio","n":"Pottery Studio","l":94,"i":[["Tea pot",94,"tea-pot"],["Potted plant",96,"potted-plant"],["Clay mug",99,"clay-mug"]]},{"s":"preservation_station","n":"Preservation Station","l":91,"i":[["Pickles",91,"pickles"],["Canned fish",95,"canned-fish"],["Kimchi",98,"kimchi"],["Dried fruit",102,"dried-fruit"],["Guava compote",104,"guava-compote"]]},{"s":"salad_bar","n":"Salad Bar","l":58,"i":[["Feta salad",58,"feta-salad"],["Bean salad",58,"bean-salad"],["BLT salad",62,"blt-salad"],["Seafood salad",64,"seafood-salad"],["Pasta salad",67,"pasta-salad"],["Veggie platter",74,"veggie-platter"],["Coleslaw",75,"coleslaw"],["Beetroot salad",76,"beetroot-salad"],["Summer rolls",78,"summer-rolls"],["Fruit salad",82,"fruit-salad"],["Summer salad",84,"summer-salad"],["Mushroom salad",89,"mushroom-salad"],["Orange salad",117,"orange-salad"]]},{"s":"sandwich_bar","n":"Sandwich Bar","l":61,"i":[["Veggie bagel",61,"veggie-bagel"],["Bacon toast",65,"bacon-toast"],["Egg sandwich",66,"egg-sandwich"],["Honey toast",69,"honey-toast"],["Peanut butter and jelly sandwich",71,"peanut-butter-and-jelly-sandwich"],["Cucumber sandwich",79,"cucumber-sandwich"],["Onion melt",84,"onion-melt"],["Goat cheese toast",92,"goat-cheese-toast"],["Hummus wrap",109,"hummus-wrap"]]},{"s":"sauce_maker","n":"Sauce Maker","l":54,"i":[["Soy sauce",54,"soy-sauce"],["Bean dip",54,"bean-dip"],["Olive oil",60,"olive-oil"],["Mayonnaise",62,"mayonnaise"],["Lemon curd",66,"lemon-curd"],["Olive dip",66,"olive-dip"],["Tomato sauce",69,"tomato-sauce"],["Salsa",77,"salsa"],["Hummus",95,"hummus"],["Tart dressing",100,"tart-dressing"]]},{"s":"sewing_machine","n":"Sewing Machine","l":19,"i":[["Cotton shirt",19,"cotton-shirt"],["Wooly chaps",21,"wooly-chaps"],["Violet dress",25,"violet-dress"],["Soothing pad",45,"soothing-pad"],["Pillow",51,"pillow"],["Blanket",59,"blanket"]]},{"s":"smelter","n":"Smelter","l":24,"i":[["Silver bar",24,"silver-bar"],["Gold bar",25,"gold-bar"],["Platinum bar",25,"platinum-bar"],["Refined coal",33,"refined-coal"],["Iron bar",34,"iron-bar"]]},{"s":"smoothie_mixer","n":"Smoothie Mixer","l":64,"i":[["Berry smoothie",64,"berry-smoothie"],["Green smoothie",66,"green-smoothie"],["Yogurt smoothie",70,"yogurt-smoothie"],["Cucumber smoothie",70,"cucumber-smoothie"],["Mixed smoothie",88,"mixed-smoothie"],["Black sesame smoothie",93,"black-sesame-smoothie"],["Cocoa smoothie",100,"cocoa-smoothie"],["Plum smoothie",102,"plum-smoothie"],["Tropical smoothie",104,"tropical-smoothie"]]},{"s":"soup_kitchen","n":"Soup Kitchen","l":46,"i":[["Lobster soup",46,"lobster-soup"],["Lamb soup",46,"lamb-soup"],["Tomato soup",47,"tomato-soup"],["Pumpkin soup",49,"pumpkin-soup"],["Asparagus soup",51,"asparagus-soup"],["Fish soup",53,"fish-soup"],["Cabbage soup",65,"cabbage-soup"],["Onion soup",72,"onion-soup"],["Noodle soup",73,"noodle-soup"],["Potato soup",78,"potato-soup"],["Bell pepper soup",81,"bell-pepper-soup"],["Broccoli soup",87,"broccoli-soup"],["Mushroom soup",104,"mushroom-soup"]]},{"s":"stew_pot","n":"Stew Pot","l":106,"i":[["Chickpea stew",106,"chickpea-stew"],["Chili stew",109,"chili-stew"],["Winter stew",112,"winter-stew"]]},{"s":"sugar_mill","n":"Sugar Mill","l":7,"i":[["Brown sugar",7,"brown-sugar"],["White sugar",13,"white-sugar"],["Syrup",18,"syrup"]]},{"s":"sushi_bar","n":"Sushi Bar","l":56,"i":[["Sushi roll",56,"sushi-roll"],["Lobster sushi",59,"lobster-sushi"],["Egg sushi",63,"egg-sushi"],["Big sushi roll",76,"big-sushi-roll"],["Rice ball",110,"rice-ball"]]},{"s":"taco_kitchen","n":"Taco Kitchen","l":77,"i":[["Spicy bean taco",77,"spicy-bean-taco"],["Taco",77,"taco"],["Fish taco",79,"fish-taco"],["Quesadilla",82,"quesadilla"],["Nachos",87,"nachos"]]},{"s":"tea_stand","n":"Tea Stand","l":80,"i":[["Green tea",80,"green-tea"],["Milk tea",81,"milk-tea"],["Honey tea",83,"honey-tea"],["Lemon tea",86,"lemon-tea"],["Apple ginger tea",88,"apple-ginger-tea"],["Orange tea",89,"orange-tea"],["Iced tea",92,"iced-tea"],["Mint tea",97,"mint-tea"],["Chamomile tea",100,"chamomile-tea"],["Pomegranate tea",107,"pomegranate-tea"]]},{"s":"waffle_maker","n":"Waffle Maker","l":114,"i":[["Plain waffles",114,"plain-waffles"],["Berry waffles",114,"berry-waffles"],["Chocolate waffles",117,"chocolate-waffles"],["Blueberry waffles",118,"blueberry-waffles"],["Breakfast waffles",119,"breakfast-waffles"]]},{"s":"wok_kitchen","n":"Wok Kitchen","l":69,"i":[["Fried rice",69,"fried-rice"],["Lamb stir fry",69,"lamb-stir-fry"],["Spicy fish",79,"spicy-fish"],["Peanut noodles",86,"peanut-noodles"],["Tofu stir fry",89,"tofu-stir-fry"]]},{"s":"yogurt_maker","n":"Yogurt Maker","l":103,"i":[["Plain yogurt",103,"plain-yogurt"],["Strawberry yogurt",105,"strawberry-yogurt"],["Tropical yogurt",109,"tropical-yogurt"],["Breakfast bowl",119,"breakfast-bowl"]]}];
+// ===== Production tracker: 12 account boxes; place buildings and the items they make =====
+const PROD_IMG=REQ_IMG_BASE+'buildings/', PROD_BY={}; PROD_DATA.forEach(b=>{PROD_BY[b.s]=b;});
+const PROD_MAX=40;                                   // building slots per account box
+function prodKey(a,i){ return 'prod::'+a+'::'+i; }
+function prodNorm(s){ return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim(); }
+function prodList(a){                                // [{i, b:building, items:[goods file,...]}]
+  const out=[];
+  for(let i=0;i<PROD_MAX;i++){ const v=games.checks[prodKey(a,i)]; if(typeof v!=='string') continue;
+    const p=v.split('|'), b=PROD_BY[p[0]]; if(!b) continue;
+    out.push({i,b,items:(p[1]||'').split(',').filter(Boolean)}); }
+  return out;
+}
+function prodSave(a,i,b,items){
+  const key=prodKey(a,i), prev=rawSnapshot(key);
+  writeCheckValue(key, b ? b.s+'|'+items.join(',') : false);
+  recordUndo({type:'delta',changes:{[key]:prev}});
+}
+function prodFree(a){ for(let i=0;i<PROD_MAX;i++) if(typeof games.checks[prodKey(a,i)]!=='string') return i; return -1; }
+function prodAddBuilding(a,b){ const i=prodFree(a); if(i<0) return -1; prodSave(a,i,b,[]); return i; }
+function prodAddItem(a,b,file){
+  const L=prodList(a); const e=L.find(x=>x.b===b && x.items.length<PROD_SLOTS) || null;
+  if(e){ prodSave(a,e.i,b,e.items.concat(file)); return; }
+  const i=prodFree(a); if(i>=0) prodSave(a,i,b,[file]);
+}
+const PROD_SLOTS=10;                                 // item slots shown per building
+function prodSearch(a,q){
+  const lv=lvlGet(a); q=prodNorm(q); if(!q) return [];
+  const toks=q.split(/\s+/), res=[];
+  PROD_DATA.forEach(b=>{
+    if(lv && b.l>lv) return;                           // building not unlocked yet for this account
+    const av=b.i.filter(it=>!lv||it[1]<=lv);
+    if(toks.every(t=>prodNorm(b.n).includes(t))) res.push({b,items:av,all:true});
+    else { const m=av.filter(it=>toks.every(t=>prodNorm(it[0]).includes(t))); if(m.length) res.push({b,items:m,all:false}); }
+  });
+  res.sort((x,y)=>x.b.n.localeCompare(y.b.n));
+  return res.slice(0,14);
+}
+let prodEd=null;
+function prodCloseEd(){ document.getElementById('prodEd').classList.remove('show'); prodEd=null; }
+function prodOpenEd(box,a){
+  const ed=document.getElementById('prodEd'); prodEd={a};
+  const ac=GAME_ACCOUNTS.find(x=>x.id===a);
+  ed.innerHTML='<div class="req-ed-h">'+(ac?ac.label:a)+' · Lv '+(lvlGet(a)||'?')+'</div>';
+  const inp=document.createElement('input'); inp.type='text'; inp.placeholder='Building or item name…'; inp.autocomplete='off'; inp.spellcheck=false;
+  const list=document.createElement('div'); list.className='req-list prod-list';
+  ed.appendChild(inp); ed.appendChild(list);
+  ed.classList.add('show');
+  const r=box.getBoundingClientRect(), w=ed.offsetWidth||320;
+  let x=r.left+r.width/2-w/2; x=Math.min(Math.max(8,x),innerWidth-w-8);
+  let y=r.top+40; ed.style.left=x+'px'; ed.style.top=Math.min(y,innerHeight-260)+'px';
+  let rows=[], on=0;
+  const pick=row=>{ if(!row) return;
+    if(row.item) prodAddItem(a,row.b,row.item[2]); else prodAddBuilding(a,row.b);
+    prodRender(); inp.value=''; rows=[]; list.innerHTML=''; prodCloseEd(); };
+  const draw=()=>{
+    list.innerHTML='';
+    rows.forEach((row,k)=>{
+      const o=document.createElement('div'); o.className='req-opt prod-opt'+(row.item?' ind':'')+(k===on?' on':'');
+      const im=document.createElement('img'); im.src=row.item?(REQ_IMG_BASE+'goods/'+row.item[2]+'.webp'):(PROD_IMG+row.b.s+'.webp'); o.appendChild(im);
+      const t=document.createElement('span'); t.textContent=row.item?row.item[0]:row.b.n; if(!row.item) t.style.fontWeight='700'; o.appendChild(t);
+      const lv=document.createElement('span'); lv.className='req-lv'; lv.textContent='Lv '+(row.item?row.item[1]:row.b.l); o.appendChild(lv);
+      o.onmousedown=e=>{ e.preventDefault(); pick(row); };
+      list.appendChild(o);
+    });
+  };
+  inp.addEventListener('input',()=>{
+    rows=[]; prodSearch(a,inp.value).forEach(h=>{ rows.push({b:h.b}); h.items.forEach(it=>rows.push({b:h.b,item:it})); });
+    on=0; draw();
+  });
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='ArrowDown'){ e.preventDefault(); if(rows.length){ on=(on+1)%rows.length; draw(); list.children[on]&&list.children[on].scrollIntoView({block:'nearest'}); } }
+    else if(e.key==='ArrowUp'){ e.preventDefault(); if(rows.length){ on=(on-1+rows.length)%rows.length; draw(); list.children[on]&&list.children[on].scrollIntoView({block:'nearest'}); } }
+    else if(e.key==='Enter'){ e.preventDefault(); pick(rows[on]); }
+    else if(e.key==='Escape'){ e.stopPropagation(); prodCloseEd(); }
+  });
+  inp.focus();
+}
+function prodRender(){
+  const g=document.getElementById('prodGrid'); if(!g) return; const keep=g.scrollTop; g.innerHTML='';
+  GAME_ACCOUNTS.forEach(ac=>{
+    const L=prodList(ac.id);
+    const box=document.createElement('div'); box.className='prod-box'+(L.length?' has':'');
+    const h=document.createElement('div'); h.className='prod-h'; h.textContent=ac.label; box.appendChild(h);
+    const body=document.createElement('div'); body.className='prod-body'; box.appendChild(body);
+    L.forEach(e=>{
+      const c=document.createElement('div'); c.className='prod-bld'; c.title=e.b.name||e.b.n;
+      const im=document.createElement('img'); im.className='prod-img'; im.src=PROD_IMG+e.b.s+'.webp'; im.alt=e.b.n; im.draggable=false; c.appendChild(im);
+      const nm=document.createElement('div'); nm.className='prod-nm'; nm.textContent=e.b.n; c.appendChild(nm);
+      const sl=document.createElement('div'); sl.className='prod-slots';
+      e.items.forEach((f,k)=>{ const s=document.createElement('button'); s.className='prod-it'; s.title='Click to remove'; const m=document.createElement('img'); m.src=REQ_IMG_BASE+'goods/'+f+'.webp'; m.alt=''; s.appendChild(m);
+        s.onclick=ev=>{ ev.stopPropagation(); const n=e.items.slice(); n.splice(k,1); prodSave(ac.id,e.i,e.b,n); prodRender(); }; sl.appendChild(s); });
+      c.appendChild(sl);
+      const x=document.createElement('button'); x.className='prod-x'; x.textContent='✕'; x.title='Remove building';
+      x.onclick=ev=>{ ev.stopPropagation(); prodSave(ac.id,e.i,null,[]); prodRender(); }; c.appendChild(x);
+      c.addEventListener('contextmenu',ev=>{ ev.preventDefault(); prodSave(ac.id,e.i,null,[]); prodRender(); });
+      body.appendChild(c);
+    });
+    box.addEventListener('click',ev=>{ if(ev.target.closest('.prod-it,.prod-x')) return; prodOpenEd(box,ac.id); });
+    g.appendChild(box);
+  });
+  g.scrollTop=keep;
+}
+function refreshProd(){ const m=document.getElementById('prodModal'); if(m&&m.classList.contains('gc-show')&&!prodEd) prodRender(); }
+function openProd(){ prodRender(); document.getElementById('prodModal').classList.add('gc-show'); }
+function closeProd(){ prodCloseEd(); document.getElementById('prodModal').classList.remove('gc-show'); }
 document.getElementById('prodBtn').onclick=openProd;
 document.getElementById('prodClose').onclick=closeProd;
-document.getElementById('prodModal').addEventListener('mousedown',e=>{ if(e.target.id==='prodModal') closeProd(); });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape' && document.getElementById('prodModal').classList.contains('gc-show')) closeProd(); });
+document.getElementById('prodModal').addEventListener('mousedown',e=>{ if(e.target.id==='prodModal') closeProd(); else if(prodEd && !e.target.closest('#prodEd')) prodCloseEd(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape' && document.getElementById('prodModal').classList.contains('gc-show')){ if(prodEd) prodCloseEd(); else closeProd(); } });
 
 /* ================= Upgrade Materials menu ================= */
 function upgKey(acctId,matId){ return 'upg::'+acctId+'::'+matId; }
