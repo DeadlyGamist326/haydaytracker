@@ -689,7 +689,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-slots{display:none;}
 #prodWheel{position:fixed;inset:0;z-index:3650;background:rgba(10,14,30,.38);display:none;}
 #prodWheel.show{display:block;}
-#prodWheel .pw-arc{position:absolute;left:0;top:0;pointer-events:none;overflow:visible;}
+#prodWheel .pw-wedge{position:absolute;pointer-events:none;}
 #prodWheel .pw-title{position:absolute;left:0;right:0;top:14px;text-align:center;font:700 22px var(--font-display);color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.6);pointer-events:none;}
 #prodWheel .pw-bld{position:absolute;object-fit:contain;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(0,0,0,.35));}
 #prodWheel .pw-queue{position:absolute;display:grid;grid-template-columns:repeat(5,var(--qs));gap:6px;}
@@ -702,9 +702,8 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 #prodWheel .pw-item.lock img{filter:grayscale(1) brightness(.92);opacity:.85;}
 #prodWheel .pw-item.full{animation:pwShake .3s;}
 @keyframes pwShake{0%,100%{margin-left:0}25%{margin-left:-5px}75%{margin-left:5px}}
-#prodWheel .pw-cnt{position:absolute;left:-58%;top:-20%;min-width:38px;padding:2px 8px;border-radius:12px;background:#fff6dc;color:#1b1b1b;font:900 18px var(--font-display);line-height:1.1;box-shadow:0 2px 4px rgba(0,0,0,.3);text-align:center;}
+#prodWheel .pw-cnt{position:absolute;transform:translate(-50%,-50%);pointer-events:none;min-width:38px;padding:2px 8px;border-radius:12px;background:#fff6dc;color:#1b1b1b;font:900 18px var(--font-display);line-height:1.1;box-shadow:0 2px 4px rgba(0,0,0,.3);text-align:center;}
 #prodWheel .pw-lv{position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);padding:1px 7px;border-radius:9px;background:rgba(0,0,0,.65);color:#fff;font:700 11px var(--font-body);white-space:nowrap;}
-#prodWheel .pw-arrow{position:absolute;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(0,0,0,.3));}
 #prodWheel .pw-nav{position:absolute;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;border:none;background:rgba(0,0,0,.5);color:#fff;cursor:pointer;pointer-events:auto;font-size:12px;}
 
 /* ===== Account Level badge ===== */
@@ -4291,7 +4290,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-080957';
+const APP_BUILD='20261126-100907';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4823,6 +4822,7 @@ function prodWheelData(e,a){
   const nxt=rest.length?rest[0][1]:0, gray=rest.filter(x=>x[1]===nxt);   // next unlock level group, shown greyed
   return open.map(x=>({it:x,lock:false})).concat(gray.map(x=>({it:x,lock:true})));
 }
+const PW_LAY={"2":{"st":[534,462],"w":[72.6,84.7,444.8,375.9],"b":[505,355,210],"it":[[343.9,154.9,179.5],[167.8,322.4,170.5]]},"3":{"st":[657,630],"w":[75.9,44.4,507,545.5],"b":[600,380,210],"it":[[462.2,157.7,154.5],[248.3,236.1,142.5],[160.8,431.7,143.5]]},"4":{"st":[693,655],"w":[59,16,630.5,631.5],"b":[525,440,250],"it":[[543.2,131.8,185],[368.6,220.6,204],[217.4,347,131.5],[182.3,511.6,186.5]]},"5":{"st":[719,616],"w":[38.3,80.8,637.5,515],"b":[700,495,230],"it":[[500.8,138.6,207.5],[575.7,337.2,175.5],[383.2,459.7,200],[274.6,262.2,204],[163.5,475.6,194]]}};
 function prodWheelPlace(){
   const w=document.getElementById('prodWheel'); if(!prodW){ w.classList.remove('show'); return; }
   const {a,i}=prodW; const e=prodList(a).find(x=>x.i===i);
@@ -4830,50 +4830,40 @@ function prodWheelPlace(){
   const slots=prodWheelData(e,a), N=5, total=slots.length;
   const maxOff=Math.max(0,total-N); if(prodW.off==null) prodW.off=maxOff; prodW.off=Math.min(Math.max(0,prodW.off),maxOff);
   const view=slots.slice(prodW.off,prodW.off+N), n=view.length;
-  // the building sits right of centre, the fan of products opens to its left (like the in-game screen)
-  const sc=Math.min(1,innerWidth/960,innerHeight/640), R=PW.R*sc, IC=PW.ICON*sc, BW=230*sc;
-  const cx=innerWidth/2+R*0.55, cy=innerHeight/2+BW*0.1;
-  const deg=k=>n<2?135:90+k*(190-90)/(n-1), radOf=k=>(n>=5&&k%2)?R*0.84:R;
-  const P=(rad,th)=>{ const t=th*Math.PI/180; return [cx+rad*Math.cos(t), cy-rad*Math.sin(t)]; };
+  const L=PW_LAY[Math.min(5,Math.max(2,n))], [SW,SH]=L.st, [wx,wy,ww,wh]=L.w, [bx,by,bs]=L.b;
+  const QW=5*60, vw=innerWidth, vh=innerHeight;
+  const sc=Math.max(.3,Math.min((vw*.96-(e.items.length?QW+16:0))/Math.max(SW,bx+bs/2),vh*.86/SH,1.7));
+  const totW=Math.max(SW,bx+bs/2)*sc+(e.items.length?QW+16:0);
+  const ox=(vw-totW)/2, oy=(vh-SH*sc)/2+10;
+  const X=v=>ox+v*sc, Y=v=>oy+v*sc;
   const q=prodList(a).filter(x=>x.b===e.b).reduce((m,x)=>{ x.items.forEach(f=>{ m[f]=(m[f]||0)+1; }); return m; },{});
   w.innerHTML=''; w.classList.add('show');
   const ac=GAME_ACCOUNTS.find(x=>x.id===a);
-  const hd=document.createElement('div'); hd.className='pw-title'; hd.textContent=e.b.n+' · '+(ac?ac.label:a); w.appendChild(hd);
-  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg'); svg.setAttribute('class','pw-arc'); svg.setAttribute('width',innerWidth); svg.setAttribute('height',innerHeight);
-  const r2=R+IC*0.95, t1=84, t2=196;
-  const [x1,y1]=P(r2,t1),[x2,y2]=P(r2,t2);
-  const gid='pwa'+Date.now()%1e6;
-  const df=document.createElementNS('http://www.w3.org/2000/svg','defs');
-  df.innerHTML='<radialGradient id="'+gid+'" gradientUnits="userSpaceOnUse" cx="'+cx+'" cy="'+cy+'" r="'+r2+'"><stop offset="0.25" stop-color="#fff" stop-opacity="0"/><stop offset="0.6" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity=".3"/></radialGradient>';
-  svg.appendChild(df);
-  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
-  path.setAttribute('d','M'+cx+' '+cy+' L'+x1+' '+y1+' A'+r2+' '+r2+' 0 0 0 '+x2+' '+y2+' Z');
-  path.setAttribute('fill','url(#'+gid+')'); path.setAttribute('stroke','rgba(255,255,255,.7)'); path.setAttribute('stroke-width','2'); path.setAttribute('stroke-linejoin','round');
-  svg.appendChild(path); w.appendChild(svg);
+  const hd=document.createElement('div'); hd.className='pw-title'; hd.textContent=e.b.n+' \u00b7 '+(ac?ac.label:a); w.appendChild(hd);
   const bi=document.createElement('img'); bi.className='pw-bld'; bi.src=PROD_IMG+e.b.s+'.webp'; bi.alt=e.b.n; bi.draggable=false;
-  bi.style.cssText='left:'+(cx-BW/2)+'px;top:'+(cy-BW/2)+'px;width:'+BW+'px;height:'+BW+'px;'; w.appendChild(bi);
+  bi.style.cssText='left:'+(X(bx)-bs*sc/2)+'px;top:'+(Y(by)-bs*sc/2)+'px;width:'+(bs*sc)+'px;height:'+(bs*sc)+'px;'; w.appendChild(bi);
+  const wi=document.createElement('img'); wi.className='pw-wedge'; wi.src=REQ_IMG_BASE+'wheel/wheel-'+Math.min(5,Math.max(2,n))+'.png'; wi.draggable=false; wi.alt='';
+  wi.style.cssText='left:'+X(wx)+'px;top:'+Y(wy)+'px;width:'+(ww*sc)+'px;height:'+(wh*sc)+'px;'; w.appendChild(wi);
   view.forEach((sl,k)=>{
-    const th=deg(k), rad=radOf(k), [px,py]=P(rad,th);
-    const [ax,ay]=P(rad-IC*0.82,th+6), ang=Math.atan2(cy-ay,cx-ax)*180/Math.PI;
-    const ar=document.createElement('div'); ar.className='pw-arrow'; ar.style.cssText='left:'+ax+'px;top:'+ay+'px;transform:translate(-50%,-50%) rotate('+ang+'deg) scale('+sc+');';
-    ar.innerHTML='<svg viewBox="0 0 64 36" width="46" height="26"><defs><linearGradient id="pwg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe9a0"/><stop offset="1" stop-color="#f1b23f"/></linearGradient></defs><path d="M2 11 C14 8 26 8 38 8 L38 1 L62 18 L38 35 L38 28 C26 28 14 28 2 25 Z" fill="url(#pwg)" stroke="#b97a2b" stroke-width="2" stroke-linejoin="round"/></svg>';
-    w.appendChild(ar);
-    const el=document.createElement('button'); el.className='pw-item'+(sl.lock?' lock':''); el.style.cssText='left:'+px+'px;top:'+py+'px;width:'+IC+'px;height:'+IC+'px;';
-    el.title=sl.it[0]+(sl.lock?' — unlocks at Lv '+sl.it[1]:' — click to make');
-    el.innerHTML='<img src="'+REQ_IMG_BASE+'goods/'+sl.it[2]+'.webp" alt="" draggable="false"><span class="pw-cnt">'+(q[sl.it[2]]||0)+'</span>'+(sl.lock?'<span class="pw-lv">Lv '+sl.it[1]+'</span>':'');
+    const p=L.it[Math.min(k,L.it.length-1)], s=p[2]*sc, px=X(p[0]), py=Y(p[1]);
+    const el=document.createElement('button'); el.className='pw-item'+(sl.lock?' lock':''); el.style.cssText='left:'+px+'px;top:'+py+'px;width:'+s+'px;height:'+s+'px;';
+    el.title=sl.it[0]+(sl.lock?' \u2014 unlocks at Lv '+sl.it[1]:' \u2014 click to make');
+    el.innerHTML='<img src="'+REQ_IMG_BASE+'goods/'+sl.it[2]+'.webp" alt="" draggable="false">'+(sl.lock?'<span class="pw-lv">Lv '+sl.it[1]+'</span>':'');
     el.onmousedown=ev=>ev.preventDefault();
     el.onclick=ev=>{ ev.stopPropagation(); if(sl.lock) return;
       const cur=prodList(a).find(x=>x.i===i); if(!cur) return;
       if(cur.items.length>=PROD_SLOTS){ el.classList.remove('full'); void el.offsetWidth; el.classList.add('full'); return; }
       prodSave(a,i,cur.b,cur.items.concat(sl.it[2]),cur.items.length?cur.start:Date.now()); prodRender(); };
     w.appendChild(el);
+    const bb=document.createElement('div'); bb.className='pw-cnt'; bb.textContent=q[sl.it[2]]||0;
+    bb.style.cssText='left:'+(px-.52*s)+'px;top:'+(py-.34*s)+'px;font-size:'+Math.max(16,28*sc)+'px;'; w.appendChild(bb);
   });
-  if(total>N){ [['▲',-1,72],['▼',1,208]].forEach(([t,d,th])=>{ const b=document.createElement('button'); b.className='pw-nav'; b.textContent=t;
-    const [bx,by]=P(R+IC*0.95,th); b.style.cssText='left:'+bx+'px;top:'+by+'px;';
+  if(total>N){ [['\u25B2',-1,wx+ww*0.96,wy],['\u25BC',1,wx+ww*0.02,wy+wh]].forEach(([t,d,nx,ny])=>{ const b=document.createElement('button'); b.className='pw-nav'; b.textContent=t;
+    b.style.cssText='left:'+X(nx)+'px;top:'+Y(ny)+'px;';
     b.onclick=ev=>{ ev.stopPropagation(); prodW.off+=d; prodWheelPlace(); }; w.appendChild(b); }); }
   // the queue: 5 + 5, a box only appears once something is being made; the left-most one carries the timer
-  const qd=document.createElement('div'); qd.className='pw-queue'; qd.style.cssText='left:'+(cx+BW/2+14*sc)+'px;top:'+(cy-IC*0.9)+'px;--qs:'+(54*sc)+'px;';
-  e.items.forEach((f,k)=>{ const c=document.createElement('button'); c.className='prod-qs'+(k===0?' first':''); c.title=(prodItem(e.b,f)||[f])[0]+' — click to remove';
+  const qd=document.createElement('div'); qd.className='pw-queue'; qd.style.cssText='left:'+(X(bx)+bs*sc/2+12)+'px;top:'+(Y(by)-60)+'px;--qs:54px;';
+  e.items.forEach((f,k)=>{ const c=document.createElement('button'); c.className='prod-qs'+(k===0?' first':''); c.title=(prodItem(e.b,f)||[f])[0]+' \u2014 click to remove';
     c.innerHTML='<img src="'+REQ_IMG_BASE+'goods/'+f+'.webp" alt="">'+(k===0?'<span class="prod-qt" data-st="'+(e.start||'')+'" data-m="'+(prodMins(e.b,f)||'')+'"></span>':'');
     c.onclick=ev=>{ ev.stopPropagation(); const nn=e.items.slice(); nn.splice(k,1); prodSave(a,i,e.b,nn,k===0?Date.now():e.start); prodRender(); }; qd.appendChild(c); });
   w.appendChild(qd);
