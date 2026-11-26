@@ -656,12 +656,12 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-box{border:1.5px dashed var(--line);border-radius:12px;background:var(--paper-raised);padding:6px 8px;cursor:pointer;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden;transition:flex-grow .35s ease,border-color .15s,background .15s;}
 .prod-box:hover{border-color:var(--teal);}
 .prod-box.has{border-style:solid;}
-.prod-box:not(.has){justify-content:center;align-items:center;overflow:hidden;}
-.prod-box:not(.has) .prod-h{margin:0;white-space:nowrap;text-align:center;line-height:1.1;opacity:.8;font-size:40px;max-width:100%;}
-.prod-h{font:700 14px var(--font-display);color:var(--ink);margin-bottom:4px;}
-.prod-box.has{position:relative;}
-.prod-box.has .prod-h{position:absolute;left:6px;top:4px;z-index:8;margin:0;padding:1px 9px;border-radius:10px;background:rgba(255,255,255,.86);box-shadow:0 1px 5px rgba(0,0,0,.28);font-size:var(--hf,15px);line-height:1.15;pointer-events:none;max-width:calc(100% - 12px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.prod-box.has .prod-body{padding-top:calc(var(--hf,15px) * .55);}
+.prod-box{position:relative;}
+.prod-box:not(.has){overflow:hidden;}
+/* the account name: one big line behind everything, always visible */
+.prod-h{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;white-space:nowrap;text-align:center;line-height:1.1;font:700 40px var(--font-display);color:var(--ink);opacity:.8;pointer-events:none;z-index:0;}
+.prod-box.has .prod-h{opacity:.2;}
+.prod-body{position:relative;z-index:1;}
 .prod-body{display:grid;grid-template-columns:repeat(var(--cols,1),minmax(0,1fr));gap:3px 5px;align-items:start;justify-items:center;}
 .prod-bld{container-type:inline-size;position:relative;width:var(--tw,120px);max-width:100%;text-align:center;}
 .prod-img{width:100%;aspect-ratio:1;object-fit:contain;display:block;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25));}
@@ -4340,7 +4340,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-153320';
+const APP_BUILD='20261126-153452';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5027,19 +5027,21 @@ function prodRender(){
       box.addEventListener('click',ev=>{ if(ev.target.closest('.prod-qs,.prod-x,.prod-img,.prod-pp,.prod-qt,.prod-qin')) return; prodOpenEd(box,ac.id); });
       row.appendChild(box);
     });
-    row.style.flex='1 1 0'; g.appendChild(row);   // every row is the same height, never less than 1/3 of the screen
+    if(grp.every(ac=>!prodList(ac.id).length)){ row.style.flex='0 0 calc((100% - 20px) / 6)'; row.style.minHeight='0'; }   // a row with nothing in it is only 1/6 of the screen
+    else row.style.flex='1 1 0';                                                                   // rows with buildings: at least 1/3 of the screen
+    g.appendChild(row);
   }
   prodFitSoon(); prodTick(); prodWheelPlace(); if(prodW) setTimeout(()=>{ if(prodW) prodWheelPlace(); },380);
 }
 function prodFit(){
   document.querySelectorAll('#prodGrid .prod-box').forEach(box=>{
-    if(!box.classList.contains('has')){ const h=box.querySelector('.prod-h'); if(h){ h.style.fontSize='100px'; const cw=box.clientWidth-20, ch=box.clientHeight-16, k=Math.min(cw/Math.max(1,h.scrollWidth), ch/Math.max(1,h.scrollHeight)); h.style.fontSize=Math.max(10,Math.floor(100*k))+'px'; } return; }
+    { const h=box.querySelector('.prod-h'); if(h){ h.style.fontSize='100px'; const cw=box.clientWidth-20, ch=box.clientHeight-16, k=Math.min(cw/Math.max(1,h.scrollWidth), ch/Math.max(1,h.scrollHeight)); h.style.fontSize=Math.max(10,Math.floor(100*k))+'px'; } }
+    if(!box.classList.contains('has')) return;
     const body=box.querySelector('.prod-body'), n=body.children.length; if(!n) return;
     const W=box.clientWidth-16, H=box.clientHeight-22, gap=5;
     // all of an account's buildings sit in ONE row (no wrapping, no scrollbars): the tile is as big as the width and height allow
     const bc=n, best=Math.max(52,Math.min((W-gap*(n-1))/n, (H-34)/1.39, 340));   // as big as the box allows (fills the height), never below 52px
     body.style.setProperty('--cols',bc); body.style.setProperty('--tw',Math.floor(best)+'px');
-    box.style.setProperty('--hf',Math.round(Math.max(15,Math.min(34,46-best*.22)))+'px');   // the smaller the tiles, the bigger the account name
   });
   if(typeof prodW!=='undefined'&&prodW) prodWheelPlace();   // tiles may have moved/resized: keep the wheel on its building
 }
