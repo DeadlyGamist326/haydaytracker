@@ -725,6 +725,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-slots{display:none;}
 #prodWheel{position:fixed;inset:0;z-index:3650;pointer-events:none;display:none;}
 #prodWheel.show{display:block;}
+#prodWheel.closing,#prodWheel.closing *{pointer-events:none!important;}
 #prodWheel .pw-wedge{position:absolute;pointer-events:none;filter:drop-shadow(0 0 8px rgba(40,55,100,.5)) drop-shadow(0 3px 5px rgba(0,0,0,.25));}
 #prodWheel .pw-item{position:absolute;transform:translate(-50%,-50%);padding:0;border:none;background:none;cursor:pointer;pointer-events:auto;filter:drop-shadow(0 3px 3px rgba(0,0,0,.35));transition:transform .12s;}
 #prodWheel .pw-item:hover{transform:translate(-50%,-50%) scale(1.1);}
@@ -4343,7 +4344,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-154041';
+const APP_BUILD='20261126-154852';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4788,7 +4789,7 @@ function prodCollect(a,i,k,z,pile){
 // sort the buildings of every account: ones with finished products first (oldest finish first), then by when their queue ends; empty ones last
 function prodSortAll(){
   prodWheelClose(); prodSettle();
-  const changes={}; let any=false;
+  const changes={}; let any=false; const fmap={};
   const rank=e=>{ const tot=e.items.reduce((t,f)=>t+(prodMins(e.b,f)||0),0);
     if(e.done.length) return [0,e.last||0];
     if(e.items.length&&e.start&&tot) return [1,e.start+tot*60000];
@@ -4797,11 +4798,12 @@ function prodSortAll(){
     const L=prodList(ac.id); if(L.length<2) return;
     const slots=L.map(e=>e.i).sort((x,y)=>x-y);
     const sorted=L.map((e,k)=>({e,k,r:rank(e)})).sort((x,y)=>x.r[0]-y.r[0]||x.r[1]-y.r[1]||x.k-y.k).map(o=>o.e);
-    sorted.forEach((e,k)=>{ if(e.i===slots[k]) return; const key=prodKey(ac.id,slots[k]);
+    sorted.forEach((e,k)=>{ if(e.i===slots[k]) return; const key=prodKey(ac.id,slots[k]); fmap[ac.id+'|'+e.i]=ac.id+'|'+slots[k];
       if(!(key in changes)) changes[key]=rawSnapshot(key);
       writeCheckValue(key, prodVal(e.b,e.items,e.start,e.done,e.last)); any=true; });
   });
   if(any) recordUndo({type:'delta',changes});
+  prodFlipMap=fmap; prodBlink=true;
   prodRender();
 }
 // a finished first-slot product leaves the queue and goes to the "produced" pile; the next one starts right after it
@@ -4937,9 +4939,11 @@ function prodOpenEd(box,a){
   let y=r.top+40; ed.style.left=x+'px'; ed.style.top=Math.min(y,innerHeight-260)+'px';
   let rows=[], on=0;
   const pick=row=>{ if(!row) return;
+    const before=prodList(a).map(x=>x.i);
     const idx=row.item? prodAddItem(a,row.b,row.item[2]) : prodAddBuilding(a,row.b);
+    if(idx>=0&&!before.includes(idx)) prodPop={a,i:idx};
     prodRender(); inp.value=''; rows=[]; list.innerHTML=''; prodCloseEd();
-    if(idx>=0){ prodW={a,i:idx,tile:null,pg:0}; prodFit(); prodWheelPlace(); [120,260,460,700].forEach(t=>setTimeout(()=>{ if(prodW&&prodW.a===a&&prodW.i===idx) prodWheelPlace(); },t)); } };      // the wheel opens right after entering, then follows the building while the grid settles
+    if(idx>=0){ prodW={a,i:idx,tile:null,pg:0,hold:true}; prodWheelPlace(); setTimeout(()=>{ if(prodW&&prodW.a===a&&prodW.i===idx&&prodW.hold){ delete prodW.hold; prodW.t0=performance.now(); prodWheelPlace(); } },1000); } };      // the wheel opens right after entering, then follows the building while the grid settles
   const mark=()=>{ [...list.children].forEach((o,k)=>o.classList.toggle('on',k===on)); };
   const draw=()=>{
     list.innerHTML='';
@@ -4977,6 +4981,7 @@ function prodOpenEd(box,a){
 }
 function prodRender(){
   const g=document.getElementById('prodGrid'); if(!g) return;
+  const snap=prodSnap(g);
   const keep={}; g.querySelectorAll('.prod-box').forEach(bx=>{ const bd=bx.querySelector('.prod-body'); if(bd&&bx.dataset.a) keep[bx.dataset.a]=[bd.style.getPropertyValue('--cols'),bd.style.getPropertyValue('--tw')]; });
   g.innerHTML='';
   const W=n=>n?1+0.5*Math.min(n-1,5):0.5;          // box weight: empty boxes step aside, boxes with more buildings take more room
@@ -5036,7 +5041,38 @@ function prodRender(){
     else row.style.flex='1 1 0';                                                                   // rows with buildings: at least 1/3 of the screen
     g.appendChild(row);
   }
-  prodFitSoon(); prodTick(); prodWheelPlace(); if(prodW) setTimeout(()=>{ if(prodW) prodWheelPlace(); },380);
+  prodFitSoon(); prodTick(); prodFit(); prodFlip(g,snap); prodWheelPlace(); if(prodW) setTimeout(()=>{ if(prodW) prodWheelPlace(); },380);
+}
+/* ---------- smooth moves: existing buildings/boxes slide to their new place, a new building pops in ---------- */
+let prodFlipMap=null, prodPop=null, prodBlink=false;
+function prodSnap(g){
+  const o={t:{},b:{},r:[]};
+  if(!document.getElementById('prodModal').classList.contains('gc-show')) return o;
+  g.querySelectorAll('.prod-bld').forEach(c=>{ o.t[c.dataset.a+'|'+c.dataset.i]=c.getBoundingClientRect(); });
+  g.querySelectorAll('.prod-box').forEach(b=>{ o.b[b.dataset.a]=b.getBoundingClientRect(); });
+  g.querySelectorAll('.prod-row').forEach((r,k)=>{ o.r[k]=r.getBoundingClientRect(); });
+  return o;
+}
+function prodFlip(g,o){
+  const map=prodFlipMap, pop=prodPop, blink=prodBlink; prodFlipMap=null; prodPop=null; prodBlink=false;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches||!o||!Object.keys(o.t).length&&!pop) return;
+  const inv={}; if(map) Object.keys(map).forEach(k=>inv[map[k]]=k);
+  const dur=map?650:420, ease='cubic-bezier(.4,0,.2,1)';
+  g.querySelectorAll('.prod-row').forEach((r,k)=>{ const a=o.r[k]; if(!a) return; const h=r.getBoundingClientRect().height;
+    if(Math.abs(a.height-h)>2) r.animate([{flex:'0 0 '+a.height+'px',minHeight:'0px'},{flex:'0 0 '+h+'px',minHeight:'0px'}],{duration:dur,easing:ease}); });
+  g.querySelectorAll('.prod-box').forEach(b=>{ const a=o.b[b.dataset.a]; if(!a) return; const w=b.getBoundingClientRect().width;
+    if(Math.abs(a.width-w)>2) b.animate([{flex:'0 0 '+a.width+'px'},{flex:'0 0 '+w+'px'}],{duration:dur,easing:ease}); });
+  g.querySelectorAll('.prod-bld').forEach(c=>{
+    const key=c.dataset.a+'|'+c.dataset.i, from=o.t[inv[key]||key], n=c.getBoundingClientRect();
+    if(pop&&pop.a===c.dataset.a&&+pop.i===+c.dataset.i){
+      c.animate([{opacity:0,transform:'scale(.12)'},{opacity:1,transform:'scale(1.14)',offset:.55},{transform:'scale(.93)',offset:.78},{opacity:1,transform:'scale(1)'}],{duration:560,delay:430,fill:'backwards',easing:'ease-out'}); return; }
+    if(!from||!n.width) return;
+    const dx=from.left-n.left, dy=from.top-n.top, sx=from.width/n.width, sy=from.height/n.height;
+    if(Math.abs(dx)<2&&Math.abs(dy)<2&&Math.abs(sx-1)<.02&&Math.abs(sy-1)<.02) return;
+    c.style.zIndex=''; c.animate([{transformOrigin:'0 0',transform:'translate('+dx+'px,'+dy+'px) scale('+sx+','+sy+')'},{transformOrigin:'0 0',transform:'none'}],{duration:dur,easing:ease});
+  });
+  if(blink) setTimeout(()=>{ g.querySelectorAll('.prod-qmid,.prod-qt').forEach(el=>el.animate(
+    [{filter:'none',color:''},{filter:'drop-shadow(0 0 .12em #3dff3d) brightness(1.3)',color:'#3dff3d'},{filter:'none',color:''}],{duration:520,iterations:3,easing:'ease-in-out'})); },map?560:0);
 }
 function prodFit(){
   document.querySelectorAll('#prodGrid .prod-box').forEach(box=>{
@@ -5057,8 +5093,26 @@ window.addEventListener('resize',()=>{ if(document.getElementById('prodModal').c
 /* ---------- wheel: the products a building can make (like the in-game fan), items are clickable ---------- */
 const PW={R:190,ICON:68};
 let prodW=null;   // {a,i,tile,off}
-function prodWheelClose(){ prodW=null; const w=document.getElementById('prodWheel'); w.classList.remove('show'); w.innerHTML=''; }
-function prodWheelToggle(a,i,tile){ if(prodW&&prodW.a===a&&prodW.i===i){ prodWheelClose(); return; } prodCloseEd(); prodW={a,i,tile,pg:0}; prodWheelPlace(); }
+let prodWheelTok=0;
+function prodWheelAnim(w,rev,t){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  [...w.children].forEach((el,k)=>{
+    let kf, base='translate(-50%,-50%)';
+    if(el.classList.contains('pw-wedge')) kf=[{transform:'scale(.04)',opacity:0},{transform:'scale(1)',opacity:1}];
+    else if(el.classList.contains('pw-item')&&el._d) kf=[{transform:base+' translate('+el._d[0]+'px,'+el._d[1]+'px) scale(.2)',opacity:0},{transform:base,opacity:1}];
+    else kf=[{opacity:0},{opacity:1}];
+    const an=el.animate(kf,{duration:rev?230:460,delay:rev?0:60+k*38,easing:rev?'ease-in':'cubic-bezier(.34,1.45,.64,1)',fill:'both',direction:rev?'reverse':'normal'});
+    if(t) an.currentTime=t;
+    if(!rev) an.onfinish=()=>{ try{an.cancel();}catch(e){} };
+  });
+}
+function prodWheelClose(instant){
+  const w=document.getElementById('prodWheel'), was=!!prodW&&!prodW.hold&&w.classList.contains('show'); prodW=null;
+  if(!was||instant===true||document.hidden){ w.classList.remove('show','closing'); w.innerHTML=''; prodWheelTok++; return; }
+  w.classList.add('closing'); prodWheelAnim(w,true); const tk=++prodWheelTok;
+  setTimeout(()=>{ if(tk===prodWheelTok){ w.classList.remove('show','closing'); w.innerHTML=''; } },260);
+}
+function prodWheelToggle(a,i,tile){ if(prodW&&prodW.a===a&&prodW.i===i){ prodWheelClose(); return; } prodCloseEd(); const sw=!!prodW; if(sw) prodWheelClose(true); prodW={a,i,tile,pg:0,t0:performance.now()}; prodWheelPlace(); }
 function prodWheelData(e,a){
   const lv=lvlGet(a), all=e.b.i;
   const open=all.filter(x=>!lv||x[1]<=lv), rest=all.filter(x=>lv&&x[1]>lv);
@@ -5069,7 +5123,10 @@ const PW_SCALE=0.5;   // wheel size (1 = the calibrated size); smaller number = 
 const PW_PAGER={left:{x:80.6,y:631.4,s:88.5},right:{x:426.6,y:631.4,s:88.5},dots:{x:253.6,y:619.5,s:48,g:8.5},text:{x:253.6,y:696.5,s:44}};   // calibrated in the 5-slot stage space
 const PW_LAY={"2":{"st":[534,462],"w":[72.6,84.7,444.8,375.9],"b":[505,355,210],"it":[[343.9,154.9,179.5],[167.8,322.4,170.5]]},"3":{"st":[657,630],"w":[75.9,44.4,507,545.5],"b":[600,380,210],"it":[[462.2,157.7,154.5],[248.3,236.1,142.5],[160.8,431.7,143.5]]},"4":{"st":[693,655],"w":[59,16,630.5,631.5],"b":[525,440,250],"it":[[543.2,131.8,185],[368.6,220.6,204],[217.4,347,131.5],[182.3,511.6,186.5]]},"5":{"st":[719,616],"w":[38.3,80.8,637.5,515],"b":[700,495,230],"it":[[575.7,337.2,175.5],[383.2,459.7,200],[500.8,138.6,207.5],[274.6,262.2,204],[163.5,475.6,194]]}};
 function prodWheelPlace(){
-  const w=document.getElementById('prodWheel'); if(!prodW){ w.classList.remove('show'); return; }
+  const w=document.getElementById('prodWheel');
+  if(!prodW){ if(!w.classList.contains('closing')) w.classList.remove('show'); return; }
+  if(prodW.hold){ w.innerHTML=''; w.classList.remove('show','closing'); return; }
+  w.classList.remove('closing'); prodWheelTok++;
   const {a,i}=prodW; const e=prodList(a).find(x=>x.i===i);
   const im=document.querySelector('.prod-bld[data-a="'+a+'"][data-i="'+i+'"] .prod-img');
   if(!e||!im){ prodWheelClose(); return; }
@@ -5089,12 +5146,12 @@ function prodWheelPlace(){
   if(lo<6) ox+=6-lo; else if(hi>vw-6) ox-=hi-(vw-6);
   if(to<6) oy+=6-to; else if(bo>vh-6) oy-=bo-(vh-6);
   const X=v=>ox+v*sc, Y=v=>oy+v*sc;
-  w.innerHTML=''; w.classList.add('show');
+  w.innerHTML=''; w.classList.add('show'); const ax=r.left+r.width/2, ay=r.top+r.height/2;
   const wi=document.createElement('img'); wi.className='pw-wedge'; wi.src=REQ_IMG_BASE+'wheel/wheel-'+lk+'.png'; wi.draggable=false; wi.alt='';
-  wi.style.cssText='left:'+X(wx)+'px;top:'+Y(wy)+'px;width:'+(ww*sc)+'px;height:'+(wh*sc)+'px;'; w.appendChild(wi);
+  wi.style.cssText='left:'+X(wx)+'px;top:'+Y(wy)+'px;width:'+(ww*sc)+'px;height:'+(wh*sc)+'px;transform-origin:'+(ax-X(wx))+'px '+(ay-Y(wy))+'px;'; w.appendChild(wi);
   view.forEach((sl,k)=>{
     const p=L.it[Math.min(k,L.it.length-1)], s=p[2]*sc, px=X(p[0]), py=Y(p[1]);
-    const el=document.createElement('button'); el.className='pw-item'+(sl.lock?' lock':''); el.style.cssText='left:'+px+'px;top:'+py+'px;width:'+s+'px;height:'+s+'px;';
+    const el=document.createElement('button'); el.className='pw-item'+(sl.lock?' lock':''); el.style.cssText='left:'+px+'px;top:'+py+'px;width:'+s+'px;height:'+s+'px;'; el._d=[ax-px,ay-py];
     el.title=sl.it[0]+(sl.lock?' \u2014 unlocks at Lv '+sl.it[1]:' \u2014 click to make');
     el.innerHTML='<img src="'+REQ_IMG_BASE+'goods/'+sl.it[2]+'.webp" alt="" draggable="false">'+(sl.lock?'<span class="pw-lv">Lv '+sl.it[1]+'</span>':'');
     el.onmousedown=ev=>ev.preventDefault();
@@ -5117,11 +5174,12 @@ function prodWheelPlace(){
       im.style.cssText='width:'+ds+'px;height:'+ds+'px;'; im.onclick=ev=>{ ev.stopPropagation(); prodW.pg=p; prodWheelPlace(); }; dr.appendChild(im); }
     const tq=PG.text, tx=mkp('pw-pgtxt','left:'+X(tq.x)+'px;top:'+Y(tq.y)+'px;font-size:'+(tq.s*sc)+'px;'); tx.textContent=(prodW.pg+1)+'/'+pages;
   }
+if(prodW&&!prodW.hold&&prodW.t0&&performance.now()-prodW.t0<1000) prodWheelAnim(w,false,performance.now()-prodW.t0);
 }
 function refreshProd(){ const m=document.getElementById('prodModal'); if(m&&m.classList.contains('gc-show')&&!prodEd&&!qDragging&&!pileBusy) prodRender(); }
 window.addEventListener('resize',()=>{ if(prodW) prodWheelPlace(); });
 function openProd(){ prodRender(); document.getElementById('prodModal').classList.add('gc-show'); prodFitSoon(); }
-function closeProd(){ prodWheelClose(); prodCloseEd(); document.getElementById('prodModal').classList.remove('gc-show'); }
+function closeProd(){ prodWheelClose(true); prodCloseEd(); document.getElementById('prodModal').classList.remove('gc-show'); }
 document.getElementById('prodBtn').onclick=openProd;
 document.getElementById('prodClose').onclick=closeProd;
 document.getElementById('prodModal').addEventListener('mousedown',e=>{ if(prodW && !e.target.closest('#prodWheel,.prod-img')) prodWheelClose(); if(e.target.id==='prodModal') closeProd(); else if(prodEd && !e.target.closest('#prodEd')) prodCloseEd(); });
