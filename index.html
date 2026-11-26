@@ -4317,7 +4317,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-124228';
+const APP_BUILD='20261126-124259';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4871,16 +4871,19 @@ function prodOpenEd(box,a){
   inp.focus();
 }
 function prodRender(){
-  const g=document.getElementById('prodGrid'); if(!g) return; g.innerHTML='';
+  const g=document.getElementById('prodGrid'); if(!g) return;
+  const keep={}; g.querySelectorAll('.prod-box').forEach(bx=>{ const bd=bx.querySelector('.prod-body'); if(bd&&bx.dataset.a) keep[bx.dataset.a]=[bd.style.getPropertyValue('--cols'),bd.style.getPropertyValue('--tw')]; });
+  g.innerHTML='';
   const W=n=>n?1+0.5*Math.min(n-1,5):0.5;          // box weight: empty boxes step aside, boxes with more buildings take more room
   const per=4, rows=[];
   for(let r=0;r<GAME_ACCOUNTS.length;r+=per){
     const row=document.createElement('div'); row.className='prod-row'; let rw=0.5;
     GAME_ACCOUNTS.slice(r,r+per).forEach(ac=>{
       const L=prodList(ac.id); const w=W(L.length); rw=Math.max(rw,w);
-      const box=document.createElement('div'); box.className='prod-box'+(L.length?' has':''); box.style.flex=w+' 1 0';
+      const box=document.createElement('div'); box.className='prod-box'+(L.length?' has':''); box.style.flex=w+' 1 0'; box.dataset.a=ac.id;
       const h=document.createElement('div'); h.className='prod-h'; h.textContent=ac.label; box.appendChild(h);
       const body=document.createElement('div'); body.className='prod-body'; body.style.setProperty('--cols',Math.max(1,Math.min(L.length,Math.round(Math.sqrt(L.length*1.6))))); box.appendChild(body);
+      if(keep[ac.id]&&L.length&&keep[ac.id][1]){ body.style.setProperty('--cols',keep[ac.id][0]); body.style.setProperty('--tw',keep[ac.id][1]); }   // no size flash while re-rendering
       L.forEach(e=>{
         const c=document.createElement('div'); c.className='prod-bld'; c.title=e.b.n; c.dataset.a=ac.id; c.dataset.i=e.i;
         const iw=document.createElement('div'); iw.className='prod-iw'; c.appendChild(iw);
