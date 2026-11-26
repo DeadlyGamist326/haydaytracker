@@ -1010,6 +1010,7 @@ td.upg-cap-warn .upg-max{color:#d62828;}
 <div class="gc-name-modal" id="prodModal">
   <div class="gc-name-card prod-card">
     <div style="display:flex;align-items:center;gap:10px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/buildings/bakery.webp" alt="" style="height:36px;width:36px;object-fit:contain;"><div class="gc-name-title" style="margin:0;flex:1;text-align:left;">Production</div>
+ <button class="gc-name-ok" id="prodSort" title="Sort every account's buildings by waiting time (finished first, then the soonest to finish)" style="background:var(--teal);padding:4px 12px;">⇅ Sort</button>
       <button class="gc-name-ok" id="prodUndo" title="Undo (Ctrl+Z)" style="background:var(--ink-soft);padding:4px 12px;">↶ Undo</button>
       <button class="gc-name-ok" id="prodRedo" title="Redo (Ctrl+Y)" style="background:var(--ink-soft);padding:4px 12px;">↷ Redo</button>
       <button class="gc-name-ok" id="prodClose" style="background:var(--ink-soft);padding:4px 12px;">✕</button></div>
@@ -4328,7 +4329,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-144505';
+const APP_BUILD='20261126-144558';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4736,6 +4737,25 @@ function prodSave(a,i,b,items,start,done,last){
   if(done===undefined){ const o=prodList(a).find(x=>x.i===i); done=o?o.done:[]; if(last===undefined) last=o?o.last:0; }
   writeCheckValue(key, b ? prodVal(b,items,start,done,last) : false);
   recordUndo({type:'delta',changes:{[key]:prev}});
+}
+// sort the buildings of every account: ones with finished products first (oldest finish first), then by when their queue ends; empty ones last
+function prodSortAll(){
+  prodWheelClose(); prodSettle();
+  const changes={}; let any=false;
+  const rank=e=>{ const tot=e.items.reduce((t,f)=>t+(prodMins(e.b,f)||0),0);
+    if(e.done.length) return [0,e.last||0];
+    if(e.items.length&&e.start&&tot) return [1,e.start+tot*60000];
+    return [2,0]; };
+  GAME_ACCOUNTS.forEach(ac=>{
+    const L=prodList(ac.id); if(L.length<2) return;
+    const slots=L.map(e=>e.i).sort((x,y)=>x-y);
+    const sorted=L.map((e,k)=>({e,k,r:rank(e)})).sort((x,y)=>x.r[0]-y.r[0]||x.r[1]-y.r[1]||x.k-y.k).map(o=>o.e);
+    sorted.forEach((e,k)=>{ if(e.i===slots[k]) return; const key=prodKey(ac.id,slots[k]);
+      if(!(key in changes)) changes[key]=rawSnapshot(key);
+      writeCheckValue(key, prodVal(e.b,e.items,e.start,e.done,e.last)); any=true; });
+  });
+  if(any) recordUndo({type:'delta',changes});
+  prodRender();
 }
 // a finished first-slot product leaves the queue and goes to the "produced" pile; the next one starts right after it
 function prodSettle(){
@@ -5270,6 +5290,7 @@ document.getElementById('mvuiNext').onclick=()=>goMvuiGroup(1);
 document.getElementById('undoBtn').onclick=performUndo;
 document.getElementById('redoBtn').onclick=performRedo;
 document.getElementById('prodUndo').onclick=performUndo;
+document.getElementById('prodSort').onclick=prodSortAll;
 document.getElementById('prodRedo').onclick=performRedo;
 // Ctrl+Z = undo, Ctrl+Y or Ctrl+Shift+Z = redo (not while typing in a text box)
 document.addEventListener('keydown',e=>{
