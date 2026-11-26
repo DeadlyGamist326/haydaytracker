@@ -669,6 +669,9 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-pile{position:absolute;left:10%;width:80%;bottom:2%;aspect-ratio:975/545;pointer-events:none;}
 .prod-pp{position:absolute;aspect-ratio:1;padding:0;border:none;background:none;cursor:pointer;pointer-events:auto;animation:prodHop 1.15s ease-in-out infinite;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));}
 .prod-pp img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;}
+.prod-pp{transition:left .5s cubic-bezier(.3,1.25,.5,1),top .5s cubic-bezier(.3,1.25,.5,1),width .5s ease;}
+.prod-pp.collect{animation:prodCollect .75s ease-out forwards;pointer-events:none;}
+@keyframes prodCollect{0%{transform:translateY(0) scale(1,1);opacity:1}14%{transform:translateY(8%) scale(1.1,.88)}30%{transform:translateY(-8%) scale(.95,1.08)}44%{transform:translateY(0) scale(1.04,.95)}100%{transform:translateY(-190%) scale(.75,.75);opacity:0}}
 .prod-pp:hover{filter:drop-shadow(0 2px 2px rgba(0,0,0,.35)) brightness(1.12);}
 @keyframes prodHop{0%,55%,100%{transform:translateY(0) scale(1,1)}12%{transform:translateY(5%) scale(1.06,.92)}28%{transform:translateY(-22%) scale(.96,1.05)}42%{transform:translateY(0) scale(1.05,.95)}48%{transform:translateY(-4%) scale(1,1)}}
 .prod-nm{font:700 11px var(--font-body);color:var(--ink);line-height:1.1;margin-top:-3px;}
@@ -4333,7 +4336,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-151209';
+const APP_BUILD='20261126-151544';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4742,6 +4745,23 @@ function prodSave(a,i,b,items,start,done,last){
   writeCheckValue(key, b ? prodVal(b,items,start,done,last) : false);
   recordUndo({type:'delta',changes:{[key]:prev}});
 }
+// collecting from the pile: the product bounces once, jumps and fades; clicks within 1 s can keep collecting, then the rest slide into the freed slots
+const pileState={}; let pileBusy=false;
+function prodCollect(a,i,k,z,pile){
+  const key=a+'|'+i, st=pileState[key]||(pileState[key]={pend:[],t:0,settling:false}); if(st.settling||st.pend.includes(k)) return;
+  const e=prodList(a).find(x=>x.i===i); if(!e) return;
+  const idx=k-st.pend.filter(x=>x<k).length;                       // where it is in the saved list right now
+  if(idx<0||idx>=e.done.length) return;
+  pileBusy=true; st.pend.push(k);
+  const d=e.done.slice(); d.splice(idx,1); prodSave(a,i,e.b,e.items,e.start,d);
+  z.classList.add('collect');
+  clearTimeout(st.t); st.t=setTimeout(()=>{
+    st.settling=true; const col=st.pend.slice();
+    [...pile.children].forEach(el=>{ const kk=+el.dataset.k; if(col.includes(kk)) return; const nk=kk-col.filter(x=>x<kk).length; if(nk>8) return;
+      const P=PROD_PILE[nk]; el.style.left=P[0]+'%'; el.style.top=P[1]+'%'; el.style.width=P[2]+'%'; el.style.zIndex=10-nk; });
+    setTimeout(()=>{ delete pileState[key]; pileBusy=Object.keys(pileState).length>0; prodRender(); },560);
+  },1000);
+}
 // sort the buildings of every account: ones with finished products first (oldest finish first), then by when their queue ends; empty ones last
 function prodSortAll(){
   prodWheelClose(); prodSettle();
@@ -4861,7 +4881,7 @@ function prodClockHtml(ts){ const c=prodClock(ts), k=c.lastIndexOf(' '); return 
 function prodClock(ts){ return new Date(ts).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true}).toUpperCase(); }
 function prodTick(){
   if(qDragging) return;
-  if(document.getElementById('prodModal').classList.contains('gc-show')&&!prodEd&&prodSettle()){ prodRender(); return; }
+  if(!pileBusy&&document.getElementById('prodModal').classList.contains('gc-show')&&!prodEd&&prodSettle()){ prodRender(); return; }
   document.querySelectorAll('#prodGrid .prod-qt').forEach(t=>{ const st=+t.dataset.st, mins=+t.dataset.m; if(!st||!mins){ t.textContent=''; return; }
     t.textContent=prodFmtLong(st+mins*60000-Date.now()); });
   document.querySelectorAll('#prodGrid .prod-qmid.wait').forEach(t=>{ const st=+t.dataset.st, tot=+t.dataset.tot; t.innerHTML=st&&tot?prodClockHtml(st+tot*60000):''; });
@@ -4956,7 +4976,7 @@ function prodRender(){
         if(e.done.length){ const pile=document.createElement('div'); pile.className='prod-pile';
           e.done.slice(0,9).forEach((f,k)=>{ const P=PROD_PILE[k], z=document.createElement('button'); z.className='prod-pp'; z.style.cssText='left:'+P[0]+'%;top:'+P[1]+'%;width:'+P[2]+'%;z-index:'+(10-k)+';animation-delay:-'+(k*0.29).toFixed(2)+'s;';
             z.title=(prodItem(e.b,f)||[f])[0]+' \u2014 click to collect'; const m=document.createElement('img'); m.src=REQ_IMG_BASE+'goods/'+f+'.webp'; m.alt=''; m.draggable=false; z.appendChild(m);
-            z.onclick=ev=>{ ev.stopPropagation(); const d=e.done.slice(); d.splice(k,1); prodSave(ac.id,e.i,e.b,e.items,e.start,d); prodRender(); }; pile.appendChild(z); });
+            z.dataset.k=k; z.onclick=ev=>{ ev.stopPropagation(); prodCollect(ac.id,e.i,k,z,pile); }; pile.appendChild(z); });
           iw.appendChild(pile); }
         if(e.items.length||e.done.length){                                          // labels at the top, the big clock in the exact middle of the picture
           const tp=document.createElement('div'); tp.className='prod-qtop', hasDone=e.done.length&&e.last;
@@ -5070,7 +5090,7 @@ function prodWheelPlace(){
     const tq=PG.text, tx=mkp('pw-pgtxt','left:'+X(tq.x)+'px;top:'+Y(tq.y)+'px;font-size:'+(tq.s*sc)+'px;'); tx.textContent=(prodW.pg+1)+'/'+pages;
   }
 }
-function refreshProd(){ const m=document.getElementById('prodModal'); if(m&&m.classList.contains('gc-show')&&!prodEd&&!qDragging) prodRender(); }
+function refreshProd(){ const m=document.getElementById('prodModal'); if(m&&m.classList.contains('gc-show')&&!prodEd&&!qDragging&&!pileBusy) prodRender(); }
 window.addEventListener('resize',()=>{ if(prodW) prodWheelPlace(); });
 function openProd(){ prodRender(); document.getElementById('prodModal').classList.add('gc-show'); prodFitSoon(); }
 function closeProd(){ prodWheelClose(); prodCloseEd(); document.getElementById('prodModal').classList.remove('gc-show'); }
