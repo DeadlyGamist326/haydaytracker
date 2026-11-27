@@ -683,11 +683,11 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-bld.crop .prod-iw{aspect-ratio:1;}
 .prod-bld.crop .prod-img{position:absolute;left:25%;top:25%;width:50%;}
 .prod-q.crop-q{display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:6%;}
-.prod-cnt{pointer-events:auto;cursor:text;font:normal clamp(9px,12cqw,28px)/1.1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;text-shadow:0 .06em .08em rgba(0,0,0,.5);white-space:nowrap;letter-spacing:.02em;text-align:center;}
+.prod-cnt{pointer-events:auto;cursor:text;font:normal max(5px,12cqw)/1.1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;text-shadow:0 .06em .08em rgba(0,0,0,.5);white-space:nowrap;letter-spacing:.02em;text-align:center;}
 .prod-bld.soon .prod-qmid.wait,.prod-bld.soon .prod-qt,.prod-bld.soon .prod-cnt{animation:prodSoon .8s ease-in-out infinite;}
 @keyframes prodSoon{0%,100%{color:#fff;text-shadow:0 .05em .1em rgba(0,0,0,.45)}50%{color:#5dff4a;text-shadow:0 0 .35em #1fd01f,0 0 .7em #1fd01f}}
-.prod-cnt.ready{cursor:pointer;color:#8dff6e;font-size:clamp(9px,12cqw,26px);animation:prodShakeS .5s linear infinite;}
-.prod-q.crop-q .prod-qt{font:normal clamp(10px,17cqw,40px)/1.1 var(--font-display);text-align:center;}
+.prod-cnt.ready{cursor:pointer;color:#8dff6e;font-size:max(5px,12cqw);animation:prodShakeS .5s linear infinite;}
+.prod-q.crop-q .prod-qt{font:normal max(5px,17cqw)/1.1 var(--font-display);text-align:center;}
 .prod-stack{position:absolute;left:10%;width:80%;bottom:2%;display:flex;flex-direction:column;z-index:5;pointer-events:none;}
 .prod-pile{position:relative;width:100%;aspect-ratio:975/545;pointer-events:none;}
 .prod-pp{position:absolute;aspect-ratio:1;padding:0;border:none;background:none;cursor:pointer;pointer-events:auto;animation:prodHop 1.15s ease-in-out infinite;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));}
@@ -714,20 +714,20 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-opt.on .req-lv{color:#fff;}
 
 
-.prod-q{container-type:inline-size;--u:calc((100cqw - 12px) / 5.27);margin-top:1px;width:100%;}
+.prod-q{container-type:inline-size;--g:1.5cqw;--u:calc((100cqw - 4 * var(--g)) / 5.27);margin-top:1px;width:100%;}
 .prod-qh{display:flex;flex-direction:column;align-items:flex-start;gap:0;margin-bottom:1px;text-align:left;}
-.prod-qt,.prod-qwait{font:normal clamp(10px,8.6cqw,17px)/1.1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;text-shadow:0 .06em .08em rgba(0,0,0,.5);white-space:nowrap;letter-spacing:.02em;}
-.prod-qt{cursor:text;pointer-events:auto;font:normal clamp(8px,21.5cqw,30px)/1.1 var(--font-display);}
+.prod-qt,.prod-qwait{font:normal max(5px,8.6cqw)/1.1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;text-shadow:0 .06em .08em rgba(0,0,0,.5);white-space:nowrap;letter-spacing:.02em;}
+.prod-qt{cursor:text;pointer-events:auto;font:normal max(5px,15.6cqw)/1.1 var(--font-display);}
 .prod-qs,.prod-qin,.prod-qed{pointer-events:auto;}
-.prod-qtop .prod-nm{font:700 clamp(9px,20cqw,28px)/1.05 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;white-space:nowrap;text-align:center;margin:0;letter-spacing:.02em;}
+.prod-qtop .prod-nm{font:700 max(5px,11.7cqw)/1.05 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;white-space:nowrap;text-align:center;margin:0;letter-spacing:.02em;}
 .prod-qed{display:flex;align-items:center;gap:6px;}
 .prod-qin{width:4.2ch;box-sizing:content-box;font:normal 12px var(--font-display);padding:1px 4px;border:1px solid var(--teal);border-radius:5px;background:var(--paper);color:var(--ink);text-align:center;outline:none;}
-.prod-qpv{font:normal clamp(10px,8.6cqw,17px)/1.1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;white-space:nowrap;}
+.prod-qpv{font:normal max(5px,8.6cqw)/1.1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;white-space:nowrap;}
 .prod-qtop{position:absolute;left:0;right:0;top:1%;display:flex;flex-direction:column;align-items:center;gap:0;pointer-events:none;z-index:6;line-height:1;}
-.prod-qtop .prod-qwait,.prod-qtop .prod-qdone{font:700 clamp(12px,11.5cqw,20px)/1 var(--font-display);white-space:nowrap;text-align:center;-webkit-text-stroke:.24em #000;paint-order:stroke fill;letter-spacing:.03em;color:#fff;}
+.prod-qtop .prod-qwait,.prod-qtop .prod-qdone{font:700 max(5px,8.3cqw)/1 var(--font-display);white-space:nowrap;text-align:center;-webkit-text-stroke:.24em #000;paint-order:stroke fill;letter-spacing:.03em;color:#fff;}
 .prod-qtop .prod-qdone{color:#8dff6e;animation:prodShakeS .5s linear infinite;}
 .prod-qmid{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;pointer-events:none;z-index:6;white-space:nowrap;
-  font:700 clamp(15px,34.5cqw,60px)/.9 var(--font-display);color:#fff;-webkit-text-stroke:.13em #000;paint-order:stroke fill;letter-spacing:.02em;text-shadow:0 .05em .1em rgba(0,0,0,.45);}
+  font:700 max(5px,25cqw)/.9 var(--font-display);color:#fff;-webkit-text-stroke:.13em #000;paint-order:stroke fill;letter-spacing:.02em;text-shadow:0 .05em .1em rgba(0,0,0,.45);}
 .prod-qmid small{font-size:.4em;font-weight:700;margin-top:.04em;}
 .prod-qmid.done{color:#8dff6e;animation:prodShake .5s linear infinite;}
 .prod-bld.wipe .prod-qmid.done{animation:prodWipeMid .8s ease-in forwards;}
@@ -4366,7 +4366,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-012706';
+const APP_BUILD='20261127-020641';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4872,7 +4872,7 @@ const PROD_SLOTS=9;                                  // queue slots per building
 function qSet(el,k){ const st=el.style;
   if(k===0){ st.left='0px'; st.top='0px'; st.width='calc(var(--u) * 1.27)'; st.height='calc(var(--u) * 1.27)'; return; }
   const j=(k-1)%4, r=Math.floor((k-1)/4);
-  st.left='calc(var(--u) * 1.27 + 3px + '+j+' * (var(--u) + 3px))'; st.top='calc('+r+' * (var(--u) + 3px))'; st.width='var(--u)'; st.height='var(--u)'; }
+  st.left='calc(var(--u) * 1.27 + var(--g) + '+j+' * (var(--u) + var(--g)))'; st.top='calc('+r+' * (var(--u) + var(--g)))'; st.width='var(--u)'; st.height='var(--u)'; }
 let qDragging=false;
 // typed digits -> hours/minutes. The first digit is hours only if this item can last that many hours, otherwise it already counts as minutes.
 function prodParseTime(buf,dur){
@@ -5117,7 +5117,7 @@ function prodRender(){
         const sl=document.createElement('div'); sl.className='prod-q'; sl.style.setProperty('--rows',qrows); if(!e.items.length) sl.style.display='none';   // nothing queued yet: no empty slots shown
         if(e.items.length){ const hd=document.createElement('div'); hd.className='prod-qh';
           const t=document.createElement('div'); t.className='prod-qt'; t.title='Click to edit the time left'; t.dataset.st=e.start||''; t.dataset.m=prodMins(e.b,e.items[0])||''; t.dataset.g=prodGroup(e.b,e.items).n; t.onclick=ev=>{ ev.stopPropagation(); prodEditTimer(t,ac.id,e); }; hd.appendChild(t); sl.appendChild(hd); }
-        const qg=document.createElement('div'); qg.className='prod-qg'; qg.style.height=qrows===1?'calc(var(--u) * 1.27)':'calc('+qrows+' * var(--u) + '+(qrows-1)+' * 3px)'; sl.appendChild(qg);
+        const qg=document.createElement('div'); qg.className='prod-qg'; qg.style.height=qrows===1?'calc(var(--u) * 1.27)':'calc('+qrows+' * var(--u) + '+(qrows-1)+' * var(--g))'; sl.appendChild(qg);
         for(let k=0;k<nSl;k++){ const cc=document.createElement('div'); cc.className='prod-qc'; qSet(cc,k); qg.appendChild(cc); }
         e.items.forEach((f,k)=>{ const q=document.createElement('button'); q.className='prod-qs'+(k===0?' first':''); q.title=(prodItem(e.b,f)||[f])[0]+' \u2014 click to remove, hold and drag to move';
           const m=document.createElement('img'); m.src=REQ_IMG_BASE+'goods/'+f+'.webp'; m.alt=''; m.draggable=false; q.appendChild(m); qSet(q,k);
