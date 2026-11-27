@@ -673,7 +673,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-box{position:relative;}
 .prod-box:not(.has){overflow:visible;}
 /* the account name: one big line behind everything, always visible */
-.prod-chip{--cs:48px;position:absolute;left:calc(var(--cs) * -.5);top:calc(var(--cs) * -.5);display:flex;align-items:center;gap:8px;z-index:8;pointer-events:none;max-width:calc(100% - 12px);}
+.prod-chip{--cs:48px;position:absolute;left:calc(var(--cs) * -.5);top:calc(var(--cs) * -.5 + 3%);display:flex;align-items:center;gap:8px;z-index:8;pointer-events:none;max-width:calc(100% - 12px);}
 .prod-chip .lvl-badge{position:relative;top:auto;left:auto;margin:0;--bs:var(--cs);flex:none;pointer-events:auto;z-index:0;}
 .prod-chip .nm{font:700 22px/1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.02em;text-shadow:0 .06em .08em rgba(0,0,0,.4);}
 .prod-box:not(.has) .prod-chip .nm{display:none;}
@@ -4370,7 +4370,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-040354';
+const APP_BUILD='20261127-040613';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
