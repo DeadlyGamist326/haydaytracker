@@ -654,14 +654,19 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-bld.boost .prod-qt{color:#f4adff;}   /* a boost applies to this building: its live countdown is violet */
 .prod-snd{background:none;border:0;cursor:pointer;font-size:.8em;margin-left:8px;padding:0 4px;line-height:1;vertical-align:middle;filter:drop-shadow(0 1px 1px rgba(0,0,0,.35));}
 .prod-snd:hover{transform:scale(1.15);}
-#alarmMenu{position:fixed;z-index:100000;width:min(330px,calc(100vw - 20px));max-height:calc(100vh - 90px);overflow:auto;background:var(--card,#fff);color:var(--ink,#222);border:2px solid #000;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:10px 12px 12px;font:600 14px/1.3 sans-serif;}
+#alarmMenu{position:fixed;z-index:100000;width:min(470px,calc(100vw - 20px));max-height:calc(100vh - 90px);overflow:auto;background:var(--card,#fff);color:var(--ink,#222);border:2px solid #000;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:10px 12px 12px;font:600 14px/1.3 sans-serif;}
 #alarmMenu h4{margin:0 0 2px;font:700 18px var(--font-display,sans-serif);display:flex;align-items:center;gap:6px;}
 #alarmMenu .am-sub{font-size:12px;opacity:.7;margin-bottom:8px;}
-#alarmMenu .am-all{display:flex;gap:8px;margin-bottom:8px;}
-#alarmMenu .am-all button{flex:1;padding:6px 8px;border-radius:10px;border:2px solid #000;background:#e9e9e9;font:700 13px sans-serif;cursor:pointer;}
-#alarmMenu .am-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 2px;border-top:1px solid rgba(0,0,0,.12);}
-#alarmMenu .am-row button{background:none;border:0;font-size:20px;cursor:pointer;line-height:1;}
-#alarmMenu .am-row.off span{opacity:.5;text-decoration:line-through;}
+#alarmMenu .am-grid{display:grid;grid-template-columns:minmax(0,1fr) 108px 108px;gap:0 6px;align-items:center;}
+#alarmMenu .am-h{padding:2px 0 6px;text-align:center;display:flex;flex-direction:column;gap:3px;}
+#alarmMenu .am-h .am-t{font:700 16px var(--font-display,sans-serif);}
+#alarmMenu .am-ab{padding:3px 2px;border-radius:8px;border:2px solid #000;background:#e9e9e9;font:700 11px sans-serif;cursor:pointer;white-space:nowrap;}
+#alarmMenu .mine.am-h .am-t{color:#2e7d32;}
+#alarmMenu .am-n,#alarmMenu .am-c{border-top:1px solid rgba(0,0,0,.12);padding:4px 2px;min-height:34px;display:flex;align-items:center;}
+#alarmMenu .am-c{justify-content:center;}
+#alarmMenu .am-c.mine{background:rgba(46,125,50,.1);}
+#alarmMenu .am-c button{background:none;border:0;font-size:20px;cursor:pointer;line-height:1;}
+#alarmMenu .am-c.off button{opacity:.75;}
 .prod-boost{background:var(--ink-soft);padding:4px 8px !important;font-size:11px;white-space:nowrap;flex:0 0 auto;transition:background .15s,box-shadow .15s;}
 .prod-boost.on{background:#2e9d3a;box-shadow:0 0 0 2px #b7f5bd inset,0 0 10px rgba(61,255,61,.55);}
 #prodTip{position:fixed;z-index:3800;display:none;pointer-events:none;padding:4px 12px;border-radius:999px;background:rgba(20,22,30,.92);color:#fff;font:700 18px/1.2 var(--font-display);letter-spacing:.03em;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.4);transform:translate(-50%,-130%);}
@@ -4390,7 +4395,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-122414';
+const APP_BUILD='20261127-122905';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4811,13 +4816,17 @@ function alarmMutedSet(g){ return new Set(String(games.checks['alarmmute::'+g]||
 function alarmMuted(acId){ const g=alarmGroup(); return !!g&&alarmMutedSet(g).has(acId); }
 function alarmBtn(){ const b=document.getElementById('prodSnd'); if(!b) return; const g=alarmGroup(); b.hidden=!g; if(!g) return; const m=alarmMutedSet(g), all=GAME_ACCOUNTS.every(a=>m.has(a.id)); b.textContent=all?'\uD83D\uDD07':'\uD83D\uDD0A'; b.title='Alarm sounds: '+(all?'all muted':m.size?m.size+' of '+GAME_ACCOUNTS.length+' muted':'all on'); }
 function alarmSave(g,set){ const v=[...set].join(','); writeCheckValue('alarmmute::'+g,v||false); alarmBtn(); alarmMenuRender(); try{ nativeAlarmSoon(); }catch(_){} }
-function alarmMenuRender(){ const el=document.getElementById('alarmMenu'); if(!el) return; const g=alarmGroup(); if(!g){ el.remove(); return; } const m=alarmMutedSet(g);
+function alarmMenuRender(){ const el=document.getElementById('alarmMenu'); if(!el) return; const mine=alarmGroup(); if(!mine){ el.remove(); return; }
+  const G=[['lotus','Lotus \uD83E\uDEB7'],['naia','Naia \uD83C\uDF80']], M={lotus:alarmMutedSet('lotus'),naia:alarmMutedSet('naia')};
   el.innerHTML=''; const h=document.createElement('h4'); h.textContent='\uD83D\uDD14 Alarm'; el.appendChild(h);
-  const sub=document.createElement('div'); sub.className='am-sub'; sub.textContent=(g==='lotus'?'Lotus':'Naia')+' set \u00b7 shared with every '+(g==='lotus'?'Lotus':'Naia')+' device'; el.appendChild(sub);
-  const all=document.createElement('div'); all.className='am-all';
-  [['Mute all',1],['Unmute all',0]].forEach(([t,mu])=>{ const b=document.createElement('button'); b.type='button'; b.textContent=(mu?'\uD83D\uDD07 ':'\uD83D\uDD0A ')+t; b.onclick=()=>alarmSave(g,mu?new Set(GAME_ACCOUNTS.map(a=>a.id)):new Set()); all.appendChild(b); }); el.appendChild(all);
-  GAME_ACCOUNTS.forEach(a=>{ const r=document.createElement('div'); r.className='am-row'+(m.has(a.id)?' off':''); const n=document.createElement('span'); n.textContent=a.label; const b=document.createElement('button'); b.type='button'; b.textContent=m.has(a.id)?'\uD83D\uDD07':'\uD83D\uDD0A'; b.title=m.has(a.id)?'Muted: tap to unmute':'Tap to mute';
-    b.onclick=()=>{ const s2=alarmMutedSet(g); if(s2.has(a.id)) s2.delete(a.id); else s2.add(a.id); alarmSave(g,s2); }; r.appendChild(n); r.appendChild(b); el.appendChild(r); }); }
+  const sub=document.createElement('div'); sub.className='am-sub'; sub.textContent='Shared settings. Column 1 is for Lotus devices, column 2 for Naia devices. This device follows the '+(mine==='lotus'?'Lotus':'Naia')+' column.'; el.appendChild(sub);
+  const grid=document.createElement('div'); grid.className='am-grid';
+  const cell=(t,cls)=>{ const d=document.createElement('div'); d.className=cls||''; if(t!=null) d.textContent=t; grid.appendChild(d); return d; };
+  cell('','am-h'); G.forEach(([g,l])=>{ const d=cell(null,'am-h'+(g===mine?' mine':'')); const t=document.createElement('div'); t.className='am-t'; t.textContent=l; d.appendChild(t);
+    [['Mute all',1],['Unmute all',0]].forEach(([tx,mu])=>{ const b=document.createElement('button'); b.type='button'; b.className='am-ab'; b.textContent=(mu?'\uD83D\uDD07 ':'\uD83D\uDD0A ')+tx; b.onclick=()=>alarmSave(g,mu?new Set(GAME_ACCOUNTS.map(a=>a.id)):new Set()); d.appendChild(b); }); });
+  GAME_ACCOUNTS.forEach(a=>{ cell(a.label,'am-n'); G.forEach(([g])=>{ const d=cell(null,'am-c'+(g===mine?' mine':'')+(M[g].has(a.id)?' off':'')); const b=document.createElement('button'); b.type='button'; b.textContent=M[g].has(a.id)?'\uD83D\uDD07':'\uD83D\uDD0A'; b.title=(g==='lotus'?'Lotus':'Naia')+' \u00b7 '+a.label+(M[g].has(a.id)?': muted, tap to unmute':': tap to mute');
+      b.onclick=()=>{ const s2=alarmMutedSet(g); if(s2.has(a.id)) s2.delete(a.id); else s2.add(a.id); alarmSave(g,s2); }; d.appendChild(b); }); });
+  el.appendChild(grid); }
 function alarmMenuToggle(){ let el=document.getElementById('alarmMenu'); if(el){ el.remove(); return; } if(!alarmGroup()) return; el=document.createElement('div'); el.id='alarmMenu'; el.addEventListener('click',e=>e.stopPropagation()); document.body.appendChild(el); alarmMenuRender();
   const r=document.getElementById('prodSnd').getBoundingClientRect(); el.style.top=Math.min(r.bottom+8,window.innerHeight-120)+'px'; el.style.left=Math.max(10,Math.min(r.left-10,window.innerWidth-el.offsetWidth-10))+'px'; }
 document.getElementById('prodSnd').onclick=e=>{ e.stopPropagation(); alarmMenuToggle(); };
