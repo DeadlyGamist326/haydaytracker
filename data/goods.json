@@ -1602,6 +1602,31 @@
   "file": "goods/mussel-meat.webp"
  },
  {
+  "name": "Steamed mussels",
+  "level": 27,
+  "maxPrice": 0,
+  "time": "15 min ★★★ 12 min",
+  "timeMinutes": 15.0,
+  "xp": 0,
+  "needs": [
+   {
+    "name": "Mussel meat",
+    "qty": 4
+   },
+   {
+    "name": "Butter",
+    "qty": 2
+   }
+  ],
+  "needsRaw": "Mussel meat (4) Butter (2)",
+  "source": "BBQ Grill",
+  "image": "",
+  "thumb": "",
+  "wiki": "https://hayday.fandom.com/wiki/Steamed_Mussels",
+  "file": "goods/steamed-mussels.webp",
+  "perBoatCrate": ""
+ },
+ {
   "name": "Apple pie",
   "level": 28,
   "maxPrice": 270,
