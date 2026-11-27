@@ -69,7 +69,7 @@ Purple lure,27,0,45 min ★★★ 38 min,45.0,4,Purple voucher (1),Lure Workbenc
 Gold lure,27,0,30 min ★★★ 25 min,30.0,5,Gold voucher (1),Lure Workbench (5),,goods/gold-lure.webp
 Fish fillet,27,54,Instant or 20 h,1200.0,4,Lure (1) or Fishing net (1) Fishing spot (any available),Fish (6th animal product),https://static.wikia.nocookie.net/hayday/images/6/63/Fish_Fillet.png/revision/latest?cb=20150414211348,goods/fish-fillet.webp
 Fish burger,27,226,2 h ★★★ 1 h 42 min,120.0,27,Bread (2) Chili pepper (1) Fish fillet (2),BBQ Grill,https://static.wikia.nocookie.net/hayday/images/7/7e/Fish_Burger.png/revision/latest?cb=20240205164539,goods/fish-burger.webp
-Mussel meat,27,,,,,,Angus (shucks closed mussels),,goods/mussel-meat.webp
+Mussel meat,27,,6 h,360.0,,,Angus (shucks closed mussels),,goods/mussel-meat.webp
 Apple pie,28,270,2 h 30 min ★★★ 2 h 7 min,150.0,32,Apple (3) Egg (1) Syrup (1) Wheat (2),Pie Oven,https://static.wikia.nocookie.net/hayday/images/f/fb/Apple_Pie.png/revision/latest?cb=20240207083954,goods/apple-pie.webp
 Fish pie,28,226,2 h ★★★ 1 h 42 min,120.0,27,Egg (1) Fish fillet (3) Wheat (2),Pie Oven,https://static.wikia.nocookie.net/hayday/images/e/ec/Fish_Pie.png/revision/latest?cb=20240207150258,goods/fish-pie.webp
 Apple juice,28,129,2 h ★★★ 1 h 42 min,120.0,15,Apple (2),Juice Press,https://static.wikia.nocookie.net/hayday/images/4/41/Apple_Juice.png/revision/latest?cb=20240223064501,goods/apple-juice.webp
