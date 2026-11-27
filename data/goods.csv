@@ -87,6 +87,7 @@ Goat feed,32,14,40 min ★★★ 34 min,40.0,3,Carrot (2) Corn (1) Wheat (1),Fee
 Goat milk,32,64,8 h,480.0,6,Goat feed (1),Goat (7th animal product),https://static.wikia.nocookie.net/hayday/images/4/45/Goat_Milk.png/revision/latest?cb=20191025193509,goods/goat-milk.webp
 Lamb döner wrap,32,173,20 min ★★★ 17 min,20.0,20,Grilled lamb skewer (1) Tomato (1) Bread (1),Döner Kebab Stand,https://static.wikia.nocookie.net/hayday/images/1/10/Lamb_D%C3%B6ner_Wrap.png/revision/latest?cb=20260604000844,goods/lamb-d-ner-wrap.webp
 Spicy bean döner,32,472,30 min ★★★ 25 min,30.0,56,Black bean (3) Chili pepper (3) Cheese (2) Corn bread (1),Döner Kebab Stand,https://static.wikia.nocookie.net/hayday/images/9/98/Spicy_Bean_D%C3%B6ner.png/revision/latest?cb=20260604000933,goods/spicy-bean-d-ner.webp
+Grilled mussels,32,,1 h 20 min ★★★ 1 h 8 min,80.0,,Mussel meat (3) Butter (1) Chili pepper (3) Corn bread (1),BBQ Grill,,goods/grilled-mussels.webp
 Goat cheese,33,162,1 h 30 min ★★★ 1 h 16 min,90.0,19,Goat milk (2),Dairy,https://static.wikia.nocookie.net/hayday/images/c/c8/Goat_Cheese.png/revision/latest?cb=20240205163401,goods/goat-cheese.webp
 Pizza,33,190,15 min ★★★ 12 min,15.0,23,Cheese (1) Tomato (1) Wheat (2),Bakery,https://static.wikia.nocookie.net/hayday/images/f/f4/Pizza.png/revision/latest?cb=20240205074711,goods/pizza.webp
 Coal,33,10,Instant,,3,Supplies,Mine,https://static.wikia.nocookie.net/hayday/images/a/a7/Coal.png/revision/latest?cb=20150711233731,goods/coal.webp
@@ -139,6 +140,7 @@ Lobster soup,46,612,2 h 30 min ★★★ 2 h 7 min,150.0,73,Chili pepper (2) Cre
 Lamb soup,46,180,2 h ★★★ 1 h 42 min,120.0,21,Grilled lamb skewer (1) Potato (1) Carrot (2),Soup Kitchen,https://static.wikia.nocookie.net/hayday/images/b/b8/Lamb_Soup.png/revision/latest?cb=20260510102125,goods/lamb-soup.webp
 Hot chocolate,47,316,25 min ★★★ 21 min,25.0,38,Cacao (2) Cream (1) Milk (1) White sugar (1),Coffee Kiosk,https://static.wikia.nocookie.net/hayday/images/b/b0/Hot_Chocolate.png/revision/latest?cb=20240209013139,goods/hot-chocolate.webp
 Tomato soup,47,478,1 h 30 min ★★★ 1 h 16 min,90.0,57,Chili pepper (1) Goat cheese (1) Tomato juice (1) Tomato (2),Soup Kitchen,https://static.wikia.nocookie.net/hayday/images/d/dc/Tomato_Soup.png/revision/latest?cb=20240209023225,goods/tomato-soup.webp
+Mussel chowder,47,,3 h ★★★ 2 h 33 min,180.0,,Mussel meat (4) Bacon (3) Milk (1) Baked potato (1),Soup Kitchen,,goods/mussel-chowder.webp
 Red scarf,48,288,2 h 30 min ★★★ 2 h 7 min,150.0,34,Strawberry (2) Wool (2),Loom,https://static.wikia.nocookie.net/hayday/images/4/4f/Red_Scarf.png/revision/latest?cb=20240207160030,goods/red-scarf.webp
 Lobster skewer,48,417,40 min ★★★ 34 min,40.0,50,Chili pepper (1) Honey (1) Lobster tail (1),BBQ Grill,https://static.wikia.nocookie.net/hayday/images/6/62/Lobster_Skewer.png/revision/latest?cb=20240223075812,goods/lobster-skewer.webp
 Beeswax,48,234,45 min ★★★ 38 min,45.0,28,Honeycomb (3),Honey Extractor,https://static.wikia.nocookie.net/hayday/images/e/e4/Beeswax.png/revision/latest?cb=20240209012642,goods/beeswax.webp
@@ -233,6 +235,7 @@ Winter veggies,72,198,25 min ★★★ 21 min,25.0,24,Beetroot (2) Carrot (3) Po
 Rice noodles,73,100,20 min ★★★ 17 min,20.0,12,Rice (5),Pasta Maker,https://static.wikia.nocookie.net/hayday/images/2/20/Rice_Noodles.png/revision/latest?cb=20240211172740,goods/rice-noodles.webp
 Noodle soup,73,432,2 h ★★★ 1 h 42 min,120.0,52,Carrot (2) Chili pepper (1) Egg (2) Rice noodles (3),Soup Kitchen,https://static.wikia.nocookie.net/hayday/images/8/86/Noodle_Soup.png/revision/latest?cb=20240209022516,goods/noodle-soup.webp
 Gracious bouquet,73,500,40 min ★★★ 34 min,40.0,60,Cotton fabric (1) Lily (5) Gold ore (1) Diamond (1),Flower Shop,https://static.wikia.nocookie.net/hayday/images/8/82/Gracious_Bouquet.png/revision/latest?cb=20240411150713,goods/gracious-bouquet.webp
+Mussel linguine,73,,1 h 30 min ★★★ 1 h 16 min,90.0,,Fresh pasta (3) Mussel meat (4) Garlic (3) Olive oil (1),Pasta Kitchen,,goods/mussel-linguine.webp
 Bell pepper,74,36,4 h 30 min,270.0,7,Bell pepper (1),Field (36th crop),https://static.wikia.nocookie.net/hayday/images/e/e2/Bell_Pepper.png/revision/latest?cb=20240218150145,goods/bell-pepper.webp
 Marmalade,74,457,8 h 30 min ★★★ 7 h 13 min,510.0,54,Orange (3),Jam Maker,https://static.wikia.nocookie.net/hayday/images/e/ed/Marmalade.png/revision/latest?cb=20240208152141,goods/marmalade.webp
 Sun hat,74,558,2 h 30 min ★★★ 2 h 7 min,150.0,66,Duck feather (2) Indigo (1) Raspberry (1) Wool (3),Hat Maker,https://static.wikia.nocookie.net/hayday/images/4/4c/Sun_Hat.png/revision/latest?cb=20240211173826,goods/sun-hat.webp

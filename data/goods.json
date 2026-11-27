@@ -2013,6 +2013,39 @@
   "file": "goods/spicy-bean-d-ner.webp"
  },
  {
+  "name": "Grilled mussels",
+  "level": 32,
+  "maxPrice": 0,
+  "time": "1 h 20 min ★★★ 1 h 8 min",
+  "timeMinutes": 80.0,
+  "xp": 0,
+  "needs": [
+   {
+    "name": "Mussel meat",
+    "qty": 3
+   },
+   {
+    "name": "Butter",
+    "qty": 1
+   },
+   {
+    "name": "Chili pepper",
+    "qty": 3
+   },
+   {
+    "name": "Corn bread",
+    "qty": 1
+   }
+  ],
+  "needsRaw": "Mussel meat (3) Butter (1) Chili pepper (3) Corn bread (1)",
+  "source": "BBQ Grill",
+  "perBoatCrate": "",
+  "image": "",
+  "thumb": "",
+  "wiki": "https://hayday.fandom.com/wiki/Grilled_Mussels",
+  "file": "goods/grilled-mussels.webp"
+ },
+ {
   "name": "Goat cheese",
   "level": 33,
   "maxPrice": 162,
@@ -3365,6 +3398,39 @@
   "thumb": "https://static.wikia.nocookie.net/hayday/images/d/dc/Tomato_Soup.png/revision/latest/scale-to-width-down/100?cb=20240209023225",
   "wiki": "https://hayday.fandom.com/wiki/Tomato_Soup",
   "file": "goods/tomato-soup.webp"
+ },
+ {
+  "name": "Mussel chowder",
+  "level": 47,
+  "maxPrice": 0,
+  "time": "3 h ★★★ 2 h 33 min",
+  "timeMinutes": 180.0,
+  "xp": 0,
+  "needs": [
+   {
+    "name": "Mussel meat",
+    "qty": 4
+   },
+   {
+    "name": "Bacon",
+    "qty": 3
+   },
+   {
+    "name": "Milk",
+    "qty": 1
+   },
+   {
+    "name": "Baked potato",
+    "qty": 1
+   }
+  ],
+  "needsRaw": "Mussel meat (4) Bacon (3) Milk (1) Baked potato (1)",
+  "source": "Soup Kitchen",
+  "perBoatCrate": "",
+  "image": "",
+  "thumb": "",
+  "wiki": "https://hayday.fandom.com/wiki/Mussel_Chowder",
+  "file": "goods/mussel-chowder.webp"
  },
  {
   "name": "Red scarf",
@@ -5930,6 +5996,39 @@
   "thumb": "https://static.wikia.nocookie.net/hayday/images/8/82/Gracious_Bouquet.png/revision/latest/scale-to-width-down/100?cb=20240411150713",
   "wiki": "https://hayday.fandom.com/wiki/Gracious_Bouquet",
   "file": "goods/gracious-bouquet.webp"
+ },
+ {
+  "name": "Mussel linguine",
+  "level": 73,
+  "maxPrice": 0,
+  "time": "1 h 30 min ★★★ 1 h 16 min",
+  "timeMinutes": 90.0,
+  "xp": 0,
+  "needs": [
+   {
+    "name": "Fresh pasta",
+    "qty": 3
+   },
+   {
+    "name": "Mussel meat",
+    "qty": 4
+   },
+   {
+    "name": "Garlic",
+    "qty": 3
+   },
+   {
+    "name": "Olive oil",
+    "qty": 1
+   }
+  ],
+  "needsRaw": "Fresh pasta (3) Mussel meat (4) Garlic (3) Olive oil (1)",
+  "source": "Pasta Kitchen",
+  "perBoatCrate": "",
+  "image": "",
+  "thumb": "",
+  "wiki": "https://hayday.fandom.com/wiki/Mussel_Linguine",
+  "file": "goods/mussel-linguine.webp"
  },
  {
   "name": "Bell pepper",
