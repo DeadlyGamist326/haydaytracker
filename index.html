@@ -673,15 +673,14 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-box{position:relative;}
 .prod-box:not(.has){overflow:hidden;}
 /* the account name: one big line behind everything, always visible */
-.prod-chip{--cs:48px;position:absolute;left:calc(var(--cs) * .1);top:calc(var(--cs) * .1);display:flex;align-items:center;gap:8px;z-index:8;pointer-events:none;max-width:calc(100% - 12px);}
-.prod-chip .lvl-badge{position:relative;top:auto;left:auto;margin:0;--bs:var(--cs);flex:none;pointer-events:auto;}
+.prod-chip{--cs:48px;position:absolute;left:calc(var(--cs) * .1);top:calc(var(--cs) * .1);display:flex;align-items:center;gap:8px;z-index:0;pointer-events:none;max-width:calc(100% - 12px);}
+.prod-chip .lvl-badge{position:relative;top:auto;left:auto;margin:0;--bs:var(--cs);flex:none;pointer-events:auto;z-index:0;}
 .prod-chip .nm{font:700 22px/1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.02em;text-shadow:0 .06em .08em rgba(0,0,0,.4);}
 .prod-box:not(.has) .prod-chip .nm{display:none;}
 .prod-h{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;white-space:nowrap;text-align:center;line-height:1.1;font:700 40px var(--font-display);color:var(--ink);opacity:.8;pointer-events:none;z-index:0;}
 .prod-box.has .prod-h{opacity:.2;}
 .prod-body{position:relative;z-index:1;}
 .prod-body{display:grid;grid-template-columns:repeat(var(--cols,1),minmax(0,1fr));gap:3px 5px;align-items:center;align-content:center;justify-items:center;flex:1 1 auto;min-height:0;}   /* everything sits in the vertical middle of its box */
-.prod-box.has .prod-body{padding-top:44px;box-sizing:border-box;}
 .prod-bld{container-type:inline-size;position:relative;width:var(--tw,120px);max-width:100%;text-align:center;}
 .prod-img{width:100%;aspect-ratio:1;object-fit:contain;display:block;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25));}
 .prod-iw{position:relative;width:100%;}
@@ -4371,7 +4370,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-035113';
+const APP_BUILD='20261127-035632';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5183,7 +5182,7 @@ function prodFit(){
     const boxes=[...row.querySelectorAll('.prod-box')], has=boxes.filter(b=>b.classList.contains('has')); if(!has.length) return;
     const cg=parseFloat(getComputedStyle(row).columnGap)||0, EMPTY=120, gap=5, pad=16;
     const ns=has.map(b=>b.querySelector('.prod-body').children.length), sum=ns.reduce((t,x)=>t+x,0), empties=boxes.length-has.length;
-    const H=has[0].clientHeight-22-44;   // 44px = the account badge/name strip at the top of every box
+    const H=has[0].clientHeight-22;
     const avail=row.clientWidth-cg*(boxes.length-1)-empties*EMPTY-ns.reduce((t,n)=>t+pad+gap*(n-1),0);
     const T=Math.floor(Math.max(52,Math.min(avail/sum,H-4,360)));
     boxes.forEach(b=>{ if(!b.classList.contains('has')){ b.style.flex='1 1 '+EMPTY+'px'; return; } });
