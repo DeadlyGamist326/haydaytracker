@@ -651,7 +651,7 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 /* ================= Production tracker ================= */
 #prodNow{position:absolute;left:50%;top:2px;transform:translateX(-50%);z-index:20;pointer-events:none;white-space:nowrap;font:700 42px/1 var(--font-display);color:#fff;-webkit-text-stroke:.14em #000;paint-order:stroke fill;letter-spacing:.03em;text-shadow:0 .06em .1em rgba(0,0,0,.4);}
 #prodNow small{font-size:.5em;margin-left:.15em;}
-#prodNow.boosted{color:#f4adff;}   /* a boost is on: the live clock turns pink */
+.prod-bld.boost .prod-qt{color:#f4adff;}   /* a boost applies to this building: its live countdown is violet */
 .prod-boost{background:var(--ink-soft);padding:4px 8px !important;font-size:11px;white-space:nowrap;flex:0 0 auto;transition:background .15s,box-shadow .15s;}
 .prod-boost.on{background:#2e9d3a;box-shadow:0 0 0 2px #b7f5bd inset,0 0 10px rgba(61,255,61,.55);}
 #prodTip{position:fixed;z-index:3800;display:none;pointer-events:none;padding:4px 12px;border-radius:999px;background:rgba(20,22,30,.92);color:#fff;font:700 18px/1.2 var(--font-display);letter-spacing:.03em;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.4);transform:translate(-50%,-130%);}
@@ -4379,7 +4379,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-102358';
+const APP_BUILD='20261127-103207';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5130,7 +5130,7 @@ function prodRender(){
       const body=document.createElement('div'); body.className='prod-body'; body.style.setProperty('--cols',Math.max(1,L.length)); box.appendChild(body);
       if(keep[ac.id]&&L.length&&keep[ac.id][1]){ body.style.setProperty('--cols',keep[ac.id][0]); body.style.setProperty('--tw',keep[ac.id][1]); }   // no size flash while re-rendering
       L.forEach(e=>{
-        const c=document.createElement('div'); c.className='prod-bld'+(e.b.crop?' crop':''); c.title=e.b.n; c.dataset.a=ac.id; c.dataset.i=e.i;
+        const c=document.createElement('div'); c.className='prod-bld'+(e.b.crop?' crop':'')+(PROD_BOOST[prodKind(e.b)]?' boost':''); c.title=e.b.n; c.dataset.a=ac.id; c.dataset.i=e.i;
         const iw=document.createElement('div'); iw.className='prod-iw'; c.appendChild(iw);
         const im=document.createElement('img'); im.className='prod-img'; im.src=e.b.crop?REQ_IMG_BASE+'goods/'+e.b.i[0][2]+'.webp':PROD_IMG+e.b.s+'.webp'; im.alt=e.b.n; im.draggable=false; iw.appendChild(im);
         const stack=document.createElement('div'); stack.className='prod-stack'; iw.appendChild(stack);      // floating over the lower part of the picture: pile on top, queue slots under it
@@ -5591,7 +5591,7 @@ const PROD_BOOST_TXT={h:['Normal Harvest','Harvest Boost!'],p:['Normal Productio
 function prodKind(b){ if(!b.crop) return 'p'; if(PROD_ANIMAL.has(b.n)) return ''; const it=b.i[0]; return (PROD_BASE.has(it)?PROD_BASE.get(it):it[3])>=900?'n':'h'; }   // a tree or bush takes 15 h or more
 function prodApplyBoost(){ Object.keys(PROD_BY).forEach(s=>{ const b=PROD_BY[s], k=prodKind(b); b.i.forEach(it=>{ if(!PROD_BASE.has(it)) PROD_BASE.set(it,it[3]); it[3]=PROD_BASE.get(it)/(k&&PROD_BOOST[k]?2:1); }); }); }
 function prodBoostLoad(){ const v=String(games.checks['prodcfg::boost']||''), nb={h:+v.includes('h'),p:+v.includes('p'),n:+v.includes('n')}; const ch=nb.h!==PROD_BOOST.h||nb.p!==PROD_BOOST.p||nb.n!==PROD_BOOST.n; PROD_BOOST=nb; if(ch) prodApplyBoost(); prodBoostBtns(); return ch; }
-function prodBoostBtns(){ ['h','p','n'].forEach(k=>{ const el=document.querySelector('.prod-boost[data-k='+k+']'); if(!el) return; el.textContent=PROD_BOOST_TXT[k][PROD_BOOST[k]]; el.classList.toggle('on',!!PROD_BOOST[k]); }); const nw=document.getElementById('prodNow'); if(nw) nw.classList.toggle('boosted',!!(PROD_BOOST.h||PROD_BOOST.p||PROD_BOOST.n)); }
+function prodBoostBtns(){ ['h','p','n'].forEach(k=>{ const el=document.querySelector('.prod-boost[data-k='+k+']'); if(!el) return; el.textContent=PROD_BOOST_TXT[k][PROD_BOOST[k]]; el.classList.toggle('on',!!PROD_BOOST[k]); }); }
 document.querySelectorAll('.prod-boost').forEach(el=>el.onclick=()=>{ const k=el.dataset.k, nb=Object.assign({},PROD_BOOST); nb[k]=nb[k]?0:1;
   const v=(nb.h?'h':'')+(nb.p?'p':'')+(nb.n?'n':''); writeCheckValue('prodcfg::boost',v||false); prodBoostLoad(); prodRender(); prodFitSoon(); try{ nativeAlarmSoon(); }catch(_){} });
 prodApplyBoost(); prodBoostBtns();
