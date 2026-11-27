@@ -29,6 +29,7 @@ jobs:
       - name: Build the APK
         working-directory: app/android
         run: |
+          set -o pipefail
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee ../../build.log
       - name: Publish the APK to the "apk-latest" release
