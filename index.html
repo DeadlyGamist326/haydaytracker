@@ -4366,7 +4366,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-012417';
+const APP_BUILD='20261127-012706';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4786,7 +4786,7 @@ function prodBellCheck(){
   const now=Date.now(); let ring=false;
   GAME_ACCOUNTS.forEach(ac=>{ prodList(ac.id).forEach(e=>{
     if(!e.items.length||!e.start) return; const m=prodGroup(e.b,e.items).mins; if(!m) return;
-    const left=e.start+m*60000-now, key=ac.id+'|'+e.i+'|'+e.start+'|'+e.items[0];
+    const left=e.start+m*60000-now, key=ac.id+'|'+e.i+'|'+Math.round((e.start+m*60000)/1000)+'|'+e.items[0];   // one bell per group end
     if(left>-90000&&left<=60000&&!bellSeen.has(key)){ bellSeen.add(key); if(bellInit) ring=true; }   // also catches a minute a throttled background tab skipped
   }); });
   bellInit=true;
@@ -4851,7 +4851,7 @@ function prodSettle(){
   GAME_ACCOUNTS.forEach(ac=>{ prodList(ac.id).forEach(e=>{
     if(!e.items.length||!e.start||e.b.counter) return;
     let items=e.items.slice(), done=e.done.slice(), st=e.start, mv=false;
-    while(items.length){ const G=prodGroup(e.b,items); if(!G.mins||st+G.mins*60000>now) break; for(let q=0;q<G.n;q++) done.push(items.shift()); st+=G.mins*60000; mv=true; }
+    while(items.length){ const m=prodMins(e.b,items[0]); if(!m||st+m*60000>now) break; done.push(items.shift()); st+=m*60000; mv=true; }   // every finished item joins the pile right away
     if(mv){ writeCheckValue(prodKey(ac.id,e.i), prodVal(e.b,items,items.length?st:0,done,st)); changed=true; }   // st = when the last one finished
   }); });
   return changed;
@@ -5091,7 +5091,7 @@ function prodRender(){
             z.dataset.k=k; z.onclick=ev=>{ ev.stopPropagation(); if(e.b.crop) prodCropCollect(ac.id,e.i,z,c); else prodCollect(ac.id,e.i,k,z,pile); }; pile.appendChild(z); });
           stack.appendChild(pile); }
         { // labels at the top (done / waiting / building name), the big clock in the exact middle of the picture
-          const tp=document.createElement('div'); tp.className='prod-qtop', rdy=!!(e.b.counter&&e.start&&Date.now()>=e.start+e.b.i[0][3]*60000), hasDone=rdy||(e.done.length&&e.last);
+          const tp=document.createElement('div'); tp.className='prod-qtop', rdy=!!(e.b.counter&&e.start&&Date.now()>=e.start+e.b.i[0][3]*60000), hasDone=rdy||(e.done.length&&e.last&&(!e.items.length||e.items[0]!==e.done[e.done.length-1]));   // "done" only when the whole group of that product is finished
           if(hasDone){ const dn=document.createElement('div'); dn.className='prod-qdone'; dn.textContent='done'; tp.appendChild(dn); }
           if(e.items.length&&!rdy){ const w=document.createElement('div'); w.className='prod-qwait'; w.textContent='waiting...'; tp.appendChild(w); }
           const nm=document.createElement('div'); nm.className='prod-nm'; nm.textContent=e.b.n; tp.appendChild(nm);
