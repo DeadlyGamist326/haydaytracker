@@ -665,9 +665,9 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 }
 #prodModal .prod-card{position:relative;width:98vw !important;max-width:none !important;height:94vh;max-height:94vh;display:flex;flex-direction:column;box-sizing:border-box;padding:12px 14px !important;}
 .prod-grid{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;margin-top:8px;}
-.prod-row{display:flex;gap:10px;min-height:calc((100% - 20px) / 3);transition:flex-grow .35s ease;}
+.prod-row{display:flex;gap:10px;min-height:calc((100% - 20px) / 3);}
 @media(max-width:900px){.prod-grid{overflow:auto;}.prod-row{flex-wrap:wrap;}.prod-box{flex:1 1 45% !important;}}
-.prod-box{border:1.5px dashed var(--line);border-radius:12px;background:var(--paper-raised);padding:6px 8px;cursor:pointer;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden;transition:flex-grow .35s ease,border-color .15s,background .15s;}
+.prod-box{border:1.5px dashed var(--line);border-radius:12px;background:var(--paper-raised);padding:6px 8px;cursor:pointer;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden;transition:border-color .15s,background .15s;}
 .prod-box:hover{border-color:var(--teal);}
 .prod-box.has{border-style:solid;}
 .prod-box{position:relative;}
@@ -4366,7 +4366,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261126-171957';
+const APP_BUILD='20261127-011149';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5151,9 +5151,10 @@ function prodFlip(g,o){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches||!o||!Object.keys(o.t).length&&!pop) return;
   const inv={}; if(map) Object.keys(map).forEach(k=>inv[map[k]]=k);
   const dur=map?650:420, ease='cubic-bezier(.4,0,.2,1)';
-  g.querySelectorAll('.prod-row').forEach((r,k)=>{ const a=o.r[k]; if(!a) return; const h=r.getBoundingClientRect().height;
+  if(!map) g.querySelectorAll('.prod-row').forEach((r,k)=>{ const a=o.r[k]; if(!a) return; const h=r.getBoundingClientRect().height;
     if(Math.abs(a.height-h)>2) r.animate([{flex:'0 0 '+a.height+'px',minHeight:'0px'},{flex:'0 0 '+h+'px',minHeight:'0px'}],{duration:dur,easing:ease}); });
-  g.querySelectorAll('.prod-box').forEach(b=>{ const a=o.b[b.dataset.a]; if(!a) return; const w=b.getBoundingClientRect().width;
+  if(!map) g.querySelectorAll('.prod-box').forEach(b=>{ const a=o.b[b.dataset.a]; if(!a) return; const w=b.getBoundingClientRect().width;   // sorting only moves the buildings, never the boxes
+   
     if(Math.abs(a.width-w)>2) b.animate([{flex:'0 0 '+a.width+'px'},{flex:'0 0 '+w+'px'}],{duration:dur,easing:ease}); });
   g.querySelectorAll('.prod-bld').forEach(c=>{
     const key=c.dataset.a+'|'+c.dataset.i, from=o.t[inv[key]||key], n=c.getBoundingClientRect();
