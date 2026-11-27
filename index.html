@@ -4370,7 +4370,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-040030';
+const APP_BUILD='20261127-040308';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5180,8 +5180,10 @@ function prodFit(){
   // 1) every row: all of its buildings get the SAME size, boxes are only as wide as their buildings need (no loose spacing)
   document.querySelectorAll('#prodGrid .prod-row').forEach(row=>{
     const boxes=[...row.querySelectorAll('.prod-box')], has=boxes.filter(b=>b.classList.contains('has')); if(!has.length) return;
-    const cg=parseFloat(getComputedStyle(row).columnGap)||0, EMPTY=120, gap=5, pad=16;
     const ns=has.map(b=>b.querySelector('.prod-body').children.length), sum=ns.reduce((t,x)=>t+x,0), empties=boxes.length-has.length;
+    // the more buildings in the row, the smaller the gaps: 14px for one, down to 4px once there are more than 7 (box padding tightens too)
+    const gap=sum>=7?4:Math.round(4+(7-sum)*1.7), padx=sum>7?4:8, pad=padx*2, cg=gap, EMPTY=120;
+    row.style.columnGap=gap+'px'; has.forEach(b=>{ b.style.paddingLeft=b.style.paddingRight=padx+'px'; b.querySelector('.prod-body').style.columnGap=gap+'px'; });
     const H=has[0].clientHeight-22;
     const avail=row.clientWidth-cg*(boxes.length-1)-empties*EMPTY-ns.reduce((t,n)=>t+pad+gap*(n-1),0);
     const T=Math.floor(Math.max(52,Math.min(avail/sum,H-4,360)));
