@@ -689,6 +689,15 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 .prod-grid{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;margin-top:26px;}
 .prod-row{display:flex;gap:10px;min-height:calc((100% - 20px) / 3);}
 @media(max-width:900px){.prod-grid{overflow:auto;}.prod-row{flex-wrap:wrap;}.prod-box{flex:1 1 45% !important;}}
+@media(max-width:720px){   /* phone: one account per line, going down; its buildings are a 2-column grid going down too */
+  .prod-grid{overflow-y:auto;overflow-x:hidden;gap:28px;margin-top:36px;padding:2px 2px 90px;display:block;}
+  .prod-row{display:flex;flex-direction:column !important;flex-wrap:nowrap !important;gap:28px !important;column-gap:0 !important;min-height:0 !important;margin-bottom:28px;}
+  .prod-row:last-child{margin-bottom:0;}
+  .prod-box{flex:none !important;width:100%;box-sizing:border-box;}
+  .prod-box:not(.has){height:68px;}
+  .prod-box.has{padding:24px 6px 12px !important;}
+  .prod-box.has .prod-body{display:grid;align-content:start;justify-content:center;}
+}
 .prod-box{border:1.5px dashed var(--line);border-radius:12px;background:var(--paper-raised);padding:6px 8px;cursor:pointer;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:visible;transition:border-color .15s,background .15s;}
 .prod-box:hover{border-color:var(--teal);}
 .prod-box.has{border-style:solid;}
@@ -4398,7 +4407,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-123528';
+const APP_BUILD='20261127-181237';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5280,7 +5289,14 @@ function prodFlip(g,o){
   if(blink) setTimeout(()=>{ g.querySelectorAll('.prod-qmid,.prod-qt').forEach(el=>el.animate(
     [{filter:'none',color:''},{filter:'drop-shadow(0 0 .12em #3dff3d) brightness(1.3)',color:'#3dff3d'},{filter:'none',color:''}],{duration:520,iterations:3,easing:'ease-in-out'})); },map?560:0);
 }
+function prodFitMobile(){
+  document.querySelectorAll('#prodGrid .prod-row').forEach(row=>{ row.style.columnGap=''; row.querySelectorAll('.prod-box').forEach(b=>{ b.style.flex=''; b.style.paddingLeft=b.style.paddingRight='';
+    if(!b.classList.contains('has')) return; const body=b.querySelector('.prod-body'), W=b.clientWidth-12, gap=6, T=Math.max(90,Math.min(230,Math.floor((W-gap)/2)));
+    body.style.setProperty('--tw',T+'px'); body.style.gridTemplateColumns='repeat(2,'+T+'px)'; body.style.columnGap=gap+'px'; body.style.rowGap='10px'; body.style.justifyItems=''; body.style.justifyContent='center';
+    [...body.children].forEach(c=>{ c.style.maxWidth=''; c.style.translate=''; }); }); });
+}
 function prodFit(){
+  if(matchMedia('(max-width:720px)').matches){ prodFitMobile(); prodFitNames(); return; }
   // 1) every row: all of its buildings get the SAME size, boxes are only as wide as their buildings need (no loose spacing)
   document.querySelectorAll('#prodGrid .prod-row').forEach(row=>{
     const boxes=[...row.querySelectorAll('.prod-box')], has=boxes.filter(b=>b.classList.contains('has')); if(!has.length) return;
@@ -5299,6 +5315,9 @@ function prodFit(){
       body.style.gridTemplateColumns=zig?'repeat('+n+','+(T*(1-OV))+'px)':''; body.style.justifyContent=zig?'center':''; body.style.justifyItems=zig?'start':'';
       [...body.children].forEach(c=>{ gi++; c.style.maxWidth=zig?'none':''; c.style.translate=zig?'0 '+((gi%2?-1:1)*SH*T)+'px':''; }); });
   });
+  prodFitNames();
+}
+function prodFitNames(){
   // 2) names and headers fit their (now final) boxes
   document.querySelectorAll('#prodGrid .prod-box').forEach(box=>{
     { const h=box.querySelector('.prod-h'); if(h){ h.style.fontSize='100px'; const cw=box.clientWidth-20, ch=box.clientHeight-16, k=Math.min(cw/Math.max(1,h.scrollWidth), ch/Math.max(1,h.scrollHeight)); h.style.fontSize=Math.max(10,Math.floor(100*k))+'px'; } }
