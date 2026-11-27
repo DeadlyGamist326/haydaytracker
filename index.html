@@ -4366,7 +4366,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-011149';
+const APP_BUILD='20261127-012417';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4886,7 +4886,7 @@ function prodParseDH(buf,dur){      // trees: "# D ## H" (first digit is the day
   let h=parseInt(d.slice(i,i+2).join('')||'0',10); if(h>23) h=23;
   const tot=Math.min(dd*24+h,Math.floor(dur/60)); return {d:Math.floor(tot/24),h:tot%24}; }
 function prodEditTimer(t,a,e){
-  const dur=prodGroup(e.b,e.items).mins; if(!dur||!e.start) return;
+  const GR=prodGroup(e.b,e.items), dur=prodMins(e.b,e.items[0])||0; if(!dur||!e.start) return;   // the countdown is the item being made now; the group only decides the bell and done
   const tree=!!e.b.crop&&dur>=1440, PARSE=tree?prodParseDH:prodParseTime;
   qDragging=true;
   const wrap=document.createElement('div'); wrap.className='prod-qed';
@@ -4897,7 +4897,7 @@ function prodEditTimer(t,a,e){
   show(); let done=false;
   const finish=ok=>{ if(done) return; done=true; qDragging=false;
     const p=ok?PARSE(inp.value,dur):null;
-    if(p){ const left=(tree?p.d*1440+p.h*60:p.h*60+p.m)*60000; prodSave(a,e.i,e.b,e.items,Date.now()+left-dur*60000); }
+    if(p){ const left=(tree?p.d*1440+p.h*60:p.h*60+p.m)*60000; { const k=Math.min(Math.floor(Math.max(0,Date.now()-e.start)/(dur*60000)),GR.n-1); prodSave(a,e.i,e.b,e.items,Date.now()+left-(k+1)*dur*60000); } }
     prodRender(); };
   inp.addEventListener('input',()=>{ inp.value=inp.value.replace(/\D/g,'').slice(0,tree?3:4); show(); });
   inp.addEventListener('keydown',ev=>{ ev.stopPropagation();
@@ -4987,8 +4987,10 @@ function prodTick(){
     if(flip&&!pileBusy&&document.getElementById('prodModal').classList.contains('gc-show')){ prodRender(); return; } }
   if(!pileBusy&&document.getElementById('prodModal').classList.contains('gc-show')&&!prodEd&&prodSettle()){ prodRender(); return; }
   document.querySelectorAll('#prodGrid .prod-qt').forEach(t=>{ const st=+t.dataset.st, mins=+t.dataset.m; if(!st||!mins){ t.textContent=''; return; }
-    const left=st+mins*60000-Date.now(); t.textContent=prodFmtLong(left);
-    const bl=t.closest('.prod-bld'); if(bl) bl.classList.toggle('soon',left>0&&left<=60000); });   // the bell has rung (1 min left): green blinking until it is done
+    const now=Date.now(), g=+t.dataset.g||1, ms=mins*60000, k=Math.min(Math.floor(Math.max(0,now-st)/ms),g-1);
+    const left=Math.max(0,st+(k+1)*ms-now), gl=st+g*ms-now;      // countdown = the item being made now; bell/blink/done = the end of the whole group
+    t.textContent=prodFmtLong(left);
+    const bl=t.closest('.prod-bld'); if(bl) bl.classList.toggle('soon',gl>0&&gl<=60000); });   // the bell has rung (1 min left): green blinking until it is done
   document.querySelectorAll('#prodGrid .prod-qmid.wait').forEach(t=>{ const st=+t.dataset.st, tot=+t.dataset.tot; t.innerHTML=st&&tot?prodClockHtml(st+tot*60000):''; });
 }
 setInterval(prodTick,1000);
@@ -5106,7 +5108,7 @@ function prodRender(){
             else { t.title='Click to set the count (multiples of 3)'; t.onclick=ev=>{ ev.stopPropagation(); prodEditCount(t,ac.id,e); }; }
             sl.appendChild(t); stack.appendChild(sl); }
           else if(e.items.length){ const sl=document.createElement('div'); sl.className='prod-q crop-q';
-            const t=document.createElement('div'); t.className='prod-qt'; t.title='Click to edit the time left'; t.dataset.st=e.start||''; t.dataset.m=prodGroup(e.b,e.items).mins||''; t.onclick=ev=>{ ev.stopPropagation(); prodEditTimer(t,ac.id,e); }; sl.appendChild(t); stack.appendChild(sl); }
+            const t=document.createElement('div'); t.className='prod-qt'; t.title='Click to edit the time left'; t.dataset.st=e.start||''; t.dataset.m=prodMins(e.b,e.items[0])||''; t.dataset.g=prodGroup(e.b,e.items).n; t.onclick=ev=>{ ev.stopPropagation(); prodEditTimer(t,ac.id,e); }; sl.appendChild(t); stack.appendChild(sl); }
           const x=document.createElement('button'); x.className='prod-x'; x.textContent='\u2715'; x.title='Remove'; x.onclick=ev=>{ ev.stopPropagation(); prodFadeRemove(ac.id,e.i,c); }; c.appendChild(x);
           c.addEventListener('contextmenu',ev=>{ ev.preventDefault(); prodFadeRemove(ac.id,e.i,c); });
           body.appendChild(c); return; }
@@ -5114,7 +5116,7 @@ function prodRender(){
         const nSl=qrows===1?5:Math.max(PROD_SLOTS,e.items.length);
         const sl=document.createElement('div'); sl.className='prod-q'; sl.style.setProperty('--rows',qrows); if(!e.items.length) sl.style.display='none';   // nothing queued yet: no empty slots shown
         if(e.items.length){ const hd=document.createElement('div'); hd.className='prod-qh';
-          const t=document.createElement('div'); t.className='prod-qt'; t.title='Click to edit the time left'; t.dataset.st=e.start||''; t.dataset.m=prodGroup(e.b,e.items).mins||''; t.onclick=ev=>{ ev.stopPropagation(); prodEditTimer(t,ac.id,e); }; hd.appendChild(t); sl.appendChild(hd); }
+          const t=document.createElement('div'); t.className='prod-qt'; t.title='Click to edit the time left'; t.dataset.st=e.start||''; t.dataset.m=prodMins(e.b,e.items[0])||''; t.dataset.g=prodGroup(e.b,e.items).n; t.onclick=ev=>{ ev.stopPropagation(); prodEditTimer(t,ac.id,e); }; hd.appendChild(t); sl.appendChild(hd); }
         const qg=document.createElement('div'); qg.className='prod-qg'; qg.style.height=qrows===1?'calc(var(--u) * 1.27)':'calc('+qrows+' * var(--u) + '+(qrows-1)+' * 3px)'; sl.appendChild(qg);
         for(let k=0;k<nSl;k++){ const cc=document.createElement('div'); cc.className='prod-qc'; qSet(cc,k); qg.appendChild(cc); }
         e.items.forEach((f,k)=>{ const q=document.createElement('button'); q.className='prod-qs'+(k===0?' first':''); q.title=(prodItem(e.b,f)||[f])[0]+' \u2014 click to remove, hold and drag to move';
