@@ -69,6 +69,7 @@ Purple lure,27,0,45 min ★★★ 38 min,45.0,4,Purple voucher (1),Lure Workbenc
 Gold lure,27,0,30 min ★★★ 25 min,30.0,5,Gold voucher (1),Lure Workbench (5),,goods/gold-lure.webp
 Fish fillet,27,54,Instant or 20 h,1200.0,4,Lure (1) or Fishing net (1) Fishing spot (any available),Fish (6th animal product),https://static.wikia.nocookie.net/hayday/images/6/63/Fish_Fillet.png/revision/latest?cb=20150414211348,goods/fish-fillet.webp
 Fish burger,27,226,2 h ★★★ 1 h 42 min,120.0,27,Bread (2) Chili pepper (1) Fish fillet (2),BBQ Grill,https://static.wikia.nocookie.net/hayday/images/7/7e/Fish_Burger.png/revision/latest?cb=20240205164539,goods/fish-burger.webp
+Mussel meat,27,,,,,,Angus (shucks closed mussels),,goods/mussel-meat.webp
 Apple pie,28,270,2 h 30 min ★★★ 2 h 7 min,150.0,32,Apple (3) Egg (1) Syrup (1) Wheat (2),Pie Oven,https://static.wikia.nocookie.net/hayday/images/f/fb/Apple_Pie.png/revision/latest?cb=20240207083954,goods/apple-pie.webp
 Fish pie,28,226,2 h ★★★ 1 h 42 min,120.0,27,Egg (1) Fish fillet (3) Wheat (2),Pie Oven,https://static.wikia.nocookie.net/hayday/images/e/ec/Fish_Pie.png/revision/latest?cb=20240207150258,goods/fish-pie.webp
 Apple juice,28,129,2 h ★★★ 1 h 42 min,120.0,15,Apple (2),Juice Press,https://static.wikia.nocookie.net/hayday/images/4/41/Apple_Juice.png/revision/latest?cb=20240223064501,goods/apple-juice.webp
@@ -166,6 +167,7 @@ Bean dip,54,453,40 min ★★★ 34 min,40.0,15,Black bean (3) Tomato (1) Chili 
 Fancy cake,54,450,15 min ★★★ 12 min,15.0,49,Cream cake (1) Lily (3) Raspberry (3) Gold ore (1),Cake Oven,https://static.wikia.nocookie.net/hayday/images/d/dd/Fancy_Cake.png/revision/latest?cb=20240411150410,goods/fancy-cake.webp
 Rice,56,18,45 min,45.0,3,Rice (1),Field (25th crop),https://static.wikia.nocookie.net/hayday/images/d/da/Rice.png/revision/latest?cb=20240219030840,goods/rice.webp
 Sushi roll,56,489,1 h ★★★ 51 min,60.0,58,Fish fillet (1) Rice (15) Soy sauce (1),Sushi Bar,https://static.wikia.nocookie.net/hayday/images/c/cf/Sushi_Roll.png/revision/latest?cb=20240210101804,goods/sushi-roll.webp
+Mussel nigiri,56,,1 h 30 min ★★★ 1 h 16 min,90.0,,Rice (15) Mussel meat (4) Soy sauce (1),Sushi Bar,,goods/mussel-nigiri.webp
 Olive,57,82,1 d,1440.0,17,N/A,Olive tree (26th crop),https://static.wikia.nocookie.net/hayday/images/5/5f/Olive.png/revision/latest?cb=20240219033435,goods/olive.webp
 Lollipop,57,342,12 h ★★★ 10 h 12 min,720.0,41,Cherry (1) Strawberry (2) Syrup (1),Candy Machine,https://static.wikia.nocookie.net/hayday/images/5/58/Lollipop.png/revision/latest?cb=20240210054240,goods/lollipop.webp
 Lettuce,58,32,3 h 30 min,210.0,7,Lettuce (1),Field (27th crop),https://static.wikia.nocookie.net/hayday/images/d/da/Lettuce.png/revision/latest?cb=20260313083935,goods/lettuce.webp

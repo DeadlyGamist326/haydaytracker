@@ -1586,6 +1586,22 @@
   "file": "goods/fish-burger.webp"
  },
  {
+  "name": "Mussel meat",
+  "level": 27,
+  "maxPrice": 0,
+  "time": "",
+  "timeMinutes": 0.0,
+  "xp": 0,
+  "needs": [],
+  "needsRaw": "",
+  "source": "Angus (shucks closed mussels)",
+  "perBoatCrate": "",
+  "image": "",
+  "thumb": "",
+  "wiki": "https://hayday.fandom.com/wiki/Mussel_Meat",
+  "file": "goods/mussel-meat.webp"
+ },
+ {
   "name": "Apple pie",
   "level": 28,
   "maxPrice": 270,
@@ -4064,6 +4080,35 @@
   "thumb": "https://static.wikia.nocookie.net/hayday/images/c/cf/Sushi_Roll.png/revision/latest/scale-to-width-down/100?cb=20240210101804",
   "wiki": "https://hayday.fandom.com/wiki/Sushi_Roll",
   "file": "goods/sushi-roll.webp"
+ },
+ {
+  "name": "Mussel nigiri",
+  "level": 56,
+  "maxPrice": 0,
+  "time": "1 h 30 min ★★★ 1 h 16 min",
+  "timeMinutes": 90.0,
+  "xp": 0,
+  "needs": [
+   {
+    "name": "Rice",
+    "qty": 15
+   },
+   {
+    "name": "Mussel meat",
+    "qty": 4
+   },
+   {
+    "name": "Soy sauce",
+    "qty": 1
+   }
+  ],
+  "needsRaw": "Rice (15) Mussel meat (4) Soy sauce (1)",
+  "source": "Sushi Bar",
+  "perBoatCrate": "",
+  "image": "",
+  "thumb": "",
+  "wiki": "https://hayday.fandom.com/wiki/Mussel_Nigiri",
+  "file": "goods/mussel-nigiri.webp"
  },
  {
   "name": "Olive",
