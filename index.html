@@ -4370,7 +4370,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-040947';
+const APP_BUILD='20261127-041826';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5185,11 +5185,15 @@ function prodFit(){
     const gap=sum>=7?0:Math.round((7-sum)*14/6), padx=sum>7?4:8, pad=padx*2, cg=Math.max(4,gap), EMPTY=120;
     row.style.columnGap=cg+'px'; has.forEach(b=>{ b.style.paddingLeft=b.style.paddingRight=padx+'px'; b.querySelector('.prod-body').style.columnGap=gap+'px'; });
     const H=has[0].clientHeight-22;
-    const avail=row.clientWidth-cg*(boxes.length-1)-empties*EMPTY-ns.reduce((t,n)=>t+pad+gap*(n-1),0);
-    const T=Math.floor(Math.max(52,Math.min(avail/sum,H-4,360)));
+    const zig=sum>7, SH=.365, OV=.1;   // more than 7 in a row: zig-zag. odd ones sit 36.5% above the middle, even ones 36.5% below, neighbours overlap 10% sideways
+    const avail=row.clientWidth-cg*(boxes.length-1)-empties*EMPTY-ns.reduce((t,n)=>t+pad+(zig?0:gap*(n-1)),0);
+    const T=Math.floor(Math.max(52,Math.min(zig?avail/ns.reduce((t,n)=>t+(1-OV)*n+OV,0):avail/sum,zig?(H-4)/(1+2*SH):H-4,360)));
     boxes.forEach(b=>{ if(!b.classList.contains('has')){ b.style.flex='1 1 '+EMPTY+'px'; return; } });
-    has.forEach((b,k)=>{ const n=ns[k], body=b.querySelector('.prod-body'), w=Math.ceil(n*T+gap*(n-1)+pad);
-      b.style.flex=(empties?'0 0 ':'1 1 ')+w+'px'; body.style.setProperty('--cols',n); body.style.setProperty('--tw',T+'px'); });
+    let gi=0;
+    has.forEach((b,k)=>{ const n=ns[k], body=b.querySelector('.prod-body'), w=Math.ceil(zig?T*((1-OV)*n+OV)+pad:n*T+gap*(n-1)+pad);
+      b.style.flex=(empties?'0 0 ':'1 1 ')+w+'px'; body.style.setProperty('--cols',n); body.style.setProperty('--tw',T+'px');
+      body.style.gridTemplateColumns=zig?'repeat('+n+','+(T*(1-OV))+'px)':''; body.style.justifyContent=zig?'center':''; body.style.justifyItems=zig?'start':'';
+      [...body.children].forEach(c=>{ gi++; c.style.maxWidth=zig?'none':''; c.style.translate=zig?'0 '+((gi%2?-1:1)*SH*T)+'px':''; }); });
   });
   // 2) names and headers fit their (now final) boxes
   document.querySelectorAll('#prodGrid .prod-box').forEach(box=>{
