@@ -665,10 +665,9 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 #alarmMenu .am-ab:hover{border-color:var(--teal);color:var(--teal);}
 #alarmMenu .am-n,#alarmMenu .am-c{border-top:1px solid var(--line);min-height:38px;display:flex;align-items:center;}
 #alarmMenu .am-n{padding:0 4px;font-weight:600;color:var(--ink);}
-#alarmMenu .am-c{justify-content:center;}
+#alarmMenu .am-c{justify-content:center;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;font-size:21px;line-height:1;}
+#alarmMenu .am-c:hover{background:color-mix(in srgb,var(--teal) 16%,transparent);}
 #alarmMenu .am-c.mine{background:color-mix(in srgb,var(--teal) 10%,transparent);}
-#alarmMenu .am-c button{background:none;border:0;font-size:21px;cursor:pointer;line-height:1;padding:4px 10px;border-radius:8px;color:var(--ink);}
-#alarmMenu .am-c button:hover{background:color-mix(in srgb,var(--teal) 16%,transparent);}
 #alarmMenu .am-c.off,#alarmMenu .am-c.mine.off{background:color-mix(in srgb,#e5484d 16%,transparent);}   /* muted */
 @media(max-width:480px){#alarmMenu .am-grid{grid-template-columns:minmax(0,1fr) 92px 92px;gap:0 4px;}#alarmMenu .am-ab{font-size:11px;padding:5px 2px;}}
 .prod-boost{background:var(--ink-soft);padding:4px 8px !important;font-size:11px;white-space:nowrap;flex:0 0 auto;transition:background .15s,box-shadow .15s;}
@@ -4399,7 +4398,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-123415';
+const APP_BUILD='20261127-123528';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4820,16 +4819,23 @@ function alarmMutedSet(g){ return new Set(String(games.checks['alarmmute::'+g]||
 function alarmMuted(acId){ const g=alarmGroup(); return !!g&&alarmMutedSet(g).has(acId); }
 function alarmBtn(){ const b=document.getElementById('prodSnd'); if(!b) return; const g=alarmGroup(); b.hidden=!g; if(!g) return; const m=alarmMutedSet(g), all=GAME_ACCOUNTS.every(a=>m.has(a.id)); b.textContent=all?'\uD83D\uDD07':'\uD83D\uDD0A'; b.title='Alarm sounds: '+(all?'all muted':m.size?m.size+' of '+GAME_ACCOUNTS.length+' muted':'all on'); }
 function alarmSave(g,set){ const v=[...set].join(','); writeCheckValue('alarmmute::'+g,v||false); alarmBtn(); alarmMenuRender(); try{ nativeAlarmSoon(); }catch(_){} }
+// swipe over the cells to mute / unmute many at once (the first cell you touch decides which way)
+let alarmDrag=null;
+function alarmPaint(c){ const d=alarmDrag; if(!d) return; const g=c.dataset.g, a=c.dataset.a, has=d.draft[g].has(a); if(has===d.mute) return; if(d.mute) d.draft[g].add(a); else d.draft[g].delete(a); c.classList.toggle('off',d.mute); c.firstChild.textContent=d.mute?'\uD83D\uDD07':'\uD83D\uDD0A'; d.touched.add(g); }
+document.addEventListener('pointermove',e=>{ if(!alarmDrag) return; const t=document.elementFromPoint(e.clientX,e.clientY), c=t&&t.closest&&t.closest('#alarmMenu .am-c'); if(c) alarmPaint(c); });
+['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,()=>{ const d=alarmDrag; if(!d) return; alarmDrag=null; d.touched.forEach(g=>alarmSave(g,d.draft[g])); }));
 function alarmMenuRender(){ const el=document.getElementById('alarmMenu'); if(!el) return; const mine=alarmGroup(); if(!mine){ el.remove(); return; }
   const G=[['lotus','Lotus \uD83E\uDEB7'],['naia','Naia \uD83C\uDF80']], M={lotus:alarmMutedSet('lotus'),naia:alarmMutedSet('naia')};
   el.innerHTML=''; const h=document.createElement('h4'); h.textContent='\uD83D\uDD14 Alarm'; el.appendChild(h);
-  const sub=document.createElement('div'); sub.className='am-sub'; sub.textContent='Shared settings. Column 1 is for Lotus devices, column 2 for Naia devices. This device follows the '+(mine==='lotus'?'Lotus':'Naia')+' column.'; el.appendChild(sub);
+  const sub=document.createElement('div'); sub.className='am-sub'; sub.textContent='Shared settings. Column 1 is for Lotus devices, column 2 for Naia devices. This device follows the '+(mine==='lotus'?'Lotus':'Naia')+' column. Tap, or swipe across the cells, to mute or unmute many at once.'; el.appendChild(sub);
   const grid=document.createElement('div'); grid.className='am-grid';
   const cell=(t,cls)=>{ const d=document.createElement('div'); d.className=cls||''; if(t!=null) d.textContent=t; grid.appendChild(d); return d; };
   cell('','am-h'); G.forEach(([g,l])=>{ const d=cell(null,'am-h'+(g===mine?' mine':'')); const t=document.createElement('div'); t.className='am-t'; t.textContent=l; d.appendChild(t);
     [['Mute all',1],['Unmute all',0]].forEach(([tx,mu])=>{ const b=document.createElement('button'); b.type='button'; b.className='am-ab'; b.textContent=(mu?'\uD83D\uDD07 ':'\uD83D\uDD0A ')+tx; b.onclick=()=>alarmSave(g,mu?new Set(GAME_ACCOUNTS.map(a=>a.id)):new Set()); d.appendChild(b); }); });
-  GAME_ACCOUNTS.forEach(a=>{ cell(a.label,'am-n'); G.forEach(([g])=>{ const d=cell(null,'am-c'+(g===mine?' mine':'')+(M[g].has(a.id)?' off':'')); const b=document.createElement('button'); b.type='button'; b.textContent=M[g].has(a.id)?'\uD83D\uDD07':'\uD83D\uDD0A'; b.title=(g==='lotus'?'Lotus':'Naia')+' \u00b7 '+a.label+(M[g].has(a.id)?': muted, tap to unmute':': tap to mute');
-      b.onclick=()=>{ const s2=alarmMutedSet(g); if(s2.has(a.id)) s2.delete(a.id); else s2.add(a.id); alarmSave(g,s2); }; d.appendChild(b); }); });
+  GAME_ACCOUNTS.forEach(a=>{ cell(a.label,'am-n'); G.forEach(([g])=>{ const off=M[g].has(a.id), d=cell(null,'am-c'+(g===mine?' mine':'')+(off?' off':'')); d.dataset.g=g; d.dataset.a=a.id; d.setAttribute('role','button'); d.tabIndex=0;
+      d.title=(g==='lotus'?'Lotus':'Naia')+' \u00b7 '+a.label; const ic=document.createElement('span'); ic.textContent=off?'\uD83D\uDD07':'\uD83D\uDD0A'; d.appendChild(ic);
+      d.addEventListener('pointerdown',e=>{ if(e.button>0) return; e.preventDefault(); alarmDrag={draft:{lotus:alarmMutedSet('lotus'),naia:alarmMutedSet('naia')},mute:!alarmMutedSet(g).has(a.id),touched:new Set(),root:el}; alarmPaint(d); });
+      d.addEventListener('keydown',e=>{ if(e.key!=='Enter'&&e.key!==' ') return; e.preventDefault(); const s2=alarmMutedSet(g); if(s2.has(a.id)) s2.delete(a.id); else s2.add(a.id); alarmSave(g,s2); }); }); });
   el.appendChild(grid); }
 function alarmMenuToggle(){ let el=document.getElementById('alarmMenu'); if(el){ el.remove(); return; } if(!alarmGroup()) return; el=document.createElement('div'); el.id='alarmMenu'; el.addEventListener('click',e=>e.stopPropagation()); document.body.appendChild(el); alarmMenuRender();
   const r=document.getElementById('prodSnd').getBoundingClientRect(); el.style.top=Math.min(r.bottom+8,window.innerHeight-120)+'px'; el.style.left=Math.max(10,Math.min(r.left-10,window.innerWidth-el.offsetWidth-10))+'px'; }
