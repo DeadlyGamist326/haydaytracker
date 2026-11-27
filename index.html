@@ -4370,7 +4370,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-044253';
+const APP_BUILD='20261127-050442';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5195,9 +5195,7 @@ function prodFit(){
     boxes.forEach(b=>{ if(!b.classList.contains('has')){ b.style.flex='1 1 '+EMPTY+'px'; return; } });
     let gi=0;
     has.forEach((b,k)=>{ const n=ns[k], body=b.querySelector('.prod-body'), w=Math.ceil(zig?T*((1-OV)*n+OV)+pad:n*T+gap*(n-1)+pad);
-      const kids=[...body.children], fc=kids[0]&&kids[0].classList.contains('crop')?Math.round(T*.2):0, lc=kids.length&&kids[kids.length-1].classList.contains('crop')?Math.round(T*.08):0;   // a crop's picture is half size, so its empty side margin must not show as a gap at the box edge
-      body.style.marginLeft=fc?-fc+'px':''; body.style.marginRight=lc?-lc+'px':'';
-      b.style.flex=(empties?'0 0 ':'1 1 ')+(w-fc-lc)+'px'; body.style.setProperty('--cols',n); body.style.setProperty('--tw',T+'px');
+      b.style.flex=(empties?'0 0 ':'1 1 ')+w+'px'; body.style.setProperty('--cols',n); body.style.setProperty('--tw',T+'px');
       body.style.gridTemplateColumns=zig?'repeat('+n+','+(T*(1-OV))+'px)':''; body.style.justifyContent=zig?'center':''; body.style.justifyItems=zig?'start':'';
       [...body.children].forEach(c=>{ gi++; c.style.maxWidth=zig?'none':''; c.style.translate=zig?'0 '+((gi%2?-1:1)*SH*T)+'px':''; }); });
   });
