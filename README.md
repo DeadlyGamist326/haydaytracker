@@ -99,3 +99,10 @@ presence/
 2. Same screen → Battery usage → **Allow background activity** on (set "Unrestricted" if shown).
 3. Settings → Notifications & status bar → Hayday Tracker → allow, and make sure the "Production alarms" channel has sound on.
 4. Open the app, open the recents screen and **lock** the app card (pull it down or tap the lock icon) so "clear all" does not stop it.
+
+### Infinix (HOT 20S, XOS / Android 12) setup
+1. Open the app once. It will ask to allow notifications: tap **Allow**. It will then open **Alarms & reminders** (Android 12): turn **Allow** on for Hayday Tracker.
+2. Settings → Apps → App management → Hayday Tracker → **Battery** → set **No restrictions** (or "Unrestricted").
+3. Phone Master (or Settings → Battery) → **Auto-start management**: turn on Hayday Tracker.
+4. Settings → Notifications → Hayday Tracker → keep **Production alarms** on with sound.
+5. Open the recents screen and **lock** the Hayday Tracker card (the lock icon or pull-down), so "clear all" does not stop it.
