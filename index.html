@@ -4371,7 +4371,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-055442';
+const APP_BUILD='20261127-062148';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5177,7 +5177,7 @@ function prodRender(){
     else row.style.flex='1 1 0';                                                                   // rows with buildings: at least 1/3 of the screen
     g.appendChild(row);
   }
-  prodFitSoon(); prodTick(); prodFit(); prodFlip(g,snap); prodWheelPlace(); if(prodW) setTimeout(()=>{ if(prodW) prodWheelPlace(); },380);
+  prodFitSoon(); prodTick(); prodFit(); prodFlip(g,snap); prodNameFlip(g,snap); prodWheelPlace(); if(prodW) setTimeout(()=>{ if(prodW) prodWheelPlace(); },380);
 }
 /* ---------- smooth moves: existing buildings/boxes slide to their new place, a new building pops in ---------- */
 let prodFlipMap=null, prodPop=null, prodBlink=false;
@@ -5187,7 +5187,19 @@ function prodSnap(g){
   g.querySelectorAll('.prod-bld').forEach(c=>{ o.t[c.dataset.a+'|'+c.dataset.i]=c.getBoundingClientRect(); });
   g.querySelectorAll('.prod-box').forEach(b=>{ o.b[b.dataset.a]=b.getBoundingClientRect(); });
   g.querySelectorAll('.prod-row').forEach((r,k)=>{ o.r[k]=r.getBoundingClientRect(); });
+  o.n={}; g.querySelectorAll('.prod-box').forEach(b=>{ const has=b.classList.contains('has'), el=b.querySelector(has?'.prod-chip .nm':'.prod-h'); if(!el) return;   // where the account name is now (big in the middle of an empty box, small by the badge when it has buildings)
+    const r=el.getBoundingClientRect(), bx=b.getBoundingClientRect(), cs=getComputedStyle(el); if(!r.width) return;
+    o.n[b.dataset.a]={has,cx:r.left+r.width/2,cy:r.top+r.height/2,bx:bx.left,by:bx.top,w:r.width,color:cs.color,sw:parseFloat(cs.webkitTextStrokeWidth)||0,sc:cs.webkitTextStrokeColor}; });
   return o;
+}
+// the account name flies between its two homes: big in the middle of an empty box <-> small next to the badge once the box has buildings
+function prodNameFlip(g,o){
+  if(!o||!o.n||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  g.querySelectorAll('.prod-box').forEach(b=>{ const p=o.n[b.dataset.a]; if(!p) return; const has=b.classList.contains('has'); if(p.has===has) return;
+    const el=b.querySelector(has?'.prod-chip .nm':'.prod-h'); if(!el) return; const r=el.getBoundingClientRect(), bx=b.getBoundingClientRect(); if(!r.width) return;
+    const dx=(p.cx-p.bx)-(r.left+r.width/2-bx.left), dy=(p.cy-p.by)-(r.top+r.height/2-bx.top), sc=p.w/r.width, base=has?'':'translate(-50%,-50%) ', cs=getComputedStyle(el);
+    el.animate([{transform:'translate('+dx+'px,'+dy+'px) '+base+'scale('+sc+')',color:p.color,webkitTextStrokeWidth:(p.sw/sc)+'px',webkitTextStrokeColor:p.sc},
+                {transform:base+'scale(1)',color:cs.color,webkitTextStrokeWidth:cs.webkitTextStrokeWidth,webkitTextStrokeColor:cs.webkitTextStrokeColor}],{duration:640,easing:'cubic-bezier(.4,0,.2,1)'}); });
 }
 function prodFlip(g,o){
   const map=prodFlipMap, pop=prodPop, blink=prodBlink; prodFlipMap=null; prodPop=null; prodBlink=false;
