@@ -4370,7 +4370,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-041940';
+const APP_BUILD='20261127-043309';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4833,9 +4833,13 @@ function prodFadeRemove(a,i,c){
 function prodSortAll(){
   prodWheelClose(); prodSettle();
   const changes={}; let any=false; const fmap={};
+  const nowT=Date.now();
   const rank=e=>{ const tot=e.items.reduce((t,f)=>t+(prodMins(e.b,f)||0),0);
-    if(e.done.length) return [0,e.last||0];
-    if(e.items.length&&e.start&&tot) return [1,e.start+tot*60000];
+    // same "done" the building shows: a ready counter, or a whole group of one product finished (one product on the pile while the same product is still being made is NOT done)
+    const rdy=!!(e.b.counter&&e.start&&nowT>=e.start+e.b.i[0][3]*60000);
+    const dn=rdy||!!(e.done.length&&e.last&&(!e.items.length||e.items[0]!==e.done[e.done.length-1]));
+    if(dn) return [0,rdy?e.start+e.b.i[0][3]*60000:(e.last||0)];
+    if(e.items.length&&e.start&&tot) return [1,e.start+(e.b.counter?e.b.i[0][3]:tot)*60000];     // the clock the building shows
     return [2,0]; };
   GAME_ACCOUNTS.forEach(ac=>{
     const L=prodList(ac.id); if(L.length<2) return;
