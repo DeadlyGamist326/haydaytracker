@@ -1312,6 +1312,7 @@ gamesRef.on('value', snapshot=>{
   if(typeof refreshExpMenu==='function') refreshExpMenu();
   if(typeof refreshReqMenu==='function') refreshReqMenu();
   if(typeof refreshProd==='function') refreshProd();
+  try{ nativeAlarmSoon(); }catch(_){}
 }, err=>{ setSyncStatus('offline'); });
 
 /* ---- Presence: show who else is online right now ---- */
@@ -4370,7 +4371,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-051541';
+const APP_BUILD='20261127-055442';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -4794,8 +4795,38 @@ function prodBellCheck(){
     if(left>-90000&&left<=60000&&!bellSeen.has(key)){ bellSeen.add(key); if(bellInit) ring=true; }   // also catches a minute a throttled background tab skipped
   }); });
   bellInit=true;
-  if(ring){ try{ PROD_BELL.currentTime=0; PROD_BELL.play().catch(()=>{}); }catch(_){} }
+  if(ring&&!LN){ try{ PROD_BELL.currentTime=0; PROD_BELL.play().catch(()=>{}); }catch(_){} }
 }
+// ---- Android app: the alarms are scheduled on the phone itself, so they ring even when the app is closed or the screen is off ----
+const LN=(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform()&&Capacitor.Plugins&&Capacitor.Plugins.LocalNotifications)||null;
+let alarmTimer=0, alarmBusy=false, alarmAgain=false;
+function alarmId(k){ let h=7; for(let i=0;i<k.length;i++) h=(h*31+k.charCodeAt(i))|0; return (Math.abs(h)%2000000000)+1; }
+function nativeAlarmSoon(){ if(!LN) return; clearTimeout(alarmTimer); alarmTimer=setTimeout(nativeAlarmSync,1500); }
+async function nativeAlarmSync(){
+  if(!LN||typeof GAME_ACCOUNTS==='undefined'||typeof games==='undefined'||!games.checks) return;
+  if(alarmBusy){ alarmAgain=true; return; } alarmBusy=true;
+  try{
+    let perm=await LN.checkPermissions(); if(perm.display!=='granted') perm=await LN.requestPermissions();
+    if(perm.display!=='granted'){ alarmInfo('notifications are blocked: allow them in the phone settings'); return; }
+    try{ const ex=await LN.checkExactNotificationSetting(); if(ex&&ex.exact_alarm==='denied'&&!localStorage.getItem('hd-exact-asked')){ localStorage.setItem('hd-exact-asked','1'); await LN.changeExactNotificationSetting(); } }catch(_){}
+    await LN.createChannel({id:'prod_alarm',name:'Production alarms',description:'Rings when a production group is about to finish',importance:5,visibility:1,sound:'bell.mp3',vibration:true});
+    const now=Date.now(), list=[], seen=new Set();
+    GAME_ACCOUNTS.forEach(ac=>prodList(ac.id).forEach(e=>{
+      if(!e.items.length||!e.start) return; const g=prodGroup(e.b,e.items); if(!g.mins) return;
+      const end=e.start+g.mins*60000, at=end-60000; if(at<=now+3000) return;      // the same moment the in-page bell rings: 1 minute before the group ends
+      const key=ac.id+'|'+e.i+'|'+Math.round(end/1000)+'|'+e.items[0]; if(seen.has(key)) return; seen.add(key);
+      const who=String(ac.label).replace(/[^\x20-\x7e]/g,'').trim(), it=(prodItem(e.b,e.items[0])||[e.b.n])[0];
+      list.push({id:alarmId(key), title:who+': '+e.b.n, body:e.b.crop?(e.b.counter?'Ready to collect in 1 minute':'Ready in 1 minute'):it+(g.n>1?' x'+g.n:'')+' ready in 1 minute', channelId:'prod_alarm', smallIcon:'ic_stat_bell', autoCancel:true, schedule:{at:new Date(at), allowWhileIdle:true}});
+    }));
+    const pend=await LN.getPending(); if(pend.notifications&&pend.notifications.length) await LN.cancel({notifications:pend.notifications.map(n=>({id:n.id}))});
+    list.sort((a,b)=>a.schedule.at-b.schedule.at); const cap=list.slice(0,60);
+    if(cap.length) await LN.schedule({notifications:cap});
+    alarmInfo(cap.length?cap.length+' alarm'+(cap.length>1?'s':'')+' set, next '+prodClock(+cap[0].schedule.at):'no alarms set');
+  }catch(err){ alarmInfo('alarm error: '+(err&&err.message||err)); }
+  finally{ alarmBusy=false; if(alarmAgain){ alarmAgain=false; nativeAlarmSoon(); } }
+}
+function alarmInfo(t){ try{ let el=document.getElementById('prodAlarmInfo'); if(!el){ const h=document.querySelector('.prod-hd'); if(!h) return; el=document.createElement('div'); el.id='prodAlarmInfo'; el.style.cssText='font:700 11px/1.2 sans-serif;color:var(--ink-soft,#666);white-space:nowrap;flex:0 0 auto;'; h.appendChild(el); } el.textContent='\uD83D\uDD14 '+t; }catch(_){} }
+if(LN){ try{ const AP=Capacitor.Plugins.App; if(AP) AP.addListener('resume',nativeAlarmSoon); }catch(_){} setTimeout(nativeAlarmSoon,3000); }
 setInterval(prodBellCheck,1000);
 try{ const wk=new Worker(URL.createObjectURL(new Blob(['setInterval(function(){postMessage(1)},1000)'],{type:'text/javascript'}))); wk.onmessage=prodBellCheck; }catch(_){}   // a worker timer is not slowed down in a background tab, so the bell rings even when the app is not in front
 // collecting from the pile: the product bounces once, jumps and fades; clicks within 1 s can keep collecting, then the rest slide into the freed slots

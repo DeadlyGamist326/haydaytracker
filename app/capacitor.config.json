@@ -1,0 +1,15 @@
+{
+  "appId": "com.deadlygamist.haydaytracker",
+  "appName": "Hayday Tracker",
+  "webDir": "www",
+  "server": {
+    "url": "https://deadlygamist326.github.io/haydaytracker/",
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_bell",
+      "iconColor": "#2E7D32"
+    }
+  }
+}

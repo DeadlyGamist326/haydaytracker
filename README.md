@@ -85,3 +85,17 @@ presence/
 ---
 
 *Built iteratively, one feature request at a time. 🐔🚜*
+
+## Android alarm app
+
+`app/` is a small Android wrapper (Capacitor) around the web app. It schedules production alarms on the phone itself, so they ring even when the app is closed or the screen is off. The page is loaded from GitHub Pages, so web updates show up without a new APK.
+
+- The APK is built by GitHub Actions (`.github/workflows/build-apk.yml`) and published at **Releases → apk-latest → HaydayTracker.apk**.
+- Alarms ring 1 minute before a group of the same product finishes (same moment as the in-page bell), and 1 minute before Honeycomb / Mussel meat are ready.
+- Alarms are rescheduled every time the data changes while the app is open (and when the app is reopened). Open the app once after changing things from another device.
+
+### Oppo / ColorOS setup (needed once, or the system kills the alarms)
+1. Settings → Apps → App management → Hayday Tracker → **Allow auto-start** on.
+2. Same screen → Battery usage → **Allow background activity** on (set "Unrestricted" if shown).
+3. Settings → Notifications & status bar → Hayday Tracker → allow, and make sure the "Production alarms" channel has sound on.
+4. Open the app, open the recents screen and **lock** the app card (pull it down or tap the lock icon) so "clear all" does not stop it.
