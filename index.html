@@ -664,16 +664,16 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
   .games-panel-head .gc-header-btn-scroll{overflow:visible !important;flex:0 0 auto !important;min-width:auto !important;}
 }
 #prodModal .prod-card{position:relative;width:98vw !important;max-width:none !important;height:94vh;max-height:94vh;display:flex;flex-direction:column;box-sizing:border-box;padding:12px 14px !important;}
-.prod-grid{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;margin-top:8px;}
+.prod-grid{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;margin-top:26px;}
 .prod-row{display:flex;gap:10px;min-height:calc((100% - 20px) / 3);}
 @media(max-width:900px){.prod-grid{overflow:auto;}.prod-row{flex-wrap:wrap;}.prod-box{flex:1 1 45% !important;}}
-.prod-box{border:1.5px dashed var(--line);border-radius:12px;background:var(--paper-raised);padding:6px 8px;cursor:pointer;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden;transition:border-color .15s,background .15s;}
+.prod-box{border:1.5px dashed var(--line);border-radius:12px;background:var(--paper-raised);padding:6px 8px;cursor:pointer;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:visible;transition:border-color .15s,background .15s;}
 .prod-box:hover{border-color:var(--teal);}
 .prod-box.has{border-style:solid;}
 .prod-box{position:relative;}
-.prod-box:not(.has){overflow:hidden;}
+.prod-box:not(.has){overflow:visible;}
 /* the account name: one big line behind everything, always visible */
-.prod-chip{--cs:48px;position:absolute;left:calc(var(--cs) * .1);top:calc(var(--cs) * .1);display:flex;align-items:center;gap:8px;z-index:8;pointer-events:none;max-width:calc(100% - 12px);}
+.prod-chip{--cs:48px;position:absolute;left:calc(var(--cs) * -.5);top:calc(var(--cs) * -.5);display:flex;align-items:center;gap:8px;z-index:8;pointer-events:none;max-width:calc(100% - 12px);}
 .prod-chip .lvl-badge{position:relative;top:auto;left:auto;margin:0;--bs:var(--cs);flex:none;pointer-events:auto;z-index:0;}
 .prod-chip .nm{font:700 22px/1 var(--font-display);color:#fff;-webkit-text-stroke:.2em #000;paint-order:stroke fill;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.02em;text-shadow:0 .06em .08em rgba(0,0,0,.4);}
 .prod-box:not(.has) .prod-chip .nm{display:none;}
@@ -4370,7 +4370,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-040308';
+const APP_BUILD='20261127-040354';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
