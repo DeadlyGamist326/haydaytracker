@@ -651,7 +651,11 @@ table.games-table{border-collapse:collapse;width:100%;height:100%;table-layout:f
 /* ================= Production tracker ================= */
 #prodNow{position:absolute;left:50%;top:2px;transform:translateX(-50%);z-index:20;pointer-events:none;white-space:nowrap;font:700 42px/1 var(--font-display);color:#fff;-webkit-text-stroke:.14em #000;paint-order:stroke fill;letter-spacing:.03em;text-shadow:0 .06em .1em rgba(0,0,0,.4);}
 #prodNow small{font-size:.5em;margin-left:.15em;}
+#prodNow.boosted{color:#f4adff;}   /* a boost is on: the live clock turns pink */
+.prod-boost{background:var(--ink-soft);padding:4px 8px !important;font-size:11px;white-space:nowrap;flex:0 0 auto;transition:background .15s,box-shadow .15s;}
+.prod-boost.on{background:#2e9d3a;box-shadow:0 0 0 2px #b7f5bd inset,0 0 10px rgba(61,255,61,.55);}
 #prodTip{position:fixed;z-index:3800;display:none;pointer-events:none;padding:4px 12px;border-radius:999px;background:rgba(20,22,30,.92);color:#fff;font:700 18px/1.2 var(--font-display);letter-spacing:.03em;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.4);transform:translate(-50%,-130%);}
+@media(max-width:1500px) and (min-width:721px){ .prod-hd #prodNow{position:static;transform:none;font-size:30px;margin:0 8px;} }   /* not enough room for a centred clock beside the boost buttons */
 @media(max-width:720px){
   /* mobile: the header rows are one long strip you swipe sideways, so every button can be reached */
   .prod-hd{overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap !important;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x;padding-bottom:2px;}
@@ -1051,6 +1055,9 @@ td.upg-cap-warn .upg-max{color:#d62828;}
 <div class="gc-name-modal" id="prodModal">
   <div class="gc-name-card prod-card">
     <div class="prod-hd" style="display:flex;align-items:center;gap:10px;"><img src="https://raw.githubusercontent.com/DeadlyGamist326/haydaytracker/refs/heads/images/buildings/bakery.webp" alt="" style="height:36px;width:36px;object-fit:contain;"><div class="gc-name-title" style="margin:0;flex:1;text-align:left;">Production</div><div id="prodNow" aria-label="Current time"></div>
+ <button class="gc-name-ok prod-boost" id="prodBoostH" data-k="h" title="Harvest Boost: field crops take half the time"></button>
+ <button class="gc-name-ok prod-boost" id="prodBoostP" data-k="p" title="Production Boost: every machine item takes half the time"></button>
+ <button class="gc-name-ok prod-boost" id="prodBoostN" data-k="n" title="Generous Nature: trees and bushes take half the time"></button>
  <button class="gc-name-ok" id="prodSort" title="Sort every account's buildings by waiting time (finished first, then the soonest to finish)" style="background:var(--teal);padding:4px 12px;">⇅ Sort</button>
       <button class="gc-name-ok" id="prodUndo" title="Undo (Ctrl+Z)" style="background:var(--ink-soft);padding:4px 12px;">↶ Undo</button>
       <button class="gc-name-ok" id="prodRedo" title="Redo (Ctrl+Y)" style="background:var(--ink-soft);padding:4px 12px;">↷ Redo</button>
@@ -1311,6 +1318,7 @@ gamesRef.on('value', snapshot=>{
   if(typeof refreshLevelMenu==='function') refreshLevelMenu();
   if(typeof refreshExpMenu==='function') refreshExpMenu();
   if(typeof refreshReqMenu==='function') refreshReqMenu();
+  try{ if(typeof prodBoostLoad==='function') prodBoostLoad(); }catch(_){}
   if(typeof refreshProd==='function') refreshProd();
   try{ nativeAlarmSoon(); }catch(_){}
 }, err=>{ setSyncStatus('offline'); });
@@ -4371,7 +4379,7 @@ function hsrProfile(){
 
 
 /* ---------- update checker: compares APP_BUILD of the live page with this one ---------- */
-const APP_BUILD='20261127-062148';
+const APP_BUILD='20261127-102358';
 (function(){
   let shown=false, dismissed='', latest='';
   function show(b){ if(shown||dismissed===b) return; shown=true; document.getElementById('updBox').classList.add('show'); }
@@ -5576,6 +5584,18 @@ document.getElementById('undoBtn').onclick=performUndo;
 document.getElementById('redoBtn').onclick=performRedo;
 document.getElementById('prodUndo').onclick=performUndo;
 document.getElementById('prodSort').onclick=prodSortAll;
+// ---- boosts: Harvest Boost (field crops), Production Boost (machines), Generous Nature (trees and bushes): every item takes HALF the time while it is on ----
+const PROD_ANIMAL=new Set(['TOM','Honeycomb','Egg','Mussel meat','Milk','Bacon','Wool','Lamb chop','Goat milk','Lobster tail','Duck feather']);
+const PROD_BASE=new WeakMap(); let PROD_BOOST={h:0,p:0,n:0};
+const PROD_BOOST_TXT={h:['Normal Harvest','Harvest Boost!'],p:['Normal Production','Production Boost!'],n:['Normal Nature','Generous Nature!']};
+function prodKind(b){ if(!b.crop) return 'p'; if(PROD_ANIMAL.has(b.n)) return ''; const it=b.i[0]; return (PROD_BASE.has(it)?PROD_BASE.get(it):it[3])>=900?'n':'h'; }   // a tree or bush takes 15 h or more
+function prodApplyBoost(){ Object.keys(PROD_BY).forEach(s=>{ const b=PROD_BY[s], k=prodKind(b); b.i.forEach(it=>{ if(!PROD_BASE.has(it)) PROD_BASE.set(it,it[3]); it[3]=PROD_BASE.get(it)/(k&&PROD_BOOST[k]?2:1); }); }); }
+function prodBoostLoad(){ const v=String(games.checks['prodcfg::boost']||''), nb={h:+v.includes('h'),p:+v.includes('p'),n:+v.includes('n')}; const ch=nb.h!==PROD_BOOST.h||nb.p!==PROD_BOOST.p||nb.n!==PROD_BOOST.n; PROD_BOOST=nb; if(ch) prodApplyBoost(); prodBoostBtns(); return ch; }
+function prodBoostBtns(){ ['h','p','n'].forEach(k=>{ const el=document.querySelector('.prod-boost[data-k='+k+']'); if(!el) return; el.textContent=PROD_BOOST_TXT[k][PROD_BOOST[k]]; el.classList.toggle('on',!!PROD_BOOST[k]); }); const nw=document.getElementById('prodNow'); if(nw) nw.classList.toggle('boosted',!!(PROD_BOOST.h||PROD_BOOST.p||PROD_BOOST.n)); }
+document.querySelectorAll('.prod-boost').forEach(el=>el.onclick=()=>{ const k=el.dataset.k, nb=Object.assign({},PROD_BOOST); nb[k]=nb[k]?0:1;
+  const v=(nb.h?'h':'')+(nb.p?'p':'')+(nb.n?'n':''); writeCheckValue('prodcfg::boost',v||false); prodBoostLoad(); prodRender(); prodFitSoon(); try{ nativeAlarmSoon(); }catch(_){} });
+prodApplyBoost(); prodBoostBtns();
+
 document.getElementById('prodRedo').onclick=performRedo;
 // Ctrl+Z = undo, Ctrl+Y or Ctrl+Shift+Z = redo (not while typing in a text box)
 document.addEventListener('keydown',e=>{
